@@ -12,8 +12,8 @@ public enum ItemState
 
 public class ItemObject : MonoBehaviour
 {
-    [SerializeField] private ItemSO _itemSO;
-    public ItemSO ItemSO { get { return _itemSO; } }
+    [SerializeField] private ItemData _itemSO;
+    public ItemData ItemSO { get { return _itemSO; } }
 
 
     [Header("아이템 테스트를 위한 상태 구별")]
