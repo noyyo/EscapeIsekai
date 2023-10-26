@@ -35,4 +35,9 @@ public class DataManager : MonoBehaviour
         var arrItemDatas = JsonConvert.DeserializeObject<ItemData[]>(json);
         this.dicItemDatas = arrItemDatas.ToDictionary(x => x.id);
     }
+
+    public ItemData GetData(int id)
+    {
+        return dicItemDatas[id];
+    }
 }
