@@ -36,7 +36,7 @@ public class DataManager : MonoBehaviour
         this.dicItemDatas = arrItemDatas.ToDictionary(x => x.id);
     }
 
-    public ItemData GetData(int id)
+    public ItemData GetData(int id) //id로 아이템 정보 습득 가능
     {
         return dicItemDatas[id];
     }
