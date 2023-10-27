@@ -9,6 +9,7 @@ public class GatheringObject : MonoBehaviour
 {
     [SerializeField] private GameObject _descriptionPanel;
     [SerializeField] private TMP_Text _itemName;
+    [SerializeField] private TMP_Text _itemDes;
     [SerializeField] private int _itemId;
     private bool _gathering = false;
     
@@ -30,12 +31,11 @@ public class GatheringObject : MonoBehaviour
     }
     private void Start()
     {
-        DataManager._dataInstance.LoadDatas();
-        ItemData data = DataManager.GatInstance().dicItemDatas[_itemId];
-        //Debug.LogFormat("{0}, {1}", data.name, data.des);
+        DataManager.Instance.LoadDatas();
+        ItemData data = DataManager.Instance.dicItemDatas[_itemId];
 
         _itemName.text = data.name;
-
+        _itemDes.text = data.des;
     }
 
     public void Gathering() //플레이어 상호작용 버튼 이벤트 구독 필요
