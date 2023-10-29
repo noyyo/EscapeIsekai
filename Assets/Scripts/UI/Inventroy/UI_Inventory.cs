@@ -4,23 +4,45 @@ using UnityEngine;
 
 public class UI_Inventory : MonoBehaviour
 {
+    [SerializeField] private GameObject _slotSpawn;
+    [SerializeField] private GameObject _ui_inventroy;
+
     private GameObject _slotPrefab;
     private Inventory _playerInventory;
 
+    public Slot[] slotArray;
+
     private void Awake()
     {
+        Init();
+        CreateSlot();
 
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Init()
     {
-        
+        _slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
+        _playerInventory = GetComponent<Inventory>();
+        slotArray = new Slot[_playerInventory.dataLength];
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void CreateSlot()
     {
-        
+        int slotCount = _playerInventory.dataLength;
+        for (int i = 0; i < slotCount; i++)
+        {
+            GameObject obj = Instantiate(_slotPrefab);
+            obj.transform.SetParent(_slotSpawn.transform, false);
+            slotArray[i] = obj.GetComponent<Slot>();
+        }
+    }
+
+    /// <summary>
+    /// 나중에 event랑 연결할 것
+    /// </summary>
+    public void OpenInventroyUI()
+    {
+        _ui_inventroy.SetActive(true);
     }
 }

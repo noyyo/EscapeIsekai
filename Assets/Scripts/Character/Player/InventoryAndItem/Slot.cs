@@ -1,4 +1,3 @@
-using PolyAndCode.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,76 +5,97 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, ICell
+public class Slot : MonoBehaviour
 {
-    private Image _item2DImage;
-    private TMP_Text _text_Count;
-
+    [SerializeField] private Image _item2DImage;
+    [SerializeField] private TMP_Text _text_Count;
 
     private ItemData _itemData;
     private ItemSlotInfo _slotInfo;
+    private ItemDB _itemDB;
     private int _itemCount;
+
+    public ItemData ItemData { get { return _itemData; } }
+    public ItemSlotInfo SlotInfo { get { return _slotInfo; } }
+
+    private void Awake()
+    {
+        _itemDB = ItemDB.Instance;
+    }
 
     private void Start()
     {
-        _slotInfo = new ItemSlotInfo();
-        //GetComponent<Button>().onClick.AddListener(ButtonListener);
+
     }
 
-    // 아이템 이미지의 투명도 조절
-    private void SetColor(float _alpha)
-    {
-        Color color = _item2DImage.color;
-        color.a = _alpha;
-        _item2DImage.color = color;
-    }
+    //// 아이템 이미지의 투명도 조절
+    //private void SetColor(float _alpha)
+    //{
+    //    Color color = _item2DImage.color;
+    //    color.a = _alpha;
+    //    _item2DImage.color = color;
+    //}
 
     // 인벤토리에 새로운 아이템 슬롯 추가
-    public void AddItem(ItemData item, int count)
+    public void AddItem(ItemData itemData, int index, int count)
     {
-        _itemData = item;
-        _itemCount = count;
-        _item2DImage.enabled = true;
-        _item2DImage.sprite = item.Icon;
+        _itemData = itemData;
+        _slotInfo.id = itemData.ID;
+        _slotInfo.index = index;
+        _slotInfo.count = count;
+        SlotDisplay();
 
-        if(item.ItemType != ItemType.Equipment)
+        //SetColor(1);
+    }
+
+    public void AddItem(ItemSlotInfo slotInfo)
+    {
+        if(_itemDB.GetItemData(slotInfo.id, out _itemData))
         {
-            _text_Count.gameObject.SetActive(true);
-            _text_Count.text = String.Format("x {0}",_itemCount);
+            _slotInfo.id = slotInfo.id;
+            _slotInfo.index = slotInfo.index;
+            _slotInfo.count = slotInfo.count;
+            SlotDisplay();
         }
-
-        SetColor(1);
+        else
+        {
+            ClearSlot();
+        }
+        
     }
 
     // 해당 슬롯의 아이템 갯수 업데이트
-    public void SetSlotCount(int _count)
+    public void SetSlotCount(int count)
     {
-        _itemCount += _count;
-        _text_Count.text = String.Format("x {0}", _itemCount);
+        _slotInfo.count += count;
+        _text_Count.text = String.Format("x {0}", _slotInfo.count);
 
         if (_itemCount <= 0)
             ClearSlot();
     }
 
     // 해당 슬롯 하나 삭제
-    private void ClearSlot()
+    public void ClearSlot()
     {
         _itemData = null;
-        _itemCount = 0;
+        _slotInfo = null;
         _item2DImage.sprite = null;
         _item2DImage.enabled = false;
-        SetColor(0);
+        //SetColor(0);
 
-        _text_Count.text = "0";
+        _text_Count.text = "";
         _text_Count.gameObject.SetActive(false);
     }
 
-    //private void ButtonListener()
-    //{
-    //    Debug.Log("Index : " + _cellIndex + ", Name : " + _contactInfo.Name + ", Gender : " + _contactInfo.Gender);
-    //}
-    public void ConfigureCell(ItemSlotInfo _slotInfo)
+    public void SlotDisplay()
     {
+        _item2DImage.enabled = true;
+        _item2DImage.sprite = _itemData.Icon;
 
+        if (_itemData.ItemType != ItemType.Equipment)
+        {
+            _text_Count.gameObject.SetActive(true);
+            _text_Count.text = String.Format("x {0}", _slotInfo.count);
+        }
     }
 }

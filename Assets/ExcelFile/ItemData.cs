@@ -6,8 +6,8 @@ public enum ItemType
 {
     Equipment,
     Consumable,
-    ETC,
-    QuestItem
+    Material,
+    ETC
 }
 
 [Serializable]
@@ -19,8 +19,10 @@ public class ItemData
     [SerializeField] private ItemType _itemType;
     [SerializeField] private int _price;
     [SerializeField] private int _maxCount;
+    [SerializeField] private bool _isQuestItem;
     [SerializeField] private string _dropPrefabPath;
     [SerializeField] private string _iconPath;
+    
     private GameObject _dropPrefab;
     private Sprite _icon;
 
@@ -30,6 +32,7 @@ public class ItemData
     public ItemType ItemType { get { return _itemType; } }
     public int Price { get { return _price; } }
     public int MaxCount { get { return _maxCount; } }
+    public bool IsQuestItem { get { return _isQuestItem; } }
     public GameObject DropPrefab
     {
         get
