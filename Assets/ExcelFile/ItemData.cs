@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public enum ItemType
 {
     Equipment,
@@ -10,7 +10,7 @@ public enum ItemType
     QuestItem
 }
 
-[System.Serializable]
+[Serializable]
 public class ItemData
 {
     [SerializeField] private int _id;
@@ -54,5 +54,16 @@ public class ItemData
 
             return _icon;
         }
+    }
+
+    public ItemData(int id, string itemName, string itemExplanation, ItemType itemType, int price, int maxCount, string dropPrefabPath, string iconPath)
+    {
+        _id = id;
+        _itemName = itemName;
+        _itemType = itemType;
+        _price = price;
+        _maxCount = maxCount;
+        _dropPrefabPath = dropPrefabPath;
+        _iconPath = iconPath;
     }
 }

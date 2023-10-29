@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum ItemState
 {
-    Field, // ÇÊµå¿¡ ÀÖ´Â »óÅÂ
-    InInventory, // ÀÎº¥Åä¸® ¾È¿¡ ÀÖ´Â »óÅÂ
-    Equipped, // ÀåºñÇÑ »óÅÂ
-    Abandoned // ¹ö·ÁÁø »óÅÂ
+    Field, // í•„ë“œì— ìˆëŠ” ìƒíƒœ
+    InInventory, // ì¸ë²¤í† ë¦¬ ì•ˆì— ìˆëŠ” ìƒíƒœ
+    Equipped, // ì¥ë¹„í•œ ìƒíƒœ
+    Abandoned // ë²„ë ¤ì§„ ìƒíƒœ
 }
 
 public class ItemObject : MonoBehaviour
@@ -16,7 +16,7 @@ public class ItemObject : MonoBehaviour
     public ItemData ItemSO { get { return _itemSO; } }
 
 
-    [Header("¾ÆÀÌÅÛ Å×½ºÆ®¸¦ À§ÇÑ »óÅÂ ±¸º°")]
+    [Header("í…ŒìŠ¤íŠ¸ìš©")]
     [SerializeField] private ItemState _itemState;
     public ItemState ItemState { get { return _itemState; } }
 

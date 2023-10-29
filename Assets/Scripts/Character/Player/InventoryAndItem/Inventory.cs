@@ -1,9 +1,10 @@
+using PolyAndCode.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-struct Item
+public class ItemSlotInfo
 {
     public int id;
     public int count;
@@ -11,65 +12,91 @@ struct Item
 }
 
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IRecyclableScrollRectDataSource
 {
-    [SerializeField] private int _equipmentMaxSlot;
-    [SerializeField] private int _consumableMaxSlot;
-    [SerializeField] private int _etcSlotMaxSlot;
+    [SerializeField]
+    RecyclableScrollRect _recyclableScrollRect;
 
-    private List<Item> _equipmentSlots;
-    private List<Item> _consumableSlots;
-    private List<Item> _etcSlots;
+    [SerializeField]
+    private int _dataLength;
+
+    private List<ItemSlotInfo> _contactList = new List<ItemSlotInfo>();
     private ItemDB _itemDB;
 
     private int _equipmentItemsIndexCount;
     private int _consumableItemsIndexCount;
+    private int _materialItemsIndexCount;
     private int _etcItemsIndexCount;
 
     private void Awake()
     {
         _itemDB = ItemDB.Instance;
         InitInventory();
+        InitData();
+        _recyclableScrollRect.DataSource = this;
     }
 
     private void InitInventory()
     {
         _equipmentItemsIndexCount = 0;
         _consumableItemsIndexCount = 0;
+        _materialItemsIndexCount = 0;
         _etcItemsIndexCount = 0;
+    }
 
-        _equipmentSlots = new List<Item>();
-        _consumableSlots = new List<Item>();
-        _etcSlots = new List<Item>();
+    private void InitData()
+    {
+        if (_contactList != null) _contactList.Clear();
+
+        string[] genders = { "Male", "Female" };
+        for (int i = 0; i < _dataLength; i++)
+        {
+            //ContactInfo obj = new ContactInfo();
+            //obj.Name = i + "_Name";
+            //obj.Gender = genders[Random.Range(0, 2)];
+            //obj.id = "item : " + i;
+            //_contactList.Add(obj);
+        }
     }
 
     public bool AddItem(int id, int count)
     {
-        if (_itemDB.GetItemData(id, out ItemData newItem))
-        {
-            switch (newItem.ItemType)
-            {
-                case ItemType.Equipment:
-                    foreach (Item item in _equipmentSlots)
-                    {
-                        if (item.id == id)
-                        {
-                            //if (item.count == )
-                            //{
+        //if (_itemDB.GetItemData(id, out ItemData newItem))
+        //{
+        //    switch (newItem.ItemType)
+        //    {
+        //        case ItemType.Equipment:
+        //            foreach (Item item in _equipmentSlots)
+        //            {
+        //                if (item.id == id)
+        //                {
+        //                    //if (item.count == )
+        //                    //{
 
-                            //}
-                        }
-                    }
-                    break;
-                case ItemType.Consumable:
-                    break;
-                default:
-                    break;
-            }
+        //                    //}
+        //                }
+        //            }
+        //            break;
+        //        case ItemType.Consumable:
+        //            break;
+        //        default:
+        //            break;
+        //    }
 
-        }
+        //}
 
 
         return true;
+    }
+
+    public int GetItemCount()
+    {
+        return _contactList.Count;
+    }
+
+    public void SetCell(ICell cell, int index)
+    {
+        Slot item = cell as Slot;
+        //item.ConfigureCell(_contactList[index], index);
     }
 }
