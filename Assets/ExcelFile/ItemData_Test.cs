@@ -11,7 +11,7 @@ public enum ItemType
 }
 
 [Serializable]
-public class ItemData
+public class ItemData_Test
 {
     [SerializeField] private int _id;
     [SerializeField] private string _itemName;
@@ -59,7 +59,7 @@ public class ItemData
         }
     }
 
-    public ItemData(int id, string itemName, string itemExplanation, ItemType itemType, int price, int maxCount, string dropPrefabPath, string iconPath)
+    public ItemData_Test(int id, string itemName, string itemExplanation, ItemType itemType, int price, int maxCount, string dropPrefabPath, string iconPath)
     {
         _id = id;
         _itemName = itemName;

@@ -12,14 +12,18 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     [SerializeField] private TMP_Text _text_Count;
     private Transform _itemImageTransform;
     private Image _item2DImage;
-    private ItemData _itemData;
+    private ItemData_Test _itemData;
     private ItemSlotInfo _slotInfo;
     private ItemDB _itemDB;
     private int _itemCount;
     private Vector3 defaultPos;
-    private GameObject _inventory;
+    private GameObject _inventory_UI;
+    private Transform _startParent;
+    private Button _button;
 
-    public ItemData ItemData { get { return _itemData; } }
+    private UI_Slot _ui_Slot;
+
+    public ItemData_Test ItemData { get { return _itemData; } }
     public ItemSlotInfo SlotInfo { get { return _slotInfo; } }
 
     private void Awake()
@@ -28,7 +32,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
         _slotInfo = new ItemSlotInfo();
         _item2DImage = _itemImage.GetComponent<Image>();
         _itemImageTransform = _itemImage.transform;
-        //_inventory = UI_Inventory.Inventory_UI;
+        _inventory_UI = UI_Manager.Instance.Inventory_UI;
+        _button = GetComponent<Button>();
+        _ui_Slot = GetComponent<UI_Slot>();
+    }
+
+    private void Start()
+    {
+        _button.onClick.AddListener(DisplayerItemExplanationPopup);
     }
 
     //// 아이템 이미지의 투명도 조절
@@ -40,7 +51,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     //}
 
     // 인벤토리에 새로운 아이템 슬롯 추가
-    public void AddItem(ItemData itemData, int index, int count)
+    public void AddItem(ItemData_Test itemData, int index, int count)
     {
         _slotInfo = new ItemSlotInfo();
         _itemData = itemData;
@@ -69,7 +80,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     // 해당 슬롯의 아이템 갯수 업데이트
     public void SetSlotCount(int count)
     {
-        _slotInfo.count += count;
+        _slotInfo.count = count;
         _text_Count.text = String.Format("x {0}", _slotInfo.count);
 
         if (_itemCount <= 0)
@@ -101,10 +112,17 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
         }
     }
 
+    public void DisplayerItemExplanationPopup()
+    {
+        _ui_Slot.SetActiveItemExplanationPopup(true, _itemData);
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         defaultPos = _itemImageTransform.position;
-        _itemImageTransform.SetAsLastSibling();
+        _startParent = _itemImageTransform.parent;
+        _itemImageTransform.SetParent(_inventory_UI.transform, false);
+        //_itemImageTransform.SetAsLastSibling();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -114,6 +132,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        _itemImageTransform.SetParent(_startParent, false);
         _itemImage.transform.position = defaultPos;
     }
 

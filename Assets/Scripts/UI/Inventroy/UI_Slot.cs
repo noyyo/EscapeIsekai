@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Slot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GameObject _itemExplanationPopup;
+    private TMP_Text[] _itemText;
+
+    private void Awake()
     {
-        
+        _itemExplanationPopup = UI_Manager.Instance.Inventory_ItemPopUp;
+        _itemText = _itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetActiveItemExplanationPopup(bool isActive, ItemData_Test itemData)
     {
-        
+        _itemExplanationPopup.SetActive(isActive);
+        _itemText[0].text = itemData.ItemName;
+        _itemText[1].text = "테스트로 직접 입력";
+        _itemText[2].text = itemData.ItemExplanation;
     }
 }

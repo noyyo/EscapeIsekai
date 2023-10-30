@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -50,6 +51,11 @@ public class Inventory : MonoBehaviour
         InitInventory();
     }
 
+    private void Start()
+    {
+        DisplayAllClear();
+    }
+
     private void InitInventory()
     {
         _equipmentItemList.Clear();
@@ -64,7 +70,7 @@ public class Inventory : MonoBehaviour
     {
         errorItemCount = count;
         bool isAddItem = false;
-        if (_itemDB.GetItemData(id, out ItemData newItem))
+        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
         {
             switch (newItem.ItemType)
             {
@@ -122,7 +128,7 @@ public class Inventory : MonoBehaviour
         return isAddItem;
     }
 
-    private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData newItem, out int errorItemCount)
+    private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int errorItemCount)
     {
         
         int itemListCount = itemList.Count;
@@ -182,7 +188,7 @@ public class Inventory : MonoBehaviour
                                 ItemSlotInfo iteminfo = new ItemSlotInfo(id, itemList.Count, count);
 
                                 _uI_Inventory.slotArray[itemList.Count].AddItem(newItem, itemList.Count, count);
-                                _uI_Inventory.slotArray[i].SetSlotCount(count);
+                                //_uI_Inventory.slotArray[i].SetSlotCount(count);
                                 itemList.Add(iteminfo);
                                 _ItemCount[(int)slotType]++;
                                 if (_ItemCount[(int)slotType] == _dataLength)
@@ -191,7 +197,7 @@ public class Inventory : MonoBehaviour
                                     return false;
                                 }
                             }
-                            _uI_Inventory.slotArray[i].SetSlotCount(count);
+                            //_uI_Inventory.slotArray[i].SetSlotCount(count);
                             return true;
                         }
                     }
@@ -203,8 +209,8 @@ public class Inventory : MonoBehaviour
         for(int i = 0; i < count; i++)
         {
             ItemSlotInfo itemInfo = new ItemSlotInfo(id, itemList.Count, 1);
-            itemList.Add(itemInfo);
             _uI_Inventory.slotArray[itemList.Count].AddItem(newItem, itemList.Count, 1);
+            itemList.Add(itemInfo);
             _ItemCount[(int)slotType]++;
             if (_ItemCount[(int)slotType] == _dataLength)
             {
@@ -215,7 +221,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData newItem, out int ErrorItemCount)
+    private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int ErrorItemCount)
     {
         
         if (itemList.Count == 0)
@@ -235,12 +241,12 @@ public class Inventory : MonoBehaviour
                 itemList[i].count += count;
                 if (itemList[i].count <= 0)
                 {
-                    count = -itemList[i].count;
+                    count = itemList[i].count;
                     _ItemCount[(int)slotType]--;
                     stack.Push(i);
                     continue;
                 }
-                _uI_Inventory.slotArray[i].SetSlotCount(count);
+                _uI_Inventory.slotArray[i].SetSlotCount(itemList[i].count);
                 isSub = true;
                 break;
             }
@@ -248,7 +254,7 @@ public class Inventory : MonoBehaviour
         for(int i = 0; i < stack.Count;)
         {
             int n = (int)stack.Pop();
-            _uI_Inventory.slotArray[n].SetSlotCount(-9999);
+            _uI_Inventory.slotArray[n].ClearSlot();
             itemList.RemoveAt(n);
         }
         return isSub;
@@ -259,34 +265,46 @@ public class Inventory : MonoBehaviour
         _equipmentItemList.Sort((n1,n2) => n1.id.CompareTo(n2.id));
     }
 
-    public void OnDisplaySlot()
+    /// <summary>
+    /// 타입 값이 변화 있을때 호출
+    /// </summary>
+    /// <param name="itemType"></param>
+    public void SetDisplayType(DisplayType itemType)
     {
-        
+        DisplayClear();
+        _displayType = itemType;
+        OnDisplaySlot();
+    }
+
+    public void SetDisPlayNowType()
+    {
+        OnDisplaySlot();
+    }
+
+
+    private void OnDisplaySlot()
+    {
         switch (_displayType)
         {
             case DisplayType.Equipment:
-                DisplayClear();
                 foreach (ItemSlotInfo item in _equipmentItemList)
                 {
                     _uI_Inventory.slotArray[item.index].AddItem(item);
                 }
                 break;
             case DisplayType.USE:
-                DisplayClear();
                 foreach (ItemSlotInfo item in _consumableItemList)
                 {
                     _uI_Inventory.slotArray[item.index].AddItem(item);
                 }
                 break;
             case DisplayType.Material:
-                DisplayClear();
                 foreach (ItemSlotInfo item in _materialItemList)
                 {
                     _uI_Inventory.slotArray[item.index].AddItem(item);
                 }
                 break;
             default:
-                DisplayClear();
                 foreach (ItemSlotInfo item in _etcItemList)
                 {
                     _uI_Inventory.slotArray[item.index].AddItem(item);
@@ -295,7 +313,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void DisplayClear()
+    private void DisplayAllClear()
     {
         int slotArrayCount = _uI_Inventory.slotArray.Length;
         for (int i = 0; i < slotArrayCount; i++)
@@ -303,5 +321,36 @@ public class Inventory : MonoBehaviour
             _uI_Inventory.slotArray[i].ClearSlot();
         }
 
+    }
+    
+    private void DisplayClear()
+    {
+        switch (_displayType)
+        {
+            case DisplayType.Equipment:
+                foreach (ItemSlotInfo item in _equipmentItemList)
+                {
+                    _uI_Inventory.slotArray[item.index].ClearSlot();
+                }
+                break;
+            case DisplayType.USE:
+                foreach (ItemSlotInfo item in _consumableItemList)
+                {
+                    _uI_Inventory.slotArray[item.index].ClearSlot();
+                }
+                break;
+            case DisplayType.Material:
+                foreach (ItemSlotInfo item in _materialItemList)
+                {
+                    _uI_Inventory.slotArray[item.index].ClearSlot();
+                }
+                break;
+            default:
+                foreach (ItemSlotInfo item in _etcItemList)
+                {
+                    _uI_Inventory.slotArray[item.index].ClearSlot();
+                }
+                break;
+        }
     }
 }
