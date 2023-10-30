@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ItemSlotInfo
@@ -15,6 +16,7 @@ public class ItemSlotInfo
         count = newCount;
         index = newindex;
     }
+    public ItemSlotInfo() { }
 }
 
 public enum DisplayType
@@ -81,36 +83,36 @@ public class Inventory : MonoBehaviour
                 case ItemType.Consumable:
                     if(count >= 0)
                     {
-                        if (AddList(_consumableItemList, count, (int)ItemType.Consumable, in newItem, out errorItemCount))
+                        if (AddList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
                             isAddItem = true;
                     }
                     else
                     {
-                        if (SubList(_consumableItemList, count, (int)ItemType.Consumable, in newItem, out errorItemCount))
+                        if (SubList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
                             isAddItem = true;
                     }
                     break;
                 case ItemType.Material:
                     if(count >= 0)
                     {
-                        if (AddList(_materialItemList, count, (int)ItemType.Material, in newItem, out errorItemCount))
+                        if (AddList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
                             isAddItem = true;
                     }
                     else
                     {
-                        if (SubList(_materialItemList, count, (int)ItemType.Material, in newItem, out errorItemCount))
+                        if (SubList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
                             isAddItem = true;
                     }
                     break;
                 default:
                     if(count>= 0)
                     {
-                        if (AddList(_etcItemList, count, (int)ItemType.ETC, in newItem, out errorItemCount))
+                        if (AddList(_etcItemList, count, ItemType.ETC, in newItem, out errorItemCount))
                             isAddItem = true;
                     }
                     else
                     {
-                        if (SubList(_etcItemList, count, (int)ItemType.ETC, in newItem, out errorItemCount))
+                        if (SubList(_etcItemList, count, ItemType.ETC, in newItem, out errorItemCount))
                             isAddItem = true;
                     }
                     break;
@@ -120,7 +122,7 @@ public class Inventory : MonoBehaviour
         return isAddItem;
     }
 
-    private bool AddList(List<ItemSlotInfo> itemList, int count, int slotType, in ItemData newItem, out int errorItemCount)
+    private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData newItem, out int errorItemCount)
     {
         
         int itemListCount = itemList.Count;
@@ -133,47 +135,78 @@ public class Inventory : MonoBehaviour
         errorItemCount = 0;
         int id = newItem.ID;
 
-        if(slotType != (int)ItemType.Equipment)
+        if(slotType != ItemType.Equipment)
         {
-            for(int i = 0; i < itemListCount; i++)
+            if(itemListCount == 0)
             {
-                if (itemList[i].id == id)
+                if(count > newItem.MaxCount)
                 {
-                    int newItemMaxCount = newItem.MaxCount;
-                    int nowItemCount = itemList[i].count;
-                    if (newItemMaxCount != nowItemCount)
+                    while (true)
                     {
-                        nowItemCount += count;
-                        if (nowItemCount > newItemMaxCount)
+                        ItemSlotInfo itemSlotInfo = new ItemSlotInfo(id, itemList.Count, count);
+                        _uI_Inventory.slotArray[itemList.Count -1].AddItem(newItem, itemList.Count, count);
+                        itemList.Add(itemSlotInfo);
+                        _ItemCount[(int)slotType]++;
+                        count -= newItem.MaxCount;
+                        if (count <= 0)
+                            break;
+                    }
+                }
+                else
+                {
+                    ItemSlotInfo itemSlotInfo = new ItemSlotInfo(id, 0, count);
+                    _uI_Inventory.slotArray[0].AddItem(newItem, 0, count);
+                    itemList.Add(itemSlotInfo);
+                    _ItemCount[(int)slotType]++;
+                }
+                return true;
+            }
+            else
+            {
+                for (int i = 0; i < itemListCount; i++)
+                {
+                    if (itemList[i].id == id)
+                    {
+                        int newItemMaxCount = newItem.MaxCount;
+                        int nowItemCount = itemList[i].count;
+                        if (newItemMaxCount != nowItemCount)
                         {
-                            count = nowItemCount - newItemMaxCount;
-                            ItemSlotInfo iteminfo = new ItemSlotInfo(id, itemList.Count, count);
-
-                            _uI_Inventory.slotArray[itemList.Count].AddItem(newItem, itemList.Count, count);
-                            _uI_Inventory.slotArray[i].SetSlotCount(count);
-                            itemList.Add(iteminfo);
-                            _ItemCount[slotType]++;
-                            if (_ItemCount[slotType] == _dataLength)
+                            Debug.Log(nowItemCount);
+                            Debug.Log("Check");
+                            nowItemCount += count;
+                            if (nowItemCount > newItemMaxCount)
                             {
-                                errorItemCount = count;
-                                return false;
+                                Debug.Log(nowItemCount);
+                                Debug.Log(newItemMaxCount);
+                                count = nowItemCount - newItemMaxCount;
+                                ItemSlotInfo iteminfo = new ItemSlotInfo(id, itemList.Count, count);
+
+                                _uI_Inventory.slotArray[itemList.Count].AddItem(newItem, itemList.Count, count);
+                                _uI_Inventory.slotArray[i].SetSlotCount(count);
+                                itemList.Add(iteminfo);
+                                _ItemCount[(int)slotType]++;
+                                if (_ItemCount[(int)slotType] == _dataLength)
+                                {
+                                    errorItemCount = count;
+                                    return false;
+                                }
                             }
+                            _uI_Inventory.slotArray[i].SetSlotCount(count);
+                            return true;
                         }
-                        _uI_Inventory.slotArray[i].SetSlotCount(count);
-                        return true;
                     }
                 }
             }
         }
-
+        Debug.Log("this item equip");
         //장비류는 최대가 1개
         for(int i = 0; i < count; i++)
         {
             ItemSlotInfo itemInfo = new ItemSlotInfo(id, itemList.Count, 1);
             itemList.Add(itemInfo);
             _uI_Inventory.slotArray[itemList.Count].AddItem(newItem, itemList.Count, 1);
-            _ItemCount[slotType]++;
-            if (_ItemCount[slotType] == _dataLength)
+            _ItemCount[(int)slotType]++;
+            if (_ItemCount[(int)slotType] == _dataLength)
             {
                 errorItemCount = count - (i + 1);
                 return false;
@@ -182,7 +215,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool SubList(List<ItemSlotInfo> itemList, int count, int slotType, in ItemData newItem, out int ErrorItemCount)
+    private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData newItem, out int ErrorItemCount)
     {
         
         if (itemList.Count == 0)
@@ -195,7 +228,7 @@ public class Inventory : MonoBehaviour
         bool isSub = false;
         int id = newItem.ID;
         Stack stack = new Stack();
-        for(int i = 0; i < _ItemCount[slotType]; i++)
+        for(int i = 0; i < _ItemCount[(int)slotType]; i++)
         {
             if (itemList[i].id == id)
             {
@@ -203,7 +236,7 @@ public class Inventory : MonoBehaviour
                 if (itemList[i].count <= 0)
                 {
                     count = -itemList[i].count;
-                    _ItemCount[slotType]--;
+                    _ItemCount[(int)slotType]--;
                     stack.Push(i);
                     continue;
                 }

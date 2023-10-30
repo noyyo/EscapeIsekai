@@ -5,8 +5,7 @@ using UnityEngine;
 public class UI_Inventory : MonoBehaviour
 {
     [SerializeField] private GameObject _slotSpawn;
-    [SerializeField] private GameObject _ui_inventroy;
-
+    
     private GameObject _slotPrefab;
     private Inventory _playerInventory;
 
@@ -16,7 +15,6 @@ public class UI_Inventory : MonoBehaviour
     {
         Init();
         CreateSlot();
-
     }
 
     private void Init()
@@ -43,6 +41,6 @@ public class UI_Inventory : MonoBehaviour
     /// </summary>
     public void OpenInventroyUI()
     {
-        _ui_inventroy.SetActive(true);
+        //_ui_inventroy.SetActive(true);
     }
 }

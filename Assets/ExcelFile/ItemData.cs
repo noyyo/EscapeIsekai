@@ -39,7 +39,7 @@ public class ItemData
         {
             if(_dropPrefab == null)
             {
-                _dropPrefab = Resources.Load(_dropPrefabPath) as GameObject;
+                _dropPrefab = Resources.Load<GameObject>(_dropPrefabPath);
             }
 
             return _dropPrefab;
@@ -52,7 +52,7 @@ public class ItemData
         {
             if (_dropPrefab == null)
             {
-                _icon = Resources.Load(_iconPath) as Sprite;
+                _icon = Resources.Load<Sprite>(_iconPath);
             }
 
             return _icon;
@@ -63,10 +63,18 @@ public class ItemData
     {
         _id = id;
         _itemName = itemName;
+        _itemExplanation = itemExplanation;
         _itemType = itemType;
         _price = price;
         _maxCount = maxCount;
         _dropPrefabPath = dropPrefabPath;
         _iconPath = iconPath;
+        _dropPrefab = Resources.Load<GameObject>(_dropPrefabPath);
+        _icon = Resources.Load<Sprite>(_iconPath);
+
+        if(_dropPrefab == null || _icon == null)
+        {
+            Debug.Log("확인해주세요");
+        }
     }
 }
