@@ -50,23 +50,24 @@ public class PlayerBaseState : IState
         input.PlayerActions.Movement.canceled += OnMoveCanceled;
         input.PlayerActions.Run.started += OnRunStarted;
 
-        stateMachine.Player.Input.PlayerActions.Jump.started += OnJumpStarted;
+        input.PlayerActions.Jump.started += OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Attack.performed += OnAttackPerformed;
-        stateMachine.Player.Input.PlayerActions.Attack.canceled += OnAttackCanceled;
+        input.PlayerActions.Attack.performed += OnAttackPerformed;
+        input.PlayerActions.Attack.canceled += OnAttackCanceled;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
     {
         PlayerInput input = stateMachine.Player.Input;
-        input.PlayerActions.Movement.canceled += OnMoveCanceled;
-        input.PlayerActions.Run.started += OnRunStarted;
+        input.PlayerActions.Movement.canceled -= OnMoveCanceled;
+        input.PlayerActions.Run.started -= OnRunStarted;
 
-        stateMachine.Player.Input.PlayerActions.Jump.started -= OnJumpStarted;
+        input.PlayerActions.Jump.started -= OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        stateMachine.Player.Input.PlayerActions.Attack.canceled -= OnAttackCanceled;
+        input.PlayerActions.Attack.performed -= OnAttackPerformed;
+        input.PlayerActions.Attack.canceled -= OnAttackCanceled;
     }
+
 
     // move와 run을 callback 함수로 받아서 정의
     protected virtual void OnMoveCanceled(InputAction.CallbackContext context)

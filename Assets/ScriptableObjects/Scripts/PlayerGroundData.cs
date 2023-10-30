@@ -20,5 +20,5 @@ public class PlayerGroundData
     [field: SerializeField][field: Range(0f, 2f)] public float RunSpeedModifier { get; private set; } = 1f;
 
     [field: Header("RollData")]
-    [field: SerializeField][field: Range(0f, 2f)] public float RollSpeedModifier { get; private set; } = 1f;
+    [field: SerializeField][field: Range(0f, 10f)] public float RollForce { get; private set; } = 10f;
 }

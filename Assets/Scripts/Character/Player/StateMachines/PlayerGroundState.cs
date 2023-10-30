@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerGroundState : PlayerBaseState
 {
@@ -63,6 +64,24 @@ public class PlayerGroundState : PlayerBaseState
         stateMachine.ChangeState(stateMachine.JumpState);
     }
 
+    protected override void AddInputActionsCallbacks()
+    {
+        base.AddInputActionsCallbacks();
+        PlayerInput input = stateMachine.Player.Input;
+        input.PlayerActions.Roll.started += OnRollStarted;
+    }
+    protected override void RemoveInputActionsCallbacks()
+    {
+        base.RemoveInputActionsCallbacks();
+        PlayerInput input = stateMachine.Player.Input;
+        input.PlayerActions.Roll.started -= OnRollStarted;
+    }
+
+    protected virtual void OnRollStarted(InputAction.CallbackContext context)
+    {
+        stateMachine.ChangeState(stateMachine.RollState);
+    }
+
 
     protected virtual void OnMove()
     {
@@ -73,4 +92,5 @@ public class PlayerGroundState : PlayerBaseState
     {
         stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
+
 }

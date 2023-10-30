@@ -11,6 +11,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
+    public PlayerRollState RollState { get; }
     public PlayerFallState FallState { get; }
 
     public PlayerComboAttackState ComboAttackState { get; }
@@ -33,6 +34,7 @@ public class PlayerStateMachine : StateMachine
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
+        RollState = new PlayerRollState(this);
 
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
