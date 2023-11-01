@@ -5,32 +5,29 @@ using UnityEngine;
 
 public class Indicator : MonoBehaviour
 {
-    //[SerializeField] private Transform _target;
+    [SerializeField] private Transform _player;  //플레이어
+    [SerializeField] private Transform _target; //가리킬 타겟
+    [SerializeField] private GameObject _indicator; //타겟을 바라볼 오브젝트
+    [SerializeField] private GameObject _arrow; //눈에 보일 스프라이트
+    [SerializeField] private float indicatorDistance;  //플레이어와 인디케이터 거리
+    [SerializeField] private float appearanceDistance; //인디케이터를 표시시작할 거리
 
-    //private void Update()
-    //{
-    //    Vector3 direction = _target.position - transform.position;
-    //    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    //}
-
-    [SerializeField] private Transform _player;
-    [SerializeField] private Transform _target;
-    [SerializeField] private GameObject _indicator;
-    [SerializeField] private GameObject _arrow;
-    [SerializeField] private float indicatorDistance;
-    [SerializeField] private float appearanceDistance;
-
-    private void Update()
+    Vector3 targetPosition;
+    Vector3 playerPosioton;
+    private void LateUpdate()
     {
         float distance = Vector3.Distance(_player.position, _target.position);
         if(Mathf.Abs(distance) > appearanceDistance)
         {
-            Debug.Log(distance);
             _arrow.SetActive(true);
-            Vector3 directionToTarget = (_target.position - _player.position).normalized;
+
+            targetPosition = _target.position;
+            playerPosioton = _player.position;
+            targetPosition.y = 0;
+            playerPosioton.y = 0;
+
+            Vector3 directionToTarget = (targetPosition - playerPosioton).normalized;
             _indicator.transform.position = _player.position + directionToTarget * indicatorDistance;
-            //_indicator.transform.position = new Vector3(_indicator.transform.position.x, 2, _indicator.gameObject.transform.position.z);
             _indicator.transform.rotation = Quaternion.LookRotation(directionToTarget);
         }
         else
