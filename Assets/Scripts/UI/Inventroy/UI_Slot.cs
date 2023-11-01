@@ -9,9 +9,12 @@ public class UI_Slot : MonoBehaviour
     private GameObject _itemExplanationPopup;
     private TMP_Text[] _itemText;
 
-    private void Awake()
+    [SerializeField] private GameObject _outLine;
+
+
+    private void Start()
     {
-        _itemExplanationPopup = UI_Manager.Instance.Inventory_ItemPopUp;
+        _itemExplanationPopup = InventoryManager.Instance.ItemExplanationPopup;
         _itemText = _itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
     }
 
@@ -21,5 +24,20 @@ public class UI_Slot : MonoBehaviour
         _itemText[0].text = itemData.ItemName;
         _itemText[1].text = "테스트로 직접 입력";
         _itemText[2].text = itemData.ItemExplanation;
+    }
+
+    public void DisplayItemClick()
+    {
+        _outLine.SetActive(true);
+    }
+
+    public void TurnOffItemClick()
+    {
+        _outLine.SetActive(false);
+    }
+
+    public void DisPlayEquip()
+    {
+        //장착 UI표시
     }
 }

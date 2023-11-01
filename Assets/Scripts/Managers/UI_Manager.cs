@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class UI_Manager : CustomSingleton<UI_Manager>
 {
-    [SerializeField] private GameObject _inventory_UI;
-    [SerializeField] private GameObject _inventory_ItemPopUp;
-    public GameObject Inventory_UI { get { return _inventory_UI; } }
-    public GameObject Inventory_ItemPopUp {  get { return _inventory_ItemPopUp; } }
+    protected UI_Manager () { }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private ItemDB _itemDB;
+    private InventoryManager _inventoryManager;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        _itemDB = ItemDB.Instance;
+        _inventoryManager = InventoryManager.Instance;
+        Debug.Log(_itemDB.ToString());
+        Debug.Log(_inventoryManager.ToString());
     }
 }

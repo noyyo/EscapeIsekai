@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHandler
+public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [SerializeField] private GameObject _itemImage;
     [SerializeField] private TMP_Text _text_Count;
@@ -15,13 +15,24 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     private ItemData_Test _itemData;
     private ItemSlotInfo _slotInfo;
     private ItemDB _itemDB;
-    private int _itemCount;
     private Vector3 defaultPos;
     private GameObject _inventory_UI;
     private Transform _startParent;
     private Button _button;
 
     private UI_Slot _ui_Slot;
+    private bool isData;
+
+    private int _uniqueIndex = -1;
+    public int UniqueIndex 
+    {
+        get { return _uniqueIndex; }
+        set 
+        { 
+           if(_uniqueIndex == -1)
+                _uniqueIndex = value;
+        } 
+    }
 
     public ItemData_Test ItemData { get { return _itemData; } }
     public ItemSlotInfo SlotInfo { get { return _slotInfo; } }
@@ -32,7 +43,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
         _slotInfo = new ItemSlotInfo();
         _item2DImage = _itemImage.GetComponent<Image>();
         _itemImageTransform = _itemImage.transform;
-        _inventory_UI = UI_Manager.Instance.Inventory_UI;
+        _inventory_UI = InventoryManager.Instance.Inventory_UI;
         _button = GetComponent<Button>();
         _ui_Slot = GetComponent<UI_Slot>();
     }
@@ -41,14 +52,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     {
         _button.onClick.AddListener(DisplayerItemExplanationPopup);
     }
-
-    //// 아이템 이미지의 투명도 조절
-    //private void SetColor(float _alpha)
-    //{
-    //    Color color = _item2DImage.color;
-    //    color.a = _alpha;
-    //    _item2DImage.color = color;
-    //}
 
     // 인벤토리에 새로운 아이템 슬롯 추가
     public void AddItem(ItemData_Test itemData, int index, int count)
@@ -59,8 +62,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
         _slotInfo.index = index;
         _slotInfo.count = count;
         SlotDisplay();
-
-        //SetColor(1);
     }
 
     public void AddItem(ItemSlotInfo slotInfo)
@@ -77,14 +78,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
         
     }
 
-    // 해당 슬롯의 아이템 갯수 업데이트
+    /// <summary>
+    /// 입력된 값(count)으로 변경 더하기나 빼기가 아닌 =입니다.
+    /// </summary>
+    /// <param name="count"></param>
     public void SetSlotCount(int count)
     {
         _slotInfo.count = count;
         _text_Count.text = String.Format("x {0}", _slotInfo.count);
-
-        if (_itemCount <= 0)
-            ClearSlot();
     }
 
     // 해당 슬롯 하나 삭제
@@ -94,7 +95,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
         _slotInfo = null;
         _item2DImage.sprite = null;
         _item2DImage.enabled = false;
-        //SetColor(0);
+        _button.enabled = false;
 
         _text_Count.text = "";
         _text_Count.gameObject.SetActive(false);
@@ -104,6 +105,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     {
         _item2DImage.enabled = true;
         _item2DImage.sprite = _itemData.Icon;
+        _button.enabled = true;
 
         if (_itemData.ItemType != ItemType.Equipment)
         {
@@ -115,26 +117,59 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler ,IEndDragHand
     public void DisplayerItemExplanationPopup()
     {
         _ui_Slot.SetActiveItemExplanationPopup(true, _itemData);
+
+        //클릭한 정보 매니저한태 전달
+        InventoryManager.Instance.SetClickItem(_slotInfo, _ui_Slot);
+
+        //클릭한 모습 표시
+        _ui_Slot.DisplayItemClick();
+
+        //클릭했을때 인벤토리 아래쪽에 있는 버튼 활성화
+        InventoryManager.Instance.CallDisplayInventoryTailUI();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        defaultPos = _itemImageTransform.position;
-        _startParent = _itemImageTransform.parent;
-        _itemImageTransform.SetParent(_inventory_UI.transform, false);
-        //_itemImageTransform.SetAsLastSibling();
+        if (_slotInfo != null) 
+        {
+            isData = true;
+            defaultPos = _itemImageTransform.position;
+            _startParent = _itemImageTransform.parent;
+            _itemImageTransform.SetParent(_inventory_UI.transform, false);
+            //_itemImageTransform.SetAsLastSibling();
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _itemImage.transform.position = eventData.position;
+        if(isData)
+            _itemImage.transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        _itemImageTransform.SetParent(_startParent, false);
-        _itemImage.transform.position = defaultPos;
+        if (isData)
+        {
+            _itemImageTransform.SetParent(_startParent, false);
+            _itemImageTransform.SetAsFirstSibling();
+            _itemImage.transform.position = defaultPos;
+
+            defaultPos = Vector3.zero;
+            _startParent = null;
+            isData = false;
+
+            InventoryManager.Instance.CallChangeSlot(_slotInfo, _uniqueIndex);
+        }
     }
 
-    
+    public void OnDrop(PointerEventData eventData)
+    {
+        InventoryManager.Instance.SaveNewChangedSlot(_slotInfo, _uniqueIndex);
+    }
+
+
+    public void DisplayEquip()
+    {
+        _ui_Slot.DisPlayEquip();
+    }
 }

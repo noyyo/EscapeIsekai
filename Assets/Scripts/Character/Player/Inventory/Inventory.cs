@@ -1,0 +1,647 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class ItemSlotInfo
+{
+    public int id;
+    public int count;
+    public int index;
+    public bool equip;
+
+    public ItemSlotInfo(int newID, int newindex, int newCount = 1)
+    {
+        id = newID;
+        count = newCount;
+        index = newindex;
+    }
+    public ItemSlotInfo() { }
+}
+
+public class Inventory : MonoBehaviour
+{
+    //슬롯 관련
+    [Header("슬롯 설정")]
+    [SerializeField] private int _inventroySlotCount = 60;
+    //[SerializeField] private int _quickSlotCount = 8;
+    [SerializeField] private GameObject _slotPrefab;
+    //[SerializeField] private GameObject _quickSlotPrefab;
+    [SerializeField] private GameObject _slotSpawn;
+    //[SerializeField] private GameObject _quickSlotSpawn;
+
+    private UI_Inventory _ui_Inventory;
+    private InventoryManager _inventoryManager;
+
+    //슬롯들을 담는 리스트
+    private List<Slot> _slotArray = new List<Slot>();
+    //private List<QuickSlot> _quickSlotArray = new List<QuickSlot>();
+
+    //실제 슬롯들에 무슨 아이템인지, 갯수, 저장위치(Slot의 Index)등등 보관
+    private List<ItemSlotInfo> _equipmentItemList = new List<ItemSlotInfo>();
+    private List<ItemSlotInfo> _consumableItemList = new List<ItemSlotInfo>();
+    private List<ItemSlotInfo> _materialItemList = new List<ItemSlotInfo>();
+    private List<ItemSlotInfo> _etcItemList = new List<ItemSlotInfo>();
+
+    private ItemDB _itemDB;
+
+    //장비, 소비, 재료, 기타의 아이템 갯수를 저장함
+    private int[] _itemCount;
+    //현재 선택된 카테고리를 저장함
+    private ItemType _displayType;
+    //현재 선택된 아이템의 정보를 저장함
+    private ItemSlotInfo _clickItem;
+
+    //Inventory_UI 온오프용 이벤트
+    public event Action OnInventoryDisplayEvent;
+
+    private void Awake()
+    {
+        _itemDB = ItemDB.Instance;
+        _inventoryManager = InventoryManager.Instance;
+        InitInventory();
+        CreateSlot();
+    }
+
+    /// <summary>
+    /// 초기화
+    /// </summary>
+    private void InitInventory()
+    {
+        _equipmentItemList.Clear();
+        _consumableItemList.Clear();
+        _materialItemList.Clear();
+        _etcItemList.Clear();
+
+        _slotArray.Clear();
+        //_quickSlotArray.Clear();
+
+        _itemCount = new int[4];
+        _displayType = ItemType.Equipment;
+
+        if (_slotPrefab == null)
+            _slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
+
+        //if (_quickSlotPrefab == null)
+        //    _quickSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/QuickSlot");
+
+        if (_ui_Inventory == null)
+            _ui_Inventory = _inventoryManager.Inventory_UI.GetComponent<UI_Inventory>();
+
+        if (_slotSpawn == null)
+        {
+            _slotSpawn = _ui_Inventory.ItemExplanationPopup;
+        }
+            
+
+        //if (_quickSlotSpawn == null)
+        //    _quickSlotSpawn = Resources.Load<GameObject>("Prefabs/UI/Inventory/QuickSlot_UI/SlotArea");
+    }
+
+    /// <summary>
+    /// 슬롯 생성
+    /// </summary>
+    private void CreateSlot()
+    {
+        for (int i = 0; i < _inventroySlotCount; i++)
+        {
+            GameObject obj = Instantiate(_slotPrefab);
+            obj.transform.SetParent(_slotSpawn.transform, false);
+            obj.GetComponent<Slot>().UniqueIndex = i;
+            _slotArray.Add(obj.GetComponent<Slot>());
+        }
+
+        //for (int i = 0; i < _quickSlotCount; i++)
+        //{
+        //    GameObject obj = Instantiate(_quickSlotPrefab);
+        //    obj.transform.SetParent(_quickSlotSpawn.transform, false);
+        //    obj.GetComponent<QuickSlot>().UniqueIndex = i;
+        //    _quickSlotArray.Add(obj.GetComponent<QuickSlot>());
+        //}
+    }
+
+    private void Start()
+    {
+        DisplaySlotAllClear();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventory();
+        }
+    }
+
+    public void OnInventory()
+    {
+        OnInventoryDisplayEvent?.Invoke();
+        OnDisplaySlot();
+    }
+
+    /// <summary>
+    /// 외부에서 호출하여 아이템을 넣거나 빼줍니다.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="count">아이템 개수</param>
+    /// <param name="errorItemCount">Slot의 개수를 초과하여 들어온 아이템의 갯수를 반환합니다. count가 음수일때 오류나면 음수 반환</param>
+    /// <returns></returns>
+    public bool TryAddItem(int id, int count, out int errorItemCount)
+    {
+        errorItemCount = count;
+        bool isAddItem = false;
+        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
+        {
+            switch (newItem.ItemType)
+            {
+                case ItemType.Equipment:
+                    if (count >= 0)
+                    {
+                        if (AddList(_equipmentItemList, count, (int)ItemType.Equipment, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_equipmentItemList, count, (int)ItemType.Equipment, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
+                case ItemType.Consumable:
+                    if (count >= 0)
+                    {
+                        if (AddList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
+                case ItemType.Material:
+                    if (count >= 0)
+                    {
+                        if (AddList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
+                default:
+                    if (count >= 0)
+                    {
+                        if (AddList(_etcItemList, count, ItemType.ETC, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_etcItemList, count, ItemType.ETC, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
+            }
+        }
+
+        return isAddItem;
+    }
+
+    /// <summary>
+    /// 내부적으로 더하는 메서드
+    /// </summary>
+    /// <param name="itemList">아이템의 id, 개수, slot위치등이 저장된 리스트</param>
+    /// <param name="count">아이템 개수</param>
+    /// <param name="slotType">아이템의 타입</param>
+    /// <param name="newItem">아이템 정보</param>
+    /// <param name="errorItemCount">초과된 아이템 개수</param>
+    /// <returns></returns>
+    private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int errorItemCount)
+    {
+        //창고가 가득찼는지 확인
+        int itemListCount = _itemCount[(int)slotType];
+        if (itemListCount == _inventroySlotCount)
+        {
+            errorItemCount = count;
+            return false;
+        }
+
+        errorItemCount = 0;
+        int id = newItem.ID;
+        bool isDisplay = false;
+
+        if (newItem.ItemType == _displayType)
+        {
+            isDisplay = true;
+        }
+
+        // 아이템이 장비인가?
+        if (slotType != ItemType.Equipment)
+        {
+            //빈 창고에서 새로 들어오는것인가?
+            if (itemListCount == 0)
+            {
+                // 새로 들어오는 제품이 한 슬롯당 갯수보다 높은가?
+                if (count > newItem.MaxCount)
+                {
+                    // 무한 for문으로 갯수 생성
+                    while (true)
+                    {
+                        count -= newItem.MaxCount;
+
+                        if (count <= 0)
+                        {
+                            //별도의 시스템이여서 Slot에 데이터 보내고 리스트에 생성 및 저장해도 상관없음
+                            //Slot에 저장 및 표시
+                            if (isDisplay)
+                                _slotArray[_itemCount[(int)slotType]].AddItem(newItem, _itemCount[(int)slotType], newItem.MaxCount + count);
+
+                            //생성
+                            itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItem.MaxCount + count));
+                            _itemCount[(int)slotType]++;
+                            break;
+                        }
+                        else
+                        {
+                            //Slot에 저장 및 표시
+                            if (isDisplay)
+                                _slotArray[_itemCount[(int)slotType] - 1].AddItem(newItem, _itemCount[(int)slotType], newItem.MaxCount);
+
+                            itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItem.MaxCount));
+                            _itemCount[(int)slotType]++;
+                        }
+                    }
+                }
+                else
+                {
+                    if (isDisplay)
+                        _slotArray[0].AddItem(newItem, 0, count);
+
+                    itemList.Add(new ItemSlotInfo(id, 0, count));
+                    _itemCount[(int)slotType]++;
+                }
+                return true;
+            }
+            else
+            {
+                for (int i = 0; i < itemListCount; i++)
+                {
+                    if (itemList[i].id == id)
+                    {
+                        //캐싱
+                        int newItemMaxCount = newItem.MaxCount;
+                        int nowItemCount = itemList[i].count;
+
+                        //현재슬롯이 가득 찼는지 확인
+                        if (nowItemCount == newItemMaxCount)
+                        {
+                            if (nowItemCount + count > newItemMaxCount)
+                            {
+                                //아이템 개수 계산
+                                count = count - (newItemMaxCount - nowItemCount);
+                                itemList[i].count = newItemMaxCount;
+
+                                //Slot에 저장 및 출력
+                                if (isDisplay)
+                                    _slotArray[i].SetSlotCount(newItemMaxCount);
+
+                                while (true)
+                                {
+                                    // 값
+                                    count -= newItemMaxCount;
+                                    if (count <= 0) break;
+
+                                    //출력
+                                    if (isDisplay)
+                                        _slotArray[_itemCount[(int)slotType]].AddItem(newItem, _itemCount[(int)slotType], newItemMaxCount);
+
+                                    //생성
+                                    itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItemMaxCount));
+                                    _itemCount[(int)slotType]++;
+                                    if (_itemCount[(int)slotType] == _inventroySlotCount)
+                                    {
+                                        errorItemCount = count;
+                                        return false;
+                                    }
+                                }
+                                itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItemMaxCount + count));
+                                _itemCount[(int)slotType]++;
+                                if (isDisplay)
+                                    _slotArray[_itemCount[(int)slotType] - 1].AddItem(newItem, _itemCount[(int)slotType] - 1, newItemMaxCount + count);
+                            }
+                            else
+                            {
+                                itemList[i].count += count;
+
+                                if (isDisplay)
+                                    _slotArray[i].SetSlotCount(itemList[i].count);
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        //장비류는 최대가 1개
+        for (int i = 0; i < count; i++)
+        {
+            itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], 1));
+            _itemCount[(int)slotType]++;
+
+            if (isDisplay)
+                _slotArray[_itemCount[(int)slotType] - 1].AddItem(newItem, _itemCount[(int)slotType] - 1, 1);
+
+            if (_itemCount[(int)slotType] == _inventroySlotCount)
+            {
+                errorItemCount = count - (i + 1);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// 아이템을 소모하는 메서드
+    /// </summary>
+    /// <param name="itemList">아이템의 id, 개수, slot위치등이 저장된 리스트</param>
+    /// <param name="count">아이템 개수(음수)</param>
+    /// <param name="slotType">아이템의 타입</param>
+    /// <param name="newItem">아이템 정보</param>
+    /// <param name="ErrorItemCount">더이상 소모할 수 없는 아이템 개수</param>
+    /// <returns></returns>
+    private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int ErrorItemCount)
+    {
+
+        if (_itemCount[(int)slotType] == 0)
+        {
+            ErrorItemCount = count;
+            return false;
+        }
+
+        bool isSub = false;
+        int id = newItem.ID;
+        Stack stack = new Stack();
+
+        bool isDisplay = false;
+
+        if (newItem.ItemType == _displayType)
+            isDisplay = true;
+
+        int itemCount = _itemCount[(int)slotType];
+        for (int i = 0; i < itemCount; i++)
+        {
+            if (itemList[i].id == id)
+            {
+                int nowItemCount = itemList[i].count + count;
+
+                // 아직 빼야될 값이 있을때
+                if (nowItemCount < 0)
+                {
+                    count = nowItemCount;
+                    stack.Push(i);
+                    continue;
+                }
+
+                count = 0;
+                // 모두다 정상적으로 뻈을때
+                if (isDisplay)
+                    _slotArray[i].SetSlotCount(nowItemCount);
+
+                for (int j = 0; j < stack.Count;)
+                {
+                    int n = (int)stack.Pop();
+                    _slotArray[n].ClearSlot();
+                    itemList.RemoveAt(n);
+                    _itemCount[(int)slotType]--;
+                }
+
+                isSub = true;
+                break;
+            }
+        }
+        ErrorItemCount = count;
+        return isSub;
+    }
+
+    public void SortInventory()
+    {
+        DisplaySlotAllClear();
+        _equipmentItemList.Sort((n1, n2) => n1.id.CompareTo(n2.id));
+        int maxIndex = _equipmentItemList.Count;
+        for (int i = 0; i < maxIndex; i++)
+        {
+            _equipmentItemList[i].index = i;
+        }
+
+        _consumableItemList.Sort((n1, n2) => n1.id.CompareTo(n2.id));
+        maxIndex = _consumableItemList.Count;
+        for (int i = 0; i < maxIndex; i++)
+        {
+            _consumableItemList[i].index = i;
+        }
+
+        _materialItemList.Sort((n1, n2) => n1.id.CompareTo(n2.id));
+        maxIndex = _materialItemList.Count;
+        for (int i = 0; i < maxIndex; i++)
+        {
+            _materialItemList[i].index = i;
+        }
+
+        _etcItemList.Sort((n1, n2) => n1.id.CompareTo(n2.id));
+        maxIndex = _etcItemList.Count;
+        for (int i = 0; i < maxIndex; i++)
+        {
+            _etcItemList[i].index = i;
+        }
+        OnDisplaySlot();
+    }
+
+    //UI부분으로 옮겨야됨...
+    public void SetDisplayType(ItemType itemType)
+    {
+        DisplaySlotClear();
+        _displayType = itemType;
+        OnDisplaySlot();
+    }
+
+    //UI부분으로 옮겨야됨...
+    private void OnDisplaySlot()
+    {
+        switch (_displayType)
+        {
+            case ItemType.Equipment:
+                foreach (ItemSlotInfo item in _equipmentItemList)
+                {
+                    _slotArray[item.index].AddItem(item);
+                }
+                break;
+            case ItemType.Consumable:
+                foreach (ItemSlotInfo item in _consumableItemList)
+                {
+                    _slotArray[item.index].AddItem(item);
+                }
+                break;
+            case ItemType.Material:
+                foreach (ItemSlotInfo item in _materialItemList)
+                {
+                    _slotArray[item.index].AddItem(item);
+                }
+                break;
+            default:
+                foreach (ItemSlotInfo item in _etcItemList)
+                {
+                    _slotArray[item.index].AddItem(item);
+                }
+                break;
+        }
+    }
+
+    //UI부분으로 옮겨야됨...
+    private void DisplaySlotAllClear()
+    {
+        for (int i = 0; i < _inventroySlotCount; i++)
+        {
+            _slotArray[i].ClearSlot();
+        }
+
+    }
+    //UI부분으로 옮겨야됨...
+    private void DisplaySlotClear()
+    {
+        switch (_displayType)
+        {
+            case ItemType.Equipment:
+                foreach (ItemSlotInfo item in _equipmentItemList)
+                {
+                    _slotArray[item.index].ClearSlot();
+                }
+                break;
+            case ItemType.Consumable:
+                foreach (ItemSlotInfo item in _consumableItemList)
+                {
+                    _slotArray[item.index].ClearSlot();
+                }
+                break;
+            case ItemType.Material:
+                foreach (ItemSlotInfo item in _materialItemList)
+                {
+                    _slotArray[item.index].ClearSlot();
+                }
+                break;
+            default:
+                foreach (ItemSlotInfo item in _etcItemList)
+                {
+                    _slotArray[item.index].ClearSlot();
+                }
+                break;
+        }
+    }
+
+    public void UseItem()
+    {
+        _clickItem = InventoryManager.Instance.GetClickItem();
+        if (_displayType == ItemType.Equipment)
+        {
+            //장착
+            EquipItem(_clickItem);
+        }
+        else
+        {
+            TryAddItem(_clickItem.id, -1, out int errorCount);
+        }
+    }
+
+    /// <summary>
+    /// 아이템중 해당 갯수가 있는지 확인 후 있으면 True를 반환합니다.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public bool IsCheckItem(int id, int count)
+    {
+        bool isItemCount = false;
+        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
+        {
+            switch (newItem.ItemType)
+            {
+                case ItemType.Equipment:
+                    isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count);
+                    break;
+                case ItemType.Consumable:
+                    isItemCount = IsCheckItemCount(_consumableItemList, newItem, count);
+                    break;
+                case ItemType.Material:
+                    isItemCount = IsCheckItemCount(_materialItemList, newItem, count);
+                    break;
+                default:
+                    isItemCount = IsCheckItemCount(_etcItemList, newItem, count);
+                    break;
+            }
+        }
+        return isItemCount;
+    }
+
+    /// <summary>
+    /// IsCheckItem의 내부기능을 수행하는 메서드
+    /// </summary>
+    /// <param name="itemList"></param>
+    /// <param name="newItem"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    private bool IsCheckItemCount(List<ItemSlotInfo> itemList, ItemData_Test newItem, int count)
+    {
+        int listCount = itemList.Count;
+        int sum = 0;
+        for (int i = 0; i < listCount; i++)
+        {
+            if (itemList[i].id == newItem.ID)
+            {
+                sum += itemList[i].count;
+            }
+        }
+        return sum >= count ? true : false;
+    }
+
+    //나중에 장비 착용시 UI및 스텟등을 설정해줘야됨
+    private void EquipItem(ItemSlotInfo itemSlotInfo)
+    {
+        _itemDB.GetItemData(itemSlotInfo.id, out ItemData_Test equipItemData);
+
+        //나중에 플레이어와 연결할때 작성해야할 코드
+        Debug.Log("장비를 장착합니다. 장비스텟을 플레이어에 적용");
+
+        itemSlotInfo.equip = true;
+
+        _slotArray[itemSlotInfo.index].DisplayEquip();
+    }
+
+    public void Drop()
+    {
+        _clickItem = InventoryManager.Instance.GetClickItem();
+
+        _itemDB.GetItemData(_clickItem.id, out ItemData_Test newItem);
+        Instantiate(newItem.DropPrefab);
+
+        TryAddItem(_clickItem.id, -1, out int errorCount);
+    }
+
+    //Drag And Drop으로 아이템 전환하기 위한 메서드
+    public void ChangeSlot(ItemSlotInfo newSlot, ItemSlotInfo oldSlot, int newIndex, int oldIndex)
+    {
+        if (newSlot == null)
+        {
+            oldSlot.index = newIndex;
+            _slotArray[newIndex].AddItem(oldSlot);
+            _slotArray[oldIndex].ClearSlot();
+            return;
+        }
+
+        newSlot.index = oldIndex;
+        oldSlot.index = newIndex;
+
+        _slotArray[newIndex].AddItem(oldSlot);
+        _slotArray[oldIndex].AddItem(newSlot);
+    }
+}

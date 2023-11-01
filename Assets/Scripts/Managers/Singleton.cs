@@ -13,6 +13,7 @@ public class CustomSingleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (_isShutdown)
             {
+                Debug.Log("Error");
                 return null;
             }
 
