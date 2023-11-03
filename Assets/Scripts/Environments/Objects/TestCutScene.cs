@@ -31,7 +31,7 @@ public class TestCutScene : MonoBehaviour
         _cylinder.SetActive(false);
     }
 
-    void OnNavigate(InputValue value)
+    void OnNavigate()
     {
         _cylinder.SetActive(true);
         _pd.Play(_ta);
