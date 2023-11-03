@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemySO", menuName = "Characters/Enemy")]
 public class EnemySO : ScriptableObject
 {
+    [field: Header("Health")]
+    [field: SerializeField] public int MaxHP { get; private set; } = 100;
+
     [field: Header("Movement")]
     [field: SerializeField] public float WalkSpeed { get; private set; } = 2f;
     [field: SerializeField] public float RunSpeed { get; private set; } = 5f;

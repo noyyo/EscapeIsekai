@@ -10,9 +10,11 @@ using UnityEngine.InputSystem.XR;
 public class EnemyStateMachine : StateMachine
 {
     public event Action<bool> IsPauseChanged;
+    public event Action ActivatedActionsChanged;
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
     public Enemy Enemy { get; }
+    public Animator Animator;
     public float MovementSpeedModifier { get; set; } = 1f;
     public EnemyIdleState IdleState { get; }
     public EnemyWanderState WanderState { get; }
@@ -29,11 +31,19 @@ public class EnemyStateMachine : StateMachine
     public Vector3 OriginPosition { get; set; }
     public bool IsInvincible { get; set; }
     public bool IsFleeable { get; set; }
+    public AttackAction CurrentAction;
+    private AttackAction[] actionData;
+    private List<AttackAction> actionsInActive;
+    private List<AttackAction> actionsToExecute;
+    public int HP;
+    public float BattleTime;
+    
 
     public EnemyStateMachine(Enemy enemy)
     {
         //Player = gameManager.Instance.Player;
         Enemy = enemy;
+        Animator = enemy.Animator;
         IdleState = new EnemyIdleState(this);
         WanderState = new EnemyWanderState(this);
         ChaseState = new EnemyChaseState(this);
@@ -41,7 +51,8 @@ public class EnemyStateMachine : StateMachine
         ReturnToBaseState = new EnemyReturnToBaseState(this);
         FleeState = new EnemyFleeState(this);
         IsFleeable = enemy.Data.IsFleeable;
-
+        actionData = enemy.Actions;
+        IsPauseChanged += PauseAnimation;
         //Test
         Player = Enemy.Player;
     }
@@ -51,6 +62,7 @@ public class EnemyStateMachine : StateMachine
         CheckTargetDistance();
         if (!isActive)
             return;
+        UpdateActivatedActions();
         base.Update();
     }
     public override void PhysicsUpdate()
@@ -93,5 +105,42 @@ public class EnemyStateMachine : StateMachine
             this.isPause = isPause;
             IsPauseChanged.Invoke(isPause);
         }
+    }
+
+    public void PauseAnimation(bool isPause)
+    {
+        if (isPause)
+        {
+            Animator.speed = 0f;
+        }
+        else
+        {
+            Animator.speed = 1f;
+        }
+    }
+    private void ChooseAction()
+    {
+        // TODO : 예약 리스트 있으면 거기서 선택 없으면 ActionData에서 선택.
+    }
+    private void UpdateActivatedActions()
+    {
+        foreach (AttackAction action in actionsInActive)
+        {
+            action.OnUpdate();
+        }
+    }
+    public List<AttackAction> GetActionsInActive()
+    {
+        return actionsInActive;
+    }
+    public void AddActionInActive(AttackAction action)
+    {
+        actionsInActive.Add(action);
+        ActivatedActionsChanged?.Invoke();
+    }
+    public void RemoveActionInActive(AttackAction action)
+    {
+        actionsInActive.Remove(action);
+        ActivatedActionsChanged?.Invoke();
     }
 }

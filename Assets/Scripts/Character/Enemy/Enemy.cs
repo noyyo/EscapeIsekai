@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [field: SerializeField] public EnemyStateMachine stateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
     [field: SerializeField] public Collider Weapon { get; private set; }
+    public  AttackAction[] Actions;
 
     // Test
     public GameObject Player;
@@ -53,6 +54,6 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
+
     }
 }
