@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
@@ -19,8 +20,6 @@ public enum AnimState
     Playing,
     Completed
 }
-
-
 [CreateAssetMenu(fileName = "AttackActionSO", menuName = "Characters/Enemy/AttackAction")]
 public abstract class AttackAction : ScriptableObject
 {
@@ -38,7 +37,7 @@ public abstract class AttackAction : ScriptableObject
     protected bool isCompleted;
     protected bool isEffectStarted;
     protected bool isEffectEnded;
-    protected float effectStartTime;
+    public float EffectStartTime;
     protected bool hasRemainingEffect = false;
     // 애니메이션이 실행됐는지 여부를 확인하는 딕셔너리입니다.
     protected Dictionary<int, AnimState> animState = new Dictionary<int, AnimState>(2);
@@ -75,7 +74,7 @@ public abstract class AttackAction : ScriptableObject
             return;
         }
         
-        if (isEffectStarted && !isEffectEnded && Time.time - effectStartTime >= Config.EffectDurationSeconds)
+        if (isEffectStarted && !isEffectEnded && Time.time - EffectStartTime >= Config.EffectDurationSeconds)
         {
             OnEffectFinish();
         }
@@ -96,7 +95,7 @@ public abstract class AttackAction : ScriptableObject
     }
     protected virtual void OnEffectStart()
     {
-        effectStartTime = Time.time;
+        EffectStartTime = Time.time;
         isEffectStarted = true;
     }
     protected virtual void OnEffectFinish()
@@ -108,7 +107,7 @@ public abstract class AttackAction : ScriptableObject
             lastUsedTime = Time.time;
         }
     }
-    protected virtual void ApplyAttack(IDamageable target)
+    protected void ApplyAttack(IDamageable target)
     {
         target.TakeDamage(Config.DamageAmount);
         if (target.CanTakeAttackEffect)
@@ -158,7 +157,7 @@ public abstract class AttackAction : ScriptableObject
 
         }
     }
-    protected void InitializeAnimState()
+    private void InitializeAnimState()
     {
         animState.Add(Config.AnimTriggerHash1, AnimState.NotStarted);
         animState.Add(Config.AnimTriggerHash2, AnimState.NotStarted);

@@ -121,9 +121,10 @@ public class EnemyStateMachine : StateMachine
             Animator.speed = 1f;
         }
     }
-    public void ChooseAction()
+    // 액션을 선택해 CurrentAction으로 설정합니다. 선택할 수 있는 액션이 없다면 false를 리턴합니다.
+    public bool ChooseAction()
     {
-        // TODO : 예약 리스트 있으면 거기서 선택 없으면 ActionData에서 선택.
+        // 실행대기 액션이 없다면 Data에서 선택합니다.
         if (actionsToExecute.Count == 0)
         {
             for (int i = 0; i < actionData.Length; i++)
@@ -131,10 +132,12 @@ public class EnemyStateMachine : StateMachine
                 if (actionData[i].Condition.isEligible())
                     eligibleActionIndex.Add(i);
             }
+            if (eligibleActionIndex.Count == 0)
+                return false;
             AttackAction choosedAction = actionData[UnityEngine.Random.Range(0, eligibleActionIndex.Count)];
             CurrentAction = choosedAction;
             eligibleActionIndex.Clear();
-            return;
+            return true;
         }
 
         int prioritySum = 0;
@@ -145,7 +148,7 @@ public class EnemyStateMachine : StateMachine
             if (priority >= ActionCondition.determinePriority)
             {
                 CurrentAction = actionsToExecute[i];
-                return;
+                return true;
             }
             prioritySum += priority;
         }
@@ -157,9 +160,11 @@ public class EnemyStateMachine : StateMachine
             if (executePivot <= currentPriority)
             {
                 CurrentAction = actionsToExecute[i];
-                return;
+                return true;
             }
         }
+        Debug.LogError("액션이 선택되지 못했습니다.");
+        return false;
     }
     private void UpdateActivatedActions()
     {

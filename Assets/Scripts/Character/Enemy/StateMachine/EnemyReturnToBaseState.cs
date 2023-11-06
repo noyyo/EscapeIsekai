@@ -16,6 +16,7 @@ public class EnemyReturnToBaseState : EnemyBaseState
         agent.speed = enemyData.RunSpeed * returnSpeed;
         stateMachine.IsInvincible = true;
         StartAnimation(enemy.AnimationData.RunParameterHash);
+        stateMachine.CurrentAction = null;
     }
     public override void Exit()
     {

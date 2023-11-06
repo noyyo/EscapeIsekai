@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < Actions.Length; i++)
         {
             Actions[i] = Instantiate(Actions[i]);
+            Actions[i].OnAwake();
         }
     }
     private void OnTriggerEnter(Collider other)
