@@ -13,7 +13,7 @@ public class GatheringObject : MonoBehaviour
     [SerializeField] private TMP_Text _itemDes;
     [SerializeField] private int _itemId;
     private bool _gathering = false;
-    private PlayerInput _playerInput;
+    private PlayerInputSystem _playerInput;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -21,7 +21,7 @@ public class GatheringObject : MonoBehaviour
         {
             _descriptionPanel.SetActive(true);
             _gathering = true;
-            _playerInput = other.gameObject.GetComponent<PlayerInput>();
+            _playerInput = other.gameObject.GetComponent<PlayerInputSystem>();
         }
     }
     private void OnTriggerExit(Collider other)
