@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,13 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private GameObject _inventory_UI;
 
     private ItemSlotInfo _clickItem;
-    private UI_Slot _ClickSlot;
+    private Slot _ClickSlot;
     private ItemSlotInfo _newSlot;
 
     private ItemSlotInfo _temporaryStorage;
     private int _temporaryStorageindex;
+
+    private bool isDrop;
 
     public UI_Inventory UI_Inventory { get { return _ui_Inventory; } }
     public Inventory Inventory { get { return _inventory; }}
@@ -27,33 +30,27 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     private void Awake()
     {
-        var canvas = GameObject.FindGameObjectWithTag("Canvas");
-
-        if (canvas == null)
-        {
-            canvas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
-        }
-
-        _inventory_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), canvas.transform);
-        if (_ui_Inventory == null)
-            _ui_Inventory = _inventory_UI.GetComponent<UI_Inventory>();
-        if( _inventory == null)
-            _inventory = Resources.Load<GameObject>("Prefabs/Test/Player").GetComponent<Inventory>();
         _ui_Manager = UI_Manager.Instance;
-        _itemExplanationPopup = _ui_Inventory.ItemExplanationPopup;
+        _inventory_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _ui_Manager.Canvas.transform);
+        _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
     }
 
-    public void SetClickItem(ItemSlotInfo iteminfo, UI_Slot ui_Slot)
+    private void Start()
+    {
+        if (_inventory == null)
+            _inventory = _ui_Manager.player.GetComponent<Inventory>();
+        if (_ui_Inventory == null)
+            _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
+    }
+    public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
     {
         if (_clickItem != null)
         {
             if (_clickItem.index != iteminfo.index)
                 CallTurnOffItemClick();
         }
-
-
         _clickItem = iteminfo;
-        _ClickSlot = ui_Slot;
+        _ClickSlot = slot;
     }
 
     public ItemSlotInfo GetClickItem()
@@ -71,17 +68,23 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         _ClickSlot?.TurnOffItemClick();
     }
 
+    //드롭했을때 바꾸기 위한 값 저장
     public void SaveNewChangedSlot(ItemSlotInfo newSlot, int uniqueIndex)
     {
         _newSlot = newSlot;
         _temporaryStorageindex = uniqueIndex;
+        isDrop = true;
     }
 
     public void CallChangeSlot(ItemSlotInfo oldSlot, int uniqueIndex)
     {
-        _inventory.ChangeSlot(_newSlot, oldSlot, _temporaryStorageindex, uniqueIndex);
-        _ClickSlot?.TurnOffItemClick();
-        _ui_Inventory.TurnOffItemExplanationPopup();
-        _ui_Inventory.TurnOffInventoryTailUI();
+        //해당 객체가 슬롯이여만 바꾸기 전환( 슬롯이 아니면 OnDrop이 호출되지 않아서
+        //SaveNewChangedSlot가 호출되지 않음)
+        if (isDrop)
+        {
+            _inventory.ChangeSlot(_newSlot, oldSlot, _temporaryStorageindex, uniqueIndex);
+            _ui_Inventory.InventoryUITurnOff();
+            isDrop = false;
+        }
     }
 }

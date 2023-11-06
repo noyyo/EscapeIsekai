@@ -25,18 +25,14 @@ public class Inventory : MonoBehaviour
     //슬롯 관련
     [Header("슬롯 설정")]
     [SerializeField] private int _inventroySlotCount = 60;
-    //[SerializeField] private int _quickSlotCount = 8;
     [SerializeField] private GameObject _slotPrefab;
-    //[SerializeField] private GameObject _quickSlotPrefab;
     [SerializeField] private GameObject _slotSpawn;
-    //[SerializeField] private GameObject _quickSlotSpawn;
 
     private UI_Inventory _ui_Inventory;
     private InventoryManager _inventoryManager;
 
     //슬롯들을 담는 리스트
     private List<Slot> _slotArray = new List<Slot>();
-    //private List<QuickSlot> _quickSlotArray = new List<QuickSlot>();
 
     //실제 슬롯들에 무슨 아이템인지, 갯수, 저장위치(Slot의 Index)등등 보관
     private List<ItemSlotInfo> _equipmentItemList = new List<ItemSlotInfo>();
@@ -47,7 +43,7 @@ public class Inventory : MonoBehaviour
     private ItemDB _itemDB;
 
     //장비, 소비, 재료, 기타의 아이템 갯수를 저장함
-    private int[] _itemCount;
+    //private int[] _itemCount;
     //현재 선택된 카테고리를 저장함
     private ItemType _displayType;
     //현재 선택된 아이템의 정보를 저장함
@@ -75,28 +71,16 @@ public class Inventory : MonoBehaviour
         _etcItemList.Clear();
 
         _slotArray.Clear();
-        //_quickSlotArray.Clear();
-
-        _itemCount = new int[4];
         _displayType = ItemType.Equipment;
 
         if (_slotPrefab == null)
             _slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
 
-        //if (_quickSlotPrefab == null)
-        //    _quickSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/QuickSlot");
-
         if (_ui_Inventory == null)
-            _ui_Inventory = _inventoryManager.Inventory_UI.GetComponent<UI_Inventory>();
+            _ui_Inventory = GetComponent<UI_Inventory>();
 
         if (_slotSpawn == null)
-        {
-            _slotSpawn = _ui_Inventory.ItemExplanationPopup;
-        }
-            
-
-        //if (_quickSlotSpawn == null)
-        //    _quickSlotSpawn = Resources.Load<GameObject>("Prefabs/UI/Inventory/QuickSlot_UI/SlotArea");
+            _slotSpawn = InventoryManager.Instance.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
     }
 
     /// <summary>
@@ -111,27 +95,11 @@ public class Inventory : MonoBehaviour
             obj.GetComponent<Slot>().UniqueIndex = i;
             _slotArray.Add(obj.GetComponent<Slot>());
         }
-
-        //for (int i = 0; i < _quickSlotCount; i++)
-        //{
-        //    GameObject obj = Instantiate(_quickSlotPrefab);
-        //    obj.transform.SetParent(_quickSlotSpawn.transform, false);
-        //    obj.GetComponent<QuickSlot>().UniqueIndex = i;
-        //    _quickSlotArray.Add(obj.GetComponent<QuickSlot>());
-        //}
     }
 
     private void Start()
     {
         DisplaySlotAllClear();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            OnInventory();
-        }
     }
 
     public void OnInventory()
@@ -221,7 +189,7 @@ public class Inventory : MonoBehaviour
     private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int errorItemCount)
     {
         //창고가 가득찼는지 확인
-        int itemListCount = _itemCount[(int)slotType];
+        int itemListCount = itemList.Count;
         if (itemListCount == _inventroySlotCount)
         {
             errorItemCount = count;
@@ -256,21 +224,21 @@ public class Inventory : MonoBehaviour
                             //별도의 시스템이여서 Slot에 데이터 보내고 리스트에 생성 및 저장해도 상관없음
                             //Slot에 저장 및 표시
                             if (isDisplay)
-                                _slotArray[_itemCount[(int)slotType]].AddItem(newItem, _itemCount[(int)slotType], newItem.MaxCount + count);
+                                _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount + count);
 
                             //생성
-                            itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItem.MaxCount + count));
-                            _itemCount[(int)slotType]++;
+                            itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount + count));
+                            itemListCount++;
                             break;
                         }
                         else
                         {
                             //Slot에 저장 및 표시
                             if (isDisplay)
-                                _slotArray[_itemCount[(int)slotType] - 1].AddItem(newItem, _itemCount[(int)slotType], newItem.MaxCount);
+                                _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount);
 
-                            itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItem.MaxCount));
-                            _itemCount[(int)slotType]++;
+                            itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount));
+                            itemListCount++;
                         }
                     }
                 }
@@ -280,7 +248,7 @@ public class Inventory : MonoBehaviour
                         _slotArray[0].AddItem(newItem, 0, count);
 
                     itemList.Add(new ItemSlotInfo(id, 0, count));
-                    _itemCount[(int)slotType]++;
+                    itemListCount++;
                 }
                 return true;
             }
@@ -315,21 +283,21 @@ public class Inventory : MonoBehaviour
 
                                     //출력
                                     if (isDisplay)
-                                        _slotArray[_itemCount[(int)slotType]].AddItem(newItem, _itemCount[(int)slotType], newItemMaxCount);
+                                        _slotArray[itemListCount].AddItem(newItem, itemListCount, newItemMaxCount);
 
                                     //생성
-                                    itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItemMaxCount));
-                                    _itemCount[(int)slotType]++;
-                                    if (_itemCount[(int)slotType] == _inventroySlotCount)
+                                    itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount));
+                                    itemListCount++;
+                                    if (itemListCount == _inventroySlotCount)
                                     {
                                         errorItemCount = count;
                                         return false;
                                     }
                                 }
-                                itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], newItemMaxCount + count));
-                                _itemCount[(int)slotType]++;
+                                itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount + count));
+                                itemListCount++;
                                 if (isDisplay)
-                                    _slotArray[_itemCount[(int)slotType] - 1].AddItem(newItem, _itemCount[(int)slotType] - 1, newItemMaxCount + count);
+                                    _slotArray[itemListCount - 1].AddItem(newItem, itemListCount - 1, newItemMaxCount + count);
                             }
                             else
                             {
@@ -347,13 +315,12 @@ public class Inventory : MonoBehaviour
         //장비류는 최대가 1개
         for (int i = 0; i < count; i++)
         {
-            itemList.Add(new ItemSlotInfo(id, _itemCount[(int)slotType], 1));
-            _itemCount[(int)slotType]++;
-
+            itemList.Add(new ItemSlotInfo(id, itemListCount, 1));
+            itemListCount++;
             if (isDisplay)
-                _slotArray[_itemCount[(int)slotType] - 1].AddItem(newItem, _itemCount[(int)slotType] - 1, 1);
+                _slotArray[(itemListCount - 1)].AddItem(newItem, (itemListCount - 1), 1);
 
-            if (_itemCount[(int)slotType] == _inventroySlotCount)
+            if (itemListCount == _inventroySlotCount)
             {
                 errorItemCount = count - (i + 1);
                 return false;
@@ -373,8 +340,8 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int ErrorItemCount)
     {
-
-        if (_itemCount[(int)slotType] == 0)
+        int itemListCount = itemList.Count;
+        if (itemListCount == 0)
         {
             ErrorItemCount = count;
             return false;
@@ -389,8 +356,7 @@ public class Inventory : MonoBehaviour
         if (newItem.ItemType == _displayType)
             isDisplay = true;
 
-        int itemCount = _itemCount[(int)slotType];
-        for (int i = 0; i < itemCount; i++)
+        for (int i = 0; i < itemListCount; i++)
         {
             if (itemList[i].id == id)
             {
@@ -414,7 +380,7 @@ public class Inventory : MonoBehaviour
                     int n = (int)stack.Pop();
                     _slotArray[n].ClearSlot();
                     itemList.RemoveAt(n);
-                    _itemCount[(int)slotType]--;
+                    itemListCount--;
                 }
 
                 isSub = true;
@@ -554,33 +520,76 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>
-    /// 아이템중 해당 갯수가 있는지 확인 후 있으면 True를 반환합니다.
+    /// id중 count 개수 이상으로 보유시 true를 아닐시 false를 반환합니다.
+    /// sum은 해당 id의 개수를 반환합니다. 
     /// </summary>
     /// <param name="id"></param>
     /// <param name="count"></param>
+    /// <param name="sum"></param>
     /// <returns></returns>
-    public bool IsCheckItem(int id, int count)
+    public bool IsCheckItem(int id, int count, out int sum)
     {
         bool isItemCount = false;
+        sum = 0;
         if (_itemDB.GetItemData(id, out ItemData_Test newItem))
         {
             switch (newItem.ItemType)
             {
                 case ItemType.Equipment:
-                    isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count);
+                    isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count, ref sum);
                     break;
                 case ItemType.Consumable:
-                    isItemCount = IsCheckItemCount(_consumableItemList, newItem, count);
+                    isItemCount = IsCheckItemCount(_consumableItemList, newItem, count, ref sum);
                     break;
                 case ItemType.Material:
-                    isItemCount = IsCheckItemCount(_materialItemList, newItem, count);
+                    isItemCount = IsCheckItemCount(_materialItemList, newItem, count, ref sum);
                     break;
                 default:
-                    isItemCount = IsCheckItemCount(_etcItemList, newItem, count);
+                    isItemCount = IsCheckItemCount(_etcItemList, newItem, count, ref sum);
                     break;
             }
         }
         return isItemCount;
+    }
+
+    /// <summary>
+    /// id[i] 중 count[i] 개수 이상으로 보유시 true를 아닐시 false를 bool배열에 담아 반환합니다.
+    /// sum[i]은 해당 id[i]의 개수를 반환합니다. 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="count"></param>
+    /// <param name="sum"></param>
+    /// <returns></returns>
+    public bool[] IsCheckItems(int[] id, int[] count, out int[] sum)
+    {
+        bool isItemCount = false;
+        int idLenght = id.Length;
+        sum = new int[idLenght];
+        bool[] boolArray = new bool[idLenght];
+
+        for (int i  = 0; i < idLenght; i++)
+        {
+            if (_itemDB.GetItemData(id[i], out ItemData_Test newItem))
+            {
+                switch (newItem.ItemType)
+                {
+                    case ItemType.Equipment:
+                        isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count[i], ref sum[i]);
+                        break;
+                    case ItemType.Consumable:
+                        isItemCount = IsCheckItemCount(_consumableItemList, newItem, count[i], ref sum[i]);
+                        break;
+                    case ItemType.Material:
+                        isItemCount = IsCheckItemCount(_materialItemList, newItem, count[i], ref sum[i]);
+                        break;
+                    default:
+                        isItemCount = IsCheckItemCount(_etcItemList, newItem, count[i], ref sum[i]);
+                        break;
+                }
+            }
+            boolArray[i] = isItemCount;
+        }
+        return boolArray;
     }
 
     /// <summary>
@@ -590,10 +599,10 @@ public class Inventory : MonoBehaviour
     /// <param name="newItem"></param>
     /// <param name="count"></param>
     /// <returns></returns>
-    private bool IsCheckItemCount(List<ItemSlotInfo> itemList, ItemData_Test newItem, int count)
+    private bool IsCheckItemCount(List<ItemSlotInfo> itemList, ItemData_Test newItem, int count, ref int sum)
     {
         int listCount = itemList.Count;
-        int sum = 0;
+        sum = 0;
         for (int i = 0; i < listCount; i++)
         {
             if (itemList[i].id == newItem.ID)

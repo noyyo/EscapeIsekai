@@ -10,19 +10,34 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 {
     [SerializeField] private GameObject _itemImage;
     [SerializeField] private TMP_Text _text_Count;
-    private Transform _itemImageTransform;
+    [SerializeField] private GameObject _outLine;
+
+    //슬롯 데이터 저장
     private Image _item2DImage;
     private ItemData_Test _itemData;
     private ItemSlotInfo _slotInfo;
-    private ItemDB _itemDB;
-    private Vector3 defaultPos;
-    private GameObject _inventory_UI;
-    private Transform _startParent;
+
+    //클릭을 위한 버튼
     private Button _button;
 
-    private UI_Slot _ui_Slot;
+    //클릭시 설명창을 띄우기위해 캐싱
+    private GameObject _itemExplanationPopup;
+    private TMP_Text[] _itemText;
+    
+    //드래그 앤 드롭 구현을 위해 필요한 변수들
+    private Transform _itemImageTransform;
+    
+    private Vector3 defaultPos; // 복귀를 위한 위치 저장
+    private GameObject _inventory_UI; // UI맨앞으로 바꾸기 위해 인벤토리 저장
+    private Transform _startParent; // 복귀를 위한 transform값 저장
+    
+    //드래그가 유효한지 저장하기위한 bool값
     private bool isData;
 
+    // 아이템 정보를 받기위해 DB캐싱
+    private ItemDB _itemDB;
+
+    //슬롯의 위치 한번 설정한 후 절대 바뀌지 않을 값
     private int _uniqueIndex = -1;
     public int UniqueIndex 
     {
@@ -45,12 +60,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _itemImageTransform = _itemImage.transform;
         _inventory_UI = InventoryManager.Instance.Inventory_UI;
         _button = GetComponent<Button>();
-        _ui_Slot = GetComponent<UI_Slot>();
     }
 
     private void Start()
     {
-        _button.onClick.AddListener(DisplayerItemExplanationPopup);
+        _button.onClick.AddListener(SlotClick);
+        _itemExplanationPopup = InventoryManager.Instance.ItemExplanationPopup;
+        _itemText = _itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
     }
 
     // 인벤토리에 새로운 아이템 슬롯 추가
@@ -96,7 +112,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _item2DImage.sprite = null;
         _item2DImage.enabled = false;
         _button.enabled = false;
-
+        TurnOffItemClick();
         _text_Count.text = "";
         _text_Count.gameObject.SetActive(false);
     }
@@ -114,15 +130,15 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
     }
 
-    public void DisplayerItemExplanationPopup()
+    public void SlotClick()
     {
-        _ui_Slot.SetActiveItemExplanationPopup(true, _itemData);
+        SetActiveItemExplanationPopup(true, _itemData);
 
         //클릭한 정보 매니저한태 전달
-        InventoryManager.Instance.SetClickItem(_slotInfo, _ui_Slot);
+        InventoryManager.Instance.SetClickItem(_slotInfo, this);
 
         //클릭한 모습 표시
-        _ui_Slot.DisplayItemClick();
+        DisplayItemClick();
 
         //클릭했을때 인벤토리 아래쪽에 있는 버튼 활성화
         InventoryManager.Instance.CallDisplayInventoryTailUI();
@@ -167,9 +183,26 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         InventoryManager.Instance.SaveNewChangedSlot(_slotInfo, _uniqueIndex);
     }
 
+    public void SetActiveItemExplanationPopup(bool isActive, ItemData_Test itemData)
+    {
+        _itemExplanationPopup.SetActive(isActive);
+        _itemText[0].text = itemData.ItemName;
+        _itemText[1].text = "테스트로 직접 입력";
+        _itemText[2].text = itemData.ItemExplanation;
+    }
+
+    public void DisplayItemClick()
+    {
+        _outLine.SetActive(true);
+    }
+
+    public void TurnOffItemClick()
+    {
+        _outLine.SetActive(false);
+    }
 
     public void DisplayEquip()
     {
-        _ui_Slot.DisPlayEquip();
+        //장착 UI표시
     }
 }
