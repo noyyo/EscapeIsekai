@@ -128,6 +128,7 @@ public abstract class AttackAction : ScriptableObject
                     ApplyKnockBackOrAirborne(targetObject.gameObject, AttackEffectTypes.Airborne);
                     break;
                 case AttackEffectTypes.Stun:
+                    // TODO : 스턴 효과 적용
                     break;
             }
         }

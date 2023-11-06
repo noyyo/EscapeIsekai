@@ -8,8 +8,9 @@ public class ActionCondition
 {
     private AttackAction parentAction;
     private EnemyStateMachine stateMachine;
-    [Tooltip("우선순위가 높으면 액션이 실행가능한 상태일때 다른 액션들과 비교해서 실행될 확률이 높습니다. 100보다 큰 경우 큰 순서대로 확정으로 실행됩니다.")]
-    [Range(1, 200)] public int Priority = 1;
+    [Tooltip("우선순위가 높으면 액션이 실행가능한 상태일때 다른 액션들과 비교해서 실행될 확률이 높습니다. 100인 경우 확정으로 실행됩니다.")]
+    public static readonly int determinePriority = 100;
+    [Range(1, 100)] public int Priority = 1;
     [Header("HpPercentCondition")]
     [Range(0, 100)] public int MoreThanThisHp = 0;
     [Range(0, 100)] public int LessThanThisHp = 100;
@@ -39,6 +40,7 @@ public class ActionCondition
     // 액션이 사용가능한 상태인지 확인합니다.
     public bool isEligible()
     {
+        Priority = Mathf.Clamp(Priority, 1, 100);
         bool hpCondition = stateMachine.HP >= MoreThanThisHp && stateMachine.HP <= LessThanThisHp;
         bool distanceCondition = stateMachine.TargetDistance >= MoreThanThisDistance && stateMachine.TargetDistance <= LessThanThisDistance;
         bool timeCondition = stateMachine.BattleTime >= AfterBattleStartTime && stateMachine.BattleTime <= BeforeThisTime && Time.time - parentAction.lastUsedTime >= CoolDown;

@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
@@ -33,8 +34,9 @@ public class EnemyStateMachine : StateMachine
     public bool IsFleeable { get; set; }
     public AttackAction CurrentAction;
     private AttackAction[] actionData;
-    private List<AttackAction> actionsInActive;
-    private List<AttackAction> actionsToExecute;
+    private List<AttackAction> actionsInActive = new List<AttackAction>(5);
+    private List<AttackAction> actionsToExecute = new List<AttackAction>(5);
+    private List<int> eligibleActionIndex;
     public int HP;
     public float BattleTime;
     
@@ -52,6 +54,7 @@ public class EnemyStateMachine : StateMachine
         FleeState = new EnemyFleeState(this);
         IsFleeable = enemy.Data.IsFleeable;
         actionData = enemy.Actions;
+        eligibleActionIndex = new List<int>(actionData.Length);
         IsPauseChanged += PauseAnimation;
         //Test
         Player = Enemy.Player;
@@ -118,9 +121,45 @@ public class EnemyStateMachine : StateMachine
             Animator.speed = 1f;
         }
     }
-    private void ChooseAction()
+    public void ChooseAction()
     {
         // TODO : 예약 리스트 있으면 거기서 선택 없으면 ActionData에서 선택.
+        if (actionsToExecute.Count == 0)
+        {
+            for (int i = 0; i < actionData.Length; i++)
+            {
+                if (actionData[i].Condition.isEligible())
+                    eligibleActionIndex.Add(i);
+            }
+            AttackAction choosedAction = actionData[UnityEngine.Random.Range(0, eligibleActionIndex.Count)];
+            CurrentAction = choosedAction;
+            eligibleActionIndex.Clear();
+            return;
+        }
+
+        int prioritySum = 0;
+        int priority = 0;
+        for (int i = 0; i < actionsToExecute.Count; i++)
+        {
+            priority = actionsToExecute[i].Condition.Priority;
+            if (priority >= ActionCondition.determinePriority)
+            {
+                CurrentAction = actionsToExecute[i];
+                return;
+            }
+            prioritySum += priority;
+        }
+        int executePivot = UnityEngine.Random.Range(1, prioritySum);
+        int currentPriority = 0;
+        for (int i = 0; i < actionsToExecute.Count; i++)
+        {
+            currentPriority += actionsToExecute[i].Condition.Priority;
+            if (executePivot <= currentPriority)
+            {
+                CurrentAction = actionsToExecute[i];
+                return;
+            }
+        }
     }
     private void UpdateActivatedActions()
     {

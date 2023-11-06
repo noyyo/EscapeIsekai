@@ -51,9 +51,14 @@ public class Enemy : MonoBehaviour
         Agent.angularSpeed = Data.RotateSpeed;
         Agent.acceleration = Data.Acceleration;
         stateMachine.OriginPosition = transform.position;
+        // 액션 데이터 복사본 생성
+        for (int i = 0; i < Actions.Length; i++)
+        {
+            Actions[i] = Instantiate(Actions[i]);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
-
+        
     }
 }
