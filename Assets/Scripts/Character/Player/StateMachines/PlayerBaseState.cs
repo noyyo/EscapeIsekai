@@ -46,7 +46,7 @@ public class PlayerBaseState : IState
     //키 입력처리 부분
     protected virtual void AddInputActionsCallbacks()
     {
-        PlayerInput input = stateMachine.Player.Input;
+        PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Movement.canceled += OnMoveCanceled;
         input.PlayerActions.Run.started += OnRunStarted;
 
@@ -58,7 +58,7 @@ public class PlayerBaseState : IState
 
     protected virtual void RemoveInputActionsCallbacks()
     {
-        PlayerInput input = stateMachine.Player.Input;
+        PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Movement.canceled += OnMoveCanceled;
         input.PlayerActions.Run.started += OnRunStarted;
 
