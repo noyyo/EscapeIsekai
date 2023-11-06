@@ -42,8 +42,6 @@ public class Inventory : MonoBehaviour
 
     private ItemDB _itemDB;
 
-    //장비, 소비, 재료, 기타의 아이템 갯수를 저장함
-    //private int[] _itemCount;
     //현재 선택된 카테고리를 저장함
     private ItemType _displayType;
     //현재 선택된 아이템의 정보를 저장함

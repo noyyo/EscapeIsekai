@@ -67,7 +67,7 @@ public class ItemCraftingSlot : MonoBehaviour
     }
 
     //자동해제를 위한 메서드
-    public void TrunOff()
+    public void OutLineTrunOff()
     {
         _outLine.SetActive(false);
     }
