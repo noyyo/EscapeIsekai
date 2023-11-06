@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
-    public PlayerInput Input { get; private set; }
+    public PlayerInputSystem Input { get; private set; }
     public CharacterController Controller { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
 
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponentInChildren<Animator>();
-        Input = GetComponent<PlayerInput>();
+        Input = GetComponent<PlayerInputSystem>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GatheringObject : MonoBehaviour
     [SerializeField] private TMP_Text _itemDes;
     [SerializeField] private int _itemId;
     private bool _gathering = false;
+    private PlayerInputSystem _playerInput;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -19,6 +21,7 @@ public class GatheringObject : MonoBehaviour
         {
             _descriptionPanel.SetActive(true);
             _gathering = true;
+            _playerInput = other.gameObject.GetComponent<PlayerInputSystem>();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -38,9 +41,9 @@ public class GatheringObject : MonoBehaviour
         _itemDes.text = data.des;
     }
 
-    public void Gathering() //플레이어 상호작용 버튼 이벤트 구독 필요
+    private void OnInteraction() //inputAction 키등록 필요
     {
-        if( _gathering)
+        if (_gathering)
         {
             //채집버튼 누르면 바로 인벤토리로
             Destroy(gameObject);
