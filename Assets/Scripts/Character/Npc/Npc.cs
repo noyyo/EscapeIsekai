@@ -26,7 +26,8 @@ public class Npc : MonoBehaviour
     {
         player = collision.gameObject;
         isHit = true;
-        Dialog.instance.Action(gameObject);
+        Dialog.Instance.Action(gameObject);
+        Dialog.Instance.panel.SetActive(true);
     }
 
     public void ResetTarget()

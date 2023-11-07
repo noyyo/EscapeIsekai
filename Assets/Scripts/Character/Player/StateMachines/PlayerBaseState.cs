@@ -8,9 +8,11 @@ using UnityEngine.Windows;
 
 public class PlayerBaseState : IState
 {
-    // ¸ğµç State´Â StateMachine°ú ¿ªÂüÁ¶¸¦ ÇÔ.
+
+    // ëª¨ë“  StateëŠ” StateMachineê³¼ ì—­ì°¸ì¡°ë¥¼ í•¨.
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
+    protected bool isMovable = true;
 
     public PlayerBaseState(PlayerStateMachine playerstateMachine)
     {
@@ -43,32 +45,35 @@ public class PlayerBaseState : IState
         Move();
     }
 
-    //Å° ÀÔ·ÂÃ³¸® ºÎºĞ
+    //í‚¤ ì…ë ¥ì²˜ë¦¬ ë¶€ë¶„
     protected virtual void AddInputActionsCallbacks()
     {
-        PlayerInput input = stateMachine.Player.Input;
+        PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Movement.canceled += OnMoveCanceled;
         input.PlayerActions.Run.started += OnRunStarted;
 
-        stateMachine.Player.Input.PlayerActions.Jump.started += OnJumpStarted;
+        input.PlayerActions.Jump.started += OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Attack.performed += OnAttackPerformed;
-        stateMachine.Player.Input.PlayerActions.Attack.canceled += OnAttackCanceled;
+        input.PlayerActions.Attack.performed += OnAttackPerformed;
+        input.PlayerActions.Attack.canceled += OnAttackCanceled;
     }
 
     protected virtual void RemoveInputActionsCallbacks()
     {
+
         PlayerInput input = stateMachine.Player.Input;
-        input.PlayerActions.Movement.canceled += OnMoveCanceled;
-        input.PlayerActions.Run.started += OnRunStarted;
+        input.PlayerActions.Movement.canceled -= OnMoveCanceled;
+        input.PlayerActions.Run.started -= OnRunStarted;
 
-        stateMachine.Player.Input.PlayerActions.Jump.started -= OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        stateMachine.Player.Input.PlayerActions.Attack.canceled -= OnAttackCanceled;
+        input.PlayerActions.Jump.started -= OnJumpStarted;
+
+        input.PlayerActions.Attack.performed -= OnAttackPerformed;
+        input.PlayerActions.Attack.canceled -= OnAttackCanceled;
     }
 
-    // move¿Í runÀ» callback ÇÔ¼ö·Î ¹Ş¾Æ¼­ Á¤ÀÇ
+
+    // moveì™€ runì„ callback í•¨ìˆ˜ë¡œ ë°›ì•„ì„œ ì •ì˜
     protected virtual void OnMoveCanceled(InputAction.CallbackContext context)
     {
 
@@ -95,11 +100,11 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        // ¿ªÂüÁ¶. ÀÚÁÖ»ç¿ëÇÏ´Â °ÍµéÀº Ä³½ÌÀ» ÇØ³õ´Â °ÍÀÌ ÁÁ´Ù.
+        // ì—­ì°¸ì¡°. ìì£¼ì‚¬ìš©í•˜ëŠ” ê²ƒë“¤ì€ ìºì‹±ì„ í•´ë†“ëŠ” ê²ƒì´ ì¢‹ë‹¤.
         stateMachine.MovementInput = stateMachine.Player.Input.PlayerActions.Movement.ReadValue<Vector2>();
     }
 
-    //½ÇÁ¦ ÀÌµ¿ Ã³¸®
+    //ì‹¤ì œ ì´ë™ ì²˜ë¦¬
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
@@ -111,24 +116,25 @@ public class PlayerBaseState : IState
 
     private Vector3 GetMovementDirection()
     {
-        // Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ÀÌµ¿ÇÏ°Ô²û ±¸Çö
+        // ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ì´ë™í•˜ê²Œë” êµ¬í˜„
         Vector3 forward = stateMachine.MainCameraTransform.forward;
         Vector3 right = stateMachine.MainCameraTransform.right;
 
-        // y°ªÀ» Á¦°ÅÇØ¾ß ¶¥¹Ù´ÚÀ» º¸Áö ¾Ê´Â´Ù.
+        // yê°’ì„ ì œê±°í•´ì•¼ ë•…ë°”ë‹¥ì„ ë³´ì§€ ì•ŠëŠ”ë‹¤.
         forward.y = 0;
         right.y = 0;
 
         forward.Normalize();
         right.Normalize();
 
-        // ÀÌµ¿ÇØ¾ß ÇÏ´Â º¤ÅÍ¿¡ ÀÔ·ÂÇÑ ÀÌµ¿¹æÇâÀ» °öÇØ¾ß ÀÌµ¿ Ã³¸®°¡ ÀÌ·ç¾îÁø´Ù.
+        // ì´ë™í•´ì•¼ í•˜ëŠ” ë²¡í„°ì— ì…ë ¥í•œ ì´ë™ë°©í–¥ì„ ê³±í•´ì•¼ ì´ë™ ì²˜ë¦¬ê°€ ì´ë£¨ì–´ì§„ë‹¤.
         return forward* stateMachine.MovementInput.y + right * stateMachine.MovementInput.x;
     }
 
     private void Move(Vector3 movementDirection)
     {
-        // ÇÃ·¹ÀÌ¾î ÀÌµ¿Ã³¸®
+        if(!isMovable) return;
+        // í”Œë ˆì´ì–´ ì´ë™ì²˜ë¦¬
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed)
@@ -147,7 +153,7 @@ public class PlayerBaseState : IState
         if(movementDirection != Vector3.zero)
         {
             Transform playerTransform = stateMachine.Player.transform;
-            // ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î È¸ÀüÀ» ÇÏ°Ô²û ±¸Çö
+            // ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ íšŒì „ì„ í•˜ê²Œë” êµ¬í˜„
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
             playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
         }
@@ -155,13 +161,13 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        // ½ÇÁ¦·Î ÀÌµ¿ÇÏ´Â ¼ÓµµÀÇ Ã³¸®
+        // ì‹¤ì œë¡œ ì´ë™í•˜ëŠ” ì†ë„ì˜ ì²˜ë¦¬
         float movementSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return movementSpeed;
     }
 
-    // state ¸¶´Ù ¾Ö´Ï¸ŞÀÌ¼ÇÀ» Ãß°¡ÇÏ´Â Ã³¸®
-    // SetBool À» ÅëÇØ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» Àç»ıÇÏ°í ³¡³»´Â ·ÎÁ÷
+    // state ë§ˆë‹¤ ì• ë‹ˆë©”ì´ì…˜ì„ ì¶”ê°€í•˜ëŠ” ì²˜ë¦¬
+    // SetBool ì„ í†µí•´ ì• ë‹ˆë©”ì´ì…˜ì„ ì¬ìƒí•˜ê³  ëë‚´ëŠ” ë¡œì§
     protected void StartAnimation(int animationHash)
     {
         stateMachine.Player.Animator.SetBool(animationHash, true);

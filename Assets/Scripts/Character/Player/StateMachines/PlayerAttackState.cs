@@ -10,14 +10,16 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Enter()
     {
-        stateMachine.MovementSpeedModifier = 0;
+        Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
+        isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
     }
 
     public override void Exit() 
     { 
         base.Exit();
+        isMovable = true;
         StopAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
     }
 }

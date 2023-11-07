@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
 {
+    private float lastModifier;
     public PlayerIdleState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
 
     public override void Enter()
     {
+        Debug.Log(stateMachine.MovementSpeedModifier);
         // Idle 상태는 움직임이 없어야 하기 때문에 이동에 대한 처리를 방지하도록 처리
-        stateMachine.MovementSpeedModifier = 0f;
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
     }
