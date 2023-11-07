@@ -60,18 +60,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill",
+
+                    "name": "Navigate",
                     "type": "Button",
-                    "id": "c81df6a3-fe15-4073-830d-9d10e1901e42",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PowerUp",
-                    "type": "Button",
-                    "id": "116e7b2b-6d25-4e89-864c-4bd06115080e",
+                    "id": "04885498-e908-4a1b-a718-bb057b5cedf1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -191,23 +183,41 @@
                 },
                 {
                     "name": "",
-                    "id": "356d814d-b2a3-488f-9e64-0c3185bae25b",
-                    "path": "<Keyboard>/e",
+
+                    "id": "ad3d19e2-9755-417d-aa76-9c05b59cc265",
+                    "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "f4a5509f-cd27-4df0-a202-9b664bbfcb3e",
+            "actions": [
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "1b8988e0-09fd-4223-a074-ab48c1e11b58",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "6534b50f-91db-4cab-bfed-a74ebb0d2594",
-                    "path": "<Keyboard>/q",
+                    "id": "0997559c-1f3a-4bbd-8605-c607a565467c",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PowerUp",
+                    "action": "Skip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
