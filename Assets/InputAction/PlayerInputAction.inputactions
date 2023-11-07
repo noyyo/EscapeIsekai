@@ -60,10 +60,27 @@
                     "initialStateCheck": false
                 },
                 {
-
                     "name": "Navigate",
                     "type": "Button",
                     "id": "04885498-e908-4a1b-a718-bb057b5cedf1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skill",
+                    "type": "Button",
+                    "id": "a9ed1202-e35f-44ef-8d05-41e0658a0cbd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PowerUp",
+                    "type": "Button",
+                    "id": "bcf549de-a627-4046-9891-e703cdf8701a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -183,13 +200,34 @@
                 },
                 {
                     "name": "",
-
                     "id": "ad3d19e2-9755-417d-aa76-9c05b59cc265",
                     "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7cf5b9dd-5b6a-41e5-9aa0-ac4894fdc0a7",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44793f26-ea7a-4513-a515-d68921d11213",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PowerUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

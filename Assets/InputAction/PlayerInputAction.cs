@@ -82,10 +82,18 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-
+                    ""name"": ""Navigate"",
+                    ""type"": ""Button"",
+                    ""id"": ""04885498-e908-4a1b-a718-bb057b5cedf1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Skill"",
                     ""type"": ""Button"",
-                    ""id"": ""c81df6a3-fe15-4073-830d-9d10e1901e42"",
+                    ""id"": ""a9ed1202-e35f-44ef-8d05-41e0658a0cbd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -94,10 +102,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""PowerUp"",
                     ""type"": ""Button"",
-                    ""id"": ""116e7b2b-6d25-4e89-864c-4bd06115080e"",
-                    ""name"": ""Navigate"",
-                    ""type"": ""Button"",
-                    ""id"": ""04885498-e908-4a1b-a718-bb057b5cedf1"",
+                    ""id"": ""bcf549de-a627-4046-9891-e703cdf8701a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -217,8 +222,18 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-
-                    ""id"": ""356d814d-b2a3-488f-9e64-0c3185bae25b"",
+                    ""id"": ""ad3d19e2-9755-417d-aa76-9c05b59cc265"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7cf5b9dd-5b6a-41e5-9aa0-ac4894fdc0a7"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -229,19 +244,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6534b50f-91db-4cab-bfed-a74ebb0d2594"",
+                    ""id"": ""44793f26-ea7a-4513-a515-d68921d11213"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PowerUp"",
-
-                    ""id"": ""ad3d19e2-9755-417d-aa76-9c05b59cc265"",
-                    ""path"": ""<Keyboard>/m"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -270,7 +278,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Skip"",
-
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -287,15 +294,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
-
+        m_Player_Navigate = m_Player.FindAction("Navigate", throwIfNotFound: true);
         m_Player_Skill = m_Player.FindAction("Skill", throwIfNotFound: true);
         m_Player_PowerUp = m_Player.FindAction("PowerUp", throwIfNotFound: true);
-
-        m_Player_Navigate = m_Player.FindAction("Navigate", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
-
     }
 
     public void Dispose()
@@ -363,12 +367,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Roll;
-
+    private readonly InputAction m_Player_Navigate;
     private readonly InputAction m_Player_Skill;
     private readonly InputAction m_Player_PowerUp;
-
-    private readonly InputAction m_Player_Navigate;
-
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -379,12 +380,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Roll => m_Wrapper.m_Player_Roll;
-
+        public InputAction @Navigate => m_Wrapper.m_Player_Navigate;
         public InputAction @Skill => m_Wrapper.m_Player_Skill;
         public InputAction @PowerUp => m_Wrapper.m_Player_PowerUp;
-
-        public InputAction @Navigate => m_Wrapper.m_Player_Navigate;
-
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -412,18 +410,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
-
+            @Navigate.started += instance.OnNavigate;
+            @Navigate.performed += instance.OnNavigate;
+            @Navigate.canceled += instance.OnNavigate;
             @Skill.started += instance.OnSkill;
             @Skill.performed += instance.OnSkill;
             @Skill.canceled += instance.OnSkill;
             @PowerUp.started += instance.OnPowerUp;
             @PowerUp.performed += instance.OnPowerUp;
             @PowerUp.canceled += instance.OnPowerUp;
-
-            @Navigate.started += instance.OnNavigate;
-            @Navigate.performed += instance.OnNavigate;
-            @Navigate.canceled += instance.OnNavigate;
-
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -446,18 +441,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
-
+            @Navigate.started -= instance.OnNavigate;
+            @Navigate.performed -= instance.OnNavigate;
+            @Navigate.canceled -= instance.OnNavigate;
             @Skill.started -= instance.OnSkill;
             @Skill.performed -= instance.OnSkill;
             @Skill.canceled -= instance.OnSkill;
             @PowerUp.started -= instance.OnPowerUp;
             @PowerUp.performed -= instance.OnPowerUp;
             @PowerUp.canceled -= instance.OnPowerUp;
-
-            @Navigate.started -= instance.OnNavigate;
-            @Navigate.performed -= instance.OnNavigate;
-            @Navigate.canceled -= instance.OnNavigate;
-
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -529,15 +521,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
-
+        void OnNavigate(InputAction.CallbackContext context);
         void OnSkill(InputAction.CallbackContext context);
         void OnPowerUp(InputAction.CallbackContext context);
-
-        void OnNavigate(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
         void OnSkip(InputAction.CallbackContext context);
-
     }
 }

@@ -69,7 +69,7 @@ public class PlayerGroundState : PlayerBaseState
     protected override void AddInputActionsCallbacks()
     {
         base.AddInputActionsCallbacks();
-        PlayerInput input = stateMachine.Player.Input;
+        PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Roll.started += OnRollStarted;
         input.PlayerActions.Skill.started += OnSkillStarted;
         input.PlayerActions.PowerUp.started += OnPowerUpStarted;
@@ -77,7 +77,7 @@ public class PlayerGroundState : PlayerBaseState
     protected override void RemoveInputActionsCallbacks()
     {
         base.RemoveInputActionsCallbacks();
-        PlayerInput input = stateMachine.Player.Input;
+        PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Roll.started -= OnRollStarted;
         input.PlayerActions.Skill.started -= OnSkillStarted;
         input.PlayerActions.PowerUp.started -= OnPowerUpStarted;
