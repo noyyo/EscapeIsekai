@@ -932,9 +932,15 @@ MonoBehaviour:
     attackParameterName: '@Attack'
     baseAttackParameterName: BaseAttack
   <stateMachine>k__BackingField:
+    Animator: {fileID: 0}
     ActivationCheckDelay: 0
     ActivationDistance: 0
+    CurrentAction: {fileID: 0}
+    HP: 0
+    BattleTime: 0
   <Weapon>k__BackingField: {fileID: 0}
+  Actions:
+  - {fileID: 11400000, guid: ba448f6c0121af4479e2128666f36951, type: 2}
   Player: {fileID: 1573534286}
 --- !u!195 &1642655025
 NavMeshAgent:

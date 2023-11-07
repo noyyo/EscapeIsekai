@@ -35,17 +35,17 @@ public class ActionCondition
     public float CoolDown = 0f;
 
 
-    public ActionCondition(AttackAction parentAction)
+    public void Initialize(AttackAction parentAction)
     {
         this.parentAction = parentAction;
         stateMachine = parentAction.StateMachine;
         stateMachine.ActivatedActionsChanged += CheckActionCondition;
+        Priority = Mathf.Clamp(Priority, 1, 100);
         CheckActionCondition();
     }
     // 액션이 사용가능한 상태인지 확인합니다. 거리는 확인하지 않습니다.
     public bool isEligible()
     {
-        Priority = Mathf.Clamp(Priority, 1, 100);
         bool hpCondition = stateMachine.HP >= MoreThanThisHp && stateMachine.HP <= LessThanThisHp;
         bool timeCondition = stateMachine.BattleTime >= AfterBattleStartTime && stateMachine.BattleTime <= BeforeThisTime && Time.time - parentAction.lastUsedTime >= CoolDown;
         return hpCondition && actionCondition && timeCondition;

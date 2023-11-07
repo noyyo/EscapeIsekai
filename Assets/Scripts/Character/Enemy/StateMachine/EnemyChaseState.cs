@@ -20,8 +20,6 @@ public class EnemyChaseState : EnemyBaseState
         isLookTarget = false;
         isChoosed = stateMachine.ChooseAction();
         action = stateMachine.CurrentAction;
-        
-
 
         agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
         StartAnimation(enemy.AnimationData.RunParameterHash);
