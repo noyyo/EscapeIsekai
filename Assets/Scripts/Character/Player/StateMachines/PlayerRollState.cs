@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class PlayerRollState : PlayerGroundState
 {
-
     public PlayerRollState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
 
     public override void Enter()
     {
-        stateMachine.MovementSpeedModifier = 0;
+        Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
+        isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         TryApplyForce();
+        stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
     }
 
     public override void Exit()
     {
         base.Exit();
+        isMovable = true;
         StopAnimation(stateMachine.Player.AnimationData.RollParameterHash);
     }
 
@@ -32,5 +34,28 @@ public class PlayerRollState : PlayerGroundState
         stateMachine.Player.ForceReceiver.AddForce(stateMachine.Player.transform.forward * groundData.RollForce);
     }
 
+    /*
+    public override void Update()
+    {
+        base.Update();
 
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Roll");
+        if (normalizedTime >= 1.0f)
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
+    }
+    */
+
+    public override void Update()
+    {
+        base.Update();
+
+        // 애니메이션 이름이 "Roll"이고 애니메이션이 끝났을 때 상태를 변경
+        if (stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).IsName("Roll") &&
+            stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
+    }
 }

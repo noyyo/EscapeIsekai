@@ -10,6 +10,7 @@ public class PlayerJumpState : PlayerAirState
 
     public override void Enter()
     {
+        Debug.Log(stateMachine.MovementSpeedModifier);
         stateMachine.JumpForce = stateMachine.Player.Data.AirData.JumpForce;
         stateMachine.Player.ForceReceiver.Jump(stateMachine.JumpForce);
 

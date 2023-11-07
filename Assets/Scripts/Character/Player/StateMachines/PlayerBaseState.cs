@@ -8,9 +8,11 @@ using UnityEngine.Windows;
 
 public class PlayerBaseState : IState
 {
+
     // 모든 State는 StateMachine과 역참조를 함.
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
+    protected bool isMovable = true;
 
     public PlayerBaseState(PlayerStateMachine playerstateMachine)
     {
@@ -129,6 +131,7 @@ public class PlayerBaseState : IState
 
     private void Move(Vector3 movementDirection)
     {
+        if(!isMovable) return;
         // 플레이어 이동처리
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(
