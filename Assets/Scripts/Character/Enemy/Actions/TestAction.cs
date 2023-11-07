@@ -44,6 +44,7 @@ public class TestAction : AttackAction
     // 액션의 로직을 실행하면 됩니다.
     public override void OnUpdate()
     {
+        base.OnUpdate();
         // Anim1이 완료되었고, 이펙트를 아직 시작하지 않았다면 이펙트를 실행합니다.
         if (animState[Config.AnimTriggerHash1] == AnimState.Completed && !isEffectStarted)
         {
@@ -54,7 +55,6 @@ public class TestAction : AttackAction
         {
             isCompleted = true;
         }
-        base.OnUpdate();
     }
     // 이펙트를 시작할 때 호출해야합니다.
     protected override void OnEffectStart()
@@ -62,12 +62,12 @@ public class TestAction : AttackAction
         base.OnEffectStart();
         // 애니메이션을 시작합니다.
         StartAnimation(Config.AnimTriggerHash2);
-        Debug.Log($"EffectStart 시간(액션기준) : {EffectStartTime}");
+        Debug.Log($"EffectStart 시간 : {EffectStartTime}");
     }
     // 이펙트가 끝날 때 자동으로 호출됩니다. 필요한 작업을 수행합니다.
     protected override void OnEffectFinish()
     {
         base.OnEffectFinish();
-        Debug.Log($"EffectFinish 시간(액션기준) : {timeRunning}");
+        Debug.Log($"EffectFinish 시간(액션기준) : {Time.time}");
     }
 }

@@ -35,10 +35,10 @@ public class EnemyStateMachine : StateMachine
     public AttackAction CurrentAction;
     private AttackAction[] actionData;
     private List<AttackAction> actionsInActive = new List<AttackAction>(5);
-    private List<AttackAction> actionsToExecute = new List<AttackAction>(5);
-    private List<int> eligibleActionIndex;
+    private List<AttackAction> actionsToExecute;
     public int HP;
     public float BattleTime;
+    public bool IsInBattle;
     
 
     public EnemyStateMachine(Enemy enemy)
@@ -54,7 +54,7 @@ public class EnemyStateMachine : StateMachine
         FleeState = new EnemyFleeState(this);
         IsFleeable = enemy.Data.IsFleeable;
         actionData = enemy.Actions;
-        eligibleActionIndex = new List<int>(actionData.Length);
+        actionsToExecute = new List<AttackAction>(actionData.Length);
         IsPauseChanged += PauseAnimation;
         //Test
         Player = Enemy.Player;
@@ -65,6 +65,8 @@ public class EnemyStateMachine : StateMachine
         CheckTargetDistance();
         if (!isActive)
             return;
+        if (IsInBattle)
+            BattleTime += Time.deltaTime;
         UpdateActivatedActions();
         base.Update();
     }
@@ -121,23 +123,22 @@ public class EnemyStateMachine : StateMachine
             Animator.speed = 1f;
         }
     }
-    // 액션을 선택해 CurrentAction으로 설정합니다. 선택할 수 있는 액션이 없다면 false를 리턴합니다.
+    /// <summary>
+    /// 액션을 선택해 CurrentAction으로 설정합니다. 선택할 수 있는 액션이 없다면 false를 리턴합니다.
+    /// </summary>
+    /// <returns></returns>
     public bool ChooseAction()
     {
-        // 실행대기 액션이 없다면 Data에서 선택합니다.
+        // 실행가능 액션이 없다면 Data에서 실행가능한 액션을 추가합니다.
         if (actionsToExecute.Count == 0)
         {
             for (int i = 0; i < actionData.Length; i++)
             {
                 if (actionData[i].Condition.isEligible())
-                    eligibleActionIndex.Add(i);
+                    actionsToExecute.Add(actionData[i]);
             }
-            if (eligibleActionIndex.Count == 0)
+            if (actionsToExecute.Count == 0)
                 return false;
-            AttackAction choosedAction = actionData[UnityEngine.Random.Range(0, eligibleActionIndex.Count)];
-            CurrentAction = choosedAction;
-            eligibleActionIndex.Clear();
-            return true;
         }
 
         int prioritySum = 0;
@@ -148,6 +149,7 @@ public class EnemyStateMachine : StateMachine
             if (priority >= ActionCondition.determinePriority)
             {
                 CurrentAction = actionsToExecute[i];
+                ClearExecutableActions();
                 return true;
             }
             prioritySum += priority;
@@ -160,17 +162,28 @@ public class EnemyStateMachine : StateMachine
             if (executePivot <= currentPriority)
             {
                 CurrentAction = actionsToExecute[i];
+                ClearExecutableActions();
                 return true;
             }
         }
         Debug.LogError("액션이 선택되지 못했습니다.");
         return false;
     }
+    private void ClearExecutableActions()
+    {
+        for (int i = 0; i < actionsToExecute.Count; i++)
+        {
+            if (actionsToExecute[i].Condition.WaitUntilExecute)
+                continue;
+            actionsToExecute.RemoveAt(i);
+            i--;
+        }
+    }
     private void UpdateActivatedActions()
     {
-        foreach (AttackAction action in actionsInActive)
+        for (int i = 0; i < actionsInActive.Count; i++)
         {
-            action.OnUpdate();
+            actionsInActive[i].OnUpdate();
         }
     }
     public List<AttackAction> GetActionsInActive()
