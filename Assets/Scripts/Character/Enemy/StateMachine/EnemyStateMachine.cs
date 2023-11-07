@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
@@ -10,9 +11,11 @@ using UnityEngine.InputSystem.XR;
 public class EnemyStateMachine : StateMachine
 {
     public event Action<bool> IsPauseChanged;
+    public event Action ActivatedActionsChanged;
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
     public Enemy Enemy { get; }
+    public Animator Animator;
     public float MovementSpeedModifier { get; set; } = 1f;
     public EnemyIdleState IdleState { get; }
     public EnemyWanderState WanderState { get; }
@@ -29,11 +32,20 @@ public class EnemyStateMachine : StateMachine
     public Vector3 OriginPosition { get; set; }
     public bool IsInvincible { get; set; }
     public bool IsFleeable { get; set; }
+    public AttackAction CurrentAction;
+    private AttackAction[] actionData;
+    private List<AttackAction> actionsInActive = new List<AttackAction>(5);
+    private List<AttackAction> actionsToExecute = new List<AttackAction>(5);
+    private List<int> eligibleActionIndex;
+    public int HP;
+    public float BattleTime;
+    
 
     public EnemyStateMachine(Enemy enemy)
     {
         //Player = gameManager.Instance.Player;
         Enemy = enemy;
+        Animator = enemy.Animator;
         IdleState = new EnemyIdleState(this);
         WanderState = new EnemyWanderState(this);
         ChaseState = new EnemyChaseState(this);
@@ -41,7 +53,9 @@ public class EnemyStateMachine : StateMachine
         ReturnToBaseState = new EnemyReturnToBaseState(this);
         FleeState = new EnemyFleeState(this);
         IsFleeable = enemy.Data.IsFleeable;
-
+        actionData = enemy.Actions;
+        eligibleActionIndex = new List<int>(actionData.Length);
+        IsPauseChanged += PauseAnimation;
         //Test
         Player = Enemy.Player;
     }
@@ -51,6 +65,7 @@ public class EnemyStateMachine : StateMachine
         CheckTargetDistance();
         if (!isActive)
             return;
+        UpdateActivatedActions();
         base.Update();
     }
     public override void PhysicsUpdate()
@@ -93,5 +108,83 @@ public class EnemyStateMachine : StateMachine
             this.isPause = isPause;
             IsPauseChanged.Invoke(isPause);
         }
+    }
+
+    public void PauseAnimation(bool isPause)
+    {
+        if (isPause)
+        {
+            Animator.speed = 0f;
+        }
+        else
+        {
+            Animator.speed = 1f;
+        }
+    }
+    // 액션을 선택해 CurrentAction으로 설정합니다. 선택할 수 있는 액션이 없다면 false를 리턴합니다.
+    public bool ChooseAction()
+    {
+        // 실행대기 액션이 없다면 Data에서 선택합니다.
+        if (actionsToExecute.Count == 0)
+        {
+            for (int i = 0; i < actionData.Length; i++)
+            {
+                if (actionData[i].Condition.isEligible())
+                    eligibleActionIndex.Add(i);
+            }
+            if (eligibleActionIndex.Count == 0)
+                return false;
+            AttackAction choosedAction = actionData[UnityEngine.Random.Range(0, eligibleActionIndex.Count)];
+            CurrentAction = choosedAction;
+            eligibleActionIndex.Clear();
+            return true;
+        }
+
+        int prioritySum = 0;
+        int priority = 0;
+        for (int i = 0; i < actionsToExecute.Count; i++)
+        {
+            priority = actionsToExecute[i].Condition.Priority;
+            if (priority >= ActionCondition.determinePriority)
+            {
+                CurrentAction = actionsToExecute[i];
+                return true;
+            }
+            prioritySum += priority;
+        }
+        int executePivot = UnityEngine.Random.Range(1, prioritySum);
+        int currentPriority = 0;
+        for (int i = 0; i < actionsToExecute.Count; i++)
+        {
+            currentPriority += actionsToExecute[i].Condition.Priority;
+            if (executePivot <= currentPriority)
+            {
+                CurrentAction = actionsToExecute[i];
+                return true;
+            }
+        }
+        Debug.LogError("액션이 선택되지 못했습니다.");
+        return false;
+    }
+    private void UpdateActivatedActions()
+    {
+        foreach (AttackAction action in actionsInActive)
+        {
+            action.OnUpdate();
+        }
+    }
+    public List<AttackAction> GetActionsInActive()
+    {
+        return actionsInActive;
+    }
+    public void AddActionInActive(AttackAction action)
+    {
+        actionsInActive.Add(action);
+        ActivatedActionsChanged?.Invoke();
+    }
+    public void RemoveActionInActive(AttackAction action)
+    {
+        actionsInActive.Remove(action);
+        ActivatedActionsChanged?.Invoke();
     }
 }

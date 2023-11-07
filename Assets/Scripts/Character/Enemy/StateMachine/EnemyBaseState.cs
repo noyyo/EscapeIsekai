@@ -18,12 +18,11 @@ public class EnemyBaseState : IState
     {
         stateMachine = enemyStateMachine;
         enemy = enemyStateMachine.Enemy;
-        animator = enemyStateMachine.Enemy.Animator;
+        animator = enemy.Animator;
         rigidbody = enemyStateMachine.Enemy.Rigidbody;
         agent = enemyStateMachine.Enemy.Agent;
         controller = enemyStateMachine.Enemy.Controller;
         enemyData = enemyStateMachine.Enemy.Data;
-        stateMachine.IsPauseChanged += PauseAnimation;
     }
     public virtual void Enter()
     {
@@ -50,25 +49,14 @@ public class EnemyBaseState : IState
         if (stateMachine.GetIsPause())
             return;
     }
-    protected void StartAnimation(int animationHash)
+    public void StartAnimation(int animationHash)
     {
         animator.SetBool(animationHash, true);
     }
 
-    protected void StopAnimation(int animationHash)
+    public void StopAnimation(int animationHash)
     {
         animator.SetBool(animationHash, false);
-    }
-    protected void PauseAnimation(bool isPause)
-    {
-        if (isPause)
-        {
-            animator.speed = 0f;
-        }
-        else
-        {
-            animator.speed = 1f;
-        }
     }
     protected bool IsInChaseRange()
     {
