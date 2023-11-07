@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerGroundState : PlayerBaseState
 {
+
     public PlayerGroundState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
@@ -63,6 +66,44 @@ public class PlayerGroundState : PlayerBaseState
         stateMachine.ChangeState(stateMachine.JumpState);
     }
 
+    protected override void AddInputActionsCallbacks()
+    {
+        base.AddInputActionsCallbacks();
+        PlayerInput input = stateMachine.Player.Input;
+        input.PlayerActions.Roll.started += OnRollStarted;
+        input.PlayerActions.Skill.started += OnSkillStarted;
+        input.PlayerActions.PowerUp.started += OnPowerUpStarted;
+    }
+    protected override void RemoveInputActionsCallbacks()
+    {
+        base.RemoveInputActionsCallbacks();
+        PlayerInput input = stateMachine.Player.Input;
+        input.PlayerActions.Roll.started -= OnRollStarted;
+        input.PlayerActions.Skill.started -= OnSkillStarted;
+        input.PlayerActions.PowerUp.started -= OnPowerUpStarted;
+    }
+
+
+    protected virtual void OnRollStarted(InputAction.CallbackContext context)
+    {
+        if (stateMachine.Player.Playerconditions.stamina.curValue < groundData.StaminaCost)
+            return;
+        stateMachine.ChangeState(stateMachine.RollState);
+    }
+
+    protected virtual void OnSkillStarted(InputAction.CallbackContext context)
+    {
+        if(stateMachine.Player.Playerconditions.skill.curValue < groundData.SkillCost)
+            return;
+        stateMachine.ChangeState(stateMachine.SkillState);
+    }
+
+    protected virtual void OnPowerUpStarted(InputAction.CallbackContext context)
+    {
+        if(stateMachine.Player.Playerconditions.powerUp.curValue < groundData.PowerUpCost)
+            return;
+        stateMachine.ChangeState(stateMachine.PowerUpState);
+    }
 
     protected virtual void OnMove()
     {
@@ -73,4 +114,5 @@ public class PlayerGroundState : PlayerBaseState
     {
         stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
+
 }

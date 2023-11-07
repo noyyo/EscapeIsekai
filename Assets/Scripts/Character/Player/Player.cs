@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     public PlayerInputSystem Input { get; private set; }
     public CharacterController Controller { get; private set; }
     public ForceReceiver ForceReceiver { get; private set; }
+    [field: SerializeField] public Weapon Weapon { get; private set; }
+    public Playerconditions Playerconditions { get; private set; }
+    public Buff Buff { get; private set; }
 
     private PlayerStateMachine stateMachine;
 
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
         Input = GetComponent<PlayerInputSystem>();
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
+        Playerconditions = GetComponent<Playerconditions>();
 
         stateMachine = new PlayerStateMachine(this);
     }
@@ -37,6 +41,8 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         // 캐릭터가 맨 처음 동작해야 할 Idle 상태로 만들어주기
         stateMachine.ChangeState(stateMachine.IdleState);
+        //Health.OnDie += OnDie;
+        Playerconditions.OnDie += OnDie;
     }
 
     private void Update()
@@ -49,4 +55,11 @@ public class Player : MonoBehaviour
     {
         stateMachine.PhysicsUpdate();
     }
+
+    void OnDie()
+    {
+        Animator.SetTrigger("Die");
+        enabled = false;
+    }
+
 }

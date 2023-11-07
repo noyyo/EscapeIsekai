@@ -2,13 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
     private int health;
     public event Action OnDie;
-
+    public float maxValue;
+    public float startValue;
+    public Image uiBar;
     public bool IsDead => health == 0;
 
     private void Start()
