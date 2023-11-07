@@ -12,7 +12,7 @@ public class PlayerRollState : PlayerGroundState
     {
         Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
-        isMovable = false;
+        isMovable = true;
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         TryApplyForce();
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
