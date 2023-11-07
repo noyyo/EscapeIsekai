@@ -19,6 +19,7 @@ MonoBehaviour:
     CurrentAction: {fileID: 0}
     HP: 0
     BattleTime: 0
+    IsInBattle: 0
   ActionType: 0
   Config:
     EffectDurationSeconds: 5
@@ -32,6 +33,7 @@ MonoBehaviour:
     ChainedAction: {fileID: 0}
   Condition:
     Priority: 1
+    WaitUntilExecute: 0
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
@@ -40,8 +42,8 @@ MonoBehaviour:
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
-    BeforeThisTime: 0
-    CoolDown: 0
+    BeforeThisTime: 100000
+    CoolDown: 5
   EffectStartTime: 2
   HasRemainingEffect: 0
   lastUsedTime: 0
