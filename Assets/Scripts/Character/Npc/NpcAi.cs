@@ -9,14 +9,13 @@ using UnityEngine.UIElements;
 public class NpcAi : MonoBehaviour
 {
     private NavMeshAgent agent;
-    public GameObject want;
+    public GameObject dayPosition;
     public GameObject nightPosition;
     [SerializeField]
     float range = 1; //움직일 반경
     [SerializeField]
     float time; // 새로운 경로 탐색 쿨타임
     private bool isRunning = false;
-    public bool testbool; //나중에 밤낮 가져오기 getreturun
     Vector3 point;
     private void Awake()
     {
@@ -26,12 +25,11 @@ public class NpcAi : MonoBehaviour
     {
         StartCoroutine("NpcMove");
     }
-
     IEnumerator NpcMove() //이동시작, 밤낮에 따라 경로 달라짐 밤은 고정경로
     {
         while (true)
         {
-            if (!testbool)
+            if (!GameManager.Instance.IsDay) //밤일때
             {
                 isRunning = false;
                 yield return new WaitForSecondsRealtime(1f);
@@ -42,7 +40,6 @@ public class NpcAi : MonoBehaviour
                 isRunning = true;
                 StartCoroutine(StartMoving());
             }
-
             yield return null ;
         }
     }
@@ -50,14 +47,14 @@ public class NpcAi : MonoBehaviour
     {
         while (true)
         {
-            if (!testbool)
+            if (!GameManager.Instance.IsDay) //밤
                 break;
 
-            if (RandomPoint(want.transform.position, range, out point))
+            if (RandomPoint(dayPosition.transform.position, range, out point))
             {
-                want.transform.position = point;
+                dayPosition.transform.position = point;
             }
-            agent.SetDestination(want.transform.position);
+            agent.SetDestination(dayPosition.transform.position);
             yield return new WaitForSecondsRealtime(time);
         }
         agent.SetDestination(nightPosition.transform.position);
