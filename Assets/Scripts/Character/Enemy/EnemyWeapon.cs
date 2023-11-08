@@ -10,15 +10,14 @@ public class EnemyWeapon : MonoBehaviour
     public event Action<Collision> WeaponCollisionEnter;
     private void Awake()
     {
-        enemy.AnimationEventCalled += ActivateWeaponCollider;
+        enemy.AnimationEventCalled += EventDecision;
     }
     public void EventDecision(AnimationEvent animEvent)
     {
-        if (animEvent.functionName == "Action1")
+        if (animEvent.functionName == "")
         {
-            ActivateWeaponCollider();
+            
         }
-        WeaponCollider.enabled = true;
     }
     public void DeactivateWeaponCollider()
     {
