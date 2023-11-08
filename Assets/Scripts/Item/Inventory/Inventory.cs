@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,9 +47,6 @@ public class Inventory : MonoBehaviour
     private ItemType _displayType;
     //현재 선택된 아이템의 정보를 저장함
     private ItemSlotInfo _clickItem;
-
-    //Inventory_UI 온오프용 이벤트
-    public event Action OnInventoryDisplayEvent;
 
     private void Awake()
     {
@@ -98,12 +96,58 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         DisplaySlotAllClear();
+        _inventoryManager.OnInventoryDisplayEvent += OnDisplaySlot;
+    }
+
+    private void Update()
+    {
+        //나중에 playerInput에 설정한 후 수정할것
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventory();
+        }
     }
 
     public void OnInventory()
     {
-        OnInventoryDisplayEvent?.Invoke();
-        OnDisplaySlot();
+        _inventoryManager.CallOnInventoryDisplayEvent();
+    }
+
+    public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
+    {
+        int idCount = id.Length;
+        bool[] boolArray = new bool[idCount];
+        errorItemCount = new int[idCount];
+        for (int i = 0; i < idCount; i++)
+        {
+            boolArray[i] = TryAddItem(id[i], count[i], out errorItemCount[i]);
+        }
+        return boolArray;
+    }
+
+    public bool[] TryAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
+    {
+        int idCount = itemRecipe.Materials.Length;
+        bool[] boolArray = new bool[idCount];
+        bool isCraftingItem = true;
+        errorItemCount = new int[idCount];
+        for (int i = 0; i < idCount; i++)
+        {
+            boolArray[i] = IsCheckItem(itemRecipe.Materials[i], -itemRecipe.MaterialsCount[i], out int sum);
+            if (boolArray[i])
+            {
+                isCraftingItem = false;
+            }
+        }
+        if (isCraftingItem)
+        {
+            for (int i = 0; i < idCount; i++)
+            {
+                TryAddItem(itemRecipe.Materials[i], -itemRecipe.MaterialsCount[i], out errorItemCount[i]);
+            }
+        }
+
+        return boolArray;
     }
 
     /// <summary>
@@ -119,45 +163,9 @@ public class Inventory : MonoBehaviour
         bool isAddItem = false;
         if (_itemDB.GetItemData(id, out ItemData_Test newItem))
         {
-            switch (newItem.ItemType)
+            switch (id)
             {
-                case ItemType.Equipment:
-                    if (count >= 0)
-                    {
-                        if (AddList(_equipmentItemList, count, (int)ItemType.Equipment, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_equipmentItemList, count, (int)ItemType.Equipment, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    }
-                    break;
-                case ItemType.Consumable:
-                    if (count >= 0)
-                    {
-                        if (AddList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    }
-                    break;
-                case ItemType.Material:
-                    if (count >= 0)
-                    {
-                        if (AddList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    }
-                    break;
-                default:
+                case >= 10300000:
                     if (count >= 0)
                     {
                         if (AddList(_etcItemList, count, ItemType.ETC, in newItem, out errorItemCount))
@@ -169,9 +177,44 @@ public class Inventory : MonoBehaviour
                             isAddItem = true;
                     }
                     break;
+                case >= 10200000:
+                    if (count >= 0)
+                    {
+                        if (AddList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_materialItemList, count, ItemType.Material, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
+                case >= 10100000:
+                    if (count >= 0)
+                    {
+                        if (AddList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_consumableItemList, count, ItemType.Consumable, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
+                default:
+                    if (count >= 0)
+                    {
+                        if (AddList(_equipmentItemList, count, ItemType.Equipment, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    else
+                    {
+                        if (SubList(_equipmentItemList, count, ItemType.Equipment, in newItem, out errorItemCount))
+                            isAddItem = true;
+                    }
+                    break;
             }
         }
-
         return isAddItem;
     }
 
@@ -198,7 +241,7 @@ public class Inventory : MonoBehaviour
         int id = newItem.ID;
         bool isDisplay = false;
 
-        if (newItem.ItemType == _displayType)
+        if (slotType == _displayType)
         {
             isDisplay = true;
         }
@@ -351,7 +394,7 @@ public class Inventory : MonoBehaviour
 
         bool isDisplay = false;
 
-        if (newItem.ItemType == _displayType)
+        if (slotType == _displayType)
             isDisplay = true;
 
         for (int i = 0; i < itemListCount; i++)
@@ -523,27 +566,27 @@ public class Inventory : MonoBehaviour
     /// </summary>
     /// <param name="id"></param>
     /// <param name="count"></param>
-    /// <param name="sum"></param>
+    /// <param name="itemSum"></param>
     /// <returns></returns>
-    public bool IsCheckItem(int id, int count, out int sum)
+    public bool IsCheckItem(int id, int count, out int itemSum)
     {
         bool isItemCount = false;
-        sum = 0;
+        itemSum = 0;
         if (_itemDB.GetItemData(id, out ItemData_Test newItem))
         {
-            switch (newItem.ItemType)
+            switch (id)
             {
-                case ItemType.Equipment:
-                    isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count, ref sum);
+                case >= 10300000:
+                    isItemCount = IsCheckItemCount(_etcItemList, newItem, count, ref itemSum);
                     break;
-                case ItemType.Consumable:
-                    isItemCount = IsCheckItemCount(_consumableItemList, newItem, count, ref sum);
+                case >= 10200000:
+                    isItemCount = IsCheckItemCount(_materialItemList, newItem, count, ref itemSum);
                     break;
-                case ItemType.Material:
-                    isItemCount = IsCheckItemCount(_materialItemList, newItem, count, ref sum);
+                case >= 10100000:
+                    isItemCount = IsCheckItemCount(_consumableItemList, newItem, count, ref itemSum);
                     break;
                 default:
-                    isItemCount = IsCheckItemCount(_etcItemList, newItem, count, ref sum);
+                    isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count, ref itemSum);
                     break;
             }
         }
@@ -556,38 +599,71 @@ public class Inventory : MonoBehaviour
     /// </summary>
     /// <param name="id"></param>
     /// <param name="count"></param>
-    /// <param name="sum"></param>
+    /// <param name="itemSum"></param>
     /// <returns></returns>
-    public bool[] IsCheckItems(int[] id, int[] count, out int[] sum)
+    public bool[] IsCheckItems(int[] id, int[] count, out int[] itemSum)
     {
         bool isItemCount = false;
         int idLenght = id.Length;
-        sum = new int[idLenght];
+        itemSum = new int[idLenght];
         bool[] boolArray = new bool[idLenght];
 
         for (int i  = 0; i < idLenght; i++)
         {
             if (_itemDB.GetItemData(id[i], out ItemData_Test newItem))
             {
-                switch (newItem.ItemType)
+                switch (id[i])
                 {
-                    case ItemType.Equipment:
-                        isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count[i], ref sum[i]);
+                    case >= 10300000:
+                        isItemCount = IsCheckItemCount(_etcItemList, newItem, count[i], ref itemSum[i]);
                         break;
-                    case ItemType.Consumable:
-                        isItemCount = IsCheckItemCount(_consumableItemList, newItem, count[i], ref sum[i]);
+                    case >= 10200000:
+                        isItemCount = IsCheckItemCount(_materialItemList, newItem, count[i], ref itemSum[i]);
                         break;
-                    case ItemType.Material:
-                        isItemCount = IsCheckItemCount(_materialItemList, newItem, count[i], ref sum[i]);
+                    case >= 10100000:
+                        isItemCount = IsCheckItemCount(_consumableItemList, newItem, count[i], ref itemSum[i]);
                         break;
                     default:
-                        isItemCount = IsCheckItemCount(_etcItemList, newItem, count[i], ref sum[i]);
+                        isItemCount = IsCheckItemCount(_equipmentItemList, newItem, count[i], ref itemSum[i]);
                         break;
                 }
             }
             boolArray[i] = isItemCount;
         }
         return boolArray;
+    }
+
+    public Sprite[] IsCheckItems(in ItemRecipe newRecipe, out int[] itemSum)
+    {
+        int idLenght = newRecipe.Materials.Length;
+        int[] materials = newRecipe.Materials;
+        int[] materialsCount = newRecipe.MaterialsCount;
+        itemSum = new int[idLenght];
+        Sprite[] icons = new Sprite[idLenght + 1];
+        _itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
+        for (int i = 0; i < idLenght; i++)
+        {
+            if (_itemDB.GetItemData(materials[i], out ItemData_Test newItem))
+            {
+                switch (materials[i])
+                {
+                    case >= 10300000:
+                        IsCheckItemCount(_etcItemList, newItem, materialsCount[i], ref itemSum[i]);
+                        break;
+                    case >= 10200000:
+                        IsCheckItemCount(_materialItemList, newItem, materialsCount[i], ref itemSum[i]);
+                        break;
+                    case >= 10100000:
+                        IsCheckItemCount(_consumableItemList, newItem, materialsCount[i], ref itemSum[i]);
+                        break;
+                    default:
+                        IsCheckItemCount(_equipmentItemList, newItem, materialsCount[i], ref itemSum[i]);
+                        break;
+                }
+                icons[i+1] = newItem.Icon;
+            }
+        }
+        return icons;
     }
 
     /// <summary>

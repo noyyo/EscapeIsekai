@@ -16,6 +16,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private Image _item2DImage;
     private ItemData_Test _itemData;
     private ItemSlotInfo _slotInfo;
+    private ItemType _itemType;
 
     //클릭을 위한 버튼
     private Button _button;
@@ -77,6 +78,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _slotInfo.id = itemData.ID;
         _slotInfo.index = index;
         _slotInfo.count = count;
+        CheckItemType(_slotInfo.id);
         SlotDisplay();
     }
 
@@ -85,6 +87,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if(_itemDB.GetItemData(slotInfo.id, out _itemData))
         {
             _slotInfo = slotInfo;
+            CheckItemType(_slotInfo.id);
             SlotDisplay();
         }
         else
@@ -92,6 +95,18 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             ClearSlot();
         }
         
+    }
+
+    private void CheckItemType(int id)
+    {
+        if (id >= 10300000)
+            _itemType = ItemType.ETC;
+        else if (id >= 10200000)
+            _itemType = ItemType.Material;
+        else if (id >= 10100000)
+            _itemType = ItemType.Consumable;
+        else
+            _itemType = ItemType.Equipment;
     }
 
     /// <summary>
@@ -123,7 +138,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _item2DImage.sprite = _itemData.Icon;
         _button.enabled = true;
 
-        if (_itemData.ItemType != ItemType.Equipment)
+        if (_itemType != ItemType.Equipment)
         {
             _text_Count.gameObject.SetActive(true);
             _text_Count.text = String.Format("x {0}", _slotInfo.count);
@@ -152,7 +167,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             defaultPos = _itemImageTransform.position;
             _startParent = _itemImageTransform.parent;
             _itemImageTransform.SetParent(_inventory_UI.transform, false);
-            //_itemImageTransform.SetAsLastSibling();
         }
     }
 

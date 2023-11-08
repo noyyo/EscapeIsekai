@@ -36,8 +36,6 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         if (Test)
         {
             player = Instantiate(Resources.Load<GameObject>("Prefabs/Test/Player"));
-            _itemDB._test = Test;
-
             quickSlot_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
         }
     }

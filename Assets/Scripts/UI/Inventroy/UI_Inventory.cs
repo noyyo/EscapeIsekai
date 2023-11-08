@@ -76,7 +76,7 @@ public class UI_Inventory : MonoBehaviour
         _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
         _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
 
-        _inventory.OnInventoryDisplayEvent += SetActiveInventroyUI;
+        _inventoryManager.OnInventoryDisplayEvent += SetActiveInventroyUI;
         _inventoryTypeButton[0].onClick.AddListener(() =>{ OnCategoryButton(ItemType.Equipment); });
         _inventoryTypeButton[1].onClick.AddListener(() =>{ OnCategoryButton(ItemType.Consumable); });
         _inventoryTypeButton[2].onClick.AddListener(() =>{ OnCategoryButton(ItemType.Material); });

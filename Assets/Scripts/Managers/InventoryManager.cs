@@ -13,6 +13,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private UI_Manager _ui_Manager;
     private GameObject _itemExplanationPopup;
     private GameObject _inventory_UI;
+    private ItemCraftingManager _inventoryCraftingManager;
 
     private ItemSlotInfo _clickItem;
     private Slot _ClickSlot;
@@ -22,17 +23,23 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private int _temporaryStorageindex;
 
     private bool isDrop;
+    private bool isDisplay;
 
     public UI_Inventory UI_Inventory { get { return _ui_Inventory; } }
     public Inventory Inventory { get { return _inventory; }}
     public GameObject ItemExplanationPopup { get { return _itemExplanationPopup; } }
     public GameObject Inventory_UI { get { return _inventory_UI; } }
+    public bool IsDisplay { get { return  isDisplay; } }
+
+    //Inventory_UI 온오프용 이벤트
+    public event Action OnInventoryDisplayEvent;
 
     private void Awake()
     {
         _ui_Manager = UI_Manager.Instance;
         _inventory_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _ui_Manager.Canvas.transform);
         _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
+        _inventoryCraftingManager = ItemCraftingManager.Instance;
     }
 
     private void Start()
@@ -86,5 +93,44 @@ public class InventoryManager : CustomSingleton<InventoryManager>
             _ui_Inventory.InventoryUITurnOff();
             isDrop = false;
         }
+    }
+
+    public void CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
+    {
+        _inventory.TryAddItems(itemRecipe, out errorItemCount);
+    }
+
+    public void CallAddItems(int[] id, int[] count, out int[] errorItemCount)
+    {
+        _inventory.TryAddItems(id, count, out errorItemCount);
+    }
+
+    public void CallAddItem(int id, int count, out int errorItemCount)
+    {
+        _inventory.TryAddItem(id, count, out errorItemCount);
+    }
+
+    public bool CallIsCheckItem(int id, int count, out int sum)
+    {
+        return _inventory.IsCheckItem(id, count, out sum);
+    }
+    public bool[] CallIsCheckItems(int[] id, int[] count, out int[] sum)
+    {
+        return _inventory.IsCheckItems(id, count, out sum);
+    }
+
+    public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe, out int[] sum)
+    {
+        return _inventory.IsCheckItems(newRecipe, out sum);
+    }
+
+    public void CallOnInventoryDisplayEvent()
+    {
+        isDisplay = !isDisplay;
+        if (isDisplay)
+        {
+            _inventoryCraftingManager.CallOffCraftingUIEvent();
+        }
+        OnInventoryDisplayEvent?.Invoke();
     }
 }

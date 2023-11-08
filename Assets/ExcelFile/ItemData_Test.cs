@@ -2,12 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+
+public enum ItemEquipmentType
+{
+    //방어구는 0 ~ 9, 무기 10 ~ 19, 장신구 20 ~ 29
+    Head,
+    Top,
+    Bottoms,
+    Shoes,
+    Gloves,
+    OneHandedWeapon = 10,
+    TwoHandedWeapon = 11,
+    Accessories = 20
+}
+
+public enum ItemConsumableType
+{
+    HpHeal,
+    Recipe = 10
+}
+
 public enum ItemType
 {
     Equipment,
     Consumable,
     Material,
-    ETC
+    ETC,
+    Quest
 }
 
 [Serializable]
@@ -16,23 +37,24 @@ public class ItemData_Test
     [SerializeField] private int _id;
     [SerializeField] private string _itemName;
     [SerializeField] private string _itemExplanation;
-    [SerializeField] private ItemType _itemType;
     [SerializeField] private int _price;
     [SerializeField] private int _maxCount;
-    [SerializeField] private bool _isQuestItem;
     [SerializeField] private string _dropPrefabPath;
     [SerializeField] private string _iconPath;
-    
+    [SerializeField] private bool _isStat;
+    [SerializeField] private bool _isCrafting;
+
     private GameObject _dropPrefab;
     private Sprite _icon;
 
     public int ID { get { return _id; } }
     public string ItemName { get { return _itemName; } }
     public string ItemExplanation { get { return _itemExplanation; } }
-    public ItemType ItemType { get { return _itemType; } }
     public int Price { get { return _price; } }
     public int MaxCount { get { return _maxCount; } }
-    public bool IsQuestItem { get { return _isQuestItem; } }
+    public bool IsStat { get { return _isStat; } }
+    public bool IsCrafting { get { return _isCrafting; } }
+
     public GameObject DropPrefab
     {
         get
@@ -50,31 +72,12 @@ public class ItemData_Test
     {
         get
         {
-            if (_dropPrefab == null)
+            if (_icon == null)
             {
                 _icon = Resources.Load<Sprite>(_iconPath);
             }
 
             return _icon;
-        }
-    }
-
-    public ItemData_Test(int id, string itemName, string itemExplanation, ItemType itemType, int price, int maxCount, string dropPrefabPath, string iconPath)
-    {
-        _id = id;
-        _itemName = itemName;
-        _itemExplanation = itemExplanation;
-        _itemType = itemType;
-        _price = price;
-        _maxCount = maxCount;
-        _dropPrefabPath = dropPrefabPath;
-        _iconPath = iconPath;
-        _dropPrefab = Resources.Load<GameObject>(_dropPrefabPath);
-        _icon = Resources.Load<Sprite>(_iconPath);
-
-        if(_dropPrefab == null || _icon == null)
-        {
-            Debug.Log("확인해주세요");
         }
     }
 }

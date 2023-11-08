@@ -10,6 +10,7 @@ public class QuickSlotController : MonoBehaviour
     [SerializeField] private GameObject _quickSlotSpawn;
 
     private UI_Manager _ui_Manager;
+    private ItemCraftingManager _itemCraftingManager;
 
     //QuickSlot을 저장하기 위한 리스트
     private List<QuickSlot> _quickSlots = new List<QuickSlot>();
@@ -23,7 +24,7 @@ public class QuickSlotController : MonoBehaviour
     private void Awake()
     {
         _ui_Manager = UI_Manager.Instance;
-
+        _itemCraftingManager = ItemCraftingManager.Instance;
         if (_quickSlotPrefab == null)
             _quickSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot");
 
@@ -38,6 +39,9 @@ public class QuickSlotController : MonoBehaviour
     {
         _ui_Manager.TurnOnQuickSlotEvent += TurnOnQucikSlotUI;
         _ui_Manager.TurnOffQuickSlotEvent += TurnOffQucikSlotUI;
+
+        _itemCraftingManager.onCraftingUIEvent += TurnOffQucikSlotUI;
+        _itemCraftingManager.offCraftingUIEvent += TurnOffQucikSlotUI;
     }
 
     private void CreateSlot()
