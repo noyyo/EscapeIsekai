@@ -5,9 +5,11 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     public event Action<AnimationEvent> AnimationEventCalled;
+    public event Action OnDie;
+
     [field: SerializeField] public EnemySO Data { get; private set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
@@ -15,8 +17,10 @@ public class Enemy : MonoBehaviour
     public CharacterController Controller { get; private set; }
     [field: SerializeField] public EnemyStateMachine stateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
-    public  AttackAction[] Actions;
+    public int HP { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public bool CanTakeAttackEffect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+    public  AttackAction[] Actions;
     // Test
     public GameObject Player;
     void Awake()
@@ -63,5 +67,10 @@ public class Enemy : MonoBehaviour
     public void OnAnimationEventCalled(AnimationEvent animEvent)
     {
         AnimationEventCalled?.Invoke(animEvent);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        throw new NotImplementedException();
     }
 }

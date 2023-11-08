@@ -88,4 +88,13 @@ public class PlayerStateMachine : StateMachine
     }
 
 
+    private void TakeEffect(AttackEffectTypes type, float value)
+    {
+        switch(type)
+        {
+            case AttackEffectTypes.KnockBack:
+                
+                break;
+        }
+    }
 }

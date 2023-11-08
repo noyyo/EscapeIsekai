@@ -13,7 +13,7 @@ public class MeleeAttack : AttackAction
         Weapon = StateMachine.Enemy.GetComponentInChildren<EnemyWeapon>();
         if (Weapon == null)
             Debug.LogError("Weapon이 필요합니다.");
-        Weapon.WeaponCollisionEnter += CollisionOccured;
+        Weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
     }
     public override void OnStart()
     {
@@ -41,11 +41,11 @@ public class MeleeAttack : AttackAction
     {
         base.OnEffectFinish();
     }
-    private void CollisionOccured(Collision collision)
+    private void OnWeaponTriggerEnter(Collider other)
     {
-        if (StateMachine.Player.gameObject == collision.gameObject)
+        if (StateMachine.Player.gameObject == other.gameObject)
         {
-            Player target = collision.gameObject.GetComponent<Player>();
+            Player target = other.gameObject.GetComponent<Player>();
             IDamageable damageableTarget = target as IDamageable;
             ApplyAttack(damageableTarget);
         }
