@@ -24,4 +24,5 @@ public class PlayerInputSystem : MonoBehaviour
     {
         InputActions.Disable();
     }
+
 }
