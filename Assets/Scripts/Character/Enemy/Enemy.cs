@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    public event Action<AnimationEvent> AnimationEventCalled;
     [field: SerializeField] public EnemySO Data { get; private set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
@@ -13,7 +15,6 @@ public class Enemy : MonoBehaviour
     public CharacterController Controller { get; private set; }
     [field: SerializeField] public EnemyStateMachine stateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
-    [field: SerializeField] public Collider Weapon { get; private set; }
     public  AttackAction[] Actions;
 
     // Test
@@ -59,8 +60,8 @@ public class Enemy : MonoBehaviour
             Actions[i].OnAwake();
         }
     }
-    private void OnTriggerEnter(Collider other)
+    public void OnAnimationEventCalled(AnimationEvent animEvent)
     {
-        
+        AnimationEventCalled?.Invoke(animEvent);
     }
 }
