@@ -41,12 +41,14 @@ public class PlayerGroundState : PlayerBaseState
         base.PhysicsUpdate();
         // Player가 땅에 있지않고 떨어지고 있는 상태라면 FallState를 적용
         // 중력을 한번에 받는 양이 더 크다(떨어지는 상태를 의미)
+        /*
         if(!stateMachine.Player.Controller.isGrounded 
             && stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
         {
             stateMachine.ChangeState(stateMachine.FallState);
             return;
         }
+        */
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)

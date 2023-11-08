@@ -10,7 +10,6 @@ public class PlayerRollState : PlayerGroundState
 
     public override void Enter()
     {
-        Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
         isMovable = true;
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
@@ -33,19 +32,6 @@ public class PlayerRollState : PlayerGroundState
         // ForceReceiver에 AddForce를 적용. 바라보고있는 정면에서 밀려나도록.
         stateMachine.Player.ForceReceiver.AddForce(stateMachine.Player.transform.forward * groundData.RollForce);
     }
-
-    /*
-    public override void Update()
-    {
-        base.Update();
-
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Roll");
-        if (normalizedTime >= 1.0f)
-        {
-            stateMachine.ChangeState(stateMachine.IdleState);
-        }
-    }
-    */
 
     public override void Update()
     {
