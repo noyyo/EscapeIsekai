@@ -50,11 +50,11 @@ public abstract class AttackAction : ScriptableObject
     /// <summary>
     /// 이펙트를 시작한 시간입니다. OnEffectStart를 실행하면 자동으로 저장됩니다.
     /// </summary>
-    public float EffectStartTime;
+    [HideInInspector] public float EffectStartTime;
     /// <summary>
     /// 현재 액션은 끝났지만 효과가 남아있는 경우 true입니다.
     /// </summary>
-    public bool HasRemainingEffect;
+    [HideInInspector] public bool HasRemainingEffect;
     /// <summary>
     /// 애니메이션 상태를 관리하는 딕셔너리입니다. Hash값을 통해 현재 상태를 불러올 수 있습니다.
     /// </summary>
