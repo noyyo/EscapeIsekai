@@ -15,12 +15,12 @@ public class DayNightCycle : MonoBehaviour
     public Light sun;
     public Gradient sunColor;
     public AnimationCurve sunIntensity;
-
+    public Material sunBox;
     [Header("Moon")]
     public Light moon;
     public Gradient moonColor;
     public AnimationCurve moonIntensity;
-
+    public Material nightBox;
     [Header("Other Lighting")]
     public AnimationCurve lightingIntensityMultiplier;
     public AnimationCurve reflectionintensityMultiplier;
@@ -36,8 +36,10 @@ public class DayNightCycle : MonoBehaviour
         GameManager.Instance.time = (GameManager.Instance.time + timeRate * Time.deltaTime) % 1.0f;  //하루의 퍼센테지?
 
         UpdateLighting(sun, sunColor, sunIntensity);
+        GameManager.Instance.IsDay = sun.gameObject.activeSelf;
         UpdateLighting(moon, moonColor, moonIntensity);
 
+        UpdateSkyBox();
         RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(GameManager.Instance.time); //환경광
         RenderSettings.reflectionIntensity = reflectionintensityMultiplier.Evaluate(GameManager.Instance.time); //반사광
     }
@@ -51,9 +53,23 @@ public class DayNightCycle : MonoBehaviour
         lightSource.intensity = intensity;
 
         GameObject go = lightSource.gameObject;
-        if(lightSource.intensity == 0 && go.activeInHierarchy) 
+        if(lightSource.intensity == 0 && go.activeInHierarchy)
             go.SetActive(false);
         else if( lightSource.intensity > 0 && !go.activeInHierarchy)
             go.SetActive(true);
+    }
+
+    void UpdateSkyBox()
+    {
+        if(sun.gameObject.activeSelf)
+        {
+            RenderSettings.skybox = sunBox;
+            RenderSettings.sun = sun;
+        }
+        else
+        {
+            RenderSettings.skybox = nightBox;
+            RenderSettings.sun = moon;
+        }
     }
 }

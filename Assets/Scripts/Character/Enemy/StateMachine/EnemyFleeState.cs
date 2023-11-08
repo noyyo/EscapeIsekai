@@ -16,6 +16,8 @@ public class EnemyFleeState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.IsInBattle = false;
+        stateMachine.BattleTime = 0f;
         agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
         StartAnimation(enemy.AnimationData.RunParameterHash);
     }

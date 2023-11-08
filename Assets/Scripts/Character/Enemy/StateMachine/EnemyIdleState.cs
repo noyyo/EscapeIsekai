@@ -15,6 +15,8 @@ public class EnemyIdleState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.IsInBattle = false;
+        stateMachine.BattleTime = 0f;
         agent.ResetPath();
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
         idleStartTime = Time.time;

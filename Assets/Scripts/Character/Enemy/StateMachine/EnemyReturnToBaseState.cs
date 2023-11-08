@@ -12,10 +12,13 @@ public class EnemyReturnToBaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.IsInBattle = false;
+        stateMachine.BattleTime = 0f;
         agent.SetDestination(stateMachine.OriginPosition);
         agent.speed = enemyData.RunSpeed * returnSpeed;
         stateMachine.IsInvincible = true;
         StartAnimation(enemy.AnimationData.RunParameterHash);
+        stateMachine.CurrentAction = null;
     }
     public override void Exit()
     {
