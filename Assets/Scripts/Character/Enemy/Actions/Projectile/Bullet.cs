@@ -30,7 +30,6 @@ public class Bullet : MonoBehaviour
             bounceCount++;
             if(bounceCount == 5)
             {
-                Debug.Log("이제 사라진다");
                 StartCoroutine("WaitTime");
             }
         }

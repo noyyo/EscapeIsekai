@@ -27,6 +27,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public EnemyAttackState AttackState { get; }
     public EnemyReturnToBaseState ReturnToBaseState { get; }
     public EnemyFleeState FleeState { get; }
+    public EnemyDeadState DeadState { get; }
     [SerializeField][ReadOnly] private bool isPause;
     [SerializeField][ReadOnly] private bool isActive;
     [SerializeField] private float ActivationCheckDelay = 0.5f;
@@ -46,6 +47,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     [field: SerializeField] public int HP { get; private set; }
     [ReadOnly] public float BattleTime;
     [ReadOnly] public bool IsInBattle;
+    [ReadOnly] public bool IsDead;
     
 
     public EnemyStateMachine(Enemy enemy)
@@ -59,13 +61,16 @@ public class EnemyStateMachine : StateMachine, IDamageable
         AttackState = new EnemyAttackState(this);
         ReturnToBaseState = new EnemyReturnToBaseState(this);
         FleeState = new EnemyFleeState(this);
+        DeadState = new EnemyDeadState(this);
         IsFleeable = enemy.Data.IsFleeable;
         actionData = enemy.Actions;
         actionsToExecute = new List<AttackAction>(actionData.Length);
         IsPauseChanged += PauseAnimation;
         forceReceiver = enemy.ForceReceiver;
         agent = enemy.Agent;
+        HP = enemy.Data.MaxHP;
         InitializeAffectedAttackEffectInfo();
+        OnDie += Dead;
         //Test
         Player = Enemy.Player;
     }
@@ -225,6 +230,14 @@ public class EnemyStateMachine : StateMachine, IDamageable
         HP = Mathf.Max(HP, 0);
         if (HP == 0)
             OnDie?.Invoke();
+    }
+    private void Dead()
+    {
+        actionsInActive.Clear();
+        actionsToExecute.Clear();
+        CurrentAction = null;
+        IsDead = true;
+        ChangeState(DeadState);
     }
 
     public void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)

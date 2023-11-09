@@ -19,12 +19,14 @@ public class EnemyFleeState : EnemyBaseState
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
+        StartAnimation(enemy.AnimationData.MoveParameterHash);
         StartAnimation(enemy.AnimationData.RunParameterHash);
     }
     public override void Exit()
     {
         base.Exit();
         StopAnimation(enemy.AnimationData.RunParameterHash);
+        StopAnimation(enemy.AnimationData.MoveParameterHash);
     }
     public override void Update()
     {

@@ -35,7 +35,10 @@ public class TestAction_Projectile : AttackAction
     public int bulletAngle;
     [Tooltip("총알의 밀집도")]
     [Range(0, 1)]
-    public float spacing;  
+    public float spacing;
+    [Tooltip("총알 생성 위치, Enemy의 포지션을 기준으로 y축으로 +-됩니다.")]
+    [Range(-10, 10)]
+    public float YOffset;
     [Space(10f)]
     [Tooltip("사용할 총알의 프리팹 / *Bullet.cs 달아줘야함")]
     public GameObject howBullet;
@@ -177,7 +180,7 @@ public class TestAction_Projectile : AttackAction
                         GameObject bullet = GetBulletFromPool();
                         if (bullet != null)
                         {
-                            bullet.transform.position = StateMachine.Enemy.transform.position + StateMachine.Enemy.transform.forward + new Vector3(0, xOffset, zOffset);
+                            bullet.transform.position = StateMachine.Enemy.transform.position + StateMachine.Enemy.transform.forward + new Vector3(YOffset, xOffset, zOffset);
 
                             float angleX = -bulletAngle / 2f + (bulletAngle / (howManyBullet - 1)) * (row * cols + col);
                             float angleZ = -bulletAngle / 2f + (bulletAngle / (howManyBullet - 1)) * (row * cols + col);

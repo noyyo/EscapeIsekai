@@ -12,6 +12,7 @@ public class EnemyReturnToBaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(enemy.AnimationData.MoveParameterHash);
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         agent.SetDestination(stateMachine.OriginPosition);
@@ -24,6 +25,7 @@ public class EnemyReturnToBaseState : EnemyBaseState
     {
         base.Exit();
         StopAnimation(enemy.AnimationData.RunParameterHash);
+        StopAnimation(enemy.AnimationData.MoveParameterHash);
         stateMachine.IsInvincible = false;
 
     }
