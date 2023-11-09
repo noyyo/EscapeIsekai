@@ -56,7 +56,10 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.Attack.performed += OnAttackPerformed;
         input.PlayerActions.Attack.canceled += OnAttackCanceled;
+
+        input.PlayerActions.SuperJump.started += OnSuperJumpStarted;
     }
+
 
     protected virtual void RemoveInputActionsCallbacks()
     {
@@ -70,6 +73,8 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.Attack.performed -= OnAttackPerformed;
         input.PlayerActions.Attack.canceled -= OnAttackCanceled;
+
+        input.PlayerActions.SuperJump.started -= OnSuperJumpStarted;
     }
 
 
@@ -96,6 +101,12 @@ public class PlayerBaseState : IState
     protected virtual void OnAttackCanceled(InputAction.CallbackContext context)
     {
         stateMachine.IsAttacking = false;
+    }
+    protected virtual void OnSuperJumpStarted(InputAction.CallbackContext context)
+    {
+        Debug.Log("count");
+        if (stateMachine.Player.Controller.isGrounded)
+            stateMachine.ChangeState(stateMachine.SuperJump);
     }
 
     private void ReadMovementInput()
