@@ -21,7 +21,6 @@ public class EnemyBaseState : IState
         animator = enemy.Animator;
         rigidbody = enemyStateMachine.Enemy.Rigidbody;
         agent = enemyStateMachine.Enemy.Agent;
-        controller = enemyStateMachine.Enemy.Controller;
         enemyData = enemyStateMachine.Enemy.Data;
     }
     public virtual void Enter()

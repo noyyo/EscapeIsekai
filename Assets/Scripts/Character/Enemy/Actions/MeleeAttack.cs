@@ -5,15 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MeleeAttack", menuName = "Characters/Enemy/AttackAction/MeleeAttack")]
 public class MeleeAttack : AttackAction
 {
-    [ReadOnly] public EnemyWeapon Weapon;
+    [ReadOnly] public Weapon Weapon;
 
     public override void OnAwake()
     {
         base.OnAwake();
-        Weapon = StateMachine.Enemy.GetComponentInChildren<EnemyWeapon>();
+        Weapon = StateMachine.Enemy.GetComponentInChildren<Weapon>();
         if (Weapon == null)
             Debug.LogError("Weapon이 필요합니다.");
-        Weapon.WeaponCollisionEnter += CollisionOccured;
+        Weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
     }
     public override void OnStart()
     {
@@ -41,13 +41,45 @@ public class MeleeAttack : AttackAction
     {
         base.OnEffectFinish();
     }
-    private void CollisionOccured(Collision collision)
+    private void OnWeaponTriggerEnter(Collider other)
     {
-        if (StateMachine.Player.gameObject == collision.gameObject)
+        IDamageable target = null;
+        if (other.tag == Tags.PlayerTag)
         {
-            Player target = collision.gameObject.GetComponent<Player>();
-            IDamageable damageableTarget = target as IDamageable;
-            ApplyAttack(damageableTarget);
+            Player player;
+            other.TryGetComponent(out player);
+            if (player == null)
+            {
+                Debug.LogError("Player 스크립트를 찾을 수 없습니다.");
+                return;
+            }
+            target = player.StateMachine;
+        }
+        else if(other.tag == Tags.EnemyTag)
+        {
+            Enemy enemy;
+            other.TryGetComponent(out enemy);
+            if (enemy == null)
+            {
+                Debug.LogError("Enemy 스크립트를 찾을 수 없습니다.");
+                return;
+            }
+            target = enemy.StateMachine;
+        }
+        else if(other.tag == Tags.EnvironmentTag)
+        {
+            BaseEnvironmentObject environmentObj;
+            other.TryGetComponent(out environmentObj);
+            if (environmentObj == null)
+            {
+                Debug.LogError("대상에게 BaseEnvironmentObject 컴포넌트가 없습니다.");
+                return;
+            }
+            target = environmentObj;
+        }
+        if (target != null)
+        {
+            ApplyAttack(target, false, other.gameObject);
         }
     }
 }

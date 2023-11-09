@@ -13,17 +13,22 @@ MonoBehaviour:
   m_Name: MeleeAttack
   m_EditorClassIdentifier: 
   StateMachine:
-    Animator: {fileID: 0}
+    isPause: 0
+    isActive: 0
     ActivationCheckDelay: 0
     ActivationDistance: 0
+    <IsInvincible>k__BackingField: 0
+    <IsFleeable>k__BackingField: 0
     CurrentAction: {fileID: 0}
-    HP: 0
+    actionsInActive: []
+    actionsToExecute: []
+    <HP>k__BackingField: 0
     BattleTime: 0
     IsInBattle: 0
   ActionType: 0
   Config:
     EffectDurationSeconds: 0
-    DamageAmount: 0
+    DamageAmount: 5
     AttackEffectType: 1
     AttackEffectValue: 5
     animTrigger1: MeleeAttack
@@ -37,7 +42,7 @@ MonoBehaviour:
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
-    LessThanThisDistance: 100
+    LessThanThisDistance: 2
     AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1

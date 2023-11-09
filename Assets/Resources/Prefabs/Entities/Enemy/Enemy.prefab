@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 2149416965203472726}
   - component: {fileID: 5757766599067131624}
   - component: {fileID: 8858690298781680109}
-  - component: {fileID: 4616395854057134950}
   - component: {fileID: 8556828521873300135}
   - component: {fileID: 2826485236459551922}
   - component: {fileID: 7712969138687992373}
   - component: {fileID: 7049718354099661529}
+  - component: {fileID: 4258273785956082652}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,32 +111,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!143 &4616395854057134950
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6133069450125554504}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &8556828521873300135
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -207,17 +181,21 @@ MonoBehaviour:
     runParameterName: Run
     attackParameterName: '@Attack'
     baseAttackParameterName: BaseAttack
-  <stateMachine>k__BackingField:
-    Animator: {fileID: 0}
-    ActivationCheckDelay: 0
-    ActivationDistance: 0
+  <StateMachine>k__BackingField:
+    isPause: 0
+    isActive: 0
+    ActivationCheckDelay: 0.5
+    ActivationDistance: 100
+    <IsInvincible>k__BackingField: 0
+    <IsFleeable>k__BackingField: 0
     CurrentAction: {fileID: 0}
-    HP: 0
+    actionsInActive: []
+    actionsToExecute: []
+    <HP>k__BackingField: 0
     BattleTime: 0
     IsInBattle: 0
-  <Weapon>k__BackingField: {fileID: 0}
   Actions:
-  - {fileID: 11400000, guid: ba448f6c0121af4479e2128666f36951, type: 2}
+  - {fileID: 11400000, guid: 9ca40b30de9bbf243958229c99ec04cb, type: 2}
   Player: {fileID: 0}
 --- !u!95 &7049718354099661529
 Animator:
@@ -240,6 +218,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4258273785956082652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133069450125554504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bca4b563c3ce946ad27f2688d7b796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drag: 0.3
 --- !u!1 &6676737074749209809
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,12 +331,12 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 0.5
+  m_Radius: 0.5
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3735905584428140575
@@ -361,3 +352,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponCollider: {fileID: 7961424562693108535}
+  character: {fileID: 6133069450125554504}

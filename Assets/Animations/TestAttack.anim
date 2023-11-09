@@ -804,17 +804,16 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.33333334
-    functionName: AnimationEventCalled
-    data: 
+    functionName: OnAnimationEventCalled
+    data: MeleeAttackStart
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.6666667
-    functionName: DeactivateWeaponCollider
-    data: 
-    objectReferenceParameter: {fileID: 6133069450125554504, guid: 82250687da89d7e48b8271b432e784b1,
-      type: 3}
+    functionName: OnAnimationEventCalled
+    data: MeleeAttackEnd
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
