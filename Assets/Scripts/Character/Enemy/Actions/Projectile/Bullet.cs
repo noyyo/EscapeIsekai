@@ -14,18 +14,41 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private int bulletSpeed;
 
-    public Rigidbody _rigidbody;
+    public event Action<Collision,GameObject> ProjetileColliderEnter;
+
+    private Collider colliders;
+    private Rigidbody _rigidbody;
+    private int bounceCount;
     private void OnCollisionEnter(Collision collision)
     {
-        ReturnBulletToPool();
-        if (collision.transform.tag == Tags.PlayerTag)
+        if(colliders.material == null)
         {
-            hitBulletEvent?.Invoke();
+            StartCoroutine("WaitTime");
         }
+        else
+        {
+            bounceCount++;
+            if(bounceCount == 5)
+            {
+                Debug.Log("이제 사라진다");
+                StartCoroutine("WaitTime");
+            }
+        }
+        ProjetileColliderEnter?.Invoke(collision,this.gameObject);
     }
     private void Awake()
     {
+        colliders = gameObject.GetComponent<BoxCollider>();
+        if (colliders == null)
+        {
+            colliders = gameObject.GetComponent<CapsuleCollider>();
+            if (colliders == null)
+            {
+                colliders = gameObject.GetComponent<MeshCollider>();
+            }
+        }
         _rigidbody = gameObject.GetComponent<Rigidbody>();
+
     }
     private void Start()
     {
@@ -34,6 +57,7 @@ public class Bullet : MonoBehaviour
     }
     private void OnEnable()
     {
+        bounceCount = 0;
         _rigidbody.AddForce(targetDir * bulletSpeed);
     }
     private void ReturnBulletToPool()
@@ -41,5 +65,12 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
         _rigidbody.velocity = Vector3.zero;
         gameObject.transform.rotation = Quaternion.identity;
+    }
+
+    IEnumerator WaitTime()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        ReturnBulletToPool();
     }
 }
