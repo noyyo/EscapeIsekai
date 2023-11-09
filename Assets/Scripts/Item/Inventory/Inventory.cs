@@ -1,7 +1,6 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,29 +22,19 @@ public class ItemSlotInfo
 
 public class Inventory : MonoBehaviour
 {
-    //½½·Ô °ü·Ã
-    [Header("½½·Ô ¼³Á¤")]
     [SerializeField] private int _inventroySlotCount = 60;
     [SerializeField] private GameObject _slotPrefab;
     [SerializeField] private GameObject _slotSpawn;
 
     private UI_Inventory _ui_Inventory;
     private InventoryManager _inventoryManager;
-
-    //½½·ÔµéÀ» ´ã´Â ¸®½ºÆ®
     private List<Slot> _slotArray = new List<Slot>();
-
-    //½ÇÁ¦ ½½·Ôµé¿¡ ¹«½¼ ¾ÆÀÌÅÛÀÎÁö, °¹¼ö, ÀúÀåÀ§Ä¡(SlotÀÇ Index)µîµî º¸°ü
     private List<ItemSlotInfo> _equipmentItemList = new List<ItemSlotInfo>();
     private List<ItemSlotInfo> _consumableItemList = new List<ItemSlotInfo>();
     private List<ItemSlotInfo> _materialItemList = new List<ItemSlotInfo>();
     private List<ItemSlotInfo> _etcItemList = new List<ItemSlotInfo>();
-
     private ItemDB _itemDB;
-
-    //ÇöÀç ¼±ÅÃµÈ Ä«Å×°í¸®¸¦ ÀúÀåÇÔ
     private ItemType _displayType;
-    //ÇöÀç ¼±ÅÃµÈ ¾ÆÀÌÅÛÀÇ Á¤º¸¸¦ ÀúÀåÇÔ
     private ItemSlotInfo _clickItem;
 
     private void Awake()
@@ -62,9 +51,6 @@ public class Inventory : MonoBehaviour
         _inventoryManager.OnInventoryDisplayEvent += OnDisplaySlot;
     }
 
-    /// <summary>
-    /// ÃÊ±âÈ­
-    /// </summary>
     private void InitInventory()
     {
         _equipmentItemList.Clear();
@@ -82,15 +68,9 @@ public class Inventory : MonoBehaviour
             _ui_Inventory = GetComponent<UI_Inventory>();
 
         if (_slotSpawn == null)
-        {
             _slotSpawn = InventoryManager.Instance.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
-        }
-            
     }
-
-    /// <summary>
-    /// ½½·Ô »ı¼º
-    /// </summary>
+    
     private void CreateSlot()
     {
         for (int i = 0; i < _inventroySlotCount; i++)
@@ -104,7 +84,6 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        //³ªÁß¿¡ playerInput¿¡ ¼³Á¤ÇÑ ÈÄ ¼öÁ¤ÇÒ°Í
         if (Input.GetKeyDown(KeyCode.I))
         {
             OnInventory();
@@ -154,13 +133,6 @@ public class Inventory : MonoBehaviour
         return boolArray;
     }
 
-    /// <summary>
-    /// ¿ÜºÎ¿¡¼­ È£ÃâÇÏ¿© ¾ÆÀÌÅÛÀ» ³Ö°Å³ª »©Áİ´Ï´Ù.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="count">¾ÆÀÌÅÛ °³¼ö</param>
-    /// <param name="errorItemCount">SlotÀÇ °³¼ö¸¦ ÃÊ°úÇÏ¿© µé¾î¿Â ¾ÆÀÌÅÛÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù. count°¡ À½¼öÀÏ¶§ ¿À·ù³ª¸é À½¼ö ¹İÈ¯</param>
-    /// <returns></returns>
     public bool TryAddItem(int id, int count, out int errorItemCount)
     {
         errorItemCount = count;
@@ -222,18 +194,9 @@ public class Inventory : MonoBehaviour
         return isAddItem;
     }
 
-    /// <summary>
-    /// ³»ºÎÀûÀ¸·Î ´õÇÏ´Â ¸Ş¼­µå
-    /// </summary>
-    /// <param name="itemList">¾ÆÀÌÅÛÀÇ id, °³¼ö, slotÀ§Ä¡µîÀÌ ÀúÀåµÈ ¸®½ºÆ®</param>
-    /// <param name="count">¾ÆÀÌÅÛ °³¼ö</param>
-    /// <param name="slotType">¾ÆÀÌÅÛÀÇ Å¸ÀÔ</param>
-    /// <param name="newItem">¾ÆÀÌÅÛ Á¤º¸</param>
-    /// <param name="errorItemCount">ÃÊ°úµÈ ¾ÆÀÌÅÛ °³¼ö</param>
-    /// <returns></returns>
     private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int errorItemCount)
     {
-        //Ã¢°í°¡ °¡µæÃ¡´ÂÁö È®ÀÎ
+        //Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         int itemListCount = itemList.Count;
         if (itemListCount == _inventroySlotCount)
         {
@@ -246,42 +209,29 @@ public class Inventory : MonoBehaviour
         bool isDisplay = false;
 
         if (slotType == _displayType)
-        {
             isDisplay = true;
-        }
 
-        // ¾ÆÀÌÅÛÀÌ ÀåºñÀÎ°¡?
         if (slotType != ItemType.Equipment)
         {
-            //ºó Ã¢°í¿¡¼­ »õ·Î µé¾î¿À´Â°ÍÀÎ°¡?
             if (itemListCount == 0)
             {
-                // »õ·Î µé¾î¿À´Â Á¦Ç°ÀÌ ÇÑ ½½·Ô´ç °¹¼öº¸´Ù ³ôÀº°¡?
                 if (count > newItem.MaxCount)
                 {
-                    // ¹«ÇÑ for¹®À¸·Î °¹¼ö »ı¼º
                     while (true)
                     {
                         count -= newItem.MaxCount;
-
                         if (count <= 0)
                         {
-                            //º°µµÀÇ ½Ã½ºÅÛÀÌ¿©¼­ Slot¿¡ µ¥ÀÌÅÍ º¸³»°í ¸®½ºÆ®¿¡ »ı¼º ¹× ÀúÀåÇØµµ »ó°ü¾øÀ½
-                            //Slot¿¡ ÀúÀå ¹× Ç¥½Ã
                             if (isDisplay)
                                 _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount + count);
-
-                            //»ı¼º
                             itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount + count));
                             itemListCount++;
                             break;
                         }
                         else
                         {
-                            //Slot¿¡ ÀúÀå ¹× Ç¥½Ã
                             if (isDisplay)
                                 _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount);
-
                             itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount));
                             itemListCount++;
                         }
@@ -291,7 +241,6 @@ public class Inventory : MonoBehaviour
                 {
                     if (isDisplay)
                         _slotArray[0].AddItem(newItem, 0, count);
-
                     itemList.Add(new ItemSlotInfo(id, 0, count));
                     itemListCount++;
                 }
@@ -303,34 +252,22 @@ public class Inventory : MonoBehaviour
                 {
                     if (itemList[i].id == id)
                     {
-                        //Ä³½Ì
                         int newItemMaxCount = newItem.MaxCount;
                         int nowItemCount = itemList[i].count;
-
-                        //ÇöÀç½½·ÔÀÌ °¡µæ Ã¡´ÂÁö È®ÀÎ
                         if (nowItemCount == newItemMaxCount)
                         {
                             if (nowItemCount + count > newItemMaxCount)
                             {
-                                //¾ÆÀÌÅÛ °³¼ö °è»ê
                                 count = count - (newItemMaxCount - nowItemCount);
                                 itemList[i].count = newItemMaxCount;
-
-                                //Slot¿¡ ÀúÀå ¹× Ãâ·Â
                                 if (isDisplay)
                                     _slotArray[i].SetSlotCount(newItemMaxCount);
-
                                 while (true)
                                 {
-                                    // °ª
                                     count -= newItemMaxCount;
                                     if (count <= 0) break;
-
-                                    //Ãâ·Â
                                     if (isDisplay)
                                         _slotArray[itemListCount].AddItem(newItem, itemListCount, newItemMaxCount);
-
-                                    //»ı¼º
                                     itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount));
                                     itemListCount++;
                                     if (itemListCount == _inventroySlotCount)
@@ -347,7 +284,6 @@ public class Inventory : MonoBehaviour
                             else
                             {
                                 itemList[i].count += count;
-
                                 if (isDisplay)
                                     _slotArray[i].SetSlotCount(itemList[i].count);
                             }
@@ -357,14 +293,12 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
-        //Àåºñ·ù´Â ÃÖ´ë°¡ 1°³
         for (int i = 0; i < count; i++)
         {
             itemList.Add(new ItemSlotInfo(id, itemListCount, 1));
             itemListCount++;
             if (isDisplay)
                 _slotArray[(itemListCount - 1)].AddItem(newItem, (itemListCount - 1), 1);
-
             if (itemListCount == _inventroySlotCount)
             {
                 errorItemCount = count - (i + 1);
@@ -374,15 +308,6 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// ¾ÆÀÌÅÛÀ» ¼Ò¸ğÇÏ´Â ¸Ş¼­µå
-    /// </summary>
-    /// <param name="itemList">¾ÆÀÌÅÛÀÇ id, °³¼ö, slotÀ§Ä¡µîÀÌ ÀúÀåµÈ ¸®½ºÆ®</param>
-    /// <param name="count">¾ÆÀÌÅÛ °³¼ö(À½¼ö)</param>
-    /// <param name="slotType">¾ÆÀÌÅÛÀÇ Å¸ÀÔ</param>
-    /// <param name="newItem">¾ÆÀÌÅÛ Á¤º¸</param>
-    /// <param name="ErrorItemCount">´õÀÌ»ó ¼Ò¸ğÇÒ ¼ö ¾ø´Â ¾ÆÀÌÅÛ °³¼ö</param>
-    /// <returns></returns>
     private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int ErrorItemCount)
     {
         int itemListCount = itemList.Count;
@@ -406,8 +331,6 @@ public class Inventory : MonoBehaviour
             if (itemList[i].id == id)
             {
                 int nowItemCount = itemList[i].count + count;
-
-                // ¾ÆÁ÷ »©¾ßµÉ °ªÀÌ ÀÖÀ»¶§
                 if (nowItemCount <= 0)
                 {
                     count = nowItemCount;
@@ -415,12 +338,9 @@ public class Inventory : MonoBehaviour
                     if(nowItemCount != 0)
                         continue;
                 }
-
                 count = 0;
-                // ¸ğµÎ´Ù Á¤»óÀûÀ¸·Î –QÀ»¶§
                 if (isDisplay)
                     _slotArray[i].SetSlotCount(nowItemCount);
-
                 for (int j = 0; j < stack.Count;)
                 {
                     int n = (int)stack.Pop();
@@ -428,7 +348,6 @@ public class Inventory : MonoBehaviour
                     itemList.RemoveAt(n);
                     itemListCount--;
                 }
-
                 isSub = true;
                 break;
             }
@@ -469,16 +388,12 @@ public class Inventory : MonoBehaviour
         }
         OnDisplaySlot();
     }
-
-    //UIºÎºĞÀ¸·Î ¿Å°Ü¾ßµÊ...
     public void SetDisplayType(ItemType itemType)
     {
         DisplaySlotClear();
         _displayType = itemType;
         OnDisplaySlot();
     }
-
-    //UIºÎºĞÀ¸·Î ¿Å°Ü¾ßµÊ...
     private void OnDisplaySlot()
     {
         switch (_displayType)
@@ -509,8 +424,6 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
-
-    //UIºÎºĞÀ¸·Î ¿Å°Ü¾ßµÊ...
     private void DisplaySlotAllClear()
     {
         for (int i = 0; i < _inventroySlotCount; i++)
@@ -519,7 +432,6 @@ public class Inventory : MonoBehaviour
         }
 
     }
-    //UIºÎºĞÀ¸·Î ¿Å°Ü¾ßµÊ...
     private void DisplaySlotClear()
     {
         switch (_displayType)
@@ -550,29 +462,15 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
-
     public void UseItem()
     {
         _clickItem = InventoryManager.Instance.GetClickItem();
         if (_displayType == ItemType.Equipment)
-        {
-            //ÀåÂø
             EquipItem(_clickItem);
-        }
         else
-        {
             TryAddItem(_clickItem.id, -1, out int errorCount);
-        }
     }
 
-    /// <summary>
-    /// idÁß count °³¼ö ÀÌ»óÀ¸·Î º¸À¯½Ã true¸¦ ¾Æ´Ò½Ã false¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
-    /// sumÀº ÇØ´ç idÀÇ °³¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù. 
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="count"></param>
-    /// <param name="itemSum"></param>
-    /// <returns></returns>
     public bool IsCheckItem(int id, int count, out int itemSum)
     {
         bool isItemCount = false;
@@ -597,15 +495,6 @@ public class Inventory : MonoBehaviour
         }
         return isItemCount;
     }
-
-    /// <summary>
-    /// id[i] Áß count[i] °³¼ö ÀÌ»óÀ¸·Î º¸À¯½Ã true¸¦ ¾Æ´Ò½Ã false¸¦ bool¹è¿­¿¡ ´ã¾Æ ¹İÈ¯ÇÕ´Ï´Ù.
-    /// sum[i]Àº ÇØ´ç id[i]ÀÇ °³¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù. 
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="count"></param>
-    /// <param name="itemSum"></param>
-    /// <returns></returns>
     public bool[] IsCheckItems(int[] id, int[] count, out int[] itemSum)
     {
         bool isItemCount = false;
@@ -671,13 +560,6 @@ public class Inventory : MonoBehaviour
         return icons;
     }
 
-    /// <summary>
-    /// IsCheckItemÀÇ ³»ºÎ±â´ÉÀ» ¼öÇàÇÏ´Â ¸Ş¼­µå
-    /// </summary>
-    /// <param name="itemList"></param>
-    /// <param name="newItem"></param>
-    /// <param name="count"></param>
-    /// <returns></returns>
     private bool IsCheckItemCount(List<ItemSlotInfo> itemList, ItemData_Test newItem, int count, ref int sum)
     {
         int listCount = itemList.Count;
@@ -692,15 +574,13 @@ public class Inventory : MonoBehaviour
         return sum >= count ? true : false;
     }
 
-    //³ªÁß¿¡ Àåºñ Âø¿ë½Ã UI¹× ½ºÅİµîÀ» ¼³Á¤ÇØÁà¾ßµÊ
     private void EquipItem(ItemSlotInfo itemSlotInfo)
     {
         if (!itemSlotInfo.equip)
         {
             _itemDB.GetStats(itemSlotInfo.id, out ItemStats equipItemData);
 
-            //³ªÁß¿¡ ÇÃ·¹ÀÌ¾î¿Í ¿¬°áÇÒ¶§ ÀÛ¼ºÇØ¾ßÇÒ ÄÚµå
-            Debug.Log("Àåºñ¸¦ ÀåÂøÇÕ´Ï´Ù. ÇÃ·¹ÀÌ¾î ½ºÅİÀ» ¼öÁ¤ÇÕ´Ï´Ù.");
+            Debug.Log("ì¥ë¹„ë¥¼ ì¥ì°©í•©ë‹ˆë‹¤..");
 
             itemSlotInfo.equip = true;
 
@@ -712,8 +592,7 @@ public class Inventory : MonoBehaviour
         {
             _itemDB.GetStats(itemSlotInfo.id, out ItemStats equipItemData);
 
-            //³ªÁß¿¡ ÇÃ·¹ÀÌ¾î¿Í ¿¬°áÇÒ¶§ ÀÛ¼ºÇØ¾ßÇÒ ÄÚµå
-            Debug.Log("Àåºñ¸¦ ÇØÁ¦ÇÕ´Ï´Ù. ÇÃ·¹ÀÌ¾î ½ºÅİÀ» ¼öÁ¤ÇÕ´Ï´Ù.");
+            Debug.Log("ì¥ë¹„ë¥¼ í•´ì œí•©ë‹ˆë‹¤.");
 
             itemSlotInfo.equip = false;
             _slotArray[itemSlotInfo.index].UnDisplayEquip();
@@ -721,7 +600,6 @@ public class Inventory : MonoBehaviour
         }
         
     }
-
     public void Drop()
     {
         _clickItem = InventoryManager.Instance.GetClickItem();
@@ -732,7 +610,6 @@ public class Inventory : MonoBehaviour
         TryAddItem(_clickItem.id, -1, out int errorCount);
     }
 
-    //Drag And DropÀ¸·Î ¾ÆÀÌÅÛ ÀüÈ¯ÇÏ±â À§ÇÑ ¸Ş¼­µå
     public void ChangeSlot(ItemSlotInfo newSlot, ItemSlotInfo oldSlot, int newIndex, int oldIndex)
     {
         if (newSlot == null)
