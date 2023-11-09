@@ -40,7 +40,6 @@ public class TestAction_Projectile : AttackAction
     [Tooltip("사용할 총알의 프리팹 / *Bullet.cs 달아줘야함")]
     public GameObject howBullet;
 
-
     private List<GameObject> bulletPool = new List<GameObject>(); //오브젝트 풀링 리스트
     public override void OnAwake()
     {
@@ -50,7 +49,7 @@ public class TestAction_Projectile : AttackAction
             GameObject bullet = Instantiate(howBullet, Vector3.zero, Quaternion.identity);
             bullet.SetActive(false);
             bulletPool.Add(bullet);
-            bullet.GetComponent<Bullet>().hitBulletEvent.AddListener(printtest);
+            bullet.GetComponent<Bullet>().ProjetileColliderEnter += OnProjectileTriggerEnter;
         }
     }
     // 변수들을 다시 세팅해주거나 필요한 작업을 해주면 됩니다.
@@ -99,11 +98,47 @@ public class TestAction_Projectile : AttackAction
         Vector3 TargetDistance = StateMachine.Player.transform.position - StateMachine.Enemy.transform.position;
         return TargetDistance;
     }
-
-    void printtest()
+    private void OnProjectileTriggerEnter(Collision other,GameObject attacker)
     {
-        //공격 적용 함수 넣기 발사되는 총알에 이벤트가 있어서 해당 총알이 콜리전충돌 시 이벤트 구독자 호출
-        Debug.Log("맞춤");
+        IDamageable target = null;
+        if (other.transform.tag == Tags.PlayerTag)
+        {
+            Player player;
+            other.transform.TryGetComponent(out player);
+            if (player == null)
+            {
+                Debug.LogError("Player 스크립트를 찾을 수 없습니다.");
+                return;
+            }
+            target = player.StateMachine;
+        }
+        else if (other.transform.tag == Tags.EnemyTag)
+        {
+            Enemy enemy;
+            other.transform.TryGetComponent(out enemy);
+            if (enemy == null)
+            {
+                Debug.LogError("Enemy 스크립트를 찾을 수 없습니다.");
+                return;
+            }
+            target = enemy.StateMachine;
+        }
+        else if (other.transform.tag == Tags.EnvironmentTag)
+        {
+            BaseEnvironmentObject environmentObj;
+            other.transform.TryGetComponent(out environmentObj);
+            if (environmentObj == null)
+            {
+                Debug.LogError("대상에게 BaseEnvironmentObject 컴포넌트가 없습니다.");
+                return;
+            }
+            target = environmentObj;
+        }
+        if (target != null)
+        {
+            ApplyAttack(target, false, other.gameObject);
+           target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, attacker);
+        }
     }
 
     private GameObject GetBulletFromPool()
