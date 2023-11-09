@@ -18,6 +18,7 @@ public class EnemyIdleState : EnemyBaseState
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         agent.ResetPath();
+        StartAnimation(enemy.AnimationData.MoveParameterHash);
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
         idleStartTime = Time.time;
         wanderWaitingTime = Random.Range(enemyData.MinWanderWaitTime, enemyData.MaxWanderWaitTime);
@@ -27,6 +28,7 @@ public class EnemyIdleState : EnemyBaseState
     {
         base.Exit();
         StopAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
+        StopAnimation(enemy.AnimationData.MoveParameterHash);
     }
 
     public override void Update()

@@ -42,4 +42,15 @@ public class ItemStats
             return _stats;
         }
     }
+
+    public ItemStats(ItemStats newData)
+    {
+        _id = newData.ID;
+        _hp = newData.HP;
+        _temperature = newData.Temperature;
+        _atk = newData.ATK;
+        _def = newData.DEF;
+        _speed = newData.Speed;
+        _stamina = newData.Stamina;
+    }
 }

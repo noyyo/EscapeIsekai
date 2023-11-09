@@ -5,9 +5,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class DamageReflectiveRocks : BaseEnvironmentObject
 {
-    [SerializeField] private int _damage;
-    [SerializeField] private float _value;
-    [SerializeField] private GameObject _attacker;
+    [ReadOnly][SerializeField] private int _damage;
+    [ReadOnly][SerializeField] private float _value;
+    [ReadOnly][SerializeField] private GameObject _attacker;
     public override void TakeDamage(int damage)
     {
         _damage = damage;
@@ -21,21 +21,19 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     private void OnTriggerEnter(Collider other)
     {
         IDamageable target = null;
-        Debug.Log(other.transform.parent.name);
         if (other.tag == Tags.EnemyTag)
         {
             Enemy enemy;
             enemy = other.GetComponentInParent<Enemy>();
             if (enemy == null)
             {
-                Debug.LogError("Àû¿¡°Ô EnemyÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogError("ì ì—ê²Œ Enemyì»´í¬ë„ŒíŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 return;
             }
             target = enemy.StateMachine;
         }
-        Debug.Log(target == null);
-        target?.TakeDamage(1);
-        target?.TakeEffect(AttackEffectTypes.KnockBack, 10, this.gameObject);
+        target?.TakeDamage(_damage);
+        target?.TakeEffect(AttackEffectTypes.KnockBack, _value, this.gameObject);
     }
 }
 
