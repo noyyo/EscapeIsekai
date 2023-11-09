@@ -16,16 +16,16 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
     {
         _value = value;
-        _attacker = attacker;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         IDamageable target = null;
+        Debug.Log(other.transform.parent.name);
         if (other.tag == Tags.EnemyTag)
         {
             Enemy enemy;
-            other.TryGetComponent(out enemy);
+            enemy = other.GetComponentInParent<Enemy>();
             if (enemy == null)
             {
                 Debug.LogError("적에게 Enemy컴포넌트가 없습니다.");
@@ -33,8 +33,9 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             }
             target = enemy.StateMachine;
         }
-        target?.TakeDamage(_damage);
-        target?.TakeEffect(AttackEffectTypes.Stun, _value/2, _attacker);
+        Debug.Log(target == null);
+        target?.TakeDamage(1);
+        target?.TakeEffect(AttackEffectTypes.KnockBack, 10, this.gameObject);
     }
 }
 
