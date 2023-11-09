@@ -12,7 +12,6 @@ public class PlayerPowerUpState : PlayerGroundState
 
     public override void Enter()
     {
-        Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
         stateMachine.Player.Playerconditions.ActivePowerUp(groundData.PowerUpCost);
@@ -20,6 +19,7 @@ public class PlayerPowerUpState : PlayerGroundState
         buff = new Buff(BuffTypes.speed, stateMachine);  // 버프타입의 객체를 새로 생성된 메모리 주소를 가짐.
         buff.ApplyBuff(10);
         stateMachine.buffs.Add(buff);
+        isMovable = false;
     }
 
 

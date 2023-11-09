@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
   <GroundedData>k__BackingField:
-    <BaseSpeed>k__BackingField: 5
+    <WalkSpeed>k__BackingField: 1
+    <RunSpeed>k__BackingField: 5
     <BaseRotatingDamping>k__BackingField: 8
     <WalkSpeedModifier>k__BackingField: 0.22
     <RunSpeedModifier>k__BackingField: 1
@@ -30,16 +31,22 @@ MonoBehaviour:
       <ComboTransitionTime>k__BackingField: 0.8
       <ForceTransitionTime>k__BackingField: 0.1
       <Force>k__BackingField: 1
+      <AttackEffectType>k__BackingField: 1
+      <AttackEffectValue>k__BackingField: 5
       <Damage>k__BackingField: 5
     - <AttackName>k__BackingField: "\uAE30\uBCF8 2\uD0C0"
       <ComboStateIndex>k__BackingField: 2
       <ComboTransitionTime>k__BackingField: 0.8
       <ForceTransitionTime>k__BackingField: 0.2
       <Force>k__BackingField: 2
+      <AttackEffectType>k__BackingField: 0
+      <AttackEffectValue>k__BackingField: 0
       <Damage>k__BackingField: 5
     - <AttackName>k__BackingField: "\uAE30\uBCF8 3\uD0C0"
       <ComboStateIndex>k__BackingField: -1
       <ComboTransitionTime>k__BackingField: 0.8
       <ForceTransitionTime>k__BackingField: 0.1
       <Force>k__BackingField: 3
+      <AttackEffectType>k__BackingField: 0
+      <AttackEffectValue>k__BackingField: 0
       <Damage>k__BackingField: 5

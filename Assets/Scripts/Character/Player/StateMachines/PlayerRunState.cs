@@ -10,7 +10,6 @@ public class PlayerRunState : PlayerGroundState
 
     public override void Enter()
     {
-        Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
         stateMachine.MovementSpeed = groundData.RunSpeed;
         StartAnimation(stateMachine.Player.AnimationData.RunParameterHash);

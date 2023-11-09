@@ -45,7 +45,6 @@ public class Buff : MonoBehaviour
 
     public void EndBuff()
     {
-        Debug.Log("¿£µå");
         switch (BuffType)
         {
             case BuffTypes.speed:

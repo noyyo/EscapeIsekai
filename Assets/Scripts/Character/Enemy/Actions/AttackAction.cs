@@ -50,11 +50,11 @@ public abstract class AttackAction : ScriptableObject
     /// <summary>
     /// 이펙트를 시작한 시간입니다. OnEffectStart를 실행하면 자동으로 저장됩니다.
     /// </summary>
-    public float EffectStartTime;
+    [HideInInspector] public float EffectStartTime;
     /// <summary>
     /// 현재 액션은 끝났지만 효과가 남아있는 경우 true입니다.
     /// </summary>
-    public bool HasRemainingEffect;
+    [HideInInspector] public bool HasRemainingEffect;
     /// <summary>
     /// 애니메이션 상태를 관리하는 딕셔너리입니다. Hash값을 통해 현재 상태를 불러올 수 있습니다.
     /// </summary>
@@ -71,6 +71,8 @@ public abstract class AttackAction : ScriptableObject
     private bool isAnimStarted;
     [HideInInspector]
     public float lastUsedTime;
+
+    protected HashSet<GameObject> alreadyAttackApplied = new HashSet<GameObject>();
 
     public void SetStateMachine(EnemyStateMachine stateMachine)
     {
@@ -94,6 +96,7 @@ public abstract class AttackAction : ScriptableObject
         isCompleted = false;
         isEffectStarted = false;
         isEffectEnded = false;
+        alreadyAttackApplied.Clear();
     }
     /// <summary>
     /// 매 프레임마다 호출됩니다.
@@ -162,55 +165,16 @@ public abstract class AttackAction : ScriptableObject
     /// 공격을 적용할 때 한 번만 호출해주어야 합니다.
     /// </summary>
     /// <param name="target">데미지 및 공격 효과를 적용할 대상입니다.</param>
-    protected void ApplyAttack(IDamageable target)
+    /// <param name="isPossibleMultihit">이미 공격이 적용된 대상에게도 다시 공격을 적용할 수 있는지 여부입니다.</param>
+    /// <param name="targetObj">공격을 이미 받았는지 판단하기 위한 대상의 GameObject입니다.</param>
+    protected void ApplyAttack(IDamageable target, bool isPossibleMultihit, GameObject targetObj)
     {
-        target.TakeDamage(Config.DamageAmount);
-        if (target.CanTakeAttackEffect)
-        {
-            MonoBehaviour targetObject;
-            if (!(target is MonoBehaviour))
-                return;
-            targetObject = target as MonoBehaviour;
-            switch (Config.AttackEffectType)
-            {
-                case AttackEffectTypes.None:
-                    break;
-                case AttackEffectTypes.KnockBack:
-                    ApplyKnockBackOrAirborne(targetObject.gameObject, AttackEffectTypes.KnockBack);
-                    break;
-                case AttackEffectTypes.Airborne:
-                    ApplyKnockBackOrAirborne(targetObject.gameObject, AttackEffectTypes.Airborne);
-                    break;
-                case AttackEffectTypes.Stun:
-                    // TODO : 스턴 효과 적용
-                    break;
-            }
-        }
-    }
-    private void ApplyKnockBackOrAirborne(GameObject target, AttackEffectTypes effectType)
-    {
-        if (target == null)
+        if (!isPossibleMultihit && alreadyAttackApplied.Contains(targetObj))
             return;
-        Transform targetTransform = target.transform;
-        Rigidbody rigidbody;
-        if (target.TryGetComponent(out rigidbody))
-        {
-            Vector3 direction = Vector3.zero;
-            switch (effectType)
-            {
-                case AttackEffectTypes.KnockBack:
-                    direction = targetTransform.forward;
-                    rigidbody.AddForce(direction.normalized * Config.AttackEffectValue);
-                    break;
-                case AttackEffectTypes.Airborne:
-                    direction = Vector3.up;
-                    rigidbody.AddForce(direction * Config.AttackEffectValue);
-                    break;
-                default:
-                    return;
-            }
 
-        }
+        alreadyAttackApplied.Add(targetObj);
+        target.TakeDamage(Config.DamageAmount);
+        target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, StateMachine.Enemy.gameObject);
     }
     private void InitializeAnimState()
     {
