@@ -23,6 +23,8 @@ public class PlayerAnimationData
     [SerializeField] private string SkillParameterName = "Skill";
     [SerializeField] private string PowerUpParameterName = "PowerUp";
 
+    [SerializeField] private string superJumpParameterName = "SuperJump";
+
     // Parameter값을 받는 getter 생성
     // 해당 Parameter는 크게 세 가지로 나누어서 사용(Ground, Air, Attack)
     // 이후에 작은 기능들을 각각의 상태에 맞게 추가
@@ -44,6 +46,8 @@ public class PlayerAnimationData
     public int SkillParameterHash { get; private set; }
     public int PowerUpParameterHash { get; private set; }
 
+    public int SuperJumpParameterHash { get; private set; }
+
     public void Initialize()
     {
         GroundParameterHash = Animator.StringToHash(groundParameterName);
@@ -61,5 +65,7 @@ public class PlayerAnimationData
 
         SkillParameterHash = Animator.StringToHash(SkillParameterName);
         PowerUpParameterHash = Animator.StringToHash(PowerUpParameterName);
+
+        SuperJumpParameterHash = Animator.StringToHash(superJumpParameterName);
     }
 }

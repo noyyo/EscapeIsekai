@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
 
     public  AttackAction[] Actions;
     public EnemyForceReceiver ForceReceiver { get; private set; }
+    public AnimationEventReceiver AnimEventReceiver { get; private set; }
     // Test
     public GameObject Player;
     void Awake()
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
         Agent = GetComponent<NavMeshAgent>();
         ForceReceiver = GetComponent<EnemyForceReceiver>();
+        AnimEventReceiver = GetComponentInChildren<AnimationEventReceiver>();
         StateMachine = new EnemyStateMachine(this);
         Init();
     }
@@ -61,10 +63,6 @@ public class Enemy : MonoBehaviour
             Actions[i].SetStateMachine(StateMachine);
             Actions[i].OnAwake();
         }
-    }
-    public void OnAnimationEventCalled(AnimationEvent animEvent)
-    {
-        AnimationEventCalled?.Invoke(animEvent);
     }
     private void OnCollisionEnter(Collision collision)
     {
