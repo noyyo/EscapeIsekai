@@ -35,4 +35,13 @@ public class Npc : MonoBehaviour
         isHit = false;
         player = null;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        player = other.gameObject;
+        isHit = true;
+        Dialog.Instance.Action(gameObject);
+        Dialog.Instance.panel.SetActive(true);
+    }
+
 }
