@@ -28,11 +28,11 @@ MonoBehaviour:
   ActionType: 5
   Config:
     EffectDurationSeconds: 0
-    DamageAmount: 3
+    DamageAmount: 0
     AttackEffectType: 0
     AttackEffectValue: 0
-    animTrigger1: breath1
-    animTrigger2: breath2
+    animTrigger1: 
+    animTrigger2: 
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
@@ -48,15 +48,13 @@ MonoBehaviour:
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 5
+    CoolDown: 0
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
   thisParticleSystem: {fileID: 0}
-  AoEObject: {fileID: 6252886606377246018, guid: 78d6580fec946ae4fb3c5a5e84087cc5,
-    type: 3}
-  attackTime: 3
+  AoEObject: {fileID: 0}
+  attackTime: 0
   StartLifeTime: 2
-  StartSize: 1
   MaxParticle: 300
   Angle: 30

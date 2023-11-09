@@ -109,9 +109,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Inventory"",
+                    ""name"": ""SuperJump"",
                     ""type"": ""Button"",
-                    ""id"": ""6ba1f29e-2964-41ee-b759-bac39a417c74"",
+                    ""id"": ""c6e075a1-0b06-4533-9c08-dc1fc0ca125f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -264,12 +264,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""75a26e23-851b-4080-81b3-5ea81af7b7d9"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""id"": ""4b63d806-4d59-46e4-bfff-69b5c2587787"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Inventory"",
+                    ""action"": ""SuperJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -317,7 +317,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Navigate = m_Player.FindAction("Navigate", throwIfNotFound: true);
         m_Player_Skill = m_Player.FindAction("Skill", throwIfNotFound: true);
         m_Player_PowerUp = m_Player.FindAction("PowerUp", throwIfNotFound: true);
-        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_SuperJump = m_Player.FindAction("SuperJump", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
@@ -391,7 +391,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Navigate;
     private readonly InputAction m_Player_Skill;
     private readonly InputAction m_Player_PowerUp;
-    private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_SuperJump;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -405,7 +405,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Navigate => m_Wrapper.m_Player_Navigate;
         public InputAction @Skill => m_Wrapper.m_Player_Skill;
         public InputAction @PowerUp => m_Wrapper.m_Player_PowerUp;
-        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        public InputAction @SuperJump => m_Wrapper.m_Player_SuperJump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -442,9 +442,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @PowerUp.started += instance.OnPowerUp;
             @PowerUp.performed += instance.OnPowerUp;
             @PowerUp.canceled += instance.OnPowerUp;
-            @Inventory.started += instance.OnInventory;
-            @Inventory.performed += instance.OnInventory;
-            @Inventory.canceled += instance.OnInventory;
+            @SuperJump.started += instance.OnSuperJump;
+            @SuperJump.performed += instance.OnSuperJump;
+            @SuperJump.canceled += instance.OnSuperJump;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -476,9 +476,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @PowerUp.started -= instance.OnPowerUp;
             @PowerUp.performed -= instance.OnPowerUp;
             @PowerUp.canceled -= instance.OnPowerUp;
-            @Inventory.started -= instance.OnInventory;
-            @Inventory.performed -= instance.OnInventory;
-            @Inventory.canceled -= instance.OnInventory;
+            @SuperJump.started -= instance.OnSuperJump;
+            @SuperJump.performed -= instance.OnSuperJump;
+            @SuperJump.canceled -= instance.OnSuperJump;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -553,7 +553,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnNavigate(InputAction.CallbackContext context);
         void OnSkill(InputAction.CallbackContext context);
         void OnPowerUp(InputAction.CallbackContext context);
-        void OnInventory(InputAction.CallbackContext context);
+        void OnSuperJump(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

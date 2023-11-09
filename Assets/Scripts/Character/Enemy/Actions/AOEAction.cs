@@ -18,11 +18,18 @@ public class AOEAction : AttackAction
     private bool _nextAnim = true;
 
     [Header("Particle")]
-    public GameObject AoEObject;  //파티클을 가지고 있는 오브젝트
-    public float attackTime;  //파티클 재생 시간
-    public float StartLifeTime = 2f;  //파티클 생명주기, 클수록 멀리나감
-    [Range(300, 1000)] public int MaxParticle = 300;  //startlifertime이 길수록 커야함
-    [Range(15f, 65f)] public float Angle = 30f;  //좌우로 설정 각만큼 파티클이 표시됨
+    [Tooltip("파티클을 가지고 있는 오브젝트")]
+    public GameObject AoEObject;
+    [Tooltip("총 패턴 진행 시간")]
+    public float attackTime;  
+    [Tooltip("파티클 생명주기, 클수록 멀리나갑니다. 값이 클수록 MaxParticle이 많아야 합니다.")]
+    public float StartLifeTime = 2f;  
+    [Tooltip("파티클 조각 크기")]
+    [Range(0.1f, 5f)] public float StartSize = 1f; 
+    [Tooltip("한번에 표시될 수 있는 파티클 수")]
+    [Range(300, 1000)] public int MaxParticle = 300;  
+    [Tooltip("정면을 기준으로 좌우로 퍼지는 각입니다.")]
+    [Range(15f, 65f)] public float Angle = 30f;  
     public AOEAction() : base()
     {
         ActionType = ActionTypes.AoE;
@@ -79,6 +86,7 @@ public class AOEAction : AttackAction
 
         main.startLifetime = StartLifeTime;
         main.maxParticles = MaxParticle;
+        main.startSize = StartSize;
         shape.angle = Angle;
     }
 }
