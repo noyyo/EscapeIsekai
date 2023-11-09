@@ -19,6 +19,8 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
     public PlayerSkillState SkillState { get; }
     public PlayerPowerUpState PowerUpState { get; }
+
+    public PlayerSuperJump SuperJump { get; }
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
     public float RotationDamping { get; private set; }
@@ -56,6 +58,8 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
         SkillState = new PlayerSkillState(this);
         PowerUpState = new PlayerPowerUpState(this);
+
+        SuperJump = new PlayerSuperJump(this);
 
         MainCameraTransform = Camera.main.transform;
 
