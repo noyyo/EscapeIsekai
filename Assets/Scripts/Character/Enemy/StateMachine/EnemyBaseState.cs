@@ -61,8 +61,4 @@ public class EnemyBaseState : IState
     {
         return stateMachine.TargetDistance <= enemyData.ChasingRange;
     }
-    protected bool IsInAttackRange()
-    {
-        return stateMachine.TargetDistance <= enemyData.AttackRange;
-    }
 }

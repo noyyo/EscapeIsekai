@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
     private static readonly string MeleeAttackStart = "MeleeAttackStart";
     private static readonly string MeleeAttackEnd = "MeleeAttackEnd";
 
-    private void Awake()
+    private void Start()
     {
         if (character == null)
             Debug.LogError("무기를 사용할 캐릭터가 없습니다.");
@@ -35,7 +35,7 @@ public class Weapon : MonoBehaviour
                 Debug.LogError("Enemy객체를 찾을 수 없습니다.");
                 return;
             }
-            enemy.AnimationEventCalled += EventDecision;
+            enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
         }
         else
         {

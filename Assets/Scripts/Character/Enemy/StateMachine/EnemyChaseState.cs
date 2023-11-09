@@ -20,6 +20,7 @@ public class EnemyChaseState : EnemyBaseState
         base.Enter();
         stateMachine.IsInBattle = true;
         isLookTarget = false;
+        StartAnimation(enemy.AnimationData.MoveParameterHash);
         isChoosed = stateMachine.ChooseAction();
         if (!isChoosed)
         {
