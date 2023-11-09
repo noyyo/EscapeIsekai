@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,7 +11,7 @@ public class ItemCraftingSlot : MonoBehaviour
     [SerializeField] private GameObject _outLine;
     [SerializeField] private Image _icon;
 
-    //½½·Ô µ¥ÀÌÅÍ ÀúÀå
+    //ìŠ¬ë¡¯ ë°ì´í„° ì €ì¥
     private ItemData_Test _itemData;
     private Inventory _inventory;
     private int[] _materialsCount;
@@ -39,14 +39,14 @@ public class ItemCraftingSlot : MonoBehaviour
         _craftingManager.onUpdateUIEvent += MakeCheck;
     }
 
-    //¸ñÂ÷¹öÆ° ´©¸£¸é ½½·ÔÀ» È°¼ºÈ­ÇÏ±â À§ÇÑ ¸Ş¼­µå
+    //ëª©ì°¨ë²„íŠ¼ ëˆ„ë¥´ë©´ ìŠ¬ë¡¯ì„ í™œì„±í™”í•˜ê¸° ìœ„í•œ ë©”ì„œë“œ
     public void TurnOnOffSlot()
     {
         isDisplay = !isDisplay;
         this.gameObject.SetActive(isDisplay);
     }
 
-    //½½·ÔÀÇ Á¤º¸¸¦ ÀúÀåÇÏ±â À§ÇÑ ¸Ş¼­µå
+    //ìŠ¬ë¡¯ì˜ ì •ë³´ë¥¼ ì €ì¥í•˜ê¸° ìœ„í•œ ë©”ì„œë“œ
     public void SetSlot(in ItemRecipe newRecipe)
     {
         if(_itemDB == null)
@@ -59,17 +59,17 @@ public class ItemCraftingSlot : MonoBehaviour
         MakeCheck(newRecipe);
         if (_isMake)
         {
-            _itemAvailability.text = "Á¦ÀÛÀÌ °¡´ÉÇÕ´Ï´Ù.";
+            _itemAvailability.text = "ì œì‘ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤..";
             _itemAvailability.color = Color.white;
         }
         else
         {
-            _itemAvailability.text = "Á¦ÀÛÀÌ ºÒ°¡´ÉÇÕ´Ï´Ù.";
+            _itemAvailability.text = "ì¬ë£Œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.";
             _itemAvailability.color = Color.red;
         }
     }
 
-    //¹öÆ°À» ´©¸£¸é ½ÇÇà
+    //ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ì‹¤í–‰
     public void OnButtonClick()
     {
         MakeCheck(itemRecipe);
@@ -78,7 +78,7 @@ public class ItemCraftingSlot : MonoBehaviour
         _craftingManager.offOutLineEvent += OutLineTrunOff;
     }
 
-    //ÀÚµ¿ÇØÁ¦¸¦ À§ÇÑ ¸Ş¼­µå
+    //ìë™í•´ì œë¥¼ ìœ„í•œ ë©”ì„œë“œ
     public void OutLineTrunOff()
     {
         _outLine.SetActive(false);

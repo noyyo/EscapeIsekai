@@ -1,4 +1,4 @@
-using System;
+癤퓎sing System;
 using UnityEngine;
 using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
@@ -17,22 +17,13 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private InventoryManager _inventoryManager;
     private bool _isDisplay;
     private GameObject _player;
-
-    //슬롯 클릭했을때의 이벤트
     public event Action onClickCraftingSlotEvent;
-    //슬롯 아웃라인 off이벤트
     public event Action offOutLineEvent;
-    //아이템 설명창 및 재료창 Off이벤트
     public event Action OffItemCaftingMaterialsEvent;
-    //UI업데이트 이벤트
     public event Action<ItemRecipe> onUpdateUIEvent;
-    //제작버튼 눌렀을시 이벤트
     public event Action onClickCraftingButtonEvent;
-    //제작창 종료 이벤트
     public event Action offCraftingUIEvent;
-    //제작창 오픈 이벤트
     public event Action onCraftingUIEvent;
-
     public GameObject ItemCraftingUI { get {  return _itemCraftingUI; } }
     public GameObject CraftingSlotPrefab { get { return _craftingSlotPrefab; } }
     public GameObject ItemCaftingMaterials_UI { get { return _itemCaftingMaterials_UI; } }
@@ -110,7 +101,6 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     private void Update()
     {
-        //테스트용 나중에 다른 코드랑 연결시 수정해야됨
         if (Input.GetKeyDown(KeyCode.H))
         {
             CallOnCraftingUI();
@@ -143,10 +133,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     public void CraftingItem()
     {
         if (_isMake)
-        {
-            //나중에 금화시스템 추가되면 비교문 추가할것
             _inventoryManager.CallAddItems(ClickSlot, out int[] sum);
-        }
     }
 
     public void CallOnClickCraftingButtonEvent()

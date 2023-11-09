@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +6,8 @@ using UnityEngine;
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
     protected InventoryManager() { }
-
-    [Header("Å×½ºÆ®¿ë")]
-    [SerializeField][Tooltip("¿À·ù ¹ß»ı½Ã Á÷Á¢ ÂüÁ¶ ¹× ÄÚµå¼öÁ¤")] private UI_Inventory _ui_Inventory;
-    [SerializeField][Tooltip("¿À·ù ¹ß»ı½Ã Á÷Á¢ ÂüÁ¶ ¹× ÄÚµå¼öÁ¤")] private Inventory _inventory;
+    [SerializeField] private UI_Inventory _ui_Inventory;
+    [SerializeField] private Inventory _inventory;
     private UI_Manager _ui_Manager;
     private GameObject _itemExplanationPopup;
     private GameObject _inventory_UI;
@@ -29,10 +27,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public GameObject Inventory_UI { get { return _inventory_UI; } }
     public bool IsDisplay { get { return  isDisplay; } }
     public ItemSlotInfo ClickItem { get { return _clickItem; } }
-
-    //Inventory_UI ¿Â¿ÀÇÁ¿ë ÀÌº¥Æ®
     public event Action OnInventoryDisplayEvent;
-
     public event Action onTextChangeEquipEvent;
     public event Action onTextChangeUnEquipEvent; 
 
@@ -77,7 +72,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         _ClickSlot?.TurnOffItemClick();
     }
 
-    //µå·ÓÇßÀ»¶§ ¹Ù²Ù±â À§ÇÑ °ª ÀúÀå
+    //ë“œë¡­í–ˆì„ë•Œ ë°”ê¾¸ê¸° ìœ„í•œ ê°’ ì €ì¥
     public void SaveNewChangedSlot(ItemSlotInfo newSlot, int uniqueIndex)
     {
         _newSlot = newSlot;
@@ -87,8 +82,8 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     public void CallChangeSlot(ItemSlotInfo oldSlot, int uniqueIndex)
     {
-        //ÇØ´ç °´Ã¼°¡ ½½·ÔÀÌ¿©¸¸ ¹Ù²Ù±â ÀüÈ¯( ½½·ÔÀÌ ¾Æ´Ï¸é OnDropÀÌ È£ÃâµÇÁö ¾Ê¾Æ¼­
-        //SaveNewChangedSlot°¡ È£ÃâµÇÁö ¾ÊÀ½)
+        //í•´ë‹¹ ê°ì²´ê°€ ìŠ¬ë¡¯ì´ì—¬ë§Œ ë°”ê¾¸ê¸° ì „í™˜( ìŠ¬ë¡¯ì´ ì•„ë‹ˆë©´ OnDropì´ í˜¸ì¶œë˜ì§€ ì•Šì•„ì„œ
+        //SaveNewChangedSlotê°€ í˜¸ì¶œë˜ì§€ ì•ŠìŒ)
         if (isDrop)
         {
             _inventory.ChangeSlot(_newSlot, oldSlot, _temporaryStorageindex, uniqueIndex);
