@@ -5,9 +5,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class DamageReflectiveRocks : BaseEnvironmentObject
 {
-    [SerializeField] private int _damage;
-    [SerializeField] private float _value;
-    [SerializeField] private GameObject _attacker;
+    [ReadOnly][SerializeField] private int _damage;
+    [ReadOnly][SerializeField] private float _value;
+    [ReadOnly][SerializeField] private GameObject _attacker;
     public override void TakeDamage(int damage)
     {
         _damage = damage;
@@ -34,8 +34,8 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             target = enemy.StateMachine;
         }
         Debug.Log(target == null);
-        target?.TakeDamage(1);
-        target?.TakeEffect(AttackEffectTypes.KnockBack, 10, this.gameObject);
+        target?.TakeDamage(_damage);
+        target?.TakeEffect(AttackEffectTypes.KnockBack, _value, this.gameObject);
     }
 }
 

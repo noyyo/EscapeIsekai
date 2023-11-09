@@ -107,6 +107,22 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         _inventory.TryAddItem(id, count, out errorItemCount);
     }
 
+    public void CallAddItems(ItemRecipe itemRecipe)
+    {
+        _inventory.TryAddItems(itemRecipe);
+    }
+
+    public void CallAddItems(int[] id, int[] count)
+    {
+        _inventory.TryAddItems(id, count);
+    }
+
+
+    public void CallAddItem(int id, int count)
+    {
+        _inventory.TryAddItem(id, count);
+    }
+
     public bool CallIsCheckItem(int id, int count, out int sum)
     {
         return _inventory.IsCheckItem(id, count, out sum);
@@ -120,6 +136,24 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     {
         return _inventory.IsCheckItems(newRecipe, out sum);
     }
+
+    public bool CallIsCheckItem(int id, int count)
+    {
+        return _inventory.IsCheckItem(id, count);
+    }
+    public bool[] CallIsCheckItems(int[] id, int[] count)
+    {
+        return _inventory.IsCheckItems(id, count);
+    }
+
+    public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe)
+    {
+        return _inventory.IsCheckItems(newRecipe);
+    }
+
+
+
+
 
     public void CallOnInventoryDisplayEvent()
     {
