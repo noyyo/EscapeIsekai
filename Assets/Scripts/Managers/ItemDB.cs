@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +25,8 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     private void Awake()
     {
+        if (_itemList == null)
+            _itemList = Resources.Load<ItemExcel>("ItemData/ItemExcel");
         _itemDatas = new List<ItemData_Test>(_itemList.ItemDatas);
         _itemStats = new List<ItemStats>(_itemList.Stats);
         _itemRecipes = new List<ItemRecipe>(_itemList.Recipe);

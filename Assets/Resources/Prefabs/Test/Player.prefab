@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 3551941844079151648}
   - component: {fileID: 5985060961516869303}
   - component: {fileID: 1415538717332108968}
-  - component: {fileID: 497692780127594102}
   - component: {fileID: 7877146397488698589}
   - component: {fileID: -5132071077028366704}
   - component: {fileID: -7042740872394103144}
+  - component: {fileID: -4897473867537874735}
+  - component: {fileID: -628453137509401603}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -109,37 +110,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &497692780127594102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4840192819045873222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 7febed9659d6ecc45a725dddb179a4ca,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &7877146397488698589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +151,31 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4840192819045873222}
   m_Enabled: 1
+--- !u!114 &-4897473867537874735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4840192819045873222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87228d524bfaf348913413e72bb5d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemCraftingUI: {fileID: 0}
+  _craftingItemTypeListPrefab: {fileID: 0}
+  _craftingItemListCount: 3
+  _craftingItemListSpawn: {fileID: 0}
+--- !u!114 &-628453137509401603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4840192819045873222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d2abdaa25aeac4f9485a2b2a06c6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

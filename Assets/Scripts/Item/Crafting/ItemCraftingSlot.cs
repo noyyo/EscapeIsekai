@@ -14,8 +14,8 @@ public class ItemCraftingSlot : MonoBehaviour
     //슬롯 데이터 저장
     private ItemData_Test _itemData;
     private Inventory _inventory;
-    private Sprite[] _materialsIcon;
     private int[] _materialsCount;
+    private bool[] _boolArray;
     private ItemCraftingManager _craftingManager;
 
     private Button _button;
@@ -72,6 +72,7 @@ public class ItemCraftingSlot : MonoBehaviour
     //버튼을 누르면 실행
     public void OnButtonClick()
     {
+        MakeCheck(itemRecipe);
         _craftingManager.CallOnClickCraftingSlotEvent(itemRecipe, _isMake);
         _outLine.SetActive(true);
         _craftingManager.offOutLineEvent += OutLineTrunOff;
@@ -87,15 +88,13 @@ public class ItemCraftingSlot : MonoBehaviour
     {
         if (_inventory == null)
             _inventory = InventoryManager.Instance.Inventory;
-        _materialsIcon = _inventory.IsCheckItems(newRecipe, out _materialsCount);
-        _isMake = true;
+        _boolArray = _inventory.IsCheckItems(newRecipe.Materials, newRecipe.MaterialsCount, out _materialsCount);
 
-        foreach(Sprite i in _materialsIcon)
+        _isMake = true;
+        foreach (bool i in _boolArray)
         {
-            if(i == null)
-            {
+            if(i == false)
                 _isMake = false;
-            }
         }
     }
 }

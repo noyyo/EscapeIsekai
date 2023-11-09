@@ -1,11 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
     [SerializeField] private GameObject _itemCraftingUI;
@@ -21,6 +16,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private Button _craftingButton;
     private InventoryManager _inventoryManager;
     private bool _isDisplay;
+    private GameObject _player;
 
     //슬롯 클릭했을때의 이벤트
     public event Action onClickCraftingSlotEvent;
@@ -80,6 +76,18 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         {
             _materialsSlots = ItemCaftingMaterials_UI.transform.GetChild(3).GetComponentsInChildren<MaterialsSlot>();
         }
+
+        if(_craftingController == null)
+        {
+            _player = _uiManager.Player;
+            if (_player != null)
+                _craftingController = _player.GetComponent<ItemCraftingController>();
+            if(_craftingController == null)
+            {
+                _player = GameObject.FindGameObjectWithTag("Player");
+                _craftingController = _player.GetComponent<ItemCraftingController>();
+            }
+        }
     }
     private void Start()
     {
@@ -134,15 +142,10 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     public void CraftingItem()
     {
-        if (IsMake)
+        if (_isMake)
         {
             //나중에 금화시스템 추가되면 비교문 추가할것
-            Debug.Log(ClickSlot == null);
             _inventoryManager.CallAddItems(ClickSlot, out int[] sum);
-            foreach(var item in sum)
-            {
-                Debug.Log(item);
-            }
         }
     }
 

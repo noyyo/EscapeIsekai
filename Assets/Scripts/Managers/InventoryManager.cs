@@ -18,8 +18,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private ItemSlotInfo _clickItem;
     private Slot _ClickSlot;
     private ItemSlotInfo _newSlot;
-
-    private ItemSlotInfo _temporaryStorage;
     private int _temporaryStorageindex;
 
     private bool isDrop;

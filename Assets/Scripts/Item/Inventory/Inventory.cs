@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -102,9 +101,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //플레이어의 코드를 참조하여 I를 눌렸을시 _inventoryManager.CallOnInventoryDisplayEvent(); 호출해야 됩니다.
+    // 인벤토리와 제작창 호출시 마우스 lock해제시켜야됩니다.
+    // 인벤토리와 제작창 호출시 시간을 멈춰야 됩니다.
     private void Update()
     {
-        //나중에 playerInput에 설정한 후 수정할것
         if (Input.GetKeyDown(KeyCode.I))
         {
             OnInventory();
@@ -115,6 +116,8 @@ public class Inventory : MonoBehaviour
     {
         _inventoryManager.CallOnInventoryDisplayEvent();
     }
+    //
+
 
     public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
     {
