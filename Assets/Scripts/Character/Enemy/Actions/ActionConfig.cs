@@ -3,13 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AttackEffectTypes
-{
-    None = 0,
-    KnockBack,
-    Airborne,
-    Stun,
-}
+
 
 [Serializable]
 public class ActionConfig

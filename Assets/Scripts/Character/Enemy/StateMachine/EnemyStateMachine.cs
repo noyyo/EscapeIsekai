@@ -8,37 +8,44 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
 
 [Serializable]
-public class EnemyStateMachine : StateMachine
+public class EnemyStateMachine : StateMachine, IDamageable
 {
     public event Action<bool> IsPauseChanged;
     public event Action ActivatedActionsChanged;
+    public event Action OnDie;
+
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
     public Enemy Enemy { get; }
-    public Animator Animator;
+    public Animator Animator { get; private set; }
     public float MovementSpeedModifier { get; set; } = 1f;
+    private EnemyForceReceiver forceReceiver;
+    private NavMeshAgent agent;
     public EnemyIdleState IdleState { get; }
     public EnemyWanderState WanderState { get; }
     public EnemyChaseState ChaseState { get; }
     public EnemyAttackState AttackState { get; }
     public EnemyReturnToBaseState ReturnToBaseState { get; }
     public EnemyFleeState FleeState { get; }
-    private bool isPause;
-    private bool isActive;
+    [SerializeField][ReadOnly] private bool isPause;
+    [SerializeField][ReadOnly] private bool isActive;
     [SerializeField] private float ActivationCheckDelay = 0.5f;
     [SerializeField] private float ActivationDistance = 100f;
     private float lastCheckTime;
     public float TargetDistance { get; private set; }
     public Vector3 OriginPosition { get; set; }
-    public bool IsInvincible { get; set; }
-    public bool IsFleeable { get; set; }
-    public AttackAction CurrentAction;
+    [field: SerializeField][field: ReadOnly] public bool IsInvincible { get; set; }
+    [field: SerializeField][field: ReadOnly] public bool IsFleeable { get; set; }
+    private AffectedAttackEffectInfo affectedEffectInfo = new AffectedAttackEffectInfo();
+    public AffectedAttackEffectInfo AffectedEffectInfo { get => affectedEffectInfo; }
+
+    [ReadOnly] public AttackAction CurrentAction;
     private AttackAction[] actionData;
-    private List<AttackAction> actionsInActive = new List<AttackAction>(5);
-    private List<AttackAction> actionsToExecute = new List<AttackAction>(5);
-    private List<int> eligibleActionIndex;
-    public int HP;
-    public float BattleTime;
+    [SerializeField][ReadOnly] private List<AttackAction> actionsInActive = new List<AttackAction>(5);
+    [SerializeField][ReadOnly] private List<AttackAction> actionsToExecute;
+    [field: SerializeField] public int HP { get; private set; }
+    [ReadOnly] public float BattleTime;
+    [ReadOnly] public bool IsInBattle;
     
 
     public EnemyStateMachine(Enemy enemy)
@@ -54,17 +61,30 @@ public class EnemyStateMachine : StateMachine
         FleeState = new EnemyFleeState(this);
         IsFleeable = enemy.Data.IsFleeable;
         actionData = enemy.Actions;
-        eligibleActionIndex = new List<int>(actionData.Length);
+        actionsToExecute = new List<AttackAction>(actionData.Length);
         IsPauseChanged += PauseAnimation;
+        forceReceiver = enemy.ForceReceiver;
+        agent = enemy.Agent;
+        InitializeAffectedAttackEffectInfo();
         //Test
         Player = Enemy.Player;
     }
-
+    private void InitializeAffectedAttackEffectInfo()
+    {
+        AttackEffectTypes[] effectTypes = Enemy.Data.AffectedEffects;
+        for (int i = 0; i < effectTypes.Length; i++)
+        {
+            affectedEffectInfo.SetFlag(effectTypes[i], true);
+        }
+    }
     public override void Update()
     {
         CheckTargetDistance();
         if (!isActive)
             return;
+        if (IsInBattle)
+            BattleTime += Time.deltaTime;
+        MoveByForce();
         UpdateActivatedActions();
         base.Update();
     }
@@ -121,23 +141,22 @@ public class EnemyStateMachine : StateMachine
             Animator.speed = 1f;
         }
     }
-    // 액션을 선택해 CurrentAction으로 설정합니다. 선택할 수 있는 액션이 없다면 false를 리턴합니다.
+    /// <summary>
+    /// 액션을 선택해 CurrentAction으로 설정합니다. 선택할 수 있는 액션이 없다면 false를 리턴합니다.
+    /// </summary>
+    /// <returns></returns>
     public bool ChooseAction()
     {
-        // 실행대기 액션이 없다면 Data에서 선택합니다.
+        // 실행가능 액션이 없다면 Data에서 실행가능한 액션을 추가합니다.
         if (actionsToExecute.Count == 0)
         {
             for (int i = 0; i < actionData.Length; i++)
             {
                 if (actionData[i].Condition.isEligible())
-                    eligibleActionIndex.Add(i);
+                    actionsToExecute.Add(actionData[i]);
             }
-            if (eligibleActionIndex.Count == 0)
+            if (actionsToExecute.Count == 0)
                 return false;
-            AttackAction choosedAction = actionData[UnityEngine.Random.Range(0, eligibleActionIndex.Count)];
-            CurrentAction = choosedAction;
-            eligibleActionIndex.Clear();
-            return true;
         }
 
         int prioritySum = 0;
@@ -148,6 +167,7 @@ public class EnemyStateMachine : StateMachine
             if (priority >= ActionCondition.determinePriority)
             {
                 CurrentAction = actionsToExecute[i];
+                ClearExecutableActions();
                 return true;
             }
             prioritySum += priority;
@@ -160,17 +180,28 @@ public class EnemyStateMachine : StateMachine
             if (executePivot <= currentPriority)
             {
                 CurrentAction = actionsToExecute[i];
+                ClearExecutableActions();
                 return true;
             }
         }
         Debug.LogError("액션이 선택되지 못했습니다.");
         return false;
     }
+    private void ClearExecutableActions()
+    {
+        for (int i = 0; i < actionsToExecute.Count; i++)
+        {
+            if (actionsToExecute[i].Condition.WaitUntilExecute)
+                continue;
+            actionsToExecute.RemoveAt(i);
+            i--;
+        }
+    }
     private void UpdateActivatedActions()
     {
-        foreach (AttackAction action in actionsInActive)
+        for (int i = 0; i < actionsInActive.Count; i++)
         {
-            action.OnUpdate();
+            actionsInActive[i].OnUpdate();
         }
     }
     public List<AttackAction> GetActionsInActive()
@@ -186,5 +217,37 @@ public class EnemyStateMachine : StateMachine
     {
         actionsInActive.Remove(action);
         ActivatedActionsChanged?.Invoke();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        HP -= damage;
+        HP = Mathf.Max(HP, 0);
+        if (HP == 0)
+            OnDie?.Invoke();
+    }
+
+    public void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
+    {
+        if (!AffectedEffectInfo.CanBeAffected(attackEffectTypes))
+            return;
+
+        switch (attackEffectTypes)
+        {
+            case AttackEffectTypes.KnockBack:
+                Vector3 direction = Enemy.transform.position - attacker.transform.position;
+                direction.Normalize();
+                forceReceiver.AddForce(direction * value);
+                break;
+            case AttackEffectTypes.Airborne:
+                forceReceiver.AddForce(Vector3.up * value);
+                break;
+            case AttackEffectTypes.Stun:
+                break;
+        }
+    }
+    private void MoveByForce()
+    {
+        agent.Move(forceReceiver.Movement * Time.deltaTime);
     }
 }

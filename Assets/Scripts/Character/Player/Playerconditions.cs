@@ -6,11 +6,6 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public interface IDamagable
-{
-    void TakePhysicalDamage(int damage);
-}
-
 [System.Serializable]
 public class Condition
 {
@@ -39,17 +34,14 @@ public class Condition
     }
 }
 
-public class Playerconditions : MonoBehaviour, IDamagable
+public class Playerconditions : MonoBehaviour
 {
     public Condition health;
     public Condition hunger;
     public Condition stamina;
     public Condition skill;
     public Condition powerUp;
-    public event Action OnDie;
     public float noHungerHealthDecay;
-
-    public UnityEvent onTakeDamage;
 
 
     void Start()
@@ -70,10 +62,6 @@ public class Playerconditions : MonoBehaviour, IDamagable
 
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
-
-        if (health.curValue == 0.0f)
-            Die();
-
 
         health.uiBar.fillAmount = health.GetPercentage();
         hunger.uiBar.fillAmount = hunger.GetPercentage();
@@ -117,16 +105,5 @@ public class Playerconditions : MonoBehaviour, IDamagable
 
         powerUp.Subtract(powerUp.maxValue);
         return true;
-    }
-
-    public void Die()
-    {
-        OnDie?.Invoke();
-    }
-
-    public void TakePhysicalDamage(int damage)
-    {
-        health.Subtract(damage);
-        onTakeDamage?.Invoke();
     }
 }

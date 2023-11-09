@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateMachine : StateMachine
+public class PlayerStateMachine : StateMachine, IDamageable
 {
     public Player Player { get; }
 
@@ -33,7 +34,11 @@ public class PlayerStateMachine : StateMachine
     private float checkDelay = 0.1f;
     private float lastCheckTime;
 
+    public event Action OnDie;
+
     public Transform MainCameraTransform { get; set; }
+    private AffectedAttackEffectInfo affectedEffectInfo = new AffectedAttackEffectInfo();
+    public AffectedAttackEffectInfo AffectedEffectInfo { get => affectedEffectInfo; }
 
     public PlayerStateMachine(Player player)
     {
@@ -57,6 +62,9 @@ public class PlayerStateMachine : StateMachine
         // 플레이어의 기본 데이터를 가져옴
         MovementSpeed = player.Data.GroundedData.WalkSpeed;
         RotationDamping = player.Data.GroundedData.BaseRotatingDamping;
+        OnDie += Dead;
+        AffectedEffectInfo.SetFlag(AffectedAttackEffectInfo.AllFlag);
+        Player.Weapon.WeaponColliderEnter += OnWeaponColliderEnter;
     }
 
 
@@ -87,5 +95,47 @@ public class PlayerStateMachine : StateMachine
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        Player.Playerconditions.health.Subtract(damage);
+        if (Player.Playerconditions.health.curValue <= 0f)
+        {
+            OnDie?.Invoke();
+        }
+    }
 
+    private void Dead()
+    {
+        // TODO : 죽을 때 처리할 내용
+    }
+
+    public void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
+    {
+        if (!AffectedEffectInfo.CanBeAffected(attackEffectTypes))
+            return;
+
+        switch (attackEffectTypes)
+        {
+            case AttackEffectTypes.KnockBack:
+                Vector3 direction = Player.transform.position - attacker.transform.position;
+                direction.Normalize();
+                Player.ForceReceiver.AddForce(direction * value);
+                // KnockBack 로직
+                break;
+            case AttackEffectTypes.Airborne:
+                Player.ForceReceiver.AddForce(Vector3.up * value);
+                // Airborne 로직
+                break;
+            case AttackEffectTypes.Stun:
+                // Stun 로직
+                break;
+        }
+    }
+    private void OnWeaponColliderEnter(Collider other)
+    {
+        if (currentState != ComboAttackState)
+            return;
+
+        ComboAttackState.ApplyAttack(other);
+    }
 }

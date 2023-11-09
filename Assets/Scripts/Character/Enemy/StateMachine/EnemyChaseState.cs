@@ -9,6 +9,8 @@ public class EnemyChaseState : EnemyBaseState
     private bool isLookTarget;
     private bool isChoosed;
     public static readonly float ChaseTime = 3f;
+    private static readonly float actionCoolDownWaitTime = 1f;
+    private float stateStartTime;
     private AttackAction action;
     public EnemyChaseState(EnemyStateMachine enemyStateMachine) : base(enemyStateMachine)
     {
@@ -16,25 +18,47 @@ public class EnemyChaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
-        agent.autoBraking = false;
+        stateMachine.IsInBattle = true;
         isLookTarget = false;
         isChoosed = stateMachine.ChooseAction();
-        action = stateMachine.CurrentAction;
-        
+        if (!isChoosed)
+        {
+            stateStartTime = Time.time;
+            agent.isStopped = true;
+            StartAnimation(enemy.AnimationData.IdleParameterHash);
+        }
+        else
+        {
+            action = stateMachine.CurrentAction;
+            agent.autoBraking = false;
+            agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
+            StartAnimation(enemy.AnimationData.RunParameterHash);
+        }
 
-
-        agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
-        StartAnimation(enemy.AnimationData.RunParameterHash);
     }
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(enemy.AnimationData.RunParameterHash);
-        agent.autoBraking = true;
+        if (!isChoosed)
+        {
+            agent.isStopped = false;
+            StopAnimation(enemy.AnimationData.IdleParameterHash);
+        }
+        else
+        {
+            StopAnimation(enemy.AnimationData.RunParameterHash);
+            agent.autoBraking = true;
+        }
     }
     public override void Update()
     {
         base.Update();
+        if (!isChoosed)
+        {
+            if (Time.time - stateStartTime >= actionCoolDownWaitTime)
+                stateMachine.ChangeState(stateMachine.ChaseState);
+            return;
+        }
         if (IsInChaseRange())
         {
             Chase();

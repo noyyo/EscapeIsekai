@@ -5,8 +5,9 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public int HP { get; set; }
-    public abstract void TakeDamage(int damage);
     public event Action OnDie;
-    public bool CanTakeAttackEffect { get; set; }
+
+    public abstract void TakeDamage(int damage);
+    public AffectedAttackEffectInfo AffectedEffectInfo { get; }
+    public abstract void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker);
 }

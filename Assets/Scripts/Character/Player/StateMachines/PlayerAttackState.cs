@@ -21,4 +21,5 @@ public class PlayerAttackState : PlayerBaseState
         isMovable = true;
         StopAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
     }
+
 }
