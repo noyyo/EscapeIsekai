@@ -29,14 +29,20 @@ public class ItemCraftingController : MonoBehaviour
         _itemCraftingManager.CraftingController = this;
         _itemDB = ItemDB.Instance;
 
-        if (_craftingItemTypeListPrefab == null)
-            _craftingItemTypeListPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemTypeList");
-        _itemCraftingUI = _itemCraftingManager.ItemCraftingUI;       
-        
         _itemEquipmentID = new Dictionary<int, int>();
         _itemConsumableID = new Dictionary<int, int>();
         _itemMaterialID = new Dictionary<int, int>();
         _itemTypeLists = new List<ItemCraftingItemTypeList>();
+
+        _inventoryManager = InventoryManager.Instance;
+
+    }
+
+    private void Start()
+    {
+        if (_craftingItemTypeListPrefab == null)
+            _craftingItemTypeListPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemTypeList");
+        _itemCraftingUI = _itemCraftingManager.ItemCraftingUI;
 
         _backButton = _itemCraftingUI.transform.GetChild(4).GetChild(0).GetChild(2).GetComponent<Button>();
         _inventoryButton = _itemCraftingUI.transform.GetChild(4).GetChild(0).GetChild(1).GetComponent<Button>();
@@ -45,13 +51,9 @@ public class ItemCraftingController : MonoBehaviour
         {
             _craftingItemListSpawn = _itemCraftingUI.transform.GetChild(1).GetChild(0).GetChild(0);
         }
-        _inventoryManager = InventoryManager.Instance;
 
         CreateItemList();
-    }
 
-    private void Start()
-    {
         _backButton.onClick.AddListener( _itemCraftingManager.CallOffCraftingUIEvent);
         _inventoryButton.onClick.AddListener(_inventoryManager.CallOnInventoryDisplayEvent);
     }

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
     [SerializeField] private GameObject _itemCraftingUI;
-    [Tooltip("다른건 몰라도 이건 넣어줘야 됩니다. NPC의 인벤토리 컨트롤러를 코드상으로 특정할 수 없습니다.")] [SerializeField] private ItemCraftingController _craftingController;
+    [SerializeField] private ItemCraftingController _craftingController;
     [SerializeField] private GameObject _craftingSlotPrefab;
     [SerializeField] private GameObject _itemCaftingMaterials_UI;
     [SerializeField] private GameObject _itemExplanation_UI;
@@ -137,7 +137,12 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         if (IsMake)
         {
             //나중에 금화시스템 추가되면 비교문 추가할것
+            Debug.Log(ClickSlot == null);
             _inventoryManager.CallAddItems(ClickSlot, out int[] sum);
+            foreach(var item in sum)
+            {
+                Debug.Log(item);
+            }
         }
     }
 

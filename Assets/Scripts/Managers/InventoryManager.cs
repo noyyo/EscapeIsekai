@@ -30,9 +30,13 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public GameObject ItemExplanationPopup { get { return _itemExplanationPopup; } }
     public GameObject Inventory_UI { get { return _inventory_UI; } }
     public bool IsDisplay { get { return  isDisplay; } }
+    public ItemSlotInfo ClickItem { get { return _clickItem; } }
 
     //Inventory_UI 온오프용 이벤트
     public event Action OnInventoryDisplayEvent;
+
+    public event Action onTextChangeEquipEvent;
+    public event Action onTextChangeUnEquipEvent; 
 
     private void Awake()
     {
@@ -45,7 +49,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private void Start()
     {
         if (_inventory == null)
-            _inventory = _ui_Manager.player.GetComponent<Inventory>();
+            _inventory = _ui_Manager.Player.GetComponent<Inventory>();
         if (_ui_Inventory == null)
             _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
     }
@@ -132,5 +136,15 @@ public class InventoryManager : CustomSingleton<InventoryManager>
             _inventoryCraftingManager.CallOffCraftingUIEvent();
         }
         OnInventoryDisplayEvent?.Invoke();
+    }
+
+    public void CallOnTextChangeEquipEvent()
+    {
+        onTextChangeEquipEvent?.Invoke();
+    }
+
+    public void CalOnTextChangeUnEquipEvent()
+    {
+        onTextChangeUnEquipEvent?.Invoke();
     }
 }

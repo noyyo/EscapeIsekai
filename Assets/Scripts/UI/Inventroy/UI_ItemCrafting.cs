@@ -22,12 +22,12 @@ public class UI_ItemCrafting : MonoBehaviour
         _craftingManager = ItemCraftingManager.Instance;
         _uimanager = UI_Manager.Instance;
         _itemDB = ItemDB.Instance;
-        _craftPriceText = _craftingManager.ItemCaftingMaterials_UI.transform.GetChild(1).GetComponent<TMP_Text>();
         _inventoryManager = InventoryManager.Instance;
     }
 
     public void Start()
     {
+        _craftPriceText = _craftingManager.ItemCaftingMaterials_UI.transform.GetChild(1).GetComponent<TMP_Text>();
         _itemText = _craftingManager.ItemExplanation_UI.GetComponentsInChildren<TMP_Text>();
         _craftingManager.onUpdateUIEvent += UpdatePriceText;
         _craftingManager.onUpdateUIEvent += UpdateItemExplanationText;

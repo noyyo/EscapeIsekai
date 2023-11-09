@@ -27,6 +27,7 @@ public class UI_Inventory : MonoBehaviour
     private Button[] _inventoryTailButton;
     private GameObject _tailUseButton;
     private TMP_Text _tailUseButtonText;
+    private Button _backButton;
 
     //현재 출력되고 있는 카테고리
     private ItemType _nowDisplayItemType;
@@ -57,7 +58,7 @@ public class UI_Inventory : MonoBehaviour
             _inventoryTypeGroup = _inventory_GameObject.transform.GetChild(2).gameObject;
 
         if (_inventoryTailGroup == null)
-            _inventoryTailGroup = _inventory_GameObject.transform.GetChild(1).GetChild(0).gameObject;
+            _inventoryTailGroup = _inventory_GameObject.transform.GetChild(1).GetChild(1).gameObject;
 
         if (_itemExplanationPopup == null)
             _itemExplanationPopup = _inventory_GameObject.transform.GetChild(3).gameObject;
@@ -69,10 +70,13 @@ public class UI_Inventory : MonoBehaviour
         // 장비 : 0, 소비 : 1, 재료 : 2, 기타 : 3
         _inventoryTypeButton = _inventoryTypeGroup.transform.GetComponentsInChildren<Button>();
 
-        //정렬 : 0, 뒤로가기 : 1, 버리기 : 2, 사용 : 3
+        //정렬 : 0, 버리기 : 1, 사용 : 2
         _inventoryTailButton = _inventoryTailGroup.transform.GetComponentsInChildren<Button>();
 
-        _tailUseButton = _inventoryTailButton[3].gameObject;
+        //뒤로가기
+        _backButton = _inventory_GameObject.transform.GetChild(1).GetChild(0).GetComponent<Button>();
+
+        _tailUseButton = _inventoryTailButton[2].gameObject;
         _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
         _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
 
@@ -83,9 +87,13 @@ public class UI_Inventory : MonoBehaviour
         _inventoryTypeButton[3].onClick.AddListener(() =>{ OnCategoryButton(ItemType.ETC); });
 
         _inventoryTailButton[0].onClick.AddListener(_inventory.SortInventory);
-        _inventoryTailButton[1].onClick.AddListener(SetActiveInventroyUI); //돌아가기
-        _inventoryTailButton[2].onClick.AddListener(_inventory.Drop);
-        _inventoryTailButton[3].onClick.AddListener(_inventory.UseItem);
+        _inventoryTailButton[1].onClick.AddListener(_inventory.Drop);
+        _inventoryTailButton[2].onClick.AddListener(_inventory.UseItem);
+
+        _backButton.onClick.AddListener(_inventoryManager.CallOnInventoryDisplayEvent); //돌아가기
+
+        _inventoryManager.onTextChangeEquipEvent += ButtonTextChange_Equip;
+        _inventoryManager.onTextChangeUnEquipEvent += ButtonTextChange_Unequip;
     }
 
     //이벤트에 걸린 메서드( 인벤토리 창 ON, OFF)
@@ -120,7 +128,10 @@ public class UI_Inventory : MonoBehaviour
         {
             case ItemType.Equipment:
                 _tailUseButton.SetActive(true);
-                _tailUseButtonText.text = "장착";
+                if (_inventoryManager.ClickItem.equip)
+                    ButtonTextChange_Unequip();
+                else
+                    ButtonTextChange_Equip();
                 break;
             case ItemType.Consumable:
                 _tailUseButton.SetActive(true);
@@ -154,5 +165,15 @@ public class UI_Inventory : MonoBehaviour
         TurnOffItemExplanationPopup(); // 설명창 오프
         TurnOffInventoryTailUI(); // 인벤토리 UI 오프
         _inventoryManager.CallTurnOffItemClick(); //클릭시 뜨는 UI 오프
+    }
+    
+    public void ButtonTextChange_Equip()
+    {
+        _tailUseButtonText.text = "장착";
+    }
+
+    public void ButtonTextChange_Unequip()
+    {
+        _tailUseButtonText.text = "장비 해제";
     }
 }

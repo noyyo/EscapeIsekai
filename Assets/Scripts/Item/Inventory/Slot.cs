@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +12,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [SerializeField] private GameObject _itemImage;
     [SerializeField] private TMP_Text _text_Count;
     [SerializeField] private GameObject _outLine;
+    [SerializeField] private Image _backGround;
 
     //슬롯 데이터 저장
     private Image _item2DImage;
@@ -38,6 +40,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // 아이템 정보를 받기위해 DB캐싱
     private ItemDB _itemDB;
 
+    private InventoryManager _inventoryManager;
+    private Color _defaultColor;
+    private string _delimiter;
+    private string _lineBreaking;
+
     //슬롯의 위치 한번 설정한 후 절대 바뀌지 않을 값
     private int _uniqueIndex = -1;
     public int UniqueIndex 
@@ -59,14 +66,19 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _slotInfo = new ItemSlotInfo();
         _item2DImage = _itemImage.GetComponent<Image>();
         _itemImageTransform = _itemImage.transform;
-        _inventory_UI = InventoryManager.Instance.Inventory_UI;
+        _inventoryManager = InventoryManager.Instance;
+        _inventory_UI = _inventoryManager.Inventory_UI;
         _button = GetComponent<Button>();
+        _backGround = GetComponent<Image>();
+        _defaultColor = _backGround.color;
+        _delimiter = " : ";
+        _lineBreaking = "\n";
     }
 
     private void Start()
     {
         _button.onClick.AddListener(SlotClick);
-        _itemExplanationPopup = InventoryManager.Instance.ItemExplanationPopup;
+        _itemExplanationPopup = _inventoryManager.ItemExplanationPopup;
         _itemText = _itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
     }
 
@@ -130,6 +142,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         TurnOffItemClick();
         _text_Count.text = "";
         _text_Count.gameObject.SetActive(false);
+        UnDisplayEquip();
     }
 
     public void SlotDisplay()
@@ -137,6 +150,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _item2DImage.enabled = true;
         _item2DImage.sprite = _itemData.Icon;
         _button.enabled = true;
+        if(_slotInfo != null )
+        {
+            if(_slotInfo.equip)
+                DisplayEquip();
+            else
+                UnDisplayEquip();
+        }
 
         if (_itemType != ItemType.Equipment)
         {
@@ -150,13 +170,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         SetActiveItemExplanationPopup(true, _itemData);
 
         //클릭한 정보 매니저한태 전달
-        InventoryManager.Instance.SetClickItem(_slotInfo, this);
+        _inventoryManager.SetClickItem(_slotInfo, this);
 
         //클릭한 모습 표시
         DisplayItemClick();
 
         //클릭했을때 인벤토리 아래쪽에 있는 버튼 활성화
-        InventoryManager.Instance.CallDisplayInventoryTailUI();
+        _inventoryManager.CallDisplayInventoryTailUI();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -199,9 +219,23 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void SetActiveItemExplanationPopup(bool isActive, ItemData_Test itemData)
     {
+        if(_itemDB.GetStats(itemData.ID, out ItemStats itemStats))
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (KeyValuePair<string, float> i in itemStats.Stats)
+            {
+                if (i.Value > 0)
+                    sb.Append(i.Key + _delimiter + (int)i.Value + _lineBreaking);
+            }
+            _itemText[1].text = sb.ToString();
+        }
+        else
+        {
+            _itemText[1].text = "";
+        }
+        
         _itemExplanationPopup.SetActive(isActive);
         _itemText[0].text = itemData.ItemName;
-        _itemText[1].text = "테스트로 직접 입력";
         _itemText[2].text = itemData.ItemExplanation;
     }
 
@@ -217,6 +251,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void DisplayEquip()
     {
-        //장착 UI표시
+        _backGround.color = Color.blue;
+    }
+
+    public void UnDisplayEquip()
+    {
+        _backGround.color = _defaultColor;
     }
 }

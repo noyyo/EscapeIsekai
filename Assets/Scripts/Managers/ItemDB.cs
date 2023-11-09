@@ -34,13 +34,13 @@ public class ItemDB : CustomSingleton<ItemDB>
         _itemRecipesCount = _itemRecipes.Count;
 
         _itemCraftingManager = ItemCraftingManager.Instance;
+
+        if (_inventory == null)
+            _inventory = UI_Manager.Instance.Player.GetComponent<Inventory>();
     }
 
-    private void Start()
+    private void Update()
     {
-        if (_inventory == null)
-            _inventory = UI_Manager.Instance.player.GetComponent<Inventory>();
-
         if (_test)
         {
             _inventory.TryAddItem(10010000, 1, out int i);
@@ -51,7 +51,7 @@ public class ItemDB : CustomSingleton<ItemDB>
             _itemCraftingManager.CallAddRecipe(10110000);
             _itemCraftingManager.CallAddRecipe(10110001);
             _itemCraftingManager.CallAddRecipe(10110004);
-
+            _test = false;
         }
     }
 

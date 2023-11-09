@@ -56,6 +56,12 @@ public class Inventory : MonoBehaviour
         CreateSlot();
     }
 
+    private void Start()
+    {
+        DisplaySlotAllClear();
+        _inventoryManager.OnInventoryDisplayEvent += OnDisplaySlot;
+    }
+
     /// <summary>
     /// 초기화
     /// </summary>
@@ -76,7 +82,10 @@ public class Inventory : MonoBehaviour
             _ui_Inventory = GetComponent<UI_Inventory>();
 
         if (_slotSpawn == null)
+        {
             _slotSpawn = InventoryManager.Instance.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
+        }
+            
     }
 
     /// <summary>
@@ -91,12 +100,6 @@ public class Inventory : MonoBehaviour
             obj.GetComponent<Slot>().UniqueIndex = i;
             _slotArray.Add(obj.GetComponent<Slot>());
         }
-    }
-
-    private void Start()
-    {
-        DisplaySlotAllClear();
-        _inventoryManager.OnInventoryDisplayEvent += OnDisplaySlot;
     }
 
     private void Update()
@@ -125,16 +128,16 @@ public class Inventory : MonoBehaviour
         return boolArray;
     }
 
-    public bool[] TryAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
+    public bool[] TryAddItems(ItemRecipe itemRecipe, out int[] errorItemCounts)
     {
         int idCount = itemRecipe.Materials.Length;
         bool[] boolArray = new bool[idCount];
         bool isCraftingItem = true;
-        errorItemCount = new int[idCount];
+        errorItemCounts = new int[idCount];
         for (int i = 0; i < idCount; i++)
         {
-            boolArray[i] = IsCheckItem(itemRecipe.Materials[i], -itemRecipe.MaterialsCount[i], out int sum);
-            if (boolArray[i])
+            boolArray[i] = IsCheckItem(itemRecipe.Materials[i], itemRecipe.MaterialsCount[i], out int sum);
+            if (!boolArray[i])
             {
                 isCraftingItem = false;
             }
@@ -143,8 +146,9 @@ public class Inventory : MonoBehaviour
         {
             for (int i = 0; i < idCount; i++)
             {
-                TryAddItem(itemRecipe.Materials[i], -itemRecipe.MaterialsCount[i], out errorItemCount[i]);
+                TryAddItem(itemRecipe.Materials[i], -(itemRecipe.MaterialsCount[i]), out errorItemCounts[i]);
             }
+            TryAddItem(itemRecipe.CraftingID, 1, out int errorItemCount);
         }
 
         return boolArray;
@@ -404,11 +408,12 @@ public class Inventory : MonoBehaviour
                 int nowItemCount = itemList[i].count + count;
 
                 // 아직 빼야될 값이 있을때
-                if (nowItemCount < 0)
+                if (nowItemCount <= 0)
                 {
                     count = nowItemCount;
                     stack.Push(i);
-                    continue;
+                    if(nowItemCount != 0)
+                        continue;
                 }
 
                 count = 0;
@@ -690,14 +695,31 @@ public class Inventory : MonoBehaviour
     //나중에 장비 착용시 UI및 스텟등을 설정해줘야됨
     private void EquipItem(ItemSlotInfo itemSlotInfo)
     {
-        _itemDB.GetItemData(itemSlotInfo.id, out ItemData_Test equipItemData);
+        if (!itemSlotInfo.equip)
+        {
+            _itemDB.GetStats(itemSlotInfo.id, out ItemStats equipItemData);
 
-        //나중에 플레이어와 연결할때 작성해야할 코드
-        Debug.Log("장비를 장착합니다. 장비스텟을 플레이어에 적용");
+            //나중에 플레이어와 연결할때 작성해야할 코드
+            Debug.Log("장비를 장착합니다. 플레이어 스텟을 수정합니다.");
 
-        itemSlotInfo.equip = true;
+            itemSlotInfo.equip = true;
 
-        _slotArray[itemSlotInfo.index].DisplayEquip();
+            _slotArray[itemSlotInfo.index].DisplayEquip();
+            _inventoryManager.CalOnTextChangeUnEquipEvent();
+            
+        }
+        else
+        {
+            _itemDB.GetStats(itemSlotInfo.id, out ItemStats equipItemData);
+
+            //나중에 플레이어와 연결할때 작성해야할 코드
+            Debug.Log("장비를 해제합니다. 플레이어 스텟을 수정합니다.");
+
+            itemSlotInfo.equip = false;
+            _slotArray[itemSlotInfo.index].UnDisplayEquip();
+            _inventoryManager.CallOnTextChangeEquipEvent();
+        }
+        
     }
 
     public void Drop()

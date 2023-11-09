@@ -13,13 +13,13 @@ public class ItemCraftingItemTypeList : MonoBehaviour
     [SerializeField] private GameObject _arrow;
     [SerializeField] private Button _button;
     [SerializeField] private GameObject _craftingItemSlotSpawn;
-    private bool _isDisplay;
+    //private bool _isDisplay;
     private List<ItemCraftingSlot> _slotList = new List<ItemCraftingSlot>();
     private ItemCraftingManager _craftingManager;
     private GameObject _prefabs;
     private int _slotListLength = -1;
 
-    public event Action slotActiveEvent;
+    //public event Action slotActiveEvent;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class ItemCraftingItemTypeList : MonoBehaviour
         {
             _button = GetComponentInChildren<Button>();
         }
-        _isDisplay = false;
+        //_isDisplay = false;
         _craftingManager = ItemCraftingManager.Instance;
         _prefabs = _craftingManager.CraftingSlotPrefab;
 
@@ -65,7 +65,7 @@ public class ItemCraftingItemTypeList : MonoBehaviour
     private void CreateItemCraftingSlot()
     {
         ItemCraftingSlot newSlot = Instantiate(_prefabs, this.transform).GetComponent<ItemCraftingSlot>();
-        slotActiveEvent += newSlot.TurnOnOffSlot;
+        //slotActiveEvent += newSlot.TurnOnOffSlot;
         _slotList.Add(newSlot);
         _slotListLength++;
     }

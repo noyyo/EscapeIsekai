@@ -11,15 +11,15 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     
     private ItemDB _itemDB;
     private InventoryManager _inventoryManager;
+    private GameObject _player;
+    private GameObject _quickSlot_UI;
+    
 
     public GameObject Canvas { get { return _cavas; } }
-
+    public GameObject quickSlot_UI { get { return _quickSlot_UI; } }
+    public GameObject Player { get { return _player; } }
     public event Action TurnOnQuickSlotEvent;
     public event Action TurnOffQuickSlotEvent;
-
-    [Header("테스트용")]
-    public GameObject player;
-    public GameObject quickSlot_UI;
     public bool Test = true;
 
     private void Awake()
@@ -30,13 +30,11 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         {
             _cavas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
         }
-
-        _inventoryManager = InventoryManager.Instance;
-        _itemDB = ItemDB.Instance;
+        _quickSlot_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
+        _player = GameObject.FindGameObjectWithTag("Player");
         if (Test)
         {
-            player = Instantiate(Resources.Load<GameObject>("Prefabs/Test/Player"));
-            quickSlot_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
+            _player = Instantiate(Resources.Load<GameObject>("Prefabs/Test/Player"));
         }
     }
 
