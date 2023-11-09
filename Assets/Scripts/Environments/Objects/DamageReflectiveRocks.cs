@@ -21,7 +21,6 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     private void OnTriggerEnter(Collider other)
     {
         IDamageable target = null;
-        Debug.Log(other.transform.parent.name);
         if (other.tag == Tags.EnemyTag)
         {
             Enemy enemy;
@@ -33,7 +32,6 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             }
             target = enemy.StateMachine;
         }
-        Debug.Log(target == null);
         target?.TakeDamage(1);
         target?.TakeEffect(AttackEffectTypes.KnockBack, 10, this.gameObject);
     }

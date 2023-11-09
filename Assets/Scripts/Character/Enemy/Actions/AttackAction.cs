@@ -178,8 +178,10 @@ public abstract class AttackAction : ScriptableObject
     }
     private void InitializeAnimState()
     {
-        animState.Add(Config.AnimTriggerHash1, AnimState.NotStarted);
-        animState.Add(Config.AnimTriggerHash2, AnimState.NotStarted);
+        if (Config.AnimTriggerHash1 != 0)
+            animState.Add(Config.AnimTriggerHash1, AnimState.NotStarted);
+        if (Config.AnimTriggerHash2 != 0)
+            animState.Add(Config.AnimTriggerHash2, AnimState.NotStarted);
     }
     /// <summary>
     /// 애니메이션을 시작하고 상태를 관리합니다.

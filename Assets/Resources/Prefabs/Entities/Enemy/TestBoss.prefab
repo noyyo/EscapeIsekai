@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8173583245187436449}
   m_Layer: 0
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 6334485676504735765}
   m_Layer: 0
   m_Name: TestBoss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,6 +227,7 @@ MonoBehaviour:
     idleParameterName: Idle
     walkParameterName: Walk
     runParameterName: Run
+    DeadParameterName: Dead
     attackParameterName: '@Attack'
   <StateMachine>k__BackingField:
     isPause: 0
@@ -238,11 +239,14 @@ MonoBehaviour:
     CurrentAction: {fileID: 0}
     actionsInActive: []
     actionsToExecute: []
-    <HP>k__BackingField: 0
+    <HP>k__BackingField: 10
     BattleTime: 0
     IsInBattle: 0
+    IsDead: 0
   Actions:
   - {fileID: 11400000, guid: c5f041c4c12a8934993c79141e086ce7, type: 2}
+  - {fileID: 11400000, guid: eed6b8716fb931d44be6953f49113721, type: 2}
+  - {fileID: 11400000, guid: 3ce7ba37e017d4b43a32b909efc69d1f, type: 2}
   Player: {fileID: 0}
 --- !u!114 &2767205643780481981
 MonoBehaviour:
