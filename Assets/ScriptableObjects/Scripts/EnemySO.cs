@@ -20,7 +20,6 @@ public class EnemySO : ScriptableObject
     [field: SerializeField] public float MinWanderDistance { get; private set; } = 2f;
     [field: SerializeField] public float MaxWanderDistance { get; private set; } = 6f;
     [field: SerializeField] public float ChasingRange { get; private set; } = 15f;
-    [field: SerializeField] public float AttackRange { get; private set; } = 1.5f;
     [field: SerializeField] public bool IsFleeable { get; private set; } = false;
     [field: SerializeField] public float FleeThresholdHpRatio { get; private set; } = 0.1f;
 

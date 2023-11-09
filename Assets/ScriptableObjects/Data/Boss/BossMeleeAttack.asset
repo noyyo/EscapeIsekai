@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52a872b7465ba5c459519eea00bb4c88, type: 3}
-  m_Name: MeleeAttack
+  m_Name: BossMeleeAttack
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
   ActionType: 0
   Config:
     EffectDurationSeconds: 0
-    DamageAmount: 5
+    DamageAmount: 10
     AttackEffectType: 1
     AttackEffectValue: 5
     animTrigger1: MeleeAttack
@@ -42,13 +42,13 @@ MonoBehaviour:
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
-    LessThanThisDistance: 1.8
+    LessThanThisDistance: 5
     AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 5
+    CoolDown: 3
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0

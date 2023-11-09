@@ -10,7 +10,9 @@ public class PlayerSuperJump : PlayerAirState
 
     public override void Enter()
     {
-        Debug.Log("½´ÆÛ");
+
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½");
+
         stateMachine.JumpForce = stateMachine.Player.Data.AirData.JumpForce;
         stateMachine.Player.ForceReceiver.Jump(10);
 

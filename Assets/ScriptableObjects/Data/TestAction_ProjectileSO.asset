@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a872b7465ba5c459519eea00bb4c88, type: 3}
-  m_Name: MeleeAttack
+  m_Script: {fileID: 11500000, guid: acc9c6d95196536448777862f1532c85, type: 3}
+  m_Name: TestAction_ProjectileSO
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -27,29 +27,34 @@ MonoBehaviour:
     IsInBattle: 0
   ActionType: 0
   Config:
-    EffectDurationSeconds: 0
-    DamageAmount: 5
-    AttackEffectType: 1
-    AttackEffectValue: 5
-    animTrigger1: MeleeAttack
-    animTrigger2: 
+    EffectDurationSeconds: 5
+    DamageAmount: 1
+    AttackEffectType: 0
+    AttackEffectValue: 0
+    animTrigger1: Test1
+    animTrigger2: Test2
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
   Condition:
-    Priority: 1
+    Priority: 87
     WaitUntilExecute: 0
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
-    LessThanThisDistance: 1.8
+    LessThanThisDistance: 100
     AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
-    BeforeThisTime: 100000
-    CoolDown: 5
-  EffectStartTime: 0
+    BeforeThisTime: 10000
+    CoolDown: 0
+  EffectStartTime: 2
   HasRemainingEffect: 0
   lastUsedTime: 0
-  Weapon: {fileID: 0}
+  howManyBullet: 18
+  bulletType: 1
+  bulletAngle: 29
+  spacing: 0.13
+  howBullet: {fileID: 5794389468231328038, guid: db07f9fefbeee6c42b114c901f89977b,
+    type: 3}
