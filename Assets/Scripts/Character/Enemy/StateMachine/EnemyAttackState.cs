@@ -12,7 +12,7 @@ public class EnemyAttackState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
-        agent.isStopped = true;
+        agent.ResetPath();
         action = stateMachine.CurrentAction;
         action.OnStart();
         StartAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
@@ -22,7 +22,6 @@ public class EnemyAttackState : EnemyBaseState
     {
         base.Exit();
         StopAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
-        agent.isStopped = false;
         action.OnEnd();
     }
 

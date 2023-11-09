@@ -25,5 +25,6 @@ public class EnemySO : ScriptableObject
     [field: SerializeField] public float FleeThresholdHpRatio { get; private set; } = 0.1f;
 
     [field: Header("Attack")]
-    [field: SerializeField] public int Damage { get; private set; } = 1;
+    [Tooltip("이 목록에 있는 이펙트를 적용받을 수 있게 됩니다.")]
+    [field: SerializeField] public AttackEffectTypes[] AffectedEffects { get; private set; }
 }

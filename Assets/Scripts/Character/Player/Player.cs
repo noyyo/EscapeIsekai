@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
     public Playerconditions Playerconditions { get; private set; }
     public Buff Buff { get; private set; }
 
-    private PlayerStateMachine stateMachine;
-
+    public PlayerStateMachine StateMachine;
+    [field: SerializeField] public AnimationEventReceiver AnimationEventReceiver { get; private set; }
     private void Awake()
     {
         // 애니메이션 데이터는 항상 초기화를 해주어야 한다
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         ForceReceiver = GetComponent<ForceReceiver>();
         Playerconditions = GetComponent<Playerconditions>();
 
-        stateMachine = new PlayerStateMachine(this);
+        StateMachine = new PlayerStateMachine(this);
     }
 
     private void Start()
@@ -40,20 +40,20 @@ public class Player : MonoBehaviour
         // 마우스 커서를 사라지게 함
         Cursor.lockState = CursorLockMode.Locked;
         // 캐릭터가 맨 처음 동작해야 할 Idle 상태로 만들어주기
-        stateMachine.ChangeState(stateMachine.IdleState);
+        StateMachine.ChangeState(StateMachine.IdleState);
         //Health.OnDie += OnDie;
-        Playerconditions.OnDie += OnDie;
+        StateMachine.OnDie += OnDie;
     }
 
     private void Update()
     {
-        stateMachine.HandleInput();
-        stateMachine.Update();
+        StateMachine.HandleInput();
+        StateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
 
     void OnDie()

@@ -10,7 +10,6 @@ public class PlayerIdleState : PlayerGroundState
 
     public override void Enter()
     {
-        Debug.Log(stateMachine.MovementSpeedModifier);
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
     }

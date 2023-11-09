@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerComboAttackState : PlayerAttackState
 {
-    private bool alreadyAppliedForce;
     private bool alreadyApplyCombo;
+    private bool alreadyAppliedForce;
 
     AttackInfoData attackInfoData;
-
+    protected HashSet<GameObject> alreadyCollided = new HashSet<GameObject>();
     public PlayerComboAttackState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
@@ -35,6 +35,8 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
+        alreadyCollided.Clear();
+
         // 콤보가 끊겼을 때 다시 인덱스값을 0으로 돌림
         if (!alreadyApplyCombo)
             stateMachine.ComboIndex = 0;
@@ -55,7 +57,7 @@ public class PlayerComboAttackState : PlayerAttackState
     private void TryApplyForce()
     {
         // 이미 적용한 적이 있으면 리턴 그렇지 않다면 true
-        if(alreadyAppliedForce) return;
+        if (alreadyAppliedForce) return;
         alreadyAppliedForce = true;
         // 받고있던 힘을(Force) 리셋하고
         stateMachine.Player.ForceReceiver.Reset();
@@ -73,10 +75,10 @@ public class PlayerComboAttackState : PlayerAttackState
         if (normalizedTime < 1f)
         {
             // 애니메이션이 처리가 되고 있는 중
-            if(normalizedTime >= attackInfoData.ForceTransitionTime)
+            if (normalizedTime >= attackInfoData.ForceTransitionTime)
                 TryApplyForce();
 
-            if(normalizedTime >= attackInfoData.ComboTransitionTime)
+            if (normalizedTime >= attackInfoData.ComboTransitionTime)
                 TryComboAttack();
         }
         else
@@ -93,5 +95,39 @@ public class PlayerComboAttackState : PlayerAttackState
                 stateMachine.ChangeState(stateMachine.IdleState);
             }
         }
+    }
+    public void ApplyAttack(Collider other)
+    {
+        if (alreadyCollided.Contains(other.gameObject))
+            return;
+
+        alreadyCollided.Add(other.gameObject);
+        IDamageable target = null;
+        if (other.tag == Tags.EnemyTag)
+        {
+            Enemy enemy;
+            other.TryGetComponent(out enemy);
+            if (enemy == null)
+            {
+                Debug.LogError("적에게 Enemy컴포넌트가 없습니다.");
+                return;
+            }
+            target = enemy.StateMachine;
+
+        }
+        else if (other.tag == Tags.EnvironmentTag)
+        {
+            BaseEnvironmentObject environmentObj;
+            other.TryGetComponent(out environmentObj);
+            if (environmentObj == null)
+            {
+                Debug.LogError("대상에게 BaseEnvironmentObject 컴포넌트가 없습니다.");
+                return;
+            }
+            target = environmentObj;
+        }
+
+        target?.TakeDamage(attackInfoData.Damage);
+        target?.TakeEffect(attackInfoData.AttackEffectType, attackInfoData.AttackEffectValue, stateMachine.Player.gameObject);
     }
 }

@@ -5,22 +5,20 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour
 {
     public event Action<AnimationEvent> AnimationEventCalled;
-    public event Action OnDie;
 
     [field: SerializeField] public EnemySO Data { get; private set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
-    public CharacterController Controller { get; private set; }
-    [field: SerializeField] public EnemyStateMachine stateMachine { get; private set; }
+    [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
-    public int HP { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public bool CanTakeAttackEffect { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    [SerializeField] private AffectedAttackEffectInfo affectedEffectInfo;
 
     public  AttackAction[] Actions;
+    public EnemyForceReceiver ForceReceiver { get; private set; }
     // Test
     public GameObject Player;
     void Awake()
@@ -28,25 +26,25 @@ public class Enemy : MonoBehaviour, IDamageable
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new EnemyAnimationData();
         Rigidbody = GetComponent<Rigidbody>();
-        Controller = GetComponent<CharacterController>();
         Agent = GetComponent<NavMeshAgent>();
-        stateMachine = new EnemyStateMachine(this);
+        ForceReceiver = GetComponent<EnemyForceReceiver>();
+        StateMachine = new EnemyStateMachine(this);
         Init();
     }
 
     private void Start()
     {
-        stateMachine.ChangeState(stateMachine.IdleState);
+        StateMachine.ChangeState(StateMachine.IdleState);
     }
 
     private void Update()
     {
-        stateMachine.Update();
+        StateMachine.Update();
     }
 
     private void FixedUpdate()
     {
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
 
     private void Init()
@@ -55,12 +53,12 @@ public class Enemy : MonoBehaviour, IDamageable
         Agent.speed = Data.WalkSpeed;
         Agent.angularSpeed = Data.RotateSpeed;
         Agent.acceleration = Data.Acceleration;
-        stateMachine.OriginPosition = transform.position;
+        StateMachine.OriginPosition = transform.position;
         // 액션 데이터 복사본 생성
         for (int i = 0; i < Actions.Length; i++)
         {
             Actions[i] = Instantiate(Actions[i]);
-            Actions[i].SetStateMachine(stateMachine);
+            Actions[i].SetStateMachine(StateMachine);
             Actions[i].OnAwake();
         }
     }
@@ -68,9 +66,13 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         AnimationEventCalled?.Invoke(animEvent);
     }
-
-    public void TakeDamage(int damage)
+    private void OnCollisionEnter(Collision collision)
     {
-        throw new NotImplementedException();
+        Agent.isStopped = true;
+        Agent.velocity = Vector3.zero;
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        Agent.isStopped = false;
     }
 }
