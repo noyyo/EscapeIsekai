@@ -18,6 +18,7 @@ public class kamen : MonoBehaviour
 
     private void Awake()
     {
+        gameObject.SetActive(false);
         Instance = this;
     }
     private void Start()
