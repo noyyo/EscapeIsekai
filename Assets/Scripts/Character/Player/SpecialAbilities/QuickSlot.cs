@@ -7,9 +7,12 @@ using UnityEngine.UI;
 
 public class QuickSlot : MonoBehaviour
 {
-    [SerializeField] private Image _icon;
+    [SerializeField] private GameObject _iconObject;
+    [SerializeField] private GameObject _numberObject;
     [SerializeField] private Button _button;
-    [SerializeField] private TMP_Text _text;
+
+    private Image _icon;
+    private Image _number;
 
     //슬롯의 위치 한번 설정한 후 절대 바뀌지 않을 값
     private int _uniqueIndex = -1;
@@ -25,6 +28,12 @@ public class QuickSlot : MonoBehaviour
 
     //private type name 스킬의 정보를 담는 변수
 
+    private void Awake()
+    {
+        _icon = _iconObject.GetComponent<Image>();
+        _number = _numberObject.GetComponent<Image>();
+    }
+
     private void Start()
     {
         Init();
@@ -32,19 +41,24 @@ public class QuickSlot : MonoBehaviour
         //_button.onClick.AddListener();
     }
 
+    //마우스 올렸을시 팝업열기 나중에 작업해야됨
     private void OnMouseEnter()
     {
         //스킬 설명 팝업 open
     }
 
+    //마우스 제거시 팝업닫기 나중에 작업해야됨
     private void OnMouseExit()
     {
         //스킬 설명 팝업 close
     }
 
-    public void Init()
+    private void Init()
     {
         _icon.enabled = false;
-        _text.text = "";
+        _number.enabled = false;
+
+        _icon.sprite = null;
+        _number.sprite = null;
     }
 }

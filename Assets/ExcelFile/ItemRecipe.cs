@@ -46,4 +46,13 @@ public class ItemRecipe
         }
     }
 
+    public ItemRecipe(ItemRecipe newData)
+    {
+        _id = newData.ID;
+        _craftingID = newData.CraftingID;
+        _craftingPrice = newData.CraftingPrice;
+        _availableCount = newData.AvailableCount;
+        _materials = newData.Materials;
+        _materialsCount = newData.MaterialsCount;
+    }
 }
