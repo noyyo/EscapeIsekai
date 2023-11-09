@@ -103,7 +103,10 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            CallOnCraftingUI();
+            if(_isDisplay)
+                CallOffCraftingUIEvent();
+            else
+                CallOnCraftingUI();
         }
     }
 
