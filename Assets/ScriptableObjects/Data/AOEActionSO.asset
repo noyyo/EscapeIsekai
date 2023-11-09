@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a872b7465ba5c459519eea00bb4c88, type: 3}
-  m_Name: MeleeAttack
+  m_Script: {fileID: 11500000, guid: ffafee78c9fd22041a86e72e18498e14, type: 3}
+  m_Name: AOEActionSO
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -25,14 +25,14 @@ MonoBehaviour:
     <HP>k__BackingField: 0
     BattleTime: 0
     IsInBattle: 0
-  ActionType: 0
+  ActionType: 5
   Config:
     EffectDurationSeconds: 0
-    DamageAmount: 5
-    AttackEffectType: 1
-    AttackEffectValue: 5
-    animTrigger1: MeleeAttack
-    animTrigger2: 
+    DamageAmount: 3
+    AttackEffectType: 0
+    AttackEffectValue: 0
+    animTrigger1: breath1
+    animTrigger2: breath2
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
-    LessThanThisDistance: 1.8
+    LessThanThisDistance: 100
     AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
@@ -52,4 +52,11 @@ MonoBehaviour:
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  Weapon: {fileID: 0}
+  thisParticleSystem: {fileID: 0}
+  AoEObject: {fileID: 6252886606377246018, guid: 78d6580fec946ae4fb3c5a5e84087cc5,
+    type: 3}
+  attackTime: 3
+  StartLifeTime: 2
+  StartSize: 1
+  MaxParticle: 300
+  Angle: 30

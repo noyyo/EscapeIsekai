@@ -14,7 +14,6 @@ public class EnemyAnimationData
 
     [Header("Attack")]
     [SerializeField] private string attackParameterName = "@Attack";
-    [SerializeField] private string baseAttackParameterName = "BaseAttack";
 
     public int MoveParameterHash { get; private set; }
     public int IdleParameterHash { get; private set; }
@@ -30,6 +29,5 @@ public class EnemyAnimationData
         RunParameterHash = Animator.StringToHash(runParameterName);
 
         AttackParameterHash = Animator.StringToHash(attackParameterName);
-        BaseAttackParameterHash = Animator.StringToHash(baseAttackParameterName);
     }
 }
