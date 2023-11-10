@@ -144,6 +144,11 @@ GameObject:
   - component: {fileID: 7752083025435233473}
   - component: {fileID: 5327993810000574767}
   - component: {fileID: 7402780220865571953}
+  - component: {fileID: 3796616318315140551}
+  - component: {fileID: 6937540872656030532}
+  - component: {fileID: 4880299856741472071}
+  - component: {fileID: 6721809821546991650}
+  - component: {fileID: 5556268962959651252}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -325,6 +330,74 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3796616318315140551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456351884499520549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e1d97187cf6d3429ec50ff6c37d6e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventroySlotCount: 60
+  _slotPrefab: {fileID: 0}
+  _slotSpawn: {fileID: 0}
+--- !u!114 &6937540872656030532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456351884499520549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce8fca97bd5c6e4fbbd6fa96adb9acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventory_GameObject: {fileID: 0}
+  _inventoryTypeGroup: {fileID: 0}
+  _inventoryTailGroup: {fileID: 0}
+  _itemExplanationPopup: {fileID: 0}
+  _inventory: {fileID: 0}
+--- !u!114 &4880299856741472071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456351884499520549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d2abdaa25aeac4f9485a2b2a06c6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6721809821546991650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456351884499520549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87228d524bfaf348913413e72bb5d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemCraftingUI: {fileID: 0}
+  _craftingItemTypeListPrefab: {fileID: 0}
+  _craftingItemListCount: 3
+  _craftingItemListSpawn: {fileID: 0}
+--- !u!81 &5556268962959651252
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456351884499520549}
+  m_Enabled: 1
 --- !u!1001 &4212475481581727344
 PrefabInstance:
   m_ObjectHideFlags: 0

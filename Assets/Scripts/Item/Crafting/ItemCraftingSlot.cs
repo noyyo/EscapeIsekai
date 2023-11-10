@@ -36,7 +36,7 @@ public class ItemCraftingSlot : MonoBehaviour
 
     private void Start()
     {
-        _craftingManager.onUpdateUIEvent += MakeCheck;
+        _craftingManager.onClickCraftingButtonEvent += MakeCheck;
     }
 
     //목차버튼 누르면 슬롯을 활성화하기 위한 메서드
@@ -53,20 +53,10 @@ public class ItemCraftingSlot : MonoBehaviour
             _itemDB = ItemDB.Instance;
         _itemDB.GetItemData(newRecipe.CraftingID, out ItemData_Test newItemData);
         _itemData = newItemData;
+        itemRecipe = newRecipe;
         _icon.sprite = newItemData.Icon;
         _itemName.text = newItemData.ItemName;
-        itemRecipe = newRecipe;
         MakeCheck(newRecipe);
-        if (_isMake)
-        {
-            _itemAvailability.text = "제작이 가능합니다..";
-            _itemAvailability.color = Color.white;
-        }
-        else
-        {
-            _itemAvailability.text = "재료가 부족합니다.";
-            _itemAvailability.color = Color.red;
-        }
     }
 
     //버튼을 누르면 실행
@@ -95,6 +85,34 @@ public class ItemCraftingSlot : MonoBehaviour
         {
             if(i == false)
                 _isMake = false;
+        }
+        UpdateIsMakeTextUI();
+    }
+
+    public void MakeCheck()
+    {
+        _boolArray = _inventory.IsCheckItems(itemRecipe.Materials, itemRecipe.MaterialsCount, out _materialsCount);
+
+        _isMake = true;
+        foreach (bool i in _boolArray)
+        {
+            if (i == false)
+                _isMake = false;
+        }
+        UpdateIsMakeTextUI();
+    }
+
+    public void UpdateIsMakeTextUI()
+    {
+        if (_isMake)
+        {
+            _itemAvailability.text = "제작이 가능합니다.";
+            _itemAvailability.color = Color.white;
+        }
+        else
+        {
+            _itemAvailability.text = "재료가 부족합니다.";
+            _itemAvailability.color = Color.red;
         }
     }
 }

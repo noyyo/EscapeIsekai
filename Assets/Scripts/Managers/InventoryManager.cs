@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
@@ -92,35 +93,21 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         }
     }
 
-    public void CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
+    public bool CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
     {
-        _inventory.TryAddItems(itemRecipe, out errorItemCount);
+        bool[] array = _inventory.TryAddItems(itemRecipe, out errorItemCount);
+        return !Array.Exists(array, x => x == false);
     }
 
-    public void CallAddItems(int[] id, int[] count, out int[] errorItemCount)
+    public bool CallAddItems(int[] id, int[] count, out int[] errorItemCount)
     {
-        _inventory.TryAddItems(id, count, out errorItemCount);
+        bool[] array = _inventory.TryAddItems(id, count, out errorItemCount);
+        return !Array.Exists(array, x => x == false);
     }
 
-    public void CallAddItem(int id, int count, out int errorItemCount)
+    public bool CallAddItem(int id, int count, out int errorItemCount)
     {
-        _inventory.TryAddItem(id, count, out errorItemCount);
-    }
-
-    public void CallAddItems(ItemRecipe itemRecipe)
-    {
-        _inventory.TryAddItems(itemRecipe);
-    }
-
-    public void CallAddItems(int[] id, int[] count)
-    {
-        _inventory.TryAddItems(id, count);
-    }
-
-
-    public void CallAddItem(int id, int count)
-    {
-        _inventory.TryAddItem(id, count);
+        return _inventory.TryAddItem(id, count, out errorItemCount);
     }
 
     public bool CallIsCheckItem(int id, int count, out int sum)
@@ -132,27 +119,57 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         return _inventory.IsCheckItems(id, count, out sum);
     }
 
+    /// <summary>
+    /// 제작될 이미지[0]와 재료의 이미지[1~]를 반환합니다.
+    /// </summary>
+    /// <param name="newRecipe"></param>
+    /// <param name="sum"></param>
+    /// <returns></returns>
     public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe, out int[] sum)
     {
         return _inventory.IsCheckItems(newRecipe, out sum);
+    }
+
+    //====================================
+    public bool CallAddItems(ItemRecipe itemRecipe)
+    {
+        bool[] array = _inventory.TryAddItems(itemRecipe);
+        return !Array.Exists(array, x => x == false);
+    }
+
+    public bool CallAddItems(int[] id, int[] count)
+    {
+        bool[] array = _inventory.TryAddItems(id, count);
+        return !Array.Exists(array, x => x == false);
+    }
+
+
+    public bool CallAddItem(int id, int count)
+    {
+        return _inventory.TryAddItem(id, count);
     }
 
     public bool CallIsCheckItem(int id, int count)
     {
         return _inventory.IsCheckItem(id, count);
     }
+
     public bool[] CallIsCheckItems(int[] id, int[] count)
     {
         return _inventory.IsCheckItems(id, count);
     }
 
+    /// <summary>
+    /// 제작될 이미지[0]와 재료의 이미지[1~]를 반환합니다.
+    /// </summary>
+    /// <param name="newRecipe"></param>
+    /// <returns></returns>
     public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe)
     {
         return _inventory.IsCheckItems(newRecipe);
     }
 
-
-
+    //===================================
 
 
     public void CallOnInventoryDisplayEvent()
