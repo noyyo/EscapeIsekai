@@ -15,6 +15,7 @@ public class ItemDB : CustomSingleton<ItemDB>
     private int _itemStatsCount;
     private int _itemRecipesCount;
     private GameManager _gameManager;
+    
     private ItemCraftingManager _itemCraftingManager;
 
     public List<ItemData_Test> ItemList { get { return _itemDatas; } }
