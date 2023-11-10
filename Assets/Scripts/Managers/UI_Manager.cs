@@ -5,6 +5,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 {
     protected UI_Manager() { }
     [SerializeField] private GameObject _cavas;
+    public GameObject gatheringCanvas;
     
     private ItemDB _itemDB;
     private InventoryManager _inventoryManager;
@@ -19,6 +20,9 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public event Action TurnOnQuickSlotEvent;
     public event Action TurnOffQuickSlotEvent;
 
+    public string itemName;
+    public string itemExplanation;
+
     private void Awake()
     {
         _gameManager = GameManager.Instance;
@@ -29,6 +33,17 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         }
         _quickSlot_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
         _player = GameManager.Instance.Player;
+        if (_player == null)
+        {
+            _player = GameObject.FindGameObjectWithTag("Player");
+            if (_player == null)
+                _player = Instantiate(Resources.Load<GameObject>("Prefabs/Player/Player"));
+        }
+        if (gatheringCanvas == null)
+        {
+            gatheringCanvas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GatheringCanvas"));
+            gatheringCanvas.SetActive(false);
+        }
     }
 
     public void CallTurnOnQuickSlot()
