@@ -30,6 +30,7 @@ public class Dialog : MonoBehaviour
     }
     public void Action(GameObject scanObj) //대화시작
     {
+        Cursor.lockState = CursorLockMode.Confined;
         if (isAction)
         {
             isAction = false;
@@ -74,21 +75,18 @@ public class Dialog : MonoBehaviour
    public void Talk(int id, bool isNPC)
     {
         int questTalkIndex = QuestManager.GetQuestTalkIndex(id);
-        for (int i = 0; i < 4; i++) //퀘스트 클리어했는지 체크
-        {
-            if (QuestManager.questCheck[i])
-            {
-                questTalkIndex++;
-            }
-            else break;
-        }
         string talkData = TalkManager.Instance.GetTalk(id+ questTalkIndex, talkIndex);
         if (talkData == null) 
         {
-            if(id == 100) //대장장이
+            ExitTalk();
+            if(id == 1)
+            {
+                QuestManager.Instance.questId=10;
+            }
+            if (id == 100) //대장장이
             {
                 ItemCraftingManager.Instance.CallOnCraftingUI();
-                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = CursorLockMode.None;
             }
             if (id == 200) //요리
             {
@@ -104,10 +102,11 @@ public class Dialog : MonoBehaviour
             }
             if (id == 500) //검술
             {
-                instructor.Instance.StartCoroutine("StartMission");
+                MouseSlider.Instance.gameObject.SetActive(true);
+                MouseSlider.Instance.StartCoroutine("StartMission");
                     return;
             }
-            ExitTalk();
+           
             return; 
         }
 

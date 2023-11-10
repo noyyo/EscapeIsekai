@@ -68,6 +68,13 @@ public class PlayerGroundState : PlayerBaseState
         stateMachine.ChangeState(stateMachine.JumpState);
     }
 
+    protected override void OnSuperJumpStarted(InputAction.CallbackContext context)
+    {
+        if (stateMachine.Player.Playerconditions.superJump.curValue < groundData.SuperJumpCost)
+            return;
+        stateMachine.ChangeState(stateMachine.SuperJump);
+    }
+
     protected override void AddInputActionsCallbacks()
     {
         base.AddInputActionsCallbacks();

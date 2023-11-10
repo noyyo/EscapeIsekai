@@ -11,6 +11,7 @@ public class PlayerSkillState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
     }

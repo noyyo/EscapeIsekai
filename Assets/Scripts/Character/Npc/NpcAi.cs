@@ -50,12 +50,20 @@ public class NpcAi : MonoBehaviour
             if (!GameManager.Instance.IsDay) //นใ
                 break;
 
+            if(dayPosition ==null)
+            {
+                yield break;
+            }
             if (RandomPoint(dayPosition.transform.position, range, out point))
             {
                 dayPosition.transform.position = point;
             }
             agent.SetDestination(dayPosition.transform.position);
             yield return new WaitForSecondsRealtime(time);
+        }
+        if (nightPosition == null)
+        {
+            yield break;
         }
         agent.SetDestination(nightPosition.transform.position);
     }
