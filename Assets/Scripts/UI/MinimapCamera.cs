@@ -19,11 +19,11 @@ public class MinimapCamera : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 targetForward = _target.forward;
-        targetForward.y = 150;
+        targetForward.y = 0;
         targetForward.Normalize();
 
-        Vector3 position = new Vector3(_target.transform.position.x, 1, _target.transform.position.z) 
-                            + targetForward * _offsetRatio * cam.orthographicSize;
+        Vector3 position = new Vector3(_target.transform.position.x, 70, _target.transform.position.z); 
+                            //+ Vector3.one * _offsetRatio * cam.orthographicSize;
         transform.position = position;
         transform.eulerAngles = new Vector3( 90, 0, -_target.eulerAngles.y );
 
