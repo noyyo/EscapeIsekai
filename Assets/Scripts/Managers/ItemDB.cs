@@ -15,6 +15,7 @@ public class ItemDB : CustomSingleton<ItemDB>
     private int _itemDatasCount;
     private int _itemStatsCount;
     private int _itemRecipesCount;
+    private GameManager _gameManager;
     
     private ItemCraftingManager _itemCraftingManager;
 
@@ -25,6 +26,7 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
         if (_itemList == null)
             _itemList = Resources.Load<ItemExcel>("ItemData/ItemExcel");
         _itemDatas = new List<ItemData_Test>(_itemList.ItemDatas);
@@ -35,9 +37,12 @@ public class ItemDB : CustomSingleton<ItemDB>
         _itemRecipesCount = _itemRecipes.Count;
 
         _itemCraftingManager = ItemCraftingManager.Instance;
+    }
 
+    private void Start()
+    {
         if (_inventory == null)
-            _inventory = UI_Manager.Instance.Player.GetComponent<Inventory>();
+            _inventory = _gameManager.Player.GetComponent<Inventory>();
     }
 
     private void Update()

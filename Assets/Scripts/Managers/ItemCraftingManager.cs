@@ -99,16 +99,16 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         onCraftingUIEvent += DisplayCraftingUI;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            if(_isDisplay)
-                CallOffCraftingUIEvent();
-            else
-                CallOnCraftingUI();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.H))
+    //    {
+    //        if(_isDisplay)
+    //            CallOffCraftingUIEvent();
+    //        else
+    //            CallOnCraftingUI();
+    //    }
+    //}
 
     public void CallOnClickCraftingSlotEvent(ItemRecipe newRecipe, bool isMake)
     {
