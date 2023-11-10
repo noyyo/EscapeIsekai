@@ -13,6 +13,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public event Action<bool> IsPauseChanged;
     public event Action ActivatedActionsChanged;
     public event Action OnDie;
+    public event Action<Enemy> OnDieAction;
 
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
@@ -229,7 +230,11 @@ public class EnemyStateMachine : StateMachine, IDamageable
         HP -= damage;
         HP = Mathf.Max(HP, 0);
         if (HP == 0)
+        {
             OnDie?.Invoke();
+            OnDieAction?.Invoke(Enemy);
+        }
+            
     }
     private void Dead()
     {
@@ -262,5 +267,21 @@ public class EnemyStateMachine : StateMachine, IDamageable
     private void MoveByForce()
     {
         agent.Move(forceReceiver.Movement * Time.deltaTime);
+    }
+    public void ResetStateMachine()
+    {
+        HP = Enemy.Data.MaxHP;
+        isActive = false;
+        isPause = false;
+        IsDead = false;
+        IsInBattle = false;
+        IsInvincible = false;
+        IsFleeable = Enemy.Data.IsFleeable;
+        BattleTime = 0f;
+        actionsInActive.Clear();
+        actionsToExecute.Clear();
+        OriginPosition = Vector3.zero;
+        CurrentAction = null;
+        ChangeState(IdleState);
     }
 }

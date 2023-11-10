@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemySO", menuName = "Characters/Enemy")]
 public class EnemySO : ScriptableObject
 {
+    public int ID;
+    public string Name;
+
     [field: Header("Health")]
     [field: SerializeField] public int MaxHP { get; private set; } = 100;
 
