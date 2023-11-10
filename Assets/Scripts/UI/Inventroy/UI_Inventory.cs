@@ -7,14 +7,11 @@ using UnityEngine.UI;
 
 public class UI_Inventory : MonoBehaviour
 {
-    [Header("UI관련 오브젝트")]
-    [SerializeField][Tooltip("인벤토리 UI")] private GameObject _inventory_GameObject;
-    [SerializeField][Tooltip("인벤토리안에 있는 InventoryType을 넣어주세요")] private GameObject _inventoryTypeGroup;
-    [SerializeField][Tooltip("인벤토리안에 있는 Tail을 넣어주세요")] private GameObject _inventoryTailGroup;
-    [SerializeField][Tooltip("인벤토리안에 있는 ItemExplanation을 넣어주세요")] private GameObject _itemExplanationPopup;
-
-    [Header("Inventory")]
-    [SerializeField] private Inventory _inventory;
+    private GameObject _inventory_GameObject;
+    private GameObject _inventoryTypeGroup;
+    private GameObject _inventoryTailGroup;
+    private GameObject _itemExplanationPopup;
+    private Inventory _inventory;
 
     private InventoryManager _inventoryManager;
     private UI_Manager _ui_manager;

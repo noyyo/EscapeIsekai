@@ -21,11 +21,10 @@ public class ItemSlotInfo
 }
 
 public class Inventory : MonoBehaviour
-{
+{   
     [SerializeField] private int _inventroySlotCount = 60;
-    [SerializeField] private GameObject _slotPrefab;
-    [SerializeField] private GameObject _slotSpawn;
-
+    private GameObject _slotPrefab;
+    private GameObject _slotSpawn;
     private UI_Inventory _ui_Inventory;
     private InventoryManager _inventoryManager;
     private List<Slot> _slotArray = new List<Slot>();

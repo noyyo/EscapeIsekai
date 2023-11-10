@@ -7,8 +7,8 @@ using UnityEngine;
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
     protected InventoryManager() { }
-    [SerializeField] private UI_Inventory _ui_Inventory;
-    [SerializeField] private Inventory _inventory;
+    private UI_Inventory _ui_Inventory;
+    private Inventory _inventory;
     private UI_Manager _ui_Manager;
     private GameObject _itemExplanationPopup;
     private GameObject _inventory_UI;
