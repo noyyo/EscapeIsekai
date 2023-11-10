@@ -32,6 +32,7 @@ public class GatheringObject : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             UI_Manager.Instance.gatheringCanvas.SetActive(false);
             _gathering = false;
         }
