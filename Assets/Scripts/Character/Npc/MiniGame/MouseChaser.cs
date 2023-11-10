@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MouseChaser : MouseSlider
+public class MouseChaser : MonoBehaviour
 {
     // 카메라로부터의 거리
     public float _distanceFromCamera = 5f;
@@ -30,15 +30,15 @@ public class MouseChaser : MouseSlider
         _mousePos.z = _distanceFromCamera;
         if (Input.GetMouseButtonDown(0))
         {
-            isClick = true;
+            MouseSlider.Instance.isClick = true;
             gameObject.GetComponent<ParticleSystem>().Play();
         }
         if (Input.GetMouseButtonUp(0))
         {
-            isClick = false;
+            MouseSlider.Instance.isClick = false;
             gameObject.GetComponent<ParticleSystem>().Stop();
         }
-        if (isClick)
+        if (MouseSlider.Instance.isClick)
         {
          transform.position = Camera.main.ScreenToWorldPoint(_mousePos);
         }

@@ -15,6 +15,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
     public PlayerRollState RollState { get; }
     public PlayerFallState FallState { get; }
 
+    public PlayerNothingState NothingState { get; }
     public PlayerComboAttackState ComboAttackState { get; }
 
     public PlayerSkillState SkillState { get; }
@@ -53,7 +54,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
-
+        NothingState = new PlayerNothingState(this);
         ComboAttackState = new PlayerComboAttackState(this);
 
         SkillState = new PlayerSkillState(this);

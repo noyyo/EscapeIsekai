@@ -16,9 +16,9 @@ public class TalkManager : CustomSingleton<TalkManager>
     void GenerateData() //npc번호 , 퀘스트 번호
     {
         //마법사
-        talkData.Add(1 + 0, new string[] { "나는법사" });
+        talkData.Add(1 + 0, new string[] { "나는법사","템이필요해","말좀 걸어봐" });
         //메인퀘스트 마법사
-        talkData.Add(1 + 10, new string[] { "이곳 방문은 처음인가?","돌아가긴 위해선 유물을 찾아야해", "찾아오렴" });
+        talkData.Add(1 + 10, new string[] { "모험을 떠나","돌아가긴 위해선 유물을 찾아야해", "찾아오렴" });
         talkData.Add(1 + 11, new string[] { "첫번째 유물을 잘 찾아왔군","다음 땡떙 지역에 있다","몸조심 하도록" });
         talkData.Add(1 + 12, new string[] { "두번째 유물을 잘 찾아왔군", "다음 땡떙 지역에 있다","얼마 남지 않았어 힘내도록" });
         talkData.Add(1 + 13, new string[] { "수고했네 이제 마지막이야","곧 있으면 이곳을 떠날 수 있겠군","남쪽으로가게" });
