@@ -26,7 +26,7 @@ public class MouseSlider : MonoBehaviour
     private void Start()
     {
         c = fadeImage.GetComponent<Image>().color;
-      // StartCoroutine("StartMission");
+      StartCoroutine("StartMission");
     }
     private void Update()
     {
@@ -71,6 +71,7 @@ public class MouseSlider : MonoBehaviour
 
     IEnumerator StartMission()
     {
+        gameObject.SetActive (true);
         Cursor.lockState = CursorLockMode.Confined;
         for (int i = 0; i < 4; i++)
         {
@@ -98,11 +99,11 @@ public class MouseSlider : MonoBehaviour
 
     IEnumerator Success() 
     {
-        Cursor.lockState = CursorLockMode.Locked;
         sliceList.RemoveAt(0);
         Debug.Log("¼º°ø");
         if(sliceList.Count == 0)
         {
+            Cursor.lockState = CursorLockMode.Locked;
             isSuccess = true;
             StopAllCoroutines();
         }
@@ -122,7 +123,7 @@ public class MouseSlider : MonoBehaviour
         {
             c.a = i;
             fadeImage.color = c;
-            yield return new WaitForSecondsRealtime (0.01f);
+            yield return new WaitForSecondsRealtime (0.005f);
         }
         c.a = 0;
         fadeImage.color = c;
