@@ -63,13 +63,8 @@ public class Enemy : MonoBehaviour
             Actions[i].OnAwake();
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    public void ResetEnemy()
     {
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-    }
-    private void OnCollisionExit(Collision collision)
-    {
+        StateMachine.ResetStateMachine();
     }
 }
