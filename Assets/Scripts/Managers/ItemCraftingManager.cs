@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
-    [SerializeField] private GameObject _itemCraftingUI;
-    [SerializeField] private ItemCraftingController _craftingController;
-    [SerializeField] private GameObject _craftingSlotPrefab;
-    [SerializeField] private GameObject _itemCaftingMaterials_UI;
-    [SerializeField] private GameObject _itemExplanation_UI;
+    private GameObject _itemCraftingUI;
+    private ItemCraftingController _craftingController;
+    private GameObject _craftingSlotPrefab;
+    private GameObject _itemCaftingMaterials_UI;
+    private GameObject _itemExplanation_UI;
     private MaterialsSlot[] _materialsSlots;
 
     private UI_Manager _uiManager;
