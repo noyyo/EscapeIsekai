@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,11 @@ public class GameManager : CustomSingleton<GameManager>
     [Range(0.0f, 1.0f)]
     public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
     public bool IsDay;
+    public event Action OnPauseEvent;
+    public event Action OnUnpauseEvent;
 
-    
+
     private SoundManager _soundManager;
-    
 
     public GameObject Player { get { return _player; } }
 
@@ -36,4 +38,15 @@ public class GameManager : CustomSingleton<GameManager>
         }
     }
 
+    public void CallOnPauseEvent()
+    {
+        Time.timeScale = 0f; //임시
+        OnPauseEvent?.Invoke();
+    }
+
+    public void CallOnUnpauseEvent()
+    {
+        Time.timeScale = 1f; //임시
+        OnUnpauseEvent?.Invoke();
+    }
 }

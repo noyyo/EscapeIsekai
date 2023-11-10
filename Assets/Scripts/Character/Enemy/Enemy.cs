@@ -19,9 +19,7 @@ public class Enemy : MonoBehaviour
     public  AttackAction[] Actions;
     public EnemyForceReceiver ForceReceiver { get; private set; }
     public AnimationEventReceiver AnimEventReceiver { get; private set; }
-    // Test
-    public GameObject Player;
-    void Awake()
+    private void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new EnemyAnimationData();
@@ -63,13 +61,14 @@ public class Enemy : MonoBehaviour
             Actions[i].OnAwake();
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    public void ResetEnemy()
     {
+        StateMachine.ResetStateMachine();
     }
-    private void OnCollisionStay(Collision collision)
+    public void OnRelease()
     {
-    }
-    private void OnCollisionExit(Collision collision)
-    {
+        gameObject.SetActive(false);
+        Agent.enabled = false;
+        transform.position = Vector3.zero;
     }
 }
