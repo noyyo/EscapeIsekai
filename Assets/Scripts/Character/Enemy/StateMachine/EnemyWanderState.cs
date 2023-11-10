@@ -15,11 +15,13 @@ public class EnemyWanderState : EnemyBaseState
         agent.SetDestination(GetWanderLocation());
         agent.speed = enemyData.WalkSpeed * stateMachine.MovementSpeedModifier;
         StartAnimation(enemy.AnimationData.WalkParameterHash);
+        StartAnimation(enemy.AnimationData.MoveParameterHash);
     }
     public override void Exit()
     {
         base.Exit();
         StopAnimation(enemy.AnimationData.WalkParameterHash);
+        StopAnimation(enemy.AnimationData.MoveParameterHash);
     }
     public override void Update()
     {

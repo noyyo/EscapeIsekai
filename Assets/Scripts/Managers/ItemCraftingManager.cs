@@ -84,7 +84,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     {
         _craftingButton.onClick.AddListener(CallOnClickCraftingButtonEvent);
         onClickCraftingButtonEvent += CraftingItem;
-        onClickCraftingButtonEvent += CallOnUpdateUIEvent;
+        //onClickCraftingButtonEvent += CallOnUpdateUIEvent;
 
         onClickCraftingSlotEvent += SetActiveItemUI;
         onClickCraftingSlotEvent += CallOnUpdateUIEvent;
@@ -99,16 +99,16 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         onCraftingUIEvent += DisplayCraftingUI;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            if(_isDisplay)
-                CallOffCraftingUIEvent();
-            else
-                CallOnCraftingUI();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.H))
+    //    {
+    //        if(_isDisplay)
+    //            CallOffCraftingUIEvent();
+    //        else
+    //            CallOnCraftingUI();
+    //    }
+    //}
 
     public void CallOnClickCraftingSlotEvent(ItemRecipe newRecipe, bool isMake)
     {
@@ -159,6 +159,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     public void CallOffCraftingUIEvent()
     {
         offCraftingUIEvent?.Invoke();
+        Cursor.lockState = CursorLockMode.Locked;
         _isDisplay = false;
     }
 
@@ -172,6 +173,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         if (!(_inventoryManager.IsDisplay))
         {
             onCraftingUIEvent?.Invoke();
+            Cursor.lockState = CursorLockMode.Confined;
             _isDisplay = true;
         }
             

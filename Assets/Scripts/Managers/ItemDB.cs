@@ -15,6 +15,7 @@ public class ItemDB : CustomSingleton<ItemDB>
     private int _itemDatasCount;
     private int _itemStatsCount;
     private int _itemRecipesCount;
+    private GameManager _gameManager;
     
     private ItemCraftingManager _itemCraftingManager;
 
@@ -25,6 +26,7 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
         if (_itemList == null)
             _itemList = Resources.Load<ItemExcel>("ItemData/ItemExcel");
         _itemDatas = new List<ItemData_Test>(_itemList.ItemDatas);
@@ -35,9 +37,12 @@ public class ItemDB : CustomSingleton<ItemDB>
         _itemRecipesCount = _itemRecipes.Count;
 
         _itemCraftingManager = ItemCraftingManager.Instance;
+    }
 
+    private void Start()
+    {
         if (_inventory == null)
-            _inventory = UI_Manager.Instance.Player.GetComponent<Inventory>();
+            _inventory = _gameManager.Player.GetComponent<Inventory>();
     }
 
     private void Update()
@@ -111,43 +116,4 @@ public class ItemDB : CustomSingleton<ItemDB>
         itemStat = null;
         return false;
     }
-
-    /// <summary>
-    /// º¹»çÇü
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="itemData"></param>
-    /// <returns></returns>
-    public ItemData_Test GetItemData(int id)
-    {
-        for (int i = 0; i < _itemDatasCount; i++)
-        {
-            if (_itemDatas[i].ID == id)
-                return new ItemData_Test(_itemDatas[i]);
-        }
-        return null;
-    }
-
-    public ItemRecipe GetRecipe(int id)
-    {
-        for (int i = 0; i < _itemRecipesCount; i++)
-        {
-            if (_itemRecipes[i].ID == id)
-            {
-                return new ItemRecipe(_itemRecipes[i]);
-            }
-        }
-        return null;
-    }
-
-    public ItemStats GetStats(int id)
-    {
-        for (int i = 0; i < _itemStatsCount; i++)
-        {
-            if (_itemStats[i].ID == id)
-                return new ItemStats(_itemStats[i]);
-        }
-        return null;
-    }
-
 }

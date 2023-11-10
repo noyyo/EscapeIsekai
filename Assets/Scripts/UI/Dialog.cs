@@ -87,7 +87,8 @@ public class Dialog : MonoBehaviour
         {
             if(id == 100) //대장장이
             {
-                Debug.Log("대장장이ui팝업");
+                ItemCraftingManager.Instance.CallOnCraftingUI();
+                Cursor.lockState = CursorLockMode.Confined;
             }
             if (id == 200) //요리
             {
@@ -104,6 +105,7 @@ public class Dialog : MonoBehaviour
             if (id == 500) //검술
             {
                 instructor.Instance.StartCoroutine("StartMission");
+                    return;
             }
             ExitTalk();
             return; 
@@ -135,7 +137,7 @@ public class Dialog : MonoBehaviour
         }
         isAction = false;
         talkIndex = 0;
-
+        Cursor.lockState = CursorLockMode.Locked;
         targetNpc = null;
         panel.SetActive(isAction);
     }

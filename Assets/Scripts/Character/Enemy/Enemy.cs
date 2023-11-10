@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public event Action<AnimationEvent> AnimationEventCalled;
 
     [field: SerializeField] public EnemySO Data { get; private set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
@@ -66,11 +65,11 @@ public class Enemy : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Agent.isStopped = true;
-        Agent.velocity = Vector3.zero;
+    }
+    private void OnCollisionStay(Collision collision)
+    {
     }
     private void OnCollisionExit(Collision collision)
     {
-        Agent.isStopped = false;
     }
 }

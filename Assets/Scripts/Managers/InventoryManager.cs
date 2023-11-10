@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
@@ -12,6 +13,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private GameObject _itemExplanationPopup;
     private GameObject _inventory_UI;
     private ItemCraftingManager _inventoryCraftingManager;
+    private GameManager _gameManager;
 
     private ItemSlotInfo _clickItem;
     private Slot _ClickSlot;
@@ -33,6 +35,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
         _ui_Manager = UI_Manager.Instance;
         _inventory_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _ui_Manager.Canvas.transform);
         _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
@@ -42,10 +45,24 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private void Start()
     {
         if (_inventory == null)
-            _inventory = _ui_Manager.Player.GetComponent<Inventory>();
+            _inventory = _gameManager.Player.GetComponent<Inventory>();
         if (_ui_Inventory == null)
             _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            CallOnInventoryDisplayEvent();
+            Cursor.visible = isDisplay;
+            if (isDisplay)
+                Cursor.lockState = CursorLockMode.None;
+            else
+                Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
     {
         if (_clickItem != null)
@@ -92,35 +109,21 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         }
     }
 
-    public void CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
+    public bool CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
     {
-        _inventory.TryAddItems(itemRecipe, out errorItemCount);
+        bool[] array = _inventory.TryAddItems(itemRecipe, out errorItemCount);
+        return !Array.Exists(array, x => x == false);
     }
 
-    public void CallAddItems(int[] id, int[] count, out int[] errorItemCount)
+    public bool CallAddItems(int[] id, int[] count, out int[] errorItemCount)
     {
-        _inventory.TryAddItems(id, count, out errorItemCount);
+        bool[] array = _inventory.TryAddItems(id, count, out errorItemCount);
+        return !Array.Exists(array, x => x == false);
     }
 
-    public void CallAddItem(int id, int count, out int errorItemCount)
+    public bool CallAddItem(int id, int count, out int errorItemCount)
     {
-        _inventory.TryAddItem(id, count, out errorItemCount);
-    }
-
-    public void CallAddItems(ItemRecipe itemRecipe)
-    {
-        _inventory.TryAddItems(itemRecipe);
-    }
-
-    public void CallAddItems(int[] id, int[] count)
-    {
-        _inventory.TryAddItems(id, count);
-    }
-
-
-    public void CallAddItem(int id, int count)
-    {
-        _inventory.TryAddItem(id, count);
+        return _inventory.TryAddItem(id, count, out errorItemCount);
     }
 
     public bool CallIsCheckItem(int id, int count, out int sum)
@@ -132,27 +135,57 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         return _inventory.IsCheckItems(id, count, out sum);
     }
 
+    /// <summary>
+    /// 제작될 이미지[0]와 재료의 이미지[1~]를 반환합니다.
+    /// </summary>
+    /// <param name="newRecipe"></param>
+    /// <param name="sum"></param>
+    /// <returns></returns>
     public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe, out int[] sum)
     {
         return _inventory.IsCheckItems(newRecipe, out sum);
+    }
+
+    //====================================
+    public bool CallAddItems(ItemRecipe itemRecipe)
+    {
+        bool[] array = _inventory.TryAddItems(itemRecipe);
+        return !Array.Exists(array, x => x == false);
+    }
+
+    public bool CallAddItems(int[] id, int[] count)
+    {
+        bool[] array = _inventory.TryAddItems(id, count);
+        return !Array.Exists(array, x => x == false);
+    }
+
+
+    public bool CallAddItem(int id, int count)
+    {
+        return _inventory.TryAddItem(id, count);
     }
 
     public bool CallIsCheckItem(int id, int count)
     {
         return _inventory.IsCheckItem(id, count);
     }
+
     public bool[] CallIsCheckItems(int[] id, int[] count)
     {
         return _inventory.IsCheckItems(id, count);
     }
 
+    /// <summary>
+    /// 제작될 이미지[0]와 재료의 이미지[1~]를 반환합니다.
+    /// </summary>
+    /// <param name="newRecipe"></param>
+    /// <returns></returns>
     public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe)
     {
         return _inventory.IsCheckItems(newRecipe);
     }
 
-
-
+    //===================================
 
 
     public void CallOnInventoryDisplayEvent()

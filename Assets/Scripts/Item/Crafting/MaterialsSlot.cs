@@ -11,8 +11,10 @@ public class MaterialsSlot : MonoBehaviour
     [SerializeField] private GameObject _image;
     [SerializeField] private TMP_Text _text;
     private Image _icon;
-    private int _consumption;
     private ItemDB _itemDB;
+    private int _itemCount;
+    private int _consumption;
+    private ItemCraftingManager _craftManager;
 
     private void Awake()
     {
@@ -20,16 +22,19 @@ public class MaterialsSlot : MonoBehaviour
         _icon = _image.GetComponent<Image>();
     }
 
+    private void Start()
+    {
+        _craftManager = ItemCraftingManager.Instance;
+        _craftManager.onClickCraftingButtonEvent += UpdateItemData;
+    }
+
     public void GetItemData(ItemData_Test newItem, int consumption, int count)
     {
         _icon.enabled = true;
         _icon.sprite = newItem.Icon;
-        if(consumption != 0)
-        {
-            _consumption = consumption;
-            _text.text = count + " / " + _consumption;
-        }
-        _text.text = "";
+        _itemCount = count;
+        _consumption = consumption;
+        UpdateText();
     }
 
     public void GetItemData(int id, int consumption, int count)
@@ -37,42 +42,38 @@ public class MaterialsSlot : MonoBehaviour
         _icon.enabled = true;
         _itemDB.GetItemData(id, out ItemData_Test newItem);
         _icon.sprite = newItem.Icon;
-        _text.text = "";
-        if (consumption != 0)
-        {
-            _consumption = consumption;
-            _text.text = count + " / " + _consumption;
-        }
-    }
-
-    public void GetItemData(int id)
-    {
-        _icon.enabled = true;
-        _itemDB.GetItemData(id, out ItemData_Test newItem);
-        _icon.sprite = newItem.Icon;
-        _text.text = "";
+        _itemCount = count;
+        _consumption = consumption;
+        UpdateText();
     }
 
     public void GetItemData(Sprite icon, int consumption, int count)
     {
         _icon.enabled = true;
         _icon.sprite = icon;
-        _text.text = "";
-        if (consumption != 0)
-        {
-            _consumption = consumption;
-            _text.text = count + " / " + _consumption;
-        }
-        
+        _itemCount = count;
+        _consumption = consumption;
+        UpdateText();
     }
 
-    public void UpdateText(int count)
+    public void UpdateItemData()
     {
-        _text.text = "";
-        if (_consumption != 0)
-        {
-            _text.text = count + " / " + _consumption;
-        }
+        if(_itemCount >= _consumption)
+            _itemCount -= _consumption;
+        UpdateText();
+    }
+
+    public void UpdateText()
+    {
+        _text.text = _itemCount + " / " + _consumption;
+
+        if (_consumption == 0)
+            _text.text = "";
+
+        if (_consumption >= _itemCount)
+            _text.color = Color.red;
+        else
+            _text.color = Color.black;
     }
 
     public void Init()

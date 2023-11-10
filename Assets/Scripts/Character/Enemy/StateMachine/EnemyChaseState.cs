@@ -40,6 +40,8 @@ public class EnemyChaseState : EnemyBaseState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(enemy.AnimationData.MoveParameterHash);
+
         if (!isChoosed)
         {
             agent.isStopped = false;

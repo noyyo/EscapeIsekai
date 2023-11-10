@@ -82,18 +82,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            OnInventory();
-        }
-    }
-
-    public void OnInventory()
-    {
-        _inventoryManager.CallOnInventoryDisplayEvent();
-    }
+    //public void OnInventory()
+    //{
+    //    _inventoryManager.CallOnInventoryDisplayEvent();
+    //}
 
     public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
     {

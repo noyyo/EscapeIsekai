@@ -104,7 +104,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -127,8 +127,8 @@ MonoBehaviour:
   id: 100
   isNPC: 1
   Motion:
-  - {fileID: 11400000, guid: 7cc1b8c3810edf644b15dc8894eed661, type: 2}
-  - {fileID: 11400000, guid: a2b1132cadf558b408bda9df90c81e3d, type: 2}
+  - {fileID: 11400000, guid: 50c13952ed7f45f4ab2ff47c5e04d6d2, type: 2}
+  - {fileID: 11400000, guid: 36a525262df5c15499a9e8f2d6c1489b, type: 2}
 --- !u!114 &6846726520674393096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ PlayableDirector:
   m_GameObject: {fileID: 5822719685031445681}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 7cc1b8c3810edf644b15dc8894eed661, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 50c13952ed7f45f4ab2ff47c5e04d6d2, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -188,6 +188,18 @@ PlayableDirector:
   - key: {fileID: 0}
     value: {fileID: 0}
   - key: {fileID: -4596821643265584528, guid: a2b1132cadf558b408bda9df90c81e3d, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 5631838813227819226, guid: 50c13952ed7f45f4ab2ff47c5e04d6d2, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -4812405478999764571, guid: 50c13952ed7f45f4ab2ff47c5e04d6d2, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 5631838813227819226, guid: 36a525262df5c15499a9e8f2d6c1489b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -4812405478999764571, guid: 36a525262df5c15499a9e8f2d6c1489b, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 795075056975002615, guid: 50c13952ed7f45f4ab2ff47c5e04d6d2, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -1446587150487708391, guid: 50c13952ed7f45f4ab2ff47c5e04d6d2, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
