@@ -12,7 +12,7 @@ public class Npc : MonoBehaviour
     public int id;
     public bool isNPC;
     public TimelineAsset[] Motion;
-    private bool isHit;
+    public bool isHit;
     private GameObject target;
 
     private GameObject player;
@@ -42,6 +42,13 @@ public class Npc : MonoBehaviour
         target = other.gameObject;
         isHit = true;
     }
+    private void OnTriggerExit(Collider other)
+    {
+        stateMachine.ChangeState(stateMachine.IdleState);
+        isHit = false;
+        target = null;
+    }
+
 
     private void OnInteraction()
     {

@@ -11,7 +11,6 @@ public class PlayerNothingState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("dd");
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
     }
