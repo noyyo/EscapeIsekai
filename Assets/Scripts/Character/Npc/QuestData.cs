@@ -6,10 +6,11 @@ public class QuestData : MonoBehaviour
 {
    public string questName;
     public int[] npcId;
-
-    public QuestData(string name, int[] npc)
+    public string questDescription;
+    public QuestData(string name, int[] npc, string Description)
     {
         questName = name;
         npcId = npc;
+        questDescription = Description;
     }
 }
