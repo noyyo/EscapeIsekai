@@ -50,19 +50,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
             _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            CallOnInventoryDisplayEvent();
-            Cursor.visible = isDisplay;
-            if (isDisplay)
-                Cursor.lockState = CursorLockMode.None;
-            else
-                Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
-
     public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
     {
         if (_clickItem != null)
@@ -187,13 +174,21 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     //===================================
 
-
     public void CallOnInventoryDisplayEvent()
     {
         isDisplay = !isDisplay;
         if (isDisplay)
         {
             _inventoryCraftingManager.CallOffCraftingUIEvent();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            _gameManager.CallOnPauseEvent();
+        }
+        else
+        {
+            Cursor.visible = false;    
+            Cursor.lockState = CursorLockMode.Locked;
+            _gameManager.CallOnUnpauseEvent();
         }
         OnInventoryDisplayEvent?.Invoke();
     }

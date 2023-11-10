@@ -102,6 +102,7 @@ public class UI_Inventory : MonoBehaviour
             _ui_manager.CallTurnOffQuickSlot();
         else
             _ui_manager.CallTurnOnQuickSlot();
+
     }
 
     // 카테고리 변경됨으로써 현재 카테고리 저장후 UI표시
