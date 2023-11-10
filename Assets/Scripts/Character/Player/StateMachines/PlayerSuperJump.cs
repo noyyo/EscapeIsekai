@@ -11,14 +11,12 @@ public class PlayerSuperJump : PlayerAirState
     public override void Enter()
     {
 
-        Debug.Log("����");
+        base.Enter();
 
         stateMachine.JumpForce = stateMachine.Player.Data.AirData.JumpForce;
         stateMachine.Player.ForceReceiver.Jump(10);
-
-        base.Enter();
-
         StartAnimation(stateMachine.Player.AnimationData.SuperJumpParameterHash);
+        stateMachine.Player.Playerconditions.UseSuperJump(groundData.SuperJumpCost);
     }
 
     public override void Exit()

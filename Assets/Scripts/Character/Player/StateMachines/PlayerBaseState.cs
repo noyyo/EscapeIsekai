@@ -104,9 +104,7 @@ public class PlayerBaseState : IState
     }
     protected virtual void OnSuperJumpStarted(InputAction.CallbackContext context)
     {
-        Debug.Log("count");
-        if (stateMachine.Player.Controller.isGrounded)
-            stateMachine.ChangeState(stateMachine.SuperJump);
+        
     }
 
     private void ReadMovementInput()
