@@ -84,7 +84,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     {
         _craftingButton.onClick.AddListener(CallOnClickCraftingButtonEvent);
         onClickCraftingButtonEvent += CraftingItem;
-        onClickCraftingButtonEvent += CallOnUpdateUIEvent;
+        //onClickCraftingButtonEvent += CallOnUpdateUIEvent;
 
         onClickCraftingSlotEvent += SetActiveItemUI;
         onClickCraftingSlotEvent += CallOnUpdateUIEvent;

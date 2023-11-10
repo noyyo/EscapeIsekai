@@ -80,17 +80,4 @@ public class ItemData_Test
             return _icon;
         }
     }
-
-    public ItemData_Test(ItemData_Test newData)
-    {
-        _id = newData.ID;
-        _itemName = newData.ItemName;
-        _itemExplanation = newData.ItemExplanation;
-        _price = newData.Price;
-        _maxCount = newData.MaxCount;
-        _isStat = newData.IsStat;
-        _isCrafting = newData.IsCrafting;
-        _dropPrefab = newData.DropPrefab;
-        _icon = newData.Icon;
-}
 }

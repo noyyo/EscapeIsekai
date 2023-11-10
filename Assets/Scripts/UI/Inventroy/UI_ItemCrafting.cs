@@ -68,6 +68,7 @@ public class UI_ItemCrafting : MonoBehaviour
 
     //}
 
+    //æ∆¿Ã≈€ ΩΩ∑‘¿ª ¥≠∑∂¿ª∂ß
     public void AddMaterialsSlot(ItemRecipe clickSlot)
     {
         Sprite[] sprites = _inventoryManager.CallIsCheckItems(clickSlot, out int[] sum);
