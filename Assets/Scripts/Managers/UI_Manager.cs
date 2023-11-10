@@ -31,7 +31,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         {
             _player = GameObject.FindGameObjectWithTag("Player");
             if (_player == null)
-                _player = Instantiate(Resources.Load<GameObject>("Prefabs/Test/Player"));
+                _player = Instantiate(Resources.Load<GameObject>("Prefabs/Player/Player"));
         }
                 
 
