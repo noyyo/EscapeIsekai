@@ -27,4 +27,6 @@ public class PlayerGroundData
 
     [field: SerializeField][field: Range(0f, 10f)] public float SkillCost { get; private set; } = 10f;
     [field: SerializeField][field: Range(0f, 100f)] public float PowerUpCost { get; private set; } = 100f;
+    [field: SerializeField][field: Range(0f, 10f)] public float SuperJumpCost { get; private set; } = 10f;
+
 }

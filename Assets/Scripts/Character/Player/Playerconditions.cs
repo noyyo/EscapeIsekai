@@ -41,6 +41,7 @@ public class Playerconditions : MonoBehaviour
     public Condition stamina;
     public Condition skill;
     public Condition powerUp;
+    public Condition superJump;
     public float noHungerHealthDecay;
 
 
@@ -51,6 +52,7 @@ public class Playerconditions : MonoBehaviour
         stamina.curValue = stamina.startValue;
         skill.curValue = skill.startValue;
         powerUp.curValue = powerUp.startValue;
+        superJump.curValue = superJump.startValue;
     }
 
     void Update()
@@ -59,6 +61,7 @@ public class Playerconditions : MonoBehaviour
         stamina.Add(stamina.regenRate * Time.deltaTime);
         skill.Add(skill.regenRate * Time.deltaTime);
         powerUp.Add(powerUp.regenRate * Time.deltaTime);
+        superJump.Add(superJump.regenRate * Time.deltaTime);
 
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
@@ -68,6 +71,7 @@ public class Playerconditions : MonoBehaviour
         stamina.uiBar.fillAmount = stamina.GetPercentage();
         skill.uiBar.fillAmount = skill.GetPercentage();
         powerUp.uiBar.fillAmount = powerUp.GetPercentage();
+        superJump.uiBar.fillAmount = superJump.GetPercentage();
     }
 
     public void Heal(float amount)
@@ -104,6 +108,15 @@ public class Playerconditions : MonoBehaviour
             return false;
 
         powerUp.Subtract(powerUp.maxValue);
+        return true;
+    }
+
+    public bool UseSuperJump(float amount)
+    {
+        if(superJump.curValue - amount <0)
+            return false;
+
+        superJump.Subtract(amount);
         return true;
     }
 }
