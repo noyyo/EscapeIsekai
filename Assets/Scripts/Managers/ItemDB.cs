@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class ItemDB : CustomSingleton<ItemDB>
 {
     protected ItemDB() { }
-    [SerializeField] private Inventory _inventory;
     [SerializeField] private ItemExcel _itemList;
-
+    private Inventory _inventory;
     private List<ItemData_Test> _itemDatas;
     private List<ItemStats> _itemStats;
     private List<ItemRecipe> _itemRecipes;

@@ -1743,9 +1743,9 @@ GameObject:
   - component: {fileID: 1651200940}
   - component: {fileID: 1651200941}
   - component: {fileID: 1651200946}
-  - component: {fileID: 1651200945}
   - component: {fileID: 1651200944}
   - component: {fileID: 1651200943}
+  - component: {fileID: 1651200947}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1939,10 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87228d524bfaf348913413e72bb5d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemCraftingUI: {fileID: 0}
-  _craftingItemTypeListPrefab: {fileID: 0}
   _craftingItemListCount: 3
-  _craftingItemListSpawn: {fileID: 0}
 --- !u!114 &1651200944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1955,23 +1952,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d2abdaa25aeac4f9485a2b2a06c6a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1651200945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1651200934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fce8fca97bd5c6e4fbbd6fa96adb9acf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inventory_GameObject: {fileID: 0}
-  _inventoryTypeGroup: {fileID: 0}
-  _inventoryTailGroup: {fileID: 0}
-  _itemExplanationPopup: {fileID: 0}
-  _inventory: {fileID: 0}
 --- !u!114 &1651200946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1985,8 +1965,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventroySlotCount: 60
-  _slotPrefab: {fileID: 0}
-  _slotSpawn: {fileID: 0}
+--- !u!114 &1651200947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651200934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fce8fca97bd5c6e4fbbd6fa96adb9acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1941623379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6133069450125554504, guid: 82250687da89d7e48b8271b432e784b1,

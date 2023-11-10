@@ -7,8 +7,8 @@ using UnityEngine;
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
     protected InventoryManager() { }
-    [SerializeField] private UI_Inventory _ui_Inventory;
-    [SerializeField] private Inventory _inventory;
+    private UI_Inventory _ui_Inventory;
+    private Inventory _inventory;
     private UI_Manager _ui_Manager;
     private GameObject _itemExplanationPopup;
     private GameObject _inventory_UI;
@@ -48,19 +48,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
             _inventory = _gameManager.Player.GetComponent<Inventory>();
         if (_ui_Inventory == null)
             _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            CallOnInventoryDisplayEvent();
-            Cursor.visible = isDisplay;
-            if (isDisplay)
-                Cursor.lockState = CursorLockMode.None;
-            else
-                Cursor.lockState = CursorLockMode.Locked;
-        }
     }
 
     public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
@@ -187,13 +174,21 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     //===================================
 
-
     public void CallOnInventoryDisplayEvent()
     {
         isDisplay = !isDisplay;
         if (isDisplay)
         {
             _inventoryCraftingManager.CallOffCraftingUIEvent();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            _gameManager.CallOnPauseEvent();
+        }
+        else
+        {
+            Cursor.visible = false;    
+            Cursor.lockState = CursorLockMode.Locked;
+            _gameManager.CallOnUnpauseEvent();
         }
         OnInventoryDisplayEvent?.Invoke();
     }

@@ -1,18 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemCraftingController : MonoBehaviour
 {
-    [SerializeField] private GameObject _itemCraftingUI;
-    [SerializeField] private GameObject _craftingItemTypeListPrefab;
     [SerializeField] private int _craftingItemListCount = 3;
-    [SerializeField] private Transform _craftingItemListSpawn;
-
+    private GameObject _itemCraftingUI;
+    private GameObject _craftingItemTypeListPrefab;
+    private Transform _craftingItemListSpawn;
     private ItemCraftingManager _itemCraftingManager;
     private ItemDB _itemDB;
     private Dictionary<int,int> _itemEquipmentID;

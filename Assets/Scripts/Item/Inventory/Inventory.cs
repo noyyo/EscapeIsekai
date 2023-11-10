@@ -21,11 +21,10 @@ public class ItemSlotInfo
 }
 
 public class Inventory : MonoBehaviour
-{
+{   
     [SerializeField] private int _inventroySlotCount = 60;
-    [SerializeField] private GameObject _slotPrefab;
-    [SerializeField] private GameObject _slotSpawn;
-
+    private GameObject _slotPrefab;
+    private GameObject _slotSpawn;
     private UI_Inventory _ui_Inventory;
     private InventoryManager _inventoryManager;
     private List<Slot> _slotArray = new List<Slot>();
@@ -36,6 +35,7 @@ public class Inventory : MonoBehaviour
     private ItemDB _itemDB;
     private ItemType _displayType;
     private ItemSlotInfo _clickItem;
+    private Player _playerInputSystem;
 
     private void Awake()
     {
@@ -49,6 +49,8 @@ public class Inventory : MonoBehaviour
     {
         DisplaySlotAllClear();
         _inventoryManager.OnInventoryDisplayEvent += OnDisplaySlot;
+        _playerInputSystem = GetComponent<Player>();
+        _playerInputSystem.Input.PlayerActions.Inventory.started += OnInventory;
     }
 
     private void InitInventory()
@@ -70,7 +72,7 @@ public class Inventory : MonoBehaviour
         if (_slotSpawn == null)
             _slotSpawn = InventoryManager.Instance.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
     }
-    
+
     private void CreateSlot()
     {
         for (int i = 0; i < _inventroySlotCount; i++)
@@ -81,11 +83,12 @@ public class Inventory : MonoBehaviour
             _slotArray.Add(obj.GetComponent<Slot>());
         }
     }
+    
 
-    //public void OnInventory()
-    //{
-    //    _inventoryManager.CallOnInventoryDisplayEvent();
-    //}
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        _inventoryManager.CallOnInventoryDisplayEvent();
+    }
 
     public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
     {
