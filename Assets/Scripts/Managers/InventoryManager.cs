@@ -13,6 +13,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private GameObject _itemExplanationPopup;
     private GameObject _inventory_UI;
     private ItemCraftingManager _inventoryCraftingManager;
+    private GameManager _gameManager;
 
     private ItemSlotInfo _clickItem;
     private Slot _ClickSlot;
@@ -34,6 +35,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
         _ui_Manager = UI_Manager.Instance;
         _inventory_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _ui_Manager.Canvas.transform);
         _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
@@ -43,10 +45,24 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private void Start()
     {
         if (_inventory == null)
-            _inventory = _ui_Manager.Player.GetComponent<Inventory>();
+            _inventory = _gameManager.Player.GetComponent<Inventory>();
         if (_ui_Inventory == null)
             _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            CallOnInventoryDisplayEvent();
+            Cursor.visible = isDisplay;
+            if (isDisplay)
+                Cursor.lockState = CursorLockMode.None;
+            else
+                Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
     {
         if (_clickItem != null)

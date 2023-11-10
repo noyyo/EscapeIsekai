@@ -5,17 +5,39 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class DamageReflectiveRocks : BaseEnvironmentObject
 {
-    [ReadOnly][SerializeField] private int _damage;
-    [ReadOnly][SerializeField] private float _value;
-    [ReadOnly][SerializeField] private GameObject _attacker;
+
+    [Tooltip("대미지 배율 - 기본값 1")][SerializeField] private float _magnification = 1;
+
+    [Tooltip("내가 원하는 값으로 커스텀 - 위의 배율도 적용됨")][Header("Csutom")]
+    [SerializeField] bool _isCustomValue;
+    [SerializeField] private int _customDamage;
+    [SerializeField] private float _customValue;
+    [SerializeField] private AttackEffectTypes _customAttackEffectTypes;
+    
+    private int _damage;
+    private float _value;
+    private AttackEffectTypes _attackEffectTypes;
+
+    private void Start()
+    {
+        _damage = (int)(_customDamage * _magnification);
+        _value = _customValue;
+        _attackEffectTypes = _customAttackEffectTypes;
+    }
+
     public override void TakeDamage(int damage)
     {
-        _damage = damage;
+        if (!_isCustomValue)
+            _damage = (int)(damage * _magnification);
     }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
     {
-        _value = value;
+        if (!_isCustomValue)
+        {
+            _value = value;
+            _attackEffectTypes = attackEffectTypes;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,7 +55,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             target = enemy.StateMachine;
         }
         target?.TakeDamage(_damage);
-        target?.TakeEffect(AttackEffectTypes.KnockBack, _value, this.gameObject);
+        target?.TakeEffect(_attackEffectTypes, _value, this.gameObject);
     }
 }
 
