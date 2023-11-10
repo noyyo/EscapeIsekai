@@ -53,9 +53,10 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
                 return;
             }
             target = enemy.StateMachine;
+            target?.TakeDamage(_damage);
+            target?.TakeEffect(_attackEffectTypes, _value, this.gameObject);
         }
-        target?.TakeDamage(_damage);
-        target?.TakeEffect(_attackEffectTypes, _value, this.gameObject);
+        
     }
 }
 

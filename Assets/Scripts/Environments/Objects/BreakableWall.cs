@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 
@@ -8,22 +7,24 @@ public class BreakableWall : BaseEnvironmentObject
 {
     [SerializeField] private int _hp = 100;
     [SerializeField] Collider _collider;
-    [SerializeField] private TagField _tagField;
+    [SerializeField] string _colliderName = "Weapon";
 
     private int defaultHP;
     private int _damage;
+    private bool _isTakeDamage;
 
     private void Start()
     {
         defaultHP = _hp;
-        Init();
-        if(_collider == null)
+        if (_collider == null)
             _collider = GetComponent<Collider>();
+        Init();
     }
 
     public override void TakeDamage(int damage)
     {
         _damage = damage;
+        _isTakeDamage = true;
     }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
@@ -31,12 +32,11 @@ public class BreakableWall : BaseEnvironmentObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Wapon")
+        if (other.name == _colliderName && _isTakeDamage == true)
         {
-            Debug.Log("체력감소");
-            Debug.Log(_hp);
             if (_hp > 0)
                 HPControl();
+            _isTakeDamage = false;
         }
     }
 
