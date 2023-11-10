@@ -33,7 +33,7 @@ public class EnemySpawnManager : MonoBehaviour
         {
             return enemyPools[enemy.Data.ID];
         }
-        ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(createFunc: () => Instantiate(enemy), defaultCapacity: 5, maxSize: 100);
+        ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(createFunc: () => Instantiate(enemy), actionOnGet: enemy => enemy.ResetEnemy(), actionOnRelease: enemy => enemy.OnRelease(), defaultCapacity: 5, maxSize: 100);
         enemyPools.Add(enemy.Data.ID, enemyPool);
         return enemyPool;
     }

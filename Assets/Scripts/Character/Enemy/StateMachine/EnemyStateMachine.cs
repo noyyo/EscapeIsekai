@@ -72,8 +72,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         HP = enemy.Data.MaxHP;
         InitializeAffectedAttackEffectInfo();
         OnDie += Dead;
-        //Test
-        Player = Enemy.Player;
+        Player = GameManager.Instance.Player;
     }
     private void InitializeAffectedAttackEffectInfo()
     {
@@ -123,7 +122,6 @@ public class EnemyStateMachine : StateMachine, IDamageable
     }
     private void CalculateTargetDistance()
     {
-        // TODO : 게임 매니저에서 플레이어 불러와서 거리계산.
         TargetDistance = Vector3.Distance(Player.transform.position, Enemy.transform.position);
     }
     public bool GetIsPause() => isPause;
@@ -278,8 +276,6 @@ public class EnemyStateMachine : StateMachine, IDamageable
         IsInvincible = false;
         IsFleeable = Enemy.Data.IsFleeable;
         BattleTime = 0f;
-        actionsInActive.Clear();
-        actionsToExecute.Clear();
         OriginPosition = Vector3.zero;
         CurrentAction = null;
         ChangeState(IdleState);
