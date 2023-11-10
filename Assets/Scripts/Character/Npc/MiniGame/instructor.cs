@@ -33,7 +33,7 @@ public class instructor : MonoBehaviour
     private void Start()
     {
        fail.gameObject.SetActive(false);
-      //  targetCanvas.gameObject.SetActive(false);
+       targetCanvas.gameObject.SetActive(false);
       // StartCoroutine("StartMission");
     }
 

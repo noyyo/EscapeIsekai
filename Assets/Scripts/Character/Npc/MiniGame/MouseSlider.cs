@@ -18,12 +18,12 @@ public class MouseSlider : MonoBehaviour
     private void Awake()
     {
         sliceList = new List<int>();
-
+        gameObject.SetActive(false);
     }
     private void Start()
     {
         c = fadeImage.GetComponent<Image>().color;
-       StartCoroutine("StartMission");
+      // StartCoroutine("StartMission");
     }
     private void Update()
     {
