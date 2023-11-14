@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
     private GameObject _slotSpawn;
     private UI_Inventory _ui_Inventory;
     private InventoryManager _inventoryManager;
+    private UI_Manager _ui_Manager;
     private List<Slot> _slotArray = new List<Slot>();
     private List<ItemSlotInfo> _equipmentItemList = new List<ItemSlotInfo>();
     private List<ItemSlotInfo> _consumableItemList = new List<ItemSlotInfo>();
@@ -35,22 +36,21 @@ public class Inventory : MonoBehaviour
     private ItemDB _itemDB;
     private ItemType _displayType;
     private ItemSlotInfo _clickItem;
-    private Player _playerInputSystem;
 
     private void Awake()
     {
+        _ui_Manager = UI_Manager.Instance;
         _itemDB = ItemDB.Instance;
         _inventoryManager = InventoryManager.Instance;
-        InitInventory();
-        CreateSlot();
+        _slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
     }
 
     private void Start()
     {
+        InitInventory();
+        CreateSlot();
         DisplaySlotAllClear();
-        _inventoryManager.OnInventoryDisplayEvent += OnDisplaySlot;
-        _playerInputSystem = GetComponent<Player>();
-        _playerInputSystem.Input.PlayerActions.Inventory.started += OnInventory;
+        _ui_Manager.UI_InventoryTurnOnEvent += OnDisplaySlot;
     }
 
     private void InitInventory()
@@ -63,14 +63,8 @@ public class Inventory : MonoBehaviour
         _slotArray.Clear();
         _displayType = ItemType.Equipment;
 
-        if (_slotPrefab == null)
-            _slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
-
-        if (_ui_Inventory == null)
-            _ui_Inventory = GetComponent<UI_Inventory>();
-
-        if (_slotSpawn == null)
-            _slotSpawn = InventoryManager.Instance.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
+        _ui_Inventory = GetComponent<UI_Inventory>();
+        _slotSpawn = _ui_Manager.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
     }
 
     private void CreateSlot()
@@ -82,12 +76,6 @@ public class Inventory : MonoBehaviour
             obj.GetComponent<Slot>().UniqueIndex = i;
             _slotArray.Add(obj.GetComponent<Slot>());
         }
-    }
-    
-
-    public void OnInventory(InputAction.CallbackContext context)
-    {
-        _inventoryManager.CallOnInventoryDisplayEvent();
     }
 
     public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
@@ -458,7 +446,7 @@ public class Inventory : MonoBehaviour
     }
     public void UseItem()
     {
-        _clickItem = InventoryManager.Instance.GetClickItem();
+        _clickItem = _inventoryManager.ClickItem;
         if (_displayType == ItemType.Equipment)
             EquipItem(_clickItem);
         else
@@ -948,7 +936,7 @@ public class Inventory : MonoBehaviour
     }
     public void Drop()
     {
-        _clickItem = InventoryManager.Instance.GetClickItem();
+        _clickItem = _inventoryManager.ClickItem;
 
         _itemDB.GetItemData(_clickItem.id, out ItemData_Test newItem);
         Instantiate(newItem.DropPrefab);

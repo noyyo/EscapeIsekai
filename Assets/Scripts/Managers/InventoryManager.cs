@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
@@ -14,40 +14,50 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private GameObject _inventory_UI;
     private ItemCraftingManager _inventoryCraftingManager;
     private GameManager _gameManager;
-
     private ItemSlotInfo _clickItem;
     private Slot _ClickSlot;
     private ItemSlotInfo _newSlot;
     private int _temporaryStorageindex;
-
     private bool isDrop;
-    private bool isDisplay;
+    private PlayerInputSystem _playerInputSystem;
 
     public UI_Inventory UI_Inventory { get { return _ui_Inventory; } }
     public Inventory Inventory { get { return _inventory; }}
     public GameObject ItemExplanationPopup { get { return _itemExplanationPopup; } }
     public GameObject Inventory_UI { get { return _inventory_UI; } }
-    public bool IsDisplay { get { return  isDisplay; } }
     public ItemSlotInfo ClickItem { get { return _clickItem; } }
-    public event Action OnInventoryDisplayEvent;
     public event Action onTextChangeEquipEvent;
-    public event Action onTextChangeUnEquipEvent; 
+    public event Action onTextChangeUnEquipEvent;
+    
 
     private void Awake()
     {
         _gameManager = GameManager.Instance;
         _ui_Manager = UI_Manager.Instance;
-        _inventory_UI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _ui_Manager.Canvas.transform);
-        _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
         _inventoryCraftingManager = ItemCraftingManager.Instance;
     }
 
     private void Start()
     {
-        if (_inventory == null)
-            _inventory = _gameManager.Player.GetComponent<Inventory>();
-        if (_ui_Inventory == null)
-            _ui_Inventory = _inventory.GetComponent<UI_Inventory>();
+        Init();
+        _playerInputSystem.InputActions.UI.Inventory.started += OnInventory;
+    }
+
+    private void Init()
+    {
+        _inventory_UI = _ui_Manager.Inventory_UI;
+        _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
+        _inventory = _gameManager.Player.GetComponent<Inventory>();
+        _ui_Inventory = _gameManager.Player.GetComponent<UI_Inventory>();
+        _playerInputSystem = _gameManager.Player.GetComponent<PlayerInputSystem>();
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (!_ui_Manager.IsTurnOnInventory)
+            _ui_Manager.CallUI_InventoryTurnOn();
+        else
+            _ui_Manager.CallUI_InventoryTurnOff();
     }
 
     public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
@@ -59,11 +69,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         }
         _clickItem = iteminfo;
         _ClickSlot = slot;
-    }
-
-    public ItemSlotInfo GetClickItem()
-    {
-        return _clickItem;
     }
 
     public void CallDisplayInventoryTailUI()
@@ -96,6 +101,18 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         }
     }
 
+    public void CallOnTextChangeEquipEvent()
+    {
+        onTextChangeEquipEvent?.Invoke();
+    }
+
+    public void CalOnTextChangeUnEquipEvent()
+    {
+        onTextChangeUnEquipEvent?.Invoke();
+    }
+
+
+    //아이템 추가를 위해 Inventroy에서 호출
     public bool CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)
     {
         bool[] array = _inventory.TryAddItems(itemRecipe, out errorItemCount);
@@ -132,8 +149,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     {
         return _inventory.IsCheckItems(newRecipe, out sum);
     }
-
-    //====================================
     public bool CallAddItems(ItemRecipe itemRecipe)
     {
         bool[] array = _inventory.TryAddItems(itemRecipe);
@@ -145,7 +160,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         bool[] array = _inventory.TryAddItems(id, count);
         return !Array.Exists(array, x => x == false);
     }
-
 
     public bool CallAddItem(int id, int count)
     {
@@ -170,36 +184,5 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe)
     {
         return _inventory.IsCheckItems(newRecipe);
-    }
-
-    //===================================
-
-    public void CallOnInventoryDisplayEvent()
-    {
-        isDisplay = !isDisplay;
-        if (isDisplay)
-        {
-            _inventoryCraftingManager.CallOffCraftingUIEvent();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            _gameManager.CallOnPauseEvent();
-        }
-        else
-        {
-            Cursor.visible = false;    
-            Cursor.lockState = CursorLockMode.Locked;
-            _gameManager.CallOnUnpauseEvent();
-        }
-        OnInventoryDisplayEvent?.Invoke();
-    }
-
-    public void CallOnTextChangeEquipEvent()
-    {
-        onTextChangeEquipEvent?.Invoke();
-    }
-
-    public void CalOnTextChangeUnEquipEvent()
-    {
-        onTextChangeUnEquipEvent?.Invoke();
     }
 }

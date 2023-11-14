@@ -19,12 +19,13 @@ public class ItemCraftingController : MonoBehaviour
     private Button _backButton;
     private Button _inventoryButton;
     private InventoryManager _inventoryManager;
+    private UI_Manager _ui_Manager;
 
     private void Awake()
     {
         _itemCraftingManager = ItemCraftingManager.Instance;
-        _itemCraftingManager.CraftingController = this;
         _itemDB = ItemDB.Instance;
+        _ui_Manager = UI_Manager.Instance;
 
         _itemEquipmentID = new Dictionary<int, int>();
         _itemConsumableID = new Dictionary<int, int>();
@@ -51,8 +52,8 @@ public class ItemCraftingController : MonoBehaviour
 
         CreateItemList();
 
-        _backButton.onClick.AddListener( _itemCraftingManager.CallOffCraftingUIEvent);
-        _inventoryButton.onClick.AddListener(_inventoryManager.CallOnInventoryDisplayEvent);
+        _backButton.onClick.AddListener( _ui_Manager.CallUI_ItemCraftingTurnOff);
+        _inventoryButton.onClick.AddListener(() => { _ui_Manager.CallUI_ItemCraftingTurnOff(); _ui_Manager.CallUI_InventoryTurnOn(); });
     }
 
     private void CreateItemList()
