@@ -50,10 +50,13 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     private void Start()
     {
-        UI_InventoryTurnOnEvent += UI_QuickSlotTurnOffEvent;
-        UI_InventoryTurnOffEvent += UI_QuickSlotTurnOnEvent;
-        UI_ItemCraftingTurnOnEvent += UI_QuickSlotTurnOffEvent;
-        UI_ItemCraftingTurnOffEvent += UI_QuickSlotTurnOnEvent;
+        UI_InventoryTurnOnEvent += CallUI_QuickSlotTurnOff;
+        UI_InventoryTurnOffEvent += CallUI_QuickSlotTurnOn;
+        UI_ItemCraftingTurnOnEvent += CallUI_QuickSlotTurnOff;
+        UI_ItemCraftingTurnOffEvent += CallUI_QuickSlotTurnOn;
+
+        UI_AllTurnOffEvent += CallUI_InventoryTurnOff;
+        UI_AllTurnOffEvent += CallUI_ItemCraftingTurnOff;
     }
 
     public void Init()
@@ -111,5 +114,15 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public void CallUI_ItemCraftingTurnOff()
     {
         UI_ItemCraftingTurnOffEvent?.Invoke();
+    }
+
+    public void CallUI_QuickSlotTurnOn()
+    {
+        UI_QuickSlotTurnOnEvent?.Invoke();
+    }
+
+    public void CallUI_QuickSlotTurnOff()
+    {
+        UI_QuickSlotTurnOffEvent?.Invoke();
     }
 }
