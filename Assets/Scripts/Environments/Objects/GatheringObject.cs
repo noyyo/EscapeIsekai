@@ -8,10 +8,12 @@ using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
-    [SerializeField] private int _itemId;
+    [Tooltip("생성될 아이템의 아이디를 입력")]
+    [SerializeField] private int _itemId = 10010000;
     private bool _gathering = false;
     private ItemData_Test itemData;
     private Player _playerInputSystem;
+    private UI_Manager _UI_Manager;
 
     
     private void OnTriggerEnter(Collider other)
@@ -19,19 +21,23 @@ public class GatheringObject : MonoBehaviour
         if(other.tag == "Player")
         {
             _gathering = true;
+            if(_playerInputSystem == null)
+            {
+                _playerInputSystem = other.GetComponent<Player>();
 
-            _playerInputSystem = other.GetComponent<Player>();
+            }
             _playerInputSystem.Input.PlayerActions.Interaction.started += Gathering;
 
-            UI_Manager.Instance.itemName = itemData.ItemName;
-            UI_Manager.Instance.itemExplanation = itemData.ItemExplanation;
-            UI_Manager.Instance.gatheringCanvas.SetActive(true);
+            _UI_Manager.itemName = itemData.ItemName;
+            _UI_Manager.itemExplanation = itemData.ItemExplanation;
+            _UI_Manager.gatheringCanvas.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
+            _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             UI_Manager.Instance.gatheringCanvas.SetActive(false);
             _gathering = false;
         }
@@ -40,7 +46,7 @@ public class GatheringObject : MonoBehaviour
     {
         //DataManager.Instance.LoadDatas();
         //ItemData data = DataManager.Instance.dicItemDatas[_itemId];
-
+        _UI_Manager = UI_Manager.Instance;
         ItemDB.Instance.GetItemData(_itemId, out itemData);
     }
 
@@ -48,9 +54,10 @@ public class GatheringObject : MonoBehaviour
     {
         if (_gathering)
         {
-            UI_Manager.Instance.gatheringCanvas.SetActive(false);
+            _UI_Manager.gatheringCanvas.SetActive(false);
             //채집버튼 누르면 바로 인벤토리로
             InventoryManager.Instance.CallAddItem(_itemId, 1);
+            _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             Destroy(gameObject);
         }
     }

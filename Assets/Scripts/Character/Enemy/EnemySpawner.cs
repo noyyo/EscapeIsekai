@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         int index = Random.Range(0, EnemyPrefabs.Length);
+        float yOffset = EnemyPrefabs[index].transform.position.y;
         ObjectPool<Enemy> enemyPool = EnemySpawnManager.Instance.GetPool(EnemyPrefabs[index]);
         Enemy enemy = enemyPool.Get();
         Vector3 max = boxCollider.bounds.max;
@@ -46,9 +47,10 @@ public class EnemySpawner : MonoBehaviour
             {
                 Debug.LogError("생성하려는 적에게 NavMeshAgent가 없습니다.");
             }
-            Debug.Log("생성");
-            enemy.transform.position = new Vector3(x, hit.point.y + agent.height / 2 - agent.baseOffset, z);
+            enemy.transform.position = new Vector3(x, hit.point.y + agent.height / 2 - agent.baseOffset + yOffset, z);
             enemy.gameObject.SetActive(true);
+            agent.enabled = false;
+            agent.enabled = true;
             Enemies.Add(enemy);
             enemy.StateMachine.OnDieAction += ReleaseEnemy;
             currentEnemyCount++;
@@ -61,7 +63,14 @@ public class EnemySpawner : MonoBehaviour
     }
     private void ReleaseEnemy(Enemy enemy)
     {
+        enemy.StateMachine.OnDieAction -= ReleaseEnemy;
+        if (!Enemies.Contains(enemy))
+        {
+            Debug.LogError("이미 Release가 되었거나 이 Spawner가 관리하지 않는 적입니다.");
+            return;
+        }
         Enemies.Remove(enemy);
         EnemySpawnManager.Instance.GetPool(enemy).Release(enemy);
+        currentEnemyCount--;
     }
 }

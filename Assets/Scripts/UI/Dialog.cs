@@ -102,8 +102,8 @@ public class Dialog : MonoBehaviour
             }
             if (id == 500) //°Ë¼ú
             {
-                MouseSlider.Instance.gameObject.SetActive(true);
-                MouseSlider.Instance.StartCoroutine("StartMission");
+                instructor.Instance.gameObject.SetActive(true);
+                instructor.Instance.StartCoroutine("StartMission");
                     return;
             }
            
@@ -154,5 +154,6 @@ public class Dialog : MonoBehaviour
         targetNpc.GetComponent<PlayableDirector>().playableAsset = timelineAsset;
         targetNpc.GetComponent<PlayableDirector>().Play();
         targetNpc.GetComponent<Npc>().ResetTarget();
+        targetNpc.GetComponent<Npc>().isHit= false;
     }
 }

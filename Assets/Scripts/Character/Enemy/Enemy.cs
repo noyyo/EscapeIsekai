@@ -19,9 +19,7 @@ public class Enemy : MonoBehaviour
     public  AttackAction[] Actions;
     public EnemyForceReceiver ForceReceiver { get; private set; }
     public AnimationEventReceiver AnimEventReceiver { get; private set; }
-    // Test
-    public GameObject Player;
-    void Awake()
+    private void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new EnemyAnimationData();
@@ -66,5 +64,11 @@ public class Enemy : MonoBehaviour
     public void ResetEnemy()
     {
         StateMachine.ResetStateMachine();
+    }
+    public void OnRelease()
+    {
+        gameObject.SetActive(false);
+        Agent.enabled = false;
+        transform.position = Vector3.zero;
     }
 }

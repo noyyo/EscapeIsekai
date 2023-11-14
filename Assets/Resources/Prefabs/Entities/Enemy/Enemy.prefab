@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7712969138687992373}
   - component: {fileID: 7049718354099661529}
   - component: {fileID: 4258273785956082652}
+  - component: {fileID: 3500952096561806840}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -118,7 +119,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6133069450125554504}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -179,8 +180,8 @@ MonoBehaviour:
     idleParameterName: Idle
     walkParameterName: Walk
     runParameterName: Run
+    DeadParameterName: Dead
     attackParameterName: '@Attack'
-    baseAttackParameterName: BaseAttack
   <StateMachine>k__BackingField:
     isPause: 0
     isActive: 0
@@ -194,9 +195,9 @@ MonoBehaviour:
     <HP>k__BackingField: 0
     BattleTime: 0
     IsInBattle: 0
+    IsDead: 0
   Actions:
   - {fileID: 11400000, guid: 9ca40b30de9bbf243958229c99ec04cb, type: 2}
-  Player: {fileID: 0}
 --- !u!95 &7049718354099661529
 Animator:
   serializedVersion: 5
@@ -231,6 +232,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drag: 0.3
+--- !u!114 &3500952096561806840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133069450125554504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea7b74079a098541b2d7fc313d677c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6676737074749209809
 GameObject:
   m_ObjectHideFlags: 0
