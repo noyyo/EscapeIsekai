@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca8af53116d66a74aa2b43fed03888c9, type: 3}
+  m_Name: PlayerSO
+  m_EditorClassIdentifier: 
+  <GroundedData>k__BackingField:
+    <WalkSpeed>k__BackingField: 1
+    <RunSpeed>k__BackingField: 5
+    <BaseRotatingDamping>k__BackingField: 8
+    <WalkSpeedModifier>k__BackingField: 0.22
+    <RunSpeedModifier>k__BackingField: 1
+    <RollForce>k__BackingField: 5
+    <StaminaCost>k__BackingField: 20
+    <SkillCost>k__BackingField: 10
+    <PowerUpCost>k__BackingField: 100
+    <SuperJumpCost>k__BackingField: 10
+  <AirData>k__BackingField:
+    <JumpForce>k__BackingField: 5
+  <AttackData>k__BackingField:
+    <AttackInfoDatas>k__BackingField:
+    - <AttackName>k__BackingField: "\uAE30\uBCF8 1\uD0C0"
+      <ComboStateIndex>k__BackingField: 1
+      <ComboTransitionTime>k__BackingField: 0.8
+      <ForceTransitionTime>k__BackingField: 0.1
+      <Force>k__BackingField: 1
+      <AttackEffectType>k__BackingField: 1
+      <AttackEffectValue>k__BackingField: 5
+      <Damage>k__BackingField: 5
+    - <AttackName>k__BackingField: "\uAE30\uBCF8 2\uD0C0"
+      <ComboStateIndex>k__BackingField: 2
+      <ComboTransitionTime>k__BackingField: 0.8
+      <ForceTransitionTime>k__BackingField: 0.2
+      <Force>k__BackingField: 2
+      <AttackEffectType>k__BackingField: 0
+      <AttackEffectValue>k__BackingField: 0
+      <Damage>k__BackingField: 5
+    - <AttackName>k__BackingField: "\uAE30\uBCF8 3\uD0C0"
+      <ComboStateIndex>k__BackingField: -1
+      <ComboTransitionTime>k__BackingField: 0.8
+      <ForceTransitionTime>k__BackingField: 0.1
+      <Force>k__BackingField: 3
+      <AttackEffectType>k__BackingField: 0
+      <AttackEffectValue>k__BackingField: 0
+      <Damage>k__BackingField: 5
