@@ -223,12 +223,12 @@ MonoBehaviour:
   <Data>k__BackingField: {fileID: 11400000, guid: 710c483c0c4915e40be87afda5dbf265,
     type: 2}
   <AnimationData>k__BackingField:
-    moveParameterName: '@Move'
+    peaceParameterName: '@Peace'
     idleParameterName: Idle
     walkParameterName: Walk
+    battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
-    attackParameterName: '@Attack'
   <StateMachine>k__BackingField:
     isPause: 0
     isActive: 0
@@ -247,7 +247,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5f041c4c12a8934993c79141e086ce7, type: 2}
   - {fileID: 11400000, guid: eed6b8716fb931d44be6953f49113721, type: 2}
   - {fileID: 11400000, guid: 3ce7ba37e017d4b43a32b909efc69d1f, type: 2}
-  Player: {fileID: 0}
 --- !u!114 &2767205643780481981
 MonoBehaviour:
   m_ObjectHideFlags: 0

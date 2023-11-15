@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private int bulletSpeed;
 
-    public event Action<Collision,GameObject> ProjetileColliderEnter;
+    public event Action<GameObject> ProjetileColliderEnter;
 
     private Collider colliders;
     private Rigidbody _rigidbody;
@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
                 StartCoroutine("WaitTime");
             }
         }
-        ProjetileColliderEnter?.Invoke(collision,this.gameObject);
+        ProjetileColliderEnter?.Invoke(collision.gameObject);
     }
     private void Awake()
     {
