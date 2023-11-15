@@ -15,18 +15,16 @@ public class EnemyWanderState : EnemyBaseState
         agent.SetDestination(GetWanderLocation());
         agent.speed = enemyData.WalkSpeed * stateMachine.MovementSpeedModifier;
         StartAnimation(enemy.AnimationData.WalkParameterHash);
-        StartAnimation(enemy.AnimationData.MoveParameterHash);
     }
     public override void Exit()
     {
         base.Exit();
         StopAnimation(enemy.AnimationData.WalkParameterHash);
-        StopAnimation(enemy.AnimationData.MoveParameterHash);
     }
     public override void Update()
     {
         base.Update();
-        if (agent.remainingDistance < 0.2f)
+        if (agent.remainingDistance < 0.1f)
             stateMachine.ChangeState(stateMachine.IdleState);
     }
     private Vector3 GetWanderLocation()
@@ -37,7 +35,7 @@ public class EnemyWanderState : EnemyBaseState
         int i = 0;
         while (destinationDistance < enemyData.MinWanderDistance)
         {
-            NavMesh.SamplePosition(currentPosition + (OnUnitCircle() * Random.Range(enemyData.MinWanderDistance, enemyData.MaxWanderDistance)), out hit, enemyData.MaxWanderDistance, NavMesh.AllAreas);
+            NavMesh.SamplePosition(currentPosition + (OnUnitCircle() * Random.Range(enemyData.MinWanderDistance, enemyData.MaxWanderDistance)), out hit, enemyData.MaxWanderDistance, agent.areaMask - NavMesh.GetAreaFromName("Walkable"));
             destinationDistance = Vector3.Distance(currentPosition, hit.position);
             // 과도한 샘플링 방지
             i++;
