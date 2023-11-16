@@ -7,34 +7,44 @@ using UnityEngine.InputSystem;
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
     protected InventoryManager() { }
+
+    [SerializeField] private int _itemKategorieCount = 4;
+    [SerializeField] private int _inventroySlotCount = 60;
+    private List<Slot> _slotList = new List<Slot>();
+    private List<ItemSlotInfo>[] _ItemList;
+
+    private GameManager _gameManager;
+    private UI_Manager _ui_Manager;
     private UI_Inventory _ui_Inventory;
     private Inventory _inventory;
-    private UI_Manager _ui_Manager;
-    private GameObject _itemExplanationPopup;
-    private GameObject _inventory_UI;
-    private ItemCraftingManager _inventoryCraftingManager;
-    private GameManager _gameManager;
     private ItemSlotInfo _clickItem;
-    private Slot _ClickSlot;
     private ItemSlotInfo _newSlot;
+    private Slot _ClickSlot;
+    private PlayerInputSystem _playerInputSystem;
     private int _temporaryStorageindex;
     private bool isDrop;
-    private PlayerInputSystem _playerInputSystem;
-
-    public UI_Inventory UI_Inventory { get { return _ui_Inventory; } }
+    
     public Inventory Inventory { get { return _inventory; }}
-    public GameObject ItemExplanationPopup { get { return _itemExplanationPopup; } }
-    public GameObject Inventory_UI { get { return _inventory_UI; } }
     public ItemSlotInfo ClickItem { get { return _clickItem; } }
+    public List<Slot> SlotList { get { return _slotList; }}
+    public List<ItemSlotInfo>[] ItemList { get { return _ItemList; }}
+    public int ItemKategorieCount { get { return _itemKategorieCount; }}
+    public int InventroySlotCoun { get { return _inventroySlotCount; } }
+
     public event Action onTextChangeEquipEvent;
     public event Action onTextChangeUnEquipEvent;
-    
+
+    public bool _test;
 
     private void Awake()
     {
         _gameManager = GameManager.Instance;
         _ui_Manager = UI_Manager.Instance;
-        _inventoryCraftingManager = ItemCraftingManager.Instance;
+        _ItemList = new List<ItemSlotInfo>[_itemKategorieCount];
+        for (int i = 0; i < _itemKategorieCount; i++)
+        {
+            _ItemList[i] = new List<ItemSlotInfo>();
+        }
     }
 
     private void Start()
@@ -43,12 +53,19 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         _playerInputSystem.InputActions.UI.Inventory.started += OnInventory;
     }
 
+    private void Update()
+    {
+        if (_test)
+        {
+            Debug.Log(_slotList[0].SlotInfo.id);
+            _test = !_test;
+        }
+    }
+
     private void Init()
     {
-        _inventory_UI = _ui_Manager.Inventory_UI;
-        _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
         _inventory = _gameManager.Player.GetComponent<Inventory>();
-        _ui_Inventory = _gameManager.Player.GetComponent<UI_Inventory>();
+        _ui_Inventory = _ui_Manager.Inventory_UI.GetComponent<UI_Inventory>();
         _playerInputSystem = _gameManager.Player.GetComponent<PlayerInputSystem>();
     }
 
@@ -58,6 +75,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
             _ui_Manager.CallUI_InventoryTurnOn();
         else
             _ui_Manager.CallUI_InventoryTurnOff();
+            
     }
 
     public void SetClickItem(ItemSlotInfo iteminfo, Slot slot)
@@ -81,7 +99,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         _ClickSlot?.TurnOffItemClick();
     }
 
-    //드롭했을때 바꾸기 위한 값 저장
+    //드래그앤드롭했을때 바꾸기 위한 값 저장
     public void SaveNewChangedSlot(ItemSlotInfo newSlot, int uniqueIndex)
     {
         _newSlot = newSlot;
@@ -110,7 +128,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     {
         onTextChangeUnEquipEvent?.Invoke();
     }
-
 
     //아이템 추가를 위해 Inventroy에서 호출
     public bool CallAddItems(ItemRecipe itemRecipe, out int[] errorItemCount)

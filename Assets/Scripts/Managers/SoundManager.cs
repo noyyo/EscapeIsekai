@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
 using System;
-using UnityEngine.Rendering.Universal;
 
 public enum ClipType
 {

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.Pool;
 
 public class SFX : MonoBehaviour

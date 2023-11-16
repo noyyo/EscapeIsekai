@@ -1,26 +1,23 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Inventory : MonoBehaviour
 {
-    private GameObject _inventory_GameObject;
-    private GameObject _inventoryTypeGroup;
-    private GameObject _inventoryTailGroup;
-    private GameObject _itemExplanationPopup;
-    private Inventory _inventory;
+    [SerializeField] private GameObject _inventoryTailButtonArea;
+    [SerializeField] private GameObject _itemExplanationPopup;
+    [SerializeField] private Button[] _inventoryTypeButtons;
+    [SerializeField] private Button[] _inventoryTailButtons;
+    [SerializeField] private GameObject _tailUseButton;
+    [SerializeField] private TMP_Text _tailUseButtonText;
+    [SerializeField] private Button _backButton;
 
+    private Inventory _inventory;
+    private GameObject _inventory_GameObject;
     private InventoryManager _inventoryManager;
     private UI_Manager _ui_manager;
-    //UI관련
-    private Button[] _inventoryTypeButton;
-    private Button[] _inventoryTailButton;
-    private GameObject _tailUseButton;
-    private TMP_Text _tailUseButtonText;
-    private Button _backButton;
+    private GameManager _gameManager;
 
     //현재 출력되고 있는 카테고리
     private ItemType _nowDisplayItemType;
@@ -29,6 +26,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
         _inventoryManager = InventoryManager.Instance;
         _ui_manager = UI_Manager.Instance;
         Init();
@@ -40,52 +38,50 @@ public class UI_Inventory : MonoBehaviour
         _nowDisplayItemType = ItemType.Equipment;
 
         if (_inventory_GameObject == null)
-            _inventory_GameObject = _ui_manager.Inventory_UI;
+            _inventory_GameObject = this.gameObject;
 
-        if (_inventoryTypeGroup == null)
-            _inventoryTypeGroup = _inventory_GameObject.transform.GetChild(2).gameObject;
-
-        if (_inventoryTailGroup == null)
-            _inventoryTailGroup = _inventory_GameObject.transform.GetChild(1).GetChild(1).gameObject;
+        if (_inventoryTailButtonArea == null)
+            _inventoryTailButtonArea = this.transform.GetChild(1).GetChild(1).gameObject;
 
         if (_itemExplanationPopup == null)
-            _itemExplanationPopup = _inventory_GameObject.transform.GetChild(3).gameObject;
+            _itemExplanationPopup = this.transform.GetChild(3).gameObject;
 
         if (_inventory == null)
-            _inventory = GetComponent<Inventory>();
+            _inventory = _gameManager.Player.GetComponent<Inventory>();
 
         //버튼 설정
         // 장비 : 0, 소비 : 1, 재료 : 2, 기타 : 3
-        _inventoryTypeButton = _inventoryTypeGroup.transform.GetComponentsInChildren<Button>();
+        if(_inventoryTypeButtons.Length == 0)
+            _inventoryTypeButtons = this.transform.GetChild(2).GetComponentsInChildren<Button>();
 
         //정렬 : 0, 버리기 : 1, 사용 : 2
-        _inventoryTailButton = _inventoryTailGroup.transform.GetComponentsInChildren<Button>();
+        if( _inventoryTypeButtons.Length == 0)
+            _inventoryTailButtons = _inventoryTailButtonArea.GetComponentsInChildren<Button>();
 
         //뒤로가기
-        _backButton = _inventory_GameObject.transform.GetChild(1).GetChild(0).GetComponent<Button>();
+        if(_backButton == null)
+            _backButton = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
 
-        _tailUseButton = _inventoryTailButton[2].gameObject;
-        _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
-        _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
+        if(_tailUseButton == null)
+            _tailUseButton = _inventoryTailButtons[2].gameObject;
 
-        _inventoryTypeButton[0].onClick.AddListener(() => { OnCategoryButton(ItemType.Equipment); });
-        _inventoryTypeButton[1].onClick.AddListener(() => { OnCategoryButton(ItemType.Consumable); });
-        _inventoryTypeButton[2].onClick.AddListener(() => { OnCategoryButton(ItemType.Material); });
-        _inventoryTypeButton[3].onClick.AddListener(() => { OnCategoryButton(ItemType.ETC); });
+        if(_tailUseButtonText == null)
+            _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
 
-        _inventoryTailButton[0].onClick.AddListener(_inventory.SortInventory);
-        _inventoryTailButton[1].onClick.AddListener(_inventory.Drop);
-        _inventoryTailButton[2].onClick.AddListener(_inventory.UseItem);
+        _inventoryTypeButtons[0].onClick.AddListener(() => { OnCategoryButton(ItemType.Equipment); });
+        _inventoryTypeButtons[1].onClick.AddListener(() => { OnCategoryButton(ItemType.Consumable); });
+        _inventoryTypeButtons[2].onClick.AddListener(() => { OnCategoryButton(ItemType.Material); });
+        _inventoryTypeButtons[3].onClick.AddListener(() => { OnCategoryButton(ItemType.ETC); });
+
+        _inventoryTailButtons[0].onClick.AddListener(_inventory.SortInventory);
+        _inventoryTailButtons[1].onClick.AddListener(_inventory.Drop);
+        _inventoryTailButtons[2].onClick.AddListener(_inventory.UseItem);
 
         _backButton.onClick.AddListener(_ui_manager.CallUI_InventoryTurnOff); //돌아가기
-    }
 
-
-    private void Start()
-    {
         _ui_manager.UI_InventoryTurnOnEvent += InventroyUITurnOn;
         _ui_manager.UI_InventoryTurnOffEvent += InventroyUITurnOff;
-        
+
         _inventoryManager.onTextChangeEquipEvent += ButtonTextChange_Equip;
         _inventoryManager.onTextChangeUnEquipEvent += ButtonTextChange_Unequip;
     }
@@ -117,7 +113,7 @@ public class UI_Inventory : MonoBehaviour
     //현재 카테고리에 따른 밑쪽 버튼텍스트 번경 및 ON, OFF
     public void DisplayInventoryTailUI()
     {
-        _inventoryTailGroup.SetActive(true);
+        _inventoryTailButtonArea.SetActive(true);
         switch (_nowDisplayItemType)
         {
             case ItemType.Equipment:
@@ -143,7 +139,7 @@ public class UI_Inventory : MonoBehaviour
     // 밑쪽 버튼 모두 OFF
     public void TurnOffInventoryTailUI()
     {
-        _inventoryTailGroup.SetActive(false);
+        _inventoryTailButtonArea.SetActive(false);
     }
 
     //카테고리 버튼 눌렀을시 해야해는 동작 모음 (이벤트로 바꿔도 상관없을듯)

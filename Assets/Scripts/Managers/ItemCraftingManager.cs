@@ -1,33 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
-    private GameObject _itemCraftingUI;
+    protected ItemCraftingManager() { }
+
+    [SerializeField] private int _itemTypeCount = 3;
+
+    private GameManager _gameManager;
+    private UI_Manager _ui_Manager;
+    private InventoryManager _inventoryManager;
     private ItemCraftingController _craftingController;
+    private GameObject _itemCraftingUI;
     private GameObject _craftingSlotPrefab;
     private GameObject _itemCaftingMaterials_UI;
     private GameObject _itemExplanation_UI;
     private MaterialsSlot[] _materialsSlots;
-
-    private UI_Manager _ui_Manager;
     private ItemRecipe _clickSlot;
     private bool _isMake;
-    private Button _craftingButton;
-    private InventoryManager _inventoryManager;
-    private GameObject _player;
-    private GameManager _gameManager;
+
+    public GameObject CraftingSlotPrefab { get { return _craftingSlotPrefab; } }
+    public ItemRecipe ClickSlot { get { return _clickSlot; } }
+    public MaterialsSlot[] MaterialsSlots { get { return _materialsSlots; } }
+    public bool IsMake { get { return _isMake; } }
+
     public event Action onClickCraftingSlotEvent;
     public event Action offOutLineEvent;
     public event Action<ItemRecipe> onUpdateUIEvent;
     public event Action onCraftingEvent;
-    public GameObject ItemCraftingUI { get {  return _itemCraftingUI; } }
-    public GameObject CraftingSlotPrefab { get { return _craftingSlotPrefab; } }
-    public GameObject ItemCaftingMaterials_UI { get { return _itemCaftingMaterials_UI; } }
-    public GameObject ItemExplanation_UI { get { return _itemExplanation_UI; } }
-    public bool IsMake { get { return _isMake; } }
-    public ItemRecipe ClickSlot { get { return _clickSlot; } }
-    public MaterialsSlot[] MaterialsSlots { get { return _materialsSlots; } }
 
     private void Awake()
     {
@@ -35,15 +36,13 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         _ui_Manager = UI_Manager.Instance;
         _inventoryManager = InventoryManager.Instance;
         _craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
+        
     }
 
     private void Start()
     {
         Init();
-
         _ui_Manager.UI_ItemCraftingTurnOnEvent += ItemCraftingUITurnOn;
-
-        _craftingButton.onClick.AddListener(CallOnCrafting);
         onCraftingEvent += CraftingItem;
 
         onClickCraftingSlotEvent += ItemMaterialsUITurnOn;
@@ -60,7 +59,6 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         _itemCraftingUI = _ui_Manager.ItemCrafting_UI;
         _itemCaftingMaterials_UI = _itemCraftingUI.transform.GetChild(2).gameObject;
         _itemExplanation_UI = _itemCraftingUI.transform.GetChild(3).gameObject;
-        _craftingButton = _itemCaftingMaterials_UI.transform.GetChild(2).GetComponent<Button>();
         _materialsSlots = _itemCaftingMaterials_UI.transform.GetChild(3).GetComponentsInChildren<MaterialsSlot>();
         _craftingController = _gameManager.Player.GetComponent<ItemCraftingController>();
     }

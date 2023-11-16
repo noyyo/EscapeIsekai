@@ -7,7 +7,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 {
     protected UI_Manager() { }
     [SerializeField] private GameObject _cavas;
-    public GameObject gatheringCanvas;
+    public GameObject gathering;
 
     private GameManager _gameManager;
     private InventoryManager _inventoryManager;
@@ -18,11 +18,6 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     private bool _isNotUIInputPossible = false;
     private bool _isTurnOnInventory;
-
-    //´W½½·Ô °ü·Ã ÄÚµå
-    //private Transform _quickSlotArea;
-    //private GameObject[] _quickSlots;
-
     public GameObject Canvas { get { return _cavas; } }
     public GameObject Inventory_UI { get { return _inventory_ui; } }
     public GameObject ItemCrafting_UI { get { return _itemCrafting_ui; } }
@@ -65,28 +60,22 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         if (_cavas == null)
             _cavas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
 
-        if (gatheringCanvas == null)
+        if (gathering == null)
         {
-            gatheringCanvas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GatheringCanvas"));
-            gatheringCanvas.SetActive(false);
+            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"),_cavas.transform);
+            gathering.SetActive(false);
         }
 
         if (_inventory_ui == null)
+        {
             _inventory_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _cavas.transform);
+            _inventory_ui.SetActive(false);
+        }
+
         if (_itemCrafting_ui == null)
             _itemCrafting_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), _cavas.transform);
         if (_quickSlot_ui == null)
             _quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
-
-
-        //´W½½·Ô °ü·Ã ÄÚµå------
-        //_quickSlotArea = _quickSlot_UI.transform.GetChild(0);
-        //int quickSlotCount = _quickSlotArea.childCount;
-        //_quickSlots = new GameObject[quickSlotCount];
-        //for (int i = 0; i < quickSlotCount; i++)
-        //    _quickSlots[i] = _quickSlotArea.GetChild(i).gameObject;
-        //_quickSlotArea = null;
-        //-------
     }
 
     //UI ON, OFF¸¦ À§ÇÑ ¸Þ¼­µå
