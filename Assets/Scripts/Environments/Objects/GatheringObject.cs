@@ -53,6 +53,7 @@ public class GatheringObject : MonoBehaviour
             //채집버튼 누르면 바로 인벤토리로
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             Destroy(gameObject);
+            _gathering=false;
         }
     }
 }

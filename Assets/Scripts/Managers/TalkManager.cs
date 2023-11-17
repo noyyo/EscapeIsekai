@@ -34,9 +34,6 @@ public class TalkManager : CustomSingleton<TalkManager>
         talkData.Add(400 + 0, new string[] { "하이", "잘래?" });
         //검술
         talkData.Add(500 + 0, new string[] { "하이", "검좀배울래?" });
-        talkData.Add(505 + 0, new string[] { "넌 재능이 없다." });
-        talkData.Add(506 + 0, new string[] { "생각보다 잘하네" });
-        talkData.Add(507 + 0, new string[] { "리듬을 타라고 리듬을"});
         //상자
         talkData.Add(1000 + 0, new string[] { "낡은 상자다" });
     }
@@ -49,7 +46,7 @@ public class TalkManager : CustomSingleton<TalkManager>
             else
                 return talkData[id - id % 100][talkIndex];
         }
-        if (talkIndex == talkData[id].Length) 
+        if (talkIndex >= talkData[id].Length) 
             return null;
         else
             return talkData[id][talkIndex]; 
