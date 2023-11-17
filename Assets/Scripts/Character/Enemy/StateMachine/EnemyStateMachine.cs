@@ -240,6 +240,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         actionsToExecute.Clear();
         CurrentAction = null;
         IsDead = true;
+        ServeQuestManager.Instance.QuestMonsterCheck(Enemy);
         ChangeState(DeadState);
     }
 

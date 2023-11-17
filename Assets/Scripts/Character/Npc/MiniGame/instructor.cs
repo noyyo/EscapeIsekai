@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
+using Random = UnityEngine.Random;
 
 public enum Key
 {
@@ -29,16 +31,16 @@ public class instructor : MonoBehaviour
     private int inputKey = 0;
     private List<Key> comboKey = new List<Key>(); //초기배열
     private bool isSuccess;
-
+    public event System.Action<bool> MiniGameFinished;
     private void Start()
     {
-       fail.gameObject.SetActive(false);
-       targetCanvas.gameObject.SetActive(false);
+        fail.gameObject.SetActive(false);
       // StartCoroutine("StartMission");
     }
 
     private void Awake()
     {
+        targetCanvas.gameObject.SetActive(false);
         Instance = this;
     }
 
@@ -170,8 +172,9 @@ public class instructor : MonoBehaviour
             }
             isSuccess = true;
             comboKey.Clear();
-            StopAllCoroutines();
+            MiniGameFinished?.Invoke(isSuccess);
             failCount = 0;
+            StopAllCoroutines();
         }
         else
         parent.transform.GetChild(0).GetComponent<Image>().color = Color.red;
@@ -191,7 +194,7 @@ public class instructor : MonoBehaviour
             comboKey.Clear();
             StopAllCoroutines();
             failCount = 0;
-            
+            MiniGameFinished?.Invoke(isSuccess);
         }
         ReMake();
         fail.gameObject.SetActive(true);
@@ -215,9 +218,5 @@ public class instructor : MonoBehaviour
 
         }
       
-    }
-    public bool GetSuccess()
-    {
-        return isSuccess;
     }
 }

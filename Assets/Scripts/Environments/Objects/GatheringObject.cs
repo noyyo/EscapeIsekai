@@ -59,6 +59,7 @@ public class GatheringObject : MonoBehaviour
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             Destroy(gameObject);
+            _gathering=false;
         }
     }
 }

@@ -40,12 +40,16 @@ public class Npc : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         target = other.gameObject;
+        if(other.tag == "Player")
         isHit = true;
     }
     private void OnTriggerExit(Collider other)
     {
         stateMachine.ChangeState(stateMachine.IdleState);
-        isHit = false;
+        if (other.tag == "Player")
+        {
+            isHit = false;
+        }
         target = null;
     }
 

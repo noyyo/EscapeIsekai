@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BlackSmith : MonoBehaviour
 {
@@ -17,9 +19,15 @@ public class BlackSmith : MonoBehaviour
     RaycastHit hit;
     private bool isSuccess;
 
+    private Rigidbody rb;
+    private RectTransform rect;
+    public event Action<bool> MiniGameFinished;
+
     private void Awake()
     {
         parent.SetActive(false);
+        rb = point.GetComponent<Rigidbody>();
+        rect = point.GetComponent<RectTransform>();
     }
     private void Start()
     {
@@ -37,23 +45,24 @@ public class BlackSmith : MonoBehaviour
     {
         if (isRunning) 
         {
-            point.GetComponent<Rigidbody>().AddForce(Vector2.down * 50f);
+            rb.AddForce(Vector2.down * 50f);
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                if (point.GetComponent<RectTransform>().anchoredPosition.y > 340)
+                if (rect.anchoredPosition.y > 340)
                 {
-                    point.GetComponent<Rigidbody>().velocity = Vector2.zero;
+                    rb.velocity = Vector2.zero;
                 }
-                point.GetComponent<Rigidbody>().AddForce(Vector2.up * 5000f);
+                rb.AddForce(Vector2.up * 5000f);
             }
 
             if (Physics.Raycast(point.transform.position, transform.right, out hit, 300))
             {
                 if (timeGauge.value == 0&& hit.transform.name == target.name)
                 {
-                        Debug.Log("성공");
+
                     isSuccess = true;
+                    MiniGameFinished?.Invoke(isSuccess);
                         isRunning = false;
                         parent.SetActive(isRunning);
                 }
@@ -62,8 +71,8 @@ public class BlackSmith : MonoBehaviour
             {
                 if(timeGauge.value == 0)
                 {
-                    Debug.Log("실패");
                     isRunning = false;
+                    MiniGameFinished?.Invoke(isSuccess);
                     parent.SetActive(isRunning);
                 }
               
@@ -71,7 +80,7 @@ public class BlackSmith : MonoBehaviour
         }
     }
 
-    IEnumerator StarMission()
+    IEnumerator StartMission()
     {
         time = 10f;
         target.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Random.Range(-300, 300));

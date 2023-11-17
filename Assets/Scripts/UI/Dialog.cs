@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
@@ -17,18 +18,19 @@ public class Dialog : MonoBehaviour
     public RawImage texture;
     public GameObject panel;
     public Button nextB;
-    public int talkIndex;
-
+    private int talkIndex;
+    private int serveQuestTalkIndex;
+    private int tmp;
     private bool isAction;
     private GameObject targetNpc;
-
     public static Dialog Instance;
     private void Awake()
     {
         Instance = this;
         panel.SetActive(false);
     }
-    public void Action(GameObject scanObj) //´ëÈ­½ÃÀÛ
+
+    public void Action(GameObject scanObj) //ëŒ€í™”ì‹œìž‘
     {
         Cursor.lockState = CursorLockMode.Confined;
         if (isAction)
@@ -67,67 +69,91 @@ public class Dialog : MonoBehaviour
         {
             isAction = false;
             talkIndex = 0;
+            serveQuestTalkIndex = 0;
             panel.SetActive(isAction);
         }
          
             
     }
-   public void Talk(int id, bool isNPC)
+    public void Talk(int id, bool isNPC)
     {
         int questTalkIndex = QuestManager.GetQuestTalkIndex(id);
-        string talkData = TalkManager.Instance.GetTalk(id+ questTalkIndex, talkIndex);
-        if (talkData == null) 
+        string talkData = TalkManager.Instance.GetTalk(id + questTalkIndex, talkIndex);
+        int key = ServeQuestManager.Instance.GetQuest(id);
+
+        if(key != tmp && tmp !=0&& ServeQuestManager.Instance.GetTalk(tmp, serveQuestTalkIndex)!= ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex))
         {
-            ExitTalk();
-            if(id == 1)
-            {
-                QuestManager.Instance.questId=10;
-            }
-            if (id == 100) //´ëÀåÀåÀÌ
-            {
-                UI_Manager.Instance.CallUI_ItemCraftingTurnOn();
-                Cursor.lockState = CursorLockMode.None;
-            }
-            if (id == 200) //¿ä¸®
-            {
-
-            }
-            if (id == 300) //ÀâÈ­
-            {
-
-            }
-            if (id == 400) //¿©°ü
-            {
-
-            }
-            if (id == 500) //°Ë¼ú
-            {
-                instructor.Instance.gameObject.SetActive(true);
-                instructor.Instance.StartCoroutine("StartMission");
-                    return;
-            }
-           
-            return; 
+            key = tmp;
         }
-
-        if (isNPC)
+        if ((ServeQuestManager.Instance.playerQuest.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] == 2 &&  serveQuestTalkIndex <= talkIndex) || key ==0)
         {
-            talkText.text = talkData;
-            nameText.text = targetNpc.name;
+            if (talkData == null)
 
-        }
-        else
-        {
-            talkText.text = talkData;
-            if (targetNpc != null)
+            {
+                ExitTalk();
+                if (id == 1)
+                {
+                    QuestManager.Instance.questId = 10;
+                }
+                if (id == 100) //ëŒ€ìž¥ìž¥ì´
+                {
+                    ItemCraftingManager.Instance.CallOnCraftingUI();
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                if (id == 200) //ìš”ë¦¬
+                {
+
+                }
+                if (id == 300) //ìž¡í™”
+                {
+                }
+                if (id == 400) //ì—¬ê´€
+                {
+
+                }
+                if (id == 500) //ê²€ìˆ 
+                {
+
+                }
+
+                return;
+            }
+
+            if (isNPC)
+            {
+                talkText.text = talkData;
                 nameText.text = targetNpc.name;
-        }
-   
-        isAction = true; 
-        talkIndex++;
-    }
 
-    public void ExitTalk()
+            }
+            else
+            {
+                talkText.text = talkData;
+                if (targetNpc != null)
+                    nameText.text = targetNpc.name;
+            }
+
+            isAction = true;
+            talkIndex++;
+        }
+        else if (ServeQuestManager.Instance.questDBDic.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] <=2)
+        {
+            tmp = key;
+            ServeQuestManager.Instance.QuestClearCheck(key);
+            if (ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex) == null)
+            {
+                ExitTalk();
+                if(ServeQuestManager.Instance.playerQuest[key] == 0)
+                {
+                    ServeQuestManager.Instance.playerQuest[key] = 1;
+                }
+                return;
+            }
+            talkText.text = ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex);
+            isAction = true;
+            serveQuestTalkIndex++;
+        }
+}
+        public void ExitTalk()
     {
         StopTalkMotion();
         if (targetNpc.GetComponent<NavMeshAgent>() != null)
@@ -136,6 +162,8 @@ public class Dialog : MonoBehaviour
         }
         isAction = false;
         talkIndex = 0;
+        tmp = 0;
+        serveQuestTalkIndex = 0;
         Cursor.lockState = CursorLockMode.Locked;
         targetNpc = null;
         panel.SetActive(isAction);

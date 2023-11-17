@@ -4843,8 +4843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ff82a0c8fb26546abc18181bcdfbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isClick: 0
-  fadeImage: {fileID: 0}
   _distanceFromCamera: 5
   _ChasingSpeed: 0.1
 --- !u!1 &2921744328003714189
@@ -4970,6 +4968,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isClick: 0
   fadeImage: {fileID: 5159077311679024178}
+  parent: {fileID: 6751255241282399500}
+  mouseEffect: {fileID: 1403779805826583099}
 --- !u!1 &6751255241282399500
 GameObject:
   m_ObjectHideFlags: 0
