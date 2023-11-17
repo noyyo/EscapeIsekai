@@ -36,6 +36,7 @@ public abstract class AttackAction : ScriptableObject
     public ActionCondition Condition;
     protected float timeStarted { get; set; }
     protected float timeRunning { get { return (Time.time - timeStarted); } }
+    protected bool isRunning;
     /// <summary>
     /// 액션이 완료되면 true로 세팅해야합니다. true값이 되면 다음 프레임에서 액션의 실행은 종료됩니다.
     /// </summary>
@@ -72,6 +73,7 @@ public abstract class AttackAction : ScriptableObject
     private bool isAnimStarted;
     [HideInInspector]
     public float lastUsedTime;
+    
 
     private HashSet<GameObject> alreadyAttackApplied = new HashSet<GameObject>();
 
@@ -98,6 +100,7 @@ public abstract class AttackAction : ScriptableObject
         isEffectStarted = false;
         isEffectEnded = false;
         alreadyAttackApplied.Clear();
+        isRunning = true;
     }
     /// <summary>
     /// 매 프레임마다 호출됩니다.
@@ -136,6 +139,7 @@ public abstract class AttackAction : ScriptableObject
         else
         {
             lastUsedTime = Time.time;
+            isRunning = false;
         }
         animState[Config.AnimTriggerHash1] = AnimState.NotStarted;
         animState[Config.AnimTriggerHash2] = AnimState.NotStarted;
@@ -160,6 +164,7 @@ public abstract class AttackAction : ScriptableObject
             StateMachine.RemoveActionInActive(this);
             HasRemainingEffect = false;
             lastUsedTime = Time.time;
+            isRunning = false;
         }
     }
     /// <summary>
