@@ -10,7 +10,6 @@ public class ItemSpawner : MonoBehaviour
     void Start()
     {
         GenItem();
-        Debug.Log("dd");
     }
 
     private void GenItem()

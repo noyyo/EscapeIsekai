@@ -14,7 +14,7 @@ public class MaterialsSlot : MonoBehaviour
     private ItemDB _itemDB;
     private int _itemCount;
     private int _consumption;
-    private ItemCraftingManager _craftManager;
+    private ItemCraftingManager _craftingManager;
 
     private void Awake()
     {
@@ -24,8 +24,8 @@ public class MaterialsSlot : MonoBehaviour
 
     private void Start()
     {
-        _craftManager = ItemCraftingManager.Instance;
-        _craftManager.onClickCraftingButtonEvent += UpdateItemData;
+        _craftingManager = ItemCraftingManager.Instance;
+        _craftingManager.onCraftingEvent += UpdateItemData;
     }
 
     public void GetItemData(ItemData_Test newItem, int consumption, int count)
@@ -70,7 +70,7 @@ public class MaterialsSlot : MonoBehaviour
         if (_consumption == 0)
             _text.text = "";
 
-        if (_consumption >= _itemCount)
+        if (_consumption > _itemCount)
             _text.color = Color.red;
         else
             _text.color = Color.black;

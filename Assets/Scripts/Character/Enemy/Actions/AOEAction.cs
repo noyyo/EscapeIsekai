@@ -37,39 +37,29 @@ public class AOEAction : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
-        _position = StateMachine.Enemy.transform.position + StateMachine.Enemy.transform.forward;
-        if (_breath == null)
-        {
-            _breath = Instantiate(AoEObject, _position, Quaternion.identity);
-        }
+        Enemy enemy = StateMachine.Enemy;
+        enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
+        _position = enemy.transform.position + enemy.transform.forward * enemy.Agent.radius + enemy.transform.forward;
+        _breath = Instantiate(AoEObject, _position, Quaternion.identity);
         _breath.transform.parent = StateMachine.Enemy.transform;
+        thisParticleSystem = _breath.GetComponent<ParticleSystem>();
+        SetParticle();
+        _particleCollision = _breath.GetComponent<ParticleCollision>();
+        _particleCollision.SetDamage(Config.DamageAmount);
     }
 
     public override void OnStart()
     {
         base.OnStart();
-        thisParticleSystem = _breath.GetComponent<ParticleSystem>();
-        SetParticle();
-        _particleCollision = _breath.GetComponent<ParticleCollision>();
-        _particleCollision.SetDamage(Config.DamageAmount);
+        _particleCollision.damageable = true;
         StartAnimation(Config.AnimTriggerHash1);
-
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (animState[Config.AnimTriggerHash1] == AnimState.Completed && _nextAnim)
+        if (animState[Config.AnimTriggerHash1] == AnimState.Completed)
         {
-            _nextAnim = false;
-            StartAnimation(Config.AnimTriggerHash2);
-            thisParticleSystem.Play();
-        }
-        attackTime -= Time.deltaTime;
-        if (attackTime < 0)
-        {
-            thisParticleSystem.Stop();
-            _particleCollision.damagable = true;
             isCompleted = true;
         }
     }
@@ -79,6 +69,17 @@ public class AOEAction : AttackAction
         base.OnEnd();
     }
 
+    private void AnimEventDecision(AnimationEvent animEvent)
+    {
+        if (animEvent.stringParameter == "BreathStart")
+        {
+            thisParticleSystem.Play();
+        }
+        else if (animEvent.stringParameter == "BreathEnd")
+        {
+            thisParticleSystem.Stop();
+        }
+    }
     public void SetParticle()
     {
         ParticleSystem.MainModule main = thisParticleSystem.main;

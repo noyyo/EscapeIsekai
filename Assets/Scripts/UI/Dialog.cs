@@ -30,7 +30,7 @@ public class Dialog : MonoBehaviour
         panel.SetActive(false);
     }
 
-    public void Action(GameObject scanObj) //´ëÈ­½ÃÀÛ
+    public void Action(GameObject scanObj) //ëŒ€í™”ì‹œìž‘
     {
         Cursor.lockState = CursorLockMode.Confined;
         if (isAction)
@@ -88,29 +88,30 @@ public class Dialog : MonoBehaviour
         if ((ServeQuestManager.Instance.playerQuest.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] == 2 &&  serveQuestTalkIndex <= talkIndex) || key ==0)
         {
             if (talkData == null)
+
             {
                 ExitTalk();
                 if (id == 1)
                 {
                     QuestManager.Instance.questId = 10;
                 }
-                if (id == 100) //´ëÀåÀåÀÌ
+                if (id == 100) //ëŒ€ìž¥ìž¥ì´
                 {
                     ItemCraftingManager.Instance.CallOnCraftingUI();
                     Cursor.lockState = CursorLockMode.None;
                 }
-                if (id == 200) //¿ä¸®
+                if (id == 200) //ìš”ë¦¬
                 {
 
                 }
-                if (id == 300) //ÀâÈ­
+                if (id == 300) //ìž¡í™”
                 {
                 }
-                if (id == 400) //¿©°ü
+                if (id == 400) //ì—¬ê´€
                 {
 
                 }
-                if (id == 500) //°Ë¼ú
+                if (id == 500) //ê²€ìˆ 
                 {
 
                 }

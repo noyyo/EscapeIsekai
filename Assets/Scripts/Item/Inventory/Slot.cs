@@ -12,7 +12,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [SerializeField] private GameObject _itemImage;
     [SerializeField] private TMP_Text _text_Count;
     [SerializeField] private GameObject _outLine;
-    [SerializeField] private Image _backGround;
+    private Image _backGround;
 
     //슬롯 데이터 저장
     private Image _item2DImage;
@@ -45,6 +45,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private string _delimiter;
     private string _lineBreaking;
 
+    private float _mousePosY;
+    private Vector3 _defaultContentPos;
+    private Transform _content;
+
     //슬롯의 위치 한번 설정한 후 절대 바뀌지 않을 값
     private int _uniqueIndex = -1;
     public int UniqueIndex 
@@ -67,7 +71,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _item2DImage = _itemImage.GetComponent<Image>();
         _itemImageTransform = _itemImage.transform;
         _inventoryManager = InventoryManager.Instance;
-        _inventory_UI = _inventoryManager.Inventory_UI;
+        _inventory_UI = UI_Manager.Instance.Inventory_UI;
         _button = GetComponent<Button>();
         _backGround = GetComponent<Image>();
         _defaultColor = _backGround.color;
@@ -77,8 +81,9 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private void Start()
     {
+        _content = this.transform.parent;
         _button.onClick.AddListener(SlotClick);
-        _itemExplanationPopup = _inventoryManager.ItemExplanationPopup;
+        _itemExplanationPopup = _inventory_UI.transform.GetChild(3).gameObject;
         _itemText = _itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
     }
 
@@ -188,12 +193,23 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             _startParent = _itemImageTransform.parent;
             _itemImageTransform.SetParent(_inventory_UI.transform, false);
         }
+        else
+        {
+            _defaultContentPos = _content.transform.position;
+            _mousePosY = eventData.position.y;  
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(isData)
+        if (isData)
             _itemImage.transform.position = eventData.position;
+        else
+        {
+            _defaultContentPos.y += eventData.position.y - _mousePosY;
+            _mousePosY = eventData.position.y;
+            _content.position = _defaultContentPos;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -209,6 +225,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             isData = false;
 
             InventoryManager.Instance.CallChangeSlot(_slotInfo, _uniqueIndex);
+        }
+        else
+        {
+            _defaultContentPos = Vector3.zero;
+            _mousePosY = 0;
         }
     }
 
@@ -230,9 +251,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             _itemText[1].text = sb.ToString();
         }
         else
-        {
             _itemText[1].text = "";
-        }
         
         _itemExplanationPopup.SetActive(isActive);
         _itemText[0].text = itemData.ItemName;

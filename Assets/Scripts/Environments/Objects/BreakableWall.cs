@@ -18,6 +18,8 @@ public class BreakableWall : BaseEnvironmentObject
         defaultHP = _hp;
         if (_collider == null)
             _collider = GetComponent<Collider>();
+        if( _collider == null )
+            _collider = GetComponentInChildren<Collider>();
         Init();
     }
 

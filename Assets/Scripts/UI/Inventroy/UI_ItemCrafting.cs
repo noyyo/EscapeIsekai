@@ -1,38 +1,55 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class UI_ItemCrafting : MonoBehaviour
 {
-    private ItemCraftingManager _craftingManager;
-    private UI_Manager _uimanager;
-    private TMP_Text _craftPriceText;
-    private TMP_Text[] _itemText;
-    private Dictionary<string, float> stats;
+    [SerializeField] private Button _craftingButton;
+    [SerializeField] private Button _backButton;
+    [SerializeField] private Button _inventoryButton;
+    [SerializeField] private TMP_Text _craftPriceText;
+    [SerializeField] private TMP_Text[] _itemText;
+    private UI_Manager _ui_Manager;
     private ItemDB _itemDB;
+    private ItemCraftingManager _craftingManager;
     private InventoryManager _inventoryManager;
+    private Dictionary<string, float> stats;
+    
 
     private void Awake()
     {
         _craftingManager = ItemCraftingManager.Instance;
-        _uimanager = UI_Manager.Instance;
+        _ui_Manager = UI_Manager.Instance;
         _itemDB = ItemDB.Instance;
         _inventoryManager = InventoryManager.Instance;
     }
 
     public void Start()
     {
-        _craftPriceText = _craftingManager.ItemCaftingMaterials_UI.transform.GetChild(1).GetComponent<TMP_Text>();
-        _itemText = _craftingManager.ItemExplanation_UI.GetComponentsInChildren<TMP_Text>();
+        Init();
+        _craftingButton.onClick.AddListener(_craftingManager.CallOnCrafting);
+        _backButton.onClick.AddListener(_ui_Manager.CallUI_ItemCraftingTurnOff);
+        _inventoryButton.onClick.AddListener(() => { _ui_Manager.CallUI_ItemCraftingTurnOff(); _ui_Manager.CallUI_InventoryTurnOn(); });
         _craftingManager.onUpdateUIEvent += UpdatePriceText;
         _craftingManager.onUpdateUIEvent += UpdateItemExplanationText;
         _craftingManager.onUpdateUIEvent += AddMaterialsSlot;
+    }
 
+    private void Init()
+    {
+        if (_craftingButton == null)
+            _craftingButton = this.transform.GetChild(2).GetChild(2).GetComponent<Button>();
+        if (_craftPriceText == null)
+            _craftPriceText = this.transform.GetChild(2).GetChild(1).GetComponent<TMP_Text>();
+        if (_itemText.Length == 0)
+            _itemText = this.transform.GetChild(3).GetComponentsInChildren<TMP_Text>();
+        if (_backButton == null)
+            _backButton = this.transform.GetChild(4).GetChild(0).GetChild(2).GetComponent<Button>();
+        if (_inventoryButton == null)
+            _inventoryButton = this.transform.GetChild(4).GetChild(0).GetChild(1).GetComponent<Button>();
     }
 
     public void UpdatePriceText(ItemRecipe clickSlot)
