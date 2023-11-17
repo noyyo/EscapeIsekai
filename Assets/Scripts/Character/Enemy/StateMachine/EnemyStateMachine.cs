@@ -14,7 +14,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public event Action ActivatedActionsChanged;
     public event Action OnDie;
     public event Action<Enemy> OnDieAction;
-
+    
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
     public Enemy Enemy { get; }
