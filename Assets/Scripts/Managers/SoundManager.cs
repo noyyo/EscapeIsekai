@@ -23,6 +23,12 @@ public class SoundManager : CustomSingleton<SoundManager>
     [SerializeField] private AudioMixer _mixer;
     [SerializeField] private int _poolMaxCount = 20;
     [SerializeField] private string _defaultBGMName = "미지의 섬";
+    [SerializeField] private bool _test;
+    [SerializeField] private bool _test1;
+    [SerializeField] private bool _test2;
+    [SerializeField] private bool _test3;
+    [SerializeField] private bool _test4;
+    [SerializeField] private bool _test5;
 
     private Dictionary<string, AudioClip>[] _ClipDics;
 
@@ -33,6 +39,7 @@ public class SoundManager : CustomSingleton<SoundManager>
 
     public event Action OnSoundAllStopEvent;
     public event Action OnSFXAllStopEvent;
+
     private void Awake()
     {
         _bgm = this.GetComponent<AudioSource>();
@@ -40,6 +47,46 @@ public class SoundManager : CustomSingleton<SoundManager>
         _sfxPrefab = Resources.Load<GameObject>("Prefabs/Sound/SFX");
         _objectPool_AudioSources = new ObjectPool<SFX>(CreateSFX, OnGetSFX, OnReleasSFX, OnDestroySFX, maxSize: _poolMaxCount);
         _playLoopSFXList = new List<SFX>();
+    }
+    private void Start()
+    {
+        BGMPlay(_ClipDics[0][_defaultBGMName]);
+        OnSoundAllStopEvent += BGMStop;
+        OnSoundAllStopEvent += SFXAllStop;
+    }
+
+    private void Update()
+    {
+        if(_test)
+        {
+            CallPlaySFX(ClipType.PlayerSFX, "Run_2", GameManager.Instance.Player.transform, false);
+            _test = !_test;
+        }
+        if (_test1)
+        {
+            CallPlaySFX(ClipType.PlayerSFX, "Run_2", GameManager.Instance.Player.transform, true);
+            _test1 = !_test1;
+        }
+        if (_test2)
+        {
+            CallPlaySFX(ClipType.PlayerSFX, "Walk", this.transform, true);
+            _test2 = !_test2;
+        }
+        if (_test3)
+        {
+            CallStopLoopSFX(ClipType.PlayerSFX, "Run_2");
+            _test3 = !_test3;
+        }
+        if (_test4)
+        {
+            SFXAllStop();
+            _test4 = !_test4;
+        }
+        if (_test5)
+        {
+            SoundAllStop();
+            _test5 = !_test5;
+        }
     }
 
     private void CreateSoundList()
@@ -56,13 +103,6 @@ public class SoundManager : CustomSingleton<SoundManager>
 
             i++;
         }
-    }
-
-    private void Start()
-    {
-        BGMPlay(_ClipDics[0][_defaultBGMName]);
-        OnSoundAllStopEvent += BGMStop;
-        OnSoundAllStopEvent += OnSFXAllStopEvent;
     }
 
     //Objectpool
@@ -88,18 +128,11 @@ public class SoundManager : CustomSingleton<SoundManager>
     }
     //---------
 
-    //효과음
-    /// <summary>
-    /// 효과음 출력(Button or Trigger) - 재생시간은 효과음의 재생시간으로 설정됩니다.
-    /// </summary>
-    /// <param name="clipType">효과음 종류를 골라주세요</param>
-    /// <param name="sfxName">효과음의 이름</param>
-    /// <param name="pos">효과음이 생기는 위치를 정해주세요 ex) 플레이어의 효과음이면 플레이어의 위치를 보내주세요</param>
-    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 pos)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Transform transform, bool isLoop)
     {
         if (_ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, pos, value.length);
+            PlaySFX(value, transform, value.length, isLoop);
             return true;
         }
         else
@@ -109,19 +142,11 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
     }
 
-    /// <summary>
-    /// 효과음 출력 (Button or Trigger)
-    /// </summary>
-    /// <param name="clipType">효과음 종류를 골라주세요</param>
-    /// <param name="sfxName">효과음의 이름</param>
-    /// <param name="pos">효과음이 생기는 위치를 정해주세요 ex) 플레이어의 효과음이면 플레이어의 위치를 보내주세요</param>
-    /// <param name="playTime">재생시간을 설정해 주세요</param>
-    /// <returns></returns>
-    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 pos, float playTime)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Transform transform, float playTime)
     {
         if (_ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, pos, playTime);
+            PlaySFX(value, transform, playTime, false);
             return true;
         }
         else
@@ -131,28 +156,14 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
     }
 
-    private void PlaySFX(AudioClip clip, Vector3 pos, float playTime)
+    private void PlaySFX(AudioClip clip, Transform transform, float playTime, bool isLoop)
     {
         SFX sfx = _objectPool_AudioSources.Get();
-        sfx.PlaySFX(clip, pos, playTime);
+        sfx.PlaySFX(clip, transform, playTime, isLoop);
+        if (isLoop)
+            _playLoopSFXList.Add(sfx);
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
     }
-
-
-    public bool CallPlayLoopSFX(ClipType clipType, string sfxName, Vector3 pos)
-    {
-        if (_ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
-        {
-            PlayLoopSFX(value, pos);
-            return true;
-        }
-        else
-        {
-            Debug.Log("Error 이 효과음과 같은 이름이 없습니다. 다시 확인해 주세요");
-            return false;
-        }
-    }
-
     public bool CallStopLoopSFX(ClipType clipType, string sfxName)
     {
         int _playLoopSFXListCount = _playLoopSFXList.Count;
@@ -166,14 +177,6 @@ public class SoundManager : CustomSingleton<SoundManager>
             }
         }
         return false;
-    }
-
-
-    private void PlayLoopSFX(AudioClip clip, Vector3 pos)
-    {
-        SFX sfx = _objectPool_AudioSources.Get();
-        _playLoopSFXList.Add(sfx.PlayLoopSFX(clip, pos));
-        OnSFXAllStopEvent += sfx.DestroyAudioSource;
     }
     //-------
 
