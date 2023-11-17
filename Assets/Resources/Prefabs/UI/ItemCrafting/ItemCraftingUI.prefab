@@ -2060,6 +2060,7 @@ GameObject:
   - component: {fileID: 8643351249113411871}
   - component: {fileID: 966065238352689164}
   - component: {fileID: 3175697546006501635}
+  - component: {fileID: 6350348531602614894}
   m_Layer: 5
   m_Name: ItemCraftingUI
   m_TagString: CraftingUI
@@ -2129,6 +2130,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6350348531602614894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091662513404915505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d2abdaa25aeac4f9485a2b2a06c6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _craftingButton: {fileID: 171128488688364359}
+  _backButton: {fileID: 8350090622053090782}
+  _inventoryButton: {fileID: 1290183038780967045}
+  _craftPriceText: {fileID: 4506545540370471321}
+  _itemText:
+  - {fileID: 1899414168784184894}
+  - {fileID: 5708843528719546951}
+  - {fileID: 825469394834700112}
 --- !u!1 &2166098364884011430
 GameObject:
   m_ObjectHideFlags: 0
@@ -5038,7 +5059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8613944523132889876
 RectTransform:
   m_ObjectHideFlags: 0

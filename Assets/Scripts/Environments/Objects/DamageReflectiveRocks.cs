@@ -9,9 +9,10 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [Tooltip("대미지 배율 - 기본값 1")][SerializeField] private float _magnification = 1;
 
     [Tooltip("내가 원하는 값으로 커스텀 - 위의 배율도 적용됨")][Header("Csutom")]
-    [SerializeField] bool _isCustomValue;
+    [SerializeField] bool _isCustom;
     [SerializeField] private int _customDamage;
     [SerializeField] private float _customValue;
+    [SerializeField] private bool _lockAttackEffectTypes;
     [SerializeField] private AttackEffectTypes _customAttackEffectTypes;
     
     private int _damage;
@@ -27,17 +28,16 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
 
     public override void TakeDamage(int damage)
     {
-        if (!_isCustomValue)
+        if (!_isCustom)
             _damage = (int)(damage * _magnification);
     }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
     {
-        if (!_isCustomValue)
-        {
+        if (!_isCustom)
             _value = value;
+        if (!_lockAttackEffectTypes)
             _attackEffectTypes = attackEffectTypes;
-        }
     }
 
     private void OnTriggerEnter(Collider other)

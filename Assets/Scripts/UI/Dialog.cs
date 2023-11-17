@@ -85,7 +85,7 @@ public class Dialog : MonoBehaviour
             }
             if (id == 100) //대장장이
             {
-                ItemCraftingManager.Instance.CallOnCraftingUI();
+                UI_Manager.Instance.CallUI_ItemCraftingTurnOn();
                 Cursor.lockState = CursorLockMode.None;
             }
             if (id == 200) //요리

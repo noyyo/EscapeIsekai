@@ -30,7 +30,7 @@ public class GatheringObject : MonoBehaviour
 
             _UI_Manager.itemName = itemData.ItemName;
             _UI_Manager.itemExplanation = itemData.ItemExplanation;
-            _UI_Manager.gatheringCanvas.SetActive(true);
+            _UI_Manager.gathering.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -38,7 +38,7 @@ public class GatheringObject : MonoBehaviour
         if (other.tag == "Player")
         {
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
-            UI_Manager.Instance.gatheringCanvas.SetActive(false);
+            UI_Manager.Instance.gathering.SetActive(false);
             _gathering = false;
         }
     }
@@ -54,7 +54,7 @@ public class GatheringObject : MonoBehaviour
     {
         if (_gathering)
         {
-            _UI_Manager.gatheringCanvas.SetActive(false);
+            _UI_Manager.gathering.SetActive(false);
             //채집버튼 누르면 바로 인벤토리로
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
