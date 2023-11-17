@@ -18,7 +18,7 @@ public class MeleeAttack : AttackAction
             return;
         }
         Weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
-        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
     }
     public override void OnStart()
     {
@@ -46,8 +46,11 @@ public class MeleeAttack : AttackAction
     {
         base.OnEffectFinish();
     }
-    private void EventDecision(AnimationEvent animEvent)
+    private void AnimEventDecision(AnimationEvent animEvent)
     {
+        if (!isRunning)
+            return;
+
         if (animEvent.stringParameter == "AOEIndicatorOn")
         {
             if (Config.AOEType == AOETypes.None)
