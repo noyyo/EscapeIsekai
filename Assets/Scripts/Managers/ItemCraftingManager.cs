@@ -5,9 +5,6 @@ using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
     protected ItemCraftingManager() { }
-
-    [SerializeField] private int _itemTypeCount = 3;
-
     private GameManager _gameManager;
     private UI_Manager _ui_Manager;
     private InventoryManager _inventoryManager;

@@ -17,7 +17,16 @@ public class GameManager : CustomSingleton<GameManager>
     private PlayerInputSystem _playerInputSystem;
     private GameObject _soundManagerObject;
 
-    public GameObject Player { get { return _player; } }
+    //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
+    public GameObject Player 
+    { 
+        get 
+        {
+            if (_player == null)
+                PlayerInit();
+            return _player; 
+        } 
+    }
 
     public event Action OnPauseEvent;
     public event Action OnUnpauseEvent;
@@ -28,7 +37,7 @@ public class GameManager : CustomSingleton<GameManager>
             _soundManagerObject = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/SoundManager"));
         _soundManager = _soundManagerObject.GetComponent<SoundManager>();
 
-        Init();
+        PlayerInit();
         _ui_Manager = UI_Manager.Instance;
     }
 
@@ -51,7 +60,7 @@ public class GameManager : CustomSingleton<GameManager>
         _ui_Manager.UI_ItemCraftingTurnOffEvent += CallOnUnpauseEvent;
     }
 
-    private void Init()
+    private void PlayerInit()
     {
         //다른 오브젝트에 Player태그가 설정되어가 있을경우 걸러내기 위한 foreach문
         GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(Tags.PlayerTag);
