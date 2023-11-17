@@ -5,29 +5,40 @@ using UnityEngine;
 
 public class ParticleCollision : MonoBehaviour
 {
-    public PlayerStateMachine health;
-    public int _damage = 0;
-    public bool damagable = true;
+    private int damage = 0;
+    public bool damageable = true;
 
 
     private void OnParticleCollision(GameObject other)
     {
+        if (!damageable)
+            return;
+
         if (other.tag == Tags.PlayerTag)
         {
-            if (health == null)
+            PlayerStateMachine stateMachine;
+            other.TryGetComponent(out stateMachine);
+            if (stateMachine == null)
             {
-                health = other.GetComponent<PlayerStateMachine>();
+                Debug.LogError("플레이어에게 stateMachine 컴포넌트가 없습니다.");
+                return;
             }
-            if (damagable)
-            {
-                damagable = false;
-                health.TakeDamage(_damage);
-            }
+
+            damageable = false;
+            stateMachine.TakeDamage(damage);
+        }
+        else if (other.tag == Tags.EnemyTag)
+        {
+
+        }
+        else if (other.tag == Tags.EnvironmentTag)
+        {
+
         }
 
     }
     public void SetDamage(int damage)
     {
-        _damage = damage;
+        this.damage = damage;
     }
 }

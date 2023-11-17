@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
+public enum BulletType
+{
+    Nomal,
+    ShotGun
+}
 [CreateAssetMenu(fileName = "TestAction_ProjectileSO", menuName = "Characters/Enemy/AttackAction/TestAction_Projectile")]
 public class TestAction_Projectile : AttackAction
 {
@@ -42,6 +47,7 @@ public class TestAction_Projectile : AttackAction
     [Space(10f)]
     [Tooltip("사용할 총알의 프리팹 / *Bullet.cs 달아줘야함")]
     public GameObject howBullet;
+    private bool alreadyLaunched;
 
     private List<GameObject> bulletPool = new List<GameObject>(); //오브젝트 풀링 리스트
     public override void OnAwake()
@@ -53,13 +59,25 @@ public class TestAction_Projectile : AttackAction
             bullet.SetActive(false);
             bulletPool.Add(bullet);
             bullet.GetComponent<Bullet>().ProjetileColliderEnter += OnProjectileTriggerEnter;
+            StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
         }
     }
+
+    private void EventDecision(AnimationEvent animEvent)
+    {
+        if (animEvent.stringParameter == "LaunchProjectile")
+        {
+            MakeBullet();
+            alreadyLaunched = true;
+        }
+    }
+
     // 변수들을 다시 세팅해주거나 필요한 작업을 해주면 됩니다.
     public override void OnStart()
     {
         base.OnStart();
-        StartAnimation(Config.AnimTriggerHash1); //활 드는 모션
+        alreadyLaunched = false;
+        StartAnimation(Config.AnimTriggerHash1);
     }
     // 액션이 끝날 때 필요한 작업을 해주면 됩니다.
     public override void OnEnd()
@@ -71,14 +89,8 @@ public class TestAction_Projectile : AttackAction
     public override void OnUpdate()
     {
         base.OnUpdate();
-        // Anim1이 완료되었고, 이펙트를 아직 시작하지 않았다면 이펙트를 실행합니다.
-        if (animState[Config.AnimTriggerHash1] == AnimState.Completed && !isEffectStarted)
-        {
-            MakeBullet();
-            OnEffectStart();
-        }
-        // Anim2가 완료되었다면 액션을 완료합니다.
-        if (animState[Config.AnimTriggerHash2] == AnimState.Completed)
+        // 애니메이션 재생이 끝났고 투사체가 발사됐다면 끝냅니다.
+        if (animState[Config.AnimTriggerHash1] == AnimState.Completed && alreadyLaunched)
         {
             isCompleted = true;
         }
@@ -88,7 +100,6 @@ public class TestAction_Projectile : AttackAction
     {
         base.OnEffectStart();
         // 애니메이션을 시작합니다.
-        StartAnimation(Config.AnimTriggerHash2);
     }
     // 이펙트가 끝날 때 자동으로 호출됩니다. 필요한 작업을 수행합니다.
     protected override void OnEffectFinish()
@@ -101,47 +112,9 @@ public class TestAction_Projectile : AttackAction
         Vector3 TargetDistance = StateMachine.Player.transform.position - StateMachine.Enemy.transform.position;
         return TargetDistance;
     }
-    private void OnProjectileTriggerEnter(Collision other,GameObject attacker)
+    private void OnProjectileTriggerEnter(GameObject target)
     {
-        IDamageable target = null;
-        if (other.transform.tag == Tags.PlayerTag)
-        {
-            Player player;
-            other.transform.TryGetComponent(out player);
-            if (player == null)
-            {
-                Debug.LogError("Player 스크립트를 찾을 수 없습니다.");
-                return;
-            }
-            target = player.StateMachine;
-        }
-        else if (other.transform.tag == Tags.EnemyTag)
-        {
-            Enemy enemy;
-            other.transform.TryGetComponent(out enemy);
-            if (enemy == null)
-            {
-                Debug.LogError("Enemy 스크립트를 찾을 수 없습니다.");
-                return;
-            }
-            target = enemy.StateMachine;
-        }
-        else if (other.transform.tag == Tags.EnvironmentTag)
-        {
-            BaseEnvironmentObject environmentObj;
-            other.transform.TryGetComponent(out environmentObj);
-            if (environmentObj == null)
-            {
-                Debug.LogError("대상에게 BaseEnvironmentObject 컴포넌트가 없습니다.");
-                return;
-            }
-            target = environmentObj;
-        }
-        if (target != null)
-        {
-            ApplyAttack(target, false, other.gameObject);
-           target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, attacker);
-        }
+        ApplyAttack(target);
     }
 
     private GameObject GetBulletFromPool()
@@ -217,9 +190,4 @@ public class TestAction_Projectile : AttackAction
         }
     }
 
-}
-public enum BulletType
-{
-    Nomal,
-    ShotGun
 }

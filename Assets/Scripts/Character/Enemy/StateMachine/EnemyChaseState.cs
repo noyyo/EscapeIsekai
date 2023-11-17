@@ -20,13 +20,12 @@ public class EnemyChaseState : EnemyBaseState
         base.Enter();
         stateMachine.IsInBattle = true;
         isLookTarget = false;
-        StartAnimation(enemy.AnimationData.MoveParameterHash);
+        StartAnimation(enemy.AnimationData.BattleParameterHash);
         isChoosed = stateMachine.ChooseAction();
         if (!isChoosed)
         {
             stateStartTime = Time.time;
             agent.isStopped = true;
-            StartAnimation(enemy.AnimationData.IdleParameterHash);
         }
         else
         {
@@ -40,12 +39,11 @@ public class EnemyChaseState : EnemyBaseState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(enemy.AnimationData.MoveParameterHash);
 
+        StopAnimation(enemy.AnimationData.BattleParameterHash);
         if (!isChoosed)
         {
             agent.isStopped = false;
-            StopAnimation(enemy.AnimationData.IdleParameterHash);
         }
         else
         {
@@ -75,12 +73,12 @@ public class EnemyChaseState : EnemyBaseState
     {
         if (action.Condition.isSatisfyDistanceCondition())
         {
+            LookTarget();
             if (isLookTarget)
             {
                 stateMachine.ChangeState(stateMachine.AttackState);
                 return;
             }
-            LookTarget();
         }
         else
         {
@@ -124,7 +122,7 @@ public class EnemyChaseState : EnemyBaseState
         NavMeshHit hit;
         Vector3 currentPosition = agent.transform.position;
         currentPosition.y -= agent.baseOffset;
-        bool isInNavMesh = NavMesh.SamplePosition(currentPosition, out hit, 1f, 1 << NavMesh.GetAreaFromName("MonsterZone"));
+        bool isInNavMesh = NavMesh.SamplePosition(currentPosition, out hit, 1f, agent.areaMask - NavMesh.GetAreaFromName("Walkable"));
         if (!isInNavMesh)
         {
             stateMachine.ChangeState(stateMachine.ReturnToBaseState);

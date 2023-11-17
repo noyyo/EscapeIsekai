@@ -25,14 +25,15 @@ MonoBehaviour:
     <HP>k__BackingField: 0
     BattleTime: 0
     IsInBattle: 0
+    IsDead: 0
   ActionType: 5
   Config:
     EffectDurationSeconds: 0
     DamageAmount: 0
     AttackEffectType: 0
     AttackEffectValue: 0
-    animTrigger1: Breath1
-    animTrigger2: Breath2
+    animTrigger1: Breath
+    animTrigger2: 
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
@@ -42,13 +43,13 @@ MonoBehaviour:
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
-    LessThanThisDistance: 15
+    LessThanThisDistance: 21.3
     AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 20
+    CoolDown: 5
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0

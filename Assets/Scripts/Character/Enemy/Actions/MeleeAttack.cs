@@ -12,7 +12,10 @@ public class MeleeAttack : AttackAction
         base.OnAwake();
         Weapon = StateMachine.Enemy.GetComponentInChildren<Weapon>();
         if (Weapon == null)
+        {
             Debug.LogError("Weapon이 필요합니다.");
+            return;
+        }
         Weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
     }
     public override void OnStart()
@@ -43,43 +46,6 @@ public class MeleeAttack : AttackAction
     }
     private void OnWeaponTriggerEnter(Collider other)
     {
-        IDamageable target = null;
-        if (other.tag == Tags.PlayerTag)
-        {
-            Player player;
-            other.TryGetComponent(out player);
-            if (player == null)
-            {
-                Debug.LogError("Player 스크립트를 찾을 수 없습니다.");
-                return;
-            }
-            target = player.StateMachine;
-        }
-        else if(other.tag == Tags.EnemyTag)
-        {
-            Enemy enemy;
-            other.TryGetComponent(out enemy);
-            if (enemy == null)
-            {
-                Debug.LogError("Enemy 스크립트를 찾을 수 없습니다.");
-                return;
-            }
-            target = enemy.StateMachine;
-        }
-        else if(other.tag == Tags.EnvironmentTag)
-        {
-            BaseEnvironmentObject environmentObj;
-            other.TryGetComponent(out environmentObj);
-            if (environmentObj == null)
-            {
-                Debug.LogError("대상에게 BaseEnvironmentObject 컴포넌트가 없습니다.");
-                return;
-            }
-            target = environmentObj;
-        }
-        if (target != null)
-        {
-            ApplyAttack(target, false, other.gameObject);
-        }
+        ApplyAttack(other.gameObject);
     }
 }

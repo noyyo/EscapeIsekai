@@ -12,17 +12,17 @@ public class EnemyAttackState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(enemy.AnimationData.BattleParameterHash);
         agent.ResetPath();
         action = stateMachine.CurrentAction;
         action.OnStart();
-        StartAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
         action.OnEnd();
+        StopAnimation(enemy.AnimationData.BattleParameterHash);
     }
 
     public override void Update()
