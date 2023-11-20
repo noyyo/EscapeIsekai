@@ -14,14 +14,14 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private ItemCraftingManager _itemCraftingManager;
     private GameObject _inventory_ui;
     private GameObject _itemCrafting_ui;
-    private GameObject _quickSlot_ui;
+    //private GameObject _quickSlot_ui;
 
     private bool _isNotUIInputPossible = false;
     private bool _isTurnOnInventory;
     public GameObject Canvas { get { return _cavas; } }
     public GameObject Inventory_UI { get { return _inventory_ui; } }
     public GameObject ItemCrafting_UI { get { return _itemCrafting_ui; } }
-    public GameObject QuickSlot_UI { get { return _quickSlot_ui; } }
+    //public GameObject QuickSlot_UI { get { return _quickSlot_ui; } }
     public bool IsTurnOnInventory { get { return _isTurnOnInventory; } }
 
     public event Action UI_AllTurnOffEvent;
@@ -74,8 +74,8 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
         if (_itemCrafting_ui == null)
             _itemCrafting_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), _cavas.transform);
-        if (_quickSlot_ui == null)
-            _quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
+        //if (_quickSlot_ui == null)
+        //    _quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
     }
 
     //UI ON, OFF를 위한 메서드

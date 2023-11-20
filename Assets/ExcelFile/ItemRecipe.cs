@@ -5,31 +5,31 @@ using UnityEngine;
 [Serializable]
 public class ItemRecipe
 {
-    [SerializeField] private int _id;
-    [SerializeField] private int _craftingID;
-    [SerializeField] private int _craftingPrice;
-    [SerializeField] private string _materials_string;
-    [SerializeField] private string _materials_count_string;
-    [SerializeField] private int _availableCount;
-    private int[] _materials;
-    private int[] _materialsCount;
+    [SerializeField] private int id;
+    [SerializeField] private int craftingID;
+    [SerializeField] private int craftingPrice;
+    [SerializeField] private string materials_string;
+    [SerializeField] private string materials_count_string;
+    [SerializeField] private int availableCount;
+    private int[] materials;
+    private int[] materialsCount;
     private bool isMaterialsReset = true;
     private bool isMaterialCountReset = true;
 
-    public int ID { get {  return _id; } }
-    public int CraftingID { get { return _craftingID; } }
-    public int CraftingPrice { get { return _craftingPrice; } }
-    public int AvailableCount { get { return _availableCount; } }
+    public int ID { get {  return id; } }
+    public int CraftingID { get { return craftingID; } }
+    public int CraftingPrice { get { return craftingPrice; } }
+    public int AvailableCount { get { return availableCount; } }
     public int[] Materials 
     { 
         get 
         {
             if (isMaterialsReset)
             {
-                _materials = _materials_string.Split(',').Select(s => int.Parse(s)).ToArray();
+                materials = materials_string.Split(',').Select(s => int.Parse(s)).ToArray();
                 isMaterialsReset = false;
             }
-            return _materials; 
+            return materials; 
         }
     }
 
@@ -39,10 +39,10 @@ public class ItemRecipe
         {
             if (isMaterialCountReset)
             {
-                _materialsCount = _materials_count_string.Split(',').Select(s => int.Parse(s)).ToArray();
+                materialsCount = materials_count_string.Split(',').Select(s => int.Parse(s)).ToArray();
                 isMaterialCountReset = false;
             }
-            return _materialsCount;
+            return materialsCount;
         }
     }
 }

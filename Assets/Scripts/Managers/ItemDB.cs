@@ -1,74 +1,81 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemDB : CustomSingleton<ItemDB>
 {
     protected ItemDB() { }
-    [SerializeField] private ItemExcel _itemList;
-    private Inventory _inventory;
-    private List<ItemData_Test> _itemDatas;
-    private List<ItemStats> _itemStats;
-    private List<ItemRecipe> _itemRecipes;
-    private int _itemDatasCount;
-    private int _itemStatsCount;
-    private int _itemRecipesCount;
-    private GameManager _gameManager;
-    
-    private ItemCraftingManager _itemCraftingManager;
+    private ItemExcel itemList;
+    private Dictionary<int, ItemData_Test> itemDataDic;
+    private Dictionary<int, ItemRecipe> itemRecipeDic;
+    private Dictionary<int, ItemStats> itemStatsDic;
 
-    public List<ItemData_Test> ItemList { get { return _itemDatas; } }
-    public List<ItemStats> ItemStats { get { return _itemStats; } }
-    public List<ItemRecipe> ItemRecipes { get { return _itemRecipes; } }
-    public bool _test = true;
+    private Inventory inventory;
+    private GameManager gameManager;
+    private ItemCraftingManager itemCraftingManager;
 
     private void Awake()
     {
-        _gameManager = GameManager.Instance;
-        if (_itemList == null)
-            _itemList = Resources.Load<ItemExcel>("ItemData/ItemExcel");
-        _itemDatas = new List<ItemData_Test>(_itemList.ItemDatas);
-        _itemStats = new List<ItemStats>(_itemList.Stats);
-        _itemRecipes = new List<ItemRecipe>(_itemList.Recipe);
-        _itemDatasCount = _itemDatas.Count;
-        _itemStatsCount = _itemStats.Count;
-        _itemRecipesCount = _itemRecipes.Count;
-
-        _itemCraftingManager = ItemCraftingManager.Instance;
+        itemList = Resources.Load<ItemExcel>("ItemData/ItemExcel");
+        gameManager = GameManager.Instance;
+        itemCraftingManager = ItemCraftingManager.Instance;
+        ItemDataInit();
     }
 
     private void Start()
     {
-        if (_inventory == null)
-            _inventory = _gameManager.Player.GetComponent<Inventory>();
+        if (inventory == null)
+            inventory = gameManager.Player.GetComponent<Inventory>();
+        DefaultItem();
     }
 
-    private void Update()
+    private void ItemDataInit()
     {
-        if (_test)
-        {
-            _inventory.TryAddItem(10010000, 1, out int i);
-            _inventory.TryAddItem(10200000, 2, out i);
-            _inventory.TryAddItem(10010000, 1, out i);
-            _inventory.TryAddItem(10200000, 10, out i);
+        itemDataDic = new Dictionary<int, ItemData_Test>();
+        itemRecipeDic = new Dictionary<int, ItemRecipe>();
+        itemStatsDic = new Dictionary<int, ItemStats>();
 
-            _itemCraftingManager.CallAddRecipe(10110000);
-            _itemCraftingManager.CallAddRecipe(10110001);
-            _itemCraftingManager.CallAddRecipe(10110004);
-            _test = false;
+        int count = itemList.ItemDatas.Count;
+        for (int i = 0; i< count; i++)
+        {
+            itemDataDic.Add(itemList.ItemDatas[i].ID, itemList.ItemDatas[i]);
         }
+
+        count = itemList.Recipe.Count;
+        for (int i = 0; i < count; i++)
+        {
+            itemRecipeDic.Add(itemList.Recipe[i].ID, itemList.Recipe[i]);
+        }
+
+        count = itemList.Stats.Count;
+        for (int i = 0; i < count; i++)
+        {
+            itemStatsDic.Add(itemList.Stats[i].ID, itemList.Stats[i]);
+        }
+
+    }
+
+    private void DefaultItem()
+    {
+        inventory.TryAddItem(10010000, 1, out int i);
+        Debug.Log("통과");
+        inventory.TryAddItem(10200000, 2, out i);
+        Debug.Log("통과");
+        inventory.TryAddItem(10010000, 1, out i);
+        Debug.Log("통과");
+        inventory.TryAddItem(10200000, 10, out i);
+        Debug.Log("통과");
+
+        itemCraftingManager.CallAddRecipe(10110000);
+        itemCraftingManager.CallAddRecipe(10110001);
+        itemCraftingManager.CallAddRecipe(10110004);
     }
 
     public bool GetItemData(int id, out ItemData_Test itemData)
     {
-        for(int i = 0; i < _itemDatasCount; i++)
+        if (itemDataDic.ContainsKey(id))
         {
-            if(_itemDatas[i].ID == id)
-            {
-                itemData = _itemDatas[i];
-                return true;
-            }
+            itemData = itemDataDic[id];
+            return true;
         }
         itemData = null;
         return false;
@@ -76,11 +83,22 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     public bool GetRecipe(int id, out ItemRecipe itemRcipe)
     {
-        for (int i = 0; i < _itemRecipesCount; i++)
+        if (itemRecipeDic.ContainsKey(id))
         {
-            if (_itemRecipes[i].ID == id)
+            itemRcipe = itemRecipeDic[id];
+            return true;
+        }
+        itemRcipe = null;
+        return false;
+    }
+
+    public bool GetRecipeCraftID(int craftID, out ItemRecipe itemRcipe)
+    {
+        foreach(var recipe in itemRecipeDic.Values)
+        {
+            if(recipe.CraftingID == craftID)
             {
-                itemRcipe = _itemRecipes[i];
+                itemRcipe = recipe;
                 return true;
             }
         }
@@ -90,29 +108,23 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     public bool GetImage(int id, out Sprite icon)
     {
-        for (int i = 0; i < _itemDatasCount; i++)
+        if (itemDataDic.ContainsKey(id))
         {
-            if (_itemDatas[i].ID == id)
-            {
-                icon = _itemDatas[i].Icon;
-                return true;
-            }
+            icon = itemDataDic[id].Icon;
+            return true;
         }
         icon = null;
         return false;
     }
 
-    public bool GetStats(int id, out ItemStats itemStat)
+    public bool GetStats(int id, out ItemStats itemStats)
     {
-        for (int i = 0; i < _itemStatsCount; i++)
+        if (itemStatsDic.ContainsKey(id))
         {
-            if (_itemStats[i].ID == id)
-            {
-                itemStat = _itemStats[i];
-                return true;
-            }
+            itemStats = itemStatsDic[id];
+            return true;
         }
-        itemStat = null;
+        itemStats = null;
         return false;
     }
 }

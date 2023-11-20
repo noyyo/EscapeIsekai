@@ -59,20 +59,20 @@ public class UI_ItemCrafting : MonoBehaviour
 
     public void UpdateItemExplanationText(ItemRecipe clickSlot)
     {
-        _itemDB.GetItemData(clickSlot.CraftingID, out ItemData_Test craftingItem);
-        _itemText[0].text = craftingItem.ItemName;
-        _itemText[1].text = craftingItem.ItemExplanation;
+        //_itemDB.GetItemData(clickSlot.CraftingID, out ItemData_Test craftingItem);
+        //_itemText[0].text = craftingItem.ItemName;
+        //_itemText[1].text = craftingItem.ItemExplanation;
 
-        _itemDB.GetStats(craftingItem.ID, out ItemStats itemStats);
-        stats = itemStats.Stats;
-        string str = "";
-        foreach (var i in stats)
-        {
-            if ((int)i.Value > 0)
-                str += (i.Key + " : "+ (int)i.Value + "\n");
-        }
+        //_itemDB.GetStats(craftingItem.ID, out ItemStats itemStats);
+        //stats = itemStats.Stats;
+        //string str = "";
+        //foreach (var i in stats)
+        //{
+        //    if ((int)i.Value > 0)
+        //        str += (i.Key + " : "+ (int)i.Value + "\n");
+        //}
 
-        _itemText[2].text = str;
+        //_itemText[2].text = str;
     }
 
     //public void UpdateSlotImage(ItemRecipe clickSlot)

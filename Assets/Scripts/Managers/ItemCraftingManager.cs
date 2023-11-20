@@ -113,6 +113,6 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private void CraftingItem()
     {
         if (_isMake)
-            _inventoryManager.CallAddItems(ClickSlot, out int[] sum);
+            _inventoryManager.CallAddItems(ClickSlot);
     }
 }

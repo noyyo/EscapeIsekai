@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,17 +20,21 @@ public class UI_Inventory : MonoBehaviour
     private InventoryManager _inventoryManager;
     private UI_Manager _ui_manager;
     private GameManager _gameManager;
+    private TMP_Text[] itemExplanationTexts;
+    private string delimiter;
+    private string lineBreaking;
 
     //현재 출력되고 있는 카테고리
     private ItemType _nowDisplayItemType;
-
-    public GameObject ItemExplanationPopup { get { return _itemExplanationPopup; } }
 
     private void Awake()
     {
         _gameManager = GameManager.Instance;
         _inventoryManager = InventoryManager.Instance;
         _ui_manager = UI_Manager.Instance;
+
+        delimiter = " : ";
+        lineBreaking = "\n";
         Init();
     }
 
@@ -68,6 +74,8 @@ public class UI_Inventory : MonoBehaviour
         if(_tailUseButtonText == null)
             _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
 
+        itemExplanationTexts = _itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
+
         _inventoryTypeButtons[0].onClick.AddListener(() => { OnCategoryButton(ItemType.Equipment); });
         _inventoryTypeButtons[1].onClick.AddListener(() => { OnCategoryButton(ItemType.Consumable); });
         _inventoryTypeButtons[2].onClick.AddListener(() => { OnCategoryButton(ItemType.Material); });
@@ -82,8 +90,9 @@ public class UI_Inventory : MonoBehaviour
         _ui_manager.UI_InventoryTurnOnEvent += InventroyUITurnOn;
         _ui_manager.UI_InventoryTurnOffEvent += InventroyUITurnOff;
 
-        _inventoryManager.onTextChangeEquipEvent += ButtonTextChange_Equip;
-        _inventoryManager.onTextChangeUnEquipEvent += ButtonTextChange_Unequip;
+        _inventoryManager.OnTextChangeEquipEvent += ButtonTextChange_Equip;
+        _inventoryManager.OnTextChangeUnEquipEvent += ButtonTextChange_Unequip;
+        _inventoryManager.OnItemExplanationPopUpEvent += ActiveItemExplanationPopUp;
     }
 
     //이벤트에 걸린 메서드( 인벤토리 창 ON, OFF)
@@ -101,7 +110,7 @@ public class UI_Inventory : MonoBehaviour
     private void CallItemSlots(ItemType displayType)
     {
         _nowDisplayItemType = displayType;
-        _inventory.SetDisplayType(displayType);
+        _inventoryManager.CallOnSetDisplayType(displayType);
     }
 
     // 설명창 끄기
@@ -111,14 +120,14 @@ public class UI_Inventory : MonoBehaviour
     }
 
     //현재 카테고리에 따른 밑쪽 버튼텍스트 번경 및 ON, OFF
-    public void DisplayInventoryTailUI()
+    public void DisplayInventoryTailUI(bool isEquip)
     {
         _inventoryTailButtonArea.SetActive(true);
         switch (_nowDisplayItemType)
         {
             case ItemType.Equipment:
                 _tailUseButton.SetActive(true);
-                if (_inventoryManager.ClickItem.equip)
+                if (isEquip)
                     ButtonTextChange_Unequip();
                 else
                     ButtonTextChange_Equip();
@@ -165,5 +174,19 @@ public class UI_Inventory : MonoBehaviour
     public void ButtonTextChange_Unequip()
     {
         _tailUseButtonText.text = "장비 해제";
+    }
+
+    public void ActiveItemExplanationPopUp(ItemObject itemObject)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (KeyValuePair<string, float> i in itemObject.Stats)
+        {
+            if (i.Value > 0)
+                sb.Append(i.Key + delimiter + (int)i.Value + lineBreaking);
+        }
+        itemExplanationTexts[0].text = itemObject.ItemName;
+        itemExplanationTexts[1].text = sb.ToString();
+        itemExplanationTexts[2].text = itemObject.ItemExplanation;
+        _itemExplanationPopup.SetActive(true);
     }
 }
