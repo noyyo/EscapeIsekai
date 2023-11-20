@@ -66,12 +66,12 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         button.onClick.AddListener(SlotClick);
     }
 
-    public void AddItem(ItemObject itemObject)
+    public void AddItem(Item item)
     {
-        CheckItemType(itemObject.ID);
-        item2DImage.sprite = itemObject.Icon;
-        isEquip = itemObject.IsEquip;
-        count = itemObject.Count;
+        CheckItemType(item.ID);
+        item2DImage.sprite = item.Icon;
+        isEquip = item.IsEquip;
+        count = item.Count;
         SlotDisplay();
     }
 

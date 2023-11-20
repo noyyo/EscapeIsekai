@@ -33,12 +33,12 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         ui_Manager = UI_Manager.Instance;
         inventoryManager = InventoryManager.Instance;
         craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
+        craftingController = gameManager.Player.GetComponent<ItemCraftingController>();
         
     }
 
     private void Start()
     {
-        Init();
         ui_Manager.UI_ItemCraftingTurnOnEvent += ItemCraftingUITurnOn;
 
         OnClickCraftingSlotEvent += ItemMaterialsUITurnOn;
@@ -52,11 +52,11 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     private void Init()
     {
+        Init();
         itemCraftingUI = ui_Manager.ItemCrafting_UI;
         itemCaftingMaterials_UI = itemCraftingUI.transform.GetChild(2).gameObject;
         itemExplanation_UI = itemCraftingUI.transform.GetChild(3).gameObject;
         materialsSlots = itemCaftingMaterials_UI.transform.GetChild(3).GetComponentsInChildren<MaterialsSlot>();
-        craftingController = gameManager.Player.GetComponent<ItemCraftingController>();
     }
 
     public void CallOnClickCraftingSlotEvent(ItemRecipe newRecipe, bool isNewMake)

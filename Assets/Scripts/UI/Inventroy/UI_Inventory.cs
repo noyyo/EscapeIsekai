@@ -176,7 +176,7 @@ public class UI_Inventory : MonoBehaviour
         tailUseButtonText.text = "장비 해제";
     }
 
-    public void ActiveItemExplanationPopUp(ItemObject itemObject)
+    public void ActiveItemExplanationPopUp(Item itemObject)
     {
         StringBuilder sb = new StringBuilder();
         foreach (KeyValuePair<string, float> i in itemObject.Stats)

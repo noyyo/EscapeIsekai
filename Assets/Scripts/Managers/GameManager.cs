@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class GameManager : CustomSingleton<GameManager>
 {
-    
+    protected GameManager() { }
     [SerializeField] private GameObject _player;
     [Range(0.0f, 1.0f)]
     public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간

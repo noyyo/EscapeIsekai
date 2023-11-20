@@ -1,160 +1,25 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    private ItemData_Test itemData;
-    private ItemStats itemStats;
+    private Item item;
+    public Item Item { get { return item; } }
 
-    public int ID { get; private set; }
-    public string ItemName { get; private set; }
-    public string ItemExplanation { get; private set; }
-    public int Price { get; private set; }
-    public int MaxCount { get; private set; }
-    public bool IsStat { get; private set; }
-    public bool IsCrafting { get; private set; }
-    public GameObject DropPrefab { get; private set; }
-    public Sprite Icon { get; private set; }
-    public ItemData_Test ItemData { get { return itemData; } }
-    public ItemStats ItemStats { get { return itemStats; } }
-
-    public int Count { get; private set; }
-    public bool IsEquip { get; set; }
-    public bool IsMax { get; private set; }
-
-    //기본 스텟
-    public int DefaultHP { get; private set; }
-    public int DefaultTemperature { get; private set; }
-    public float DefaultATK { get; private set; }
-    public float DefaultDEF { get; private set; }
-    public float DefaultSpeed { get; private set; }
-    public float DefaultStamina { get; private set; }
-    
-    public Dictionary<string, float> Stats { get; private set; }
-
-    public ItemObject(ItemData_Test data, ItemStats stats, int count)
+    public void SetItem(Item newitem)
     {
-        itemData = data;
-        itemStats = stats;
-        ID = data.ID;
-        ItemName = data.ItemName;
-        ItemExplanation = data.ItemExplanation;
-        Price = data.Price;
-        MaxCount = data.MaxCount;
-        IsStat = data.IsStat;
-        IsCrafting = data.IsCrafting;
-        DropPrefab = data.DropPrefab;
-        Icon = data.Icon;
-
-        if (IsStat)
-        {
-            DefaultHP = stats.HP;
-            DefaultTemperature = stats.Temperature;
-            DefaultATK = stats.ATK;
-            DefaultDEF = stats.DEF;
-            DefaultSpeed = stats.Speed;
-            DefaultStamina = stats.Stamina;
-        }
-        Count = count;
-
-        Stats = new Dictionary<string, float>()
-                {
-                    {"HP", (float)DefaultHP},
-                    {"Temperature", (float)DefaultTemperature},
-                    {"ATK", (float)DefaultATK},
-                    {"DEF", (float)DefaultDEF},
-                    {"Speed", (float)DefaultSpeed},
-                    {"Stamina", (float)DefaultStamina}
-                };
+        if (item == null)
+            item = newitem;
     }
 
-    /// <summary>
-    /// 값을 수정 후 초과된 값이나 부족분을 돌려주는 메서드 돌려줄 값이 있으며 반환값이 false
-    /// </summary>
-    /// <param name="count"></param>
-    /// <param name="excessCount"></param>
-    /// <returns></returns>
-    public bool TryAddItem(int count, out int excessCount)
+    private void OnTriggerEnter(Collider other)
     {
-        if (itemData.MaxCount < Count + count || 0 > Count + count)
-        {
-            if (count > 0)
-            {
-                excessCount = count + Count - itemData.MaxCount;
-                Count = itemData.MaxCount;
-                IsMax = true;
-            }
-            else
-            {
-                excessCount = count + Count;
-                Count = 0;
-            }
-            return false;
-        }
-        else
-        {
-            excessCount = 0;
-            Count += count;
-            return true;
-        }          
+        //UI팝업 띄우면서 상호작용시 다시 주울수 있습니다.
     }
 
-    /// <summary>
-    /// 더해지는 값이 최대값의 초과 되거나 부족할 경우 바로 반환하는 메서드
-    /// </summary>
-    /// <param name="count"></param>
-    /// <returns></returns>
-    public bool TryAddItem(int count)
+    private void OnTriggerExit(Collider other)
     {
-        if (itemData.MaxCount <= Count + count || 0 > Count + count)
-        {
-            return false;
-        }
-        else
-        {
-            Count += count;
-            return true;
-        }
-    }
-
-    /// <summary>
-    /// 매니저에서 Drop용으로만 호출
-    /// </summary>
-    /// <param name="itemObject"></param>
-    /// <param name="count"></param>
-    public void GetData(ItemObject itemObject, int count)
-    {
-        itemData = itemObject.itemData;
-        itemStats = itemObject.itemStats;
-        ID = itemObject.ID;
-        ItemName = itemObject.ItemName;
-        ItemExplanation = itemObject.ItemExplanation;
-        Price = itemObject.Price;
-        MaxCount = itemObject.MaxCount;
-        IsStat = itemObject.IsStat;
-        IsCrafting = itemObject.IsCrafting;
-        DropPrefab = itemObject.DropPrefab;
-        Icon = itemObject.Icon;
-
-        if (IsStat)
-        {
-            DefaultHP = itemObject.DefaultHP;
-            DefaultTemperature = itemObject.DefaultTemperature;
-            DefaultATK = itemObject.DefaultATK;
-            DefaultDEF = itemObject.DefaultDEF;
-            DefaultSpeed = itemObject.DefaultSpeed;
-            DefaultStamina = itemObject.DefaultStamina;
-        }
-        Count = count;
-
-        Stats = new Dictionary<string, float>()
-                {
-                    {"HP", (float)DefaultHP},
-                    {"Temperature", (float)DefaultTemperature},
-                    {"ATK", (float)DefaultATK},
-                    {"DEF", (float)DefaultDEF},
-                    {"Speed", (float)DefaultSpeed},
-                    {"Stamina", (float)DefaultStamina}
-                };
+        //UI팝업 오프
     }
 }
