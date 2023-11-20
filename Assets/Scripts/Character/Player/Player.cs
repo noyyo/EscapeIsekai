@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -20,6 +21,15 @@ public class Player : MonoBehaviour
 
     public PlayerStateMachine StateMachine;
     [field: SerializeField] public AnimationEventReceiver AnimationEventReceiver { get; private set; }
+
+    public PlayerUI playerUI;
+
+
+    public GameObject[] grenades;
+    public int hasGrenades;
+    public GameObject grenadeObj;
+    public Transform throwPoint;
+
     private void Awake()
     {
         // 애니메이션 데이터는 항상 초기화를 해주어야 한다
@@ -33,6 +43,31 @@ public class Player : MonoBehaviour
         Playerconditions = GetComponent<Playerconditions>();
 
         StateMachine = new PlayerStateMachine(this);
+
+        playerUI = GameObject.FindObjectOfType<PlayerUI>();
+        if(playerUI == null)
+        {
+
+            // 씬의 플레이어 UI 오브젝트를 찾아오고 playerUIPrefab 지역변수에 할당
+            GameObject playerUIPrefab = Resources.Load<GameObject>("Prefabs/UI/Player UI");
+            
+
+            // 찾아오지 못했을 경우 출력(예외처리)
+            if(playerUIPrefab == null)
+            {
+                Debug.LogError("플레이어 UI 프리팹을 찾을 수 없습니다");
+                return;
+            }
+
+            // 찾아온 오브젝트를 생성하고 go 지역변수에 할당
+            GameObject go = Instantiate(playerUIPrefab);
+
+            playerUI = go.GetComponent<PlayerUI>();
+        }
+
+
+        // To do : 플레이어 UI를 찾았거나 생성을 하거나 가지고 있을것. 그것의 하위에 있는 것들을 찾아서 가져와야함
+        Playerconditions.Initialize(playerUI);
     }
 
     private void Start()
@@ -62,4 +97,23 @@ public class Player : MonoBehaviour
         enabled = false;
     }
 
+    
+    public void CreateGrenade()
+    {
+        if (hasGrenades == 0)
+            return;
+
+        // 투척물 오브젝트를 생성하고 Rigidbody를 가져옴
+        
+        GameObject instantGrenade = Instantiate(grenadeObj, throwPoint.position, transform.rotation);
+        Grenade grenade = instantGrenade.GetComponent<Grenade>();
+
+        if (grenade != null)
+        {
+            grenade.Init();
+        }
+        
+    }
+    
+    
 }

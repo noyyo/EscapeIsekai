@@ -58,6 +58,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Attack.canceled += OnAttackCanceled;
 
         input.PlayerActions.SuperJump.started += OnSuperJumpStarted;
+        input.PlayerActions.Throw.started += OnThrowStarted;
     }
 
 
@@ -75,6 +76,7 @@ public class PlayerBaseState : IState
         input.PlayerActions.Attack.canceled -= OnAttackCanceled;
 
         input.PlayerActions.SuperJump.started -= OnSuperJumpStarted;
+        input.PlayerActions.Throw.started -= OnThrowStarted;
     }
 
 
@@ -105,6 +107,11 @@ public class PlayerBaseState : IState
     protected virtual void OnSuperJumpStarted(InputAction.CallbackContext context)
     {
         
+    }
+
+    protected virtual void OnThrowStarted(InputAction.CallbackContext context)
+    {
+
     }
 
     private void ReadMovementInput()

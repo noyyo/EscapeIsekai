@@ -75,6 +75,11 @@ public class PlayerGroundState : PlayerBaseState
         stateMachine.ChangeState(stateMachine.SuperJump);
     }
 
+    protected override void OnThrowStarted(InputAction.CallbackContext context)
+    {
+        stateMachine.ChangeState(stateMachine.ThrowState);
+    }
+
     protected override void AddInputActionsCallbacks()
     {
         base.AddInputActionsCallbacks();

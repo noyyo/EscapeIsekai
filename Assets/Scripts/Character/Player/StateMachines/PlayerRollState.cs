@@ -27,7 +27,6 @@ public class PlayerRollState : PlayerGroundState
 
     private void TryApplyForce()
     {
-        // ForceReceiver에 AddForce를 적용. 바라보고있는 정면에서 밀려나도록.
         stateMachine.Player.ForceReceiver.AddForce(stateMachine.Player.transform.forward * groundData.RollForce);
     }
 

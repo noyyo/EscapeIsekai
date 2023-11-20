@@ -20,10 +20,11 @@ public class PlayerAnimationData
     [SerializeField] private string attackParameterName = "@Attack";
     [SerializeField] private string comboAttackParameterName = "ComboAttack";
 
-    [SerializeField] private string SkillParameterName = "Skill";
-    [SerializeField] private string PowerUpParameterName = "PowerUp";
+    [SerializeField] private string skillParameterName = "Skill";
+    [SerializeField] private string powerUpParameterName = "PowerUp";
 
     [SerializeField] private string superJumpParameterName = "SuperJump";
+    [SerializeField] private string throwParameterName = "Throw";
 
     // Parameter값을 받는 getter 생성
     // 해당 Parameter는 크게 세 가지로 나누어서 사용(Ground, Air, Attack)
@@ -47,6 +48,7 @@ public class PlayerAnimationData
     public int PowerUpParameterHash { get; private set; }
 
     public int SuperJumpParameterHash { get; private set; }
+    public int ThrowParameterHash { get; private set; }
 
     public void Initialize()
     {
@@ -63,9 +65,10 @@ public class PlayerAnimationData
         AttackParameterHash = Animator.StringToHash(attackParameterName);
         ComboAttackParameterHash = Animator.StringToHash(comboAttackParameterName);
 
-        SkillParameterHash = Animator.StringToHash(SkillParameterName);
-        PowerUpParameterHash = Animator.StringToHash(PowerUpParameterName);
+        SkillParameterHash = Animator.StringToHash(skillParameterName);
+        PowerUpParameterHash = Animator.StringToHash(powerUpParameterName);
 
         SuperJumpParameterHash = Animator.StringToHash(superJumpParameterName);
+        ThrowParameterHash = Animator.StringToHash(throwParameterName);
     }
 }
