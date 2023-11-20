@@ -32,28 +32,28 @@ MonoBehaviour:
     AfterDialog: "\uD14C\uC2A4\uD2B8\uC911"
   - id: 10002
     Npc: 100
-    QuestType: 1
+    QuestType: 2
     QuestName: "\uBAA9\uAC80\uAC00\uC838\uC624\uAE30"
     QuestDescription: "\uBAA9\uAC80 rr"
     QuestItem: 10010000
     QuestItemCount: 1
     QuestItem2: 0
     QuestItem2Count: 0
-    QuestMonster: 0
+    QuestMonster: -1
     QuestMonsterCount: 0
-    QuestMonster2: 0
+    QuestMonster2: 1
     QuestMonster2Count: 0
-    Reword: 10100000
+    Reword: 3000
     isClear: 0
-    BeforeDialog: "\uBAA9\uAC80\uAC00\uAF2C\uC640,\uBE68\uB9AC\u314F,894,98,4980,"
-    AfterDialog: "\uACE0\uB9C8\uC6CC \uC774\uAC74 \uBCF4\uB2F5\uC774\uC57C,165,66456,96"
+    BeforeDialog: "\uBAA9\uAC80\uAC00\uAF2C\uC640,\uBE68\uB9AC\u314F"
+    AfterDialog: "\uACE0\uB9C8\uC6CC \uC774\uAC74 \uBCF4\uB2F5\uC774\uC57C"
   - id: 10003
     Npc: 1000
     QuestType: 1
     QuestName: "\uD3EC\uC158 \uAC00\uC838\uAC00\uAE30"
     QuestDescription: "\uD3EC\uC158\uC744 \uAC00\uC838\uAC00\uC790"
-    QuestItem: 10010000
-    QuestItemCount: 3
+    QuestItem: 10100000
+    QuestItemCount: 1
     QuestItem2: 0
     QuestItem2Count: 0
     QuestMonster: -1
@@ -66,7 +66,7 @@ MonoBehaviour:
     AfterDialog: "\u314B\u314B\uAC10\uC0AC"
   - id: 10004
     Npc: 100
-    QuestType: 1
+    QuestType: 2
     QuestName: teset
     QuestDescription: test
     QuestItem: 0
@@ -79,5 +79,5 @@ MonoBehaviour:
     QuestMonster2Count: 0
     Reword: 0
     isClear: 0
-    BeforeDialog: ss,16,19,897,98,46,546,55,894,98,49
-    AfterDialog: 123,56,1,8979,898,4,9849
+    BeforeDialog: ss
+    AfterDialog: 123
