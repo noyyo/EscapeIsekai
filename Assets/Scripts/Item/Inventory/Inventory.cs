@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
     private UI_Manager ui_Manager;
     private ItemManager itemManager;
     private List<Slot> slotList;
-    private Dictionary<int, ItemObject>[] itemDics;
+    private Dictionary<int, Item>[] itemDics;
     private ItemDB itemDB;
     private ItemType displayType;
     private int clickSlotIndex;
@@ -95,7 +95,7 @@ public class Inventory : MonoBehaviour
         return isAddItem;
     }
 
-    private bool AddList(Dictionary<int, ItemObject> itemDic, int count, int slotType, in ItemData_Test newItem, out int errorItemCount)
+    private bool AddList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem, out int errorItemCount)
     {
         if (itemDic.Count == inventroySlotCount)
         {
@@ -114,7 +114,7 @@ public class Inventory : MonoBehaviour
         //아이템 리스트에서 확인 후 값을 수정하는 부분
         if(itemDic.Count > 0)
         {
-            foreach (KeyValuePair<int, ItemObject> i in itemDic)
+            foreach (KeyValuePair<int, Item> i in itemDic)
             {
                 if (i.Value.ID == ID && !(i.Value.IsMax))
                 {
@@ -165,7 +165,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool SubList(Dictionary<int, ItemObject> itemDic, int count, int slotType, in ItemData_Test newItem, out int ErrorItemCount)
+    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem, out int ErrorItemCount)
     {
         if (itemDic.Count == 0)
         {
@@ -182,7 +182,7 @@ public class Inventory : MonoBehaviour
             isDisplay = true;
 
         //인벤토리에 있는 값 확인후 뺴기
-        foreach (KeyValuePair<int, ItemObject> i in itemDic)
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
             if (i.Value.ID == ID && !(i.Value.IsEquip) )
             {
@@ -232,7 +232,7 @@ public class Inventory : MonoBehaviour
         DisplaySlotAllClear();
 
         Queue<int> queue = new Queue<int>();
-        foreach(KeyValuePair<int,ItemObject> i in itemDics[(int)displayType])
+        foreach(KeyValuePair<int,Item> i in itemDics[(int)displayType])
         {
             queue.Enqueue(i.Key);
         }
@@ -259,7 +259,7 @@ public class Inventory : MonoBehaviour
     private void OnDisplaySlot()
     {
         //AddItem으로 초기화된 또는 변경된 슬롯에 값을 넣어줘야됨
-        foreach (KeyValuePair<int, ItemObject> item in itemDics[(int)displayType])
+        foreach (KeyValuePair<int, Item> item in itemDics[(int)displayType])
             slotList[item.Key].AddItem(item.Value);
     }
     private void DisplaySlotAllClear()
@@ -269,7 +269,7 @@ public class Inventory : MonoBehaviour
     }
     private void DisplaySlotClear()
     {
-        foreach (KeyValuePair<int, ItemObject> item in itemDics[(int)displayType])
+        foreach (KeyValuePair<int, Item> item in itemDics[(int)displayType])
             slotList[item.Key].ClearSlot();
     }
     public void UseItem()
@@ -332,9 +332,9 @@ public class Inventory : MonoBehaviour
         return icons;
     }
 
-    private bool IsCheckItemCount(Dictionary<int, ItemObject> itemDic, int id, int count, ref int sum)
+    private bool IsCheckItemCount(Dictionary<int, Item> itemDic, int id, int count, ref int sum)
     {
-        foreach (KeyValuePair<int, ItemObject> i in itemDic)
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
             if (i.Value.ID == id)
                 sum += i.Value.Count;
@@ -379,7 +379,7 @@ public class Inventory : MonoBehaviour
         return boolArray;
     }
 
-    private bool AddList(Dictionary<int,ItemObject> itemDic, int count, int slotType, in ItemData_Test newItem)
+    private bool AddList(Dictionary<int,Item> itemDic, int count, int slotType, in ItemData_Test newItem)
     {
         if (itemDic.Count == inventroySlotCount)
             return false;
@@ -395,7 +395,7 @@ public class Inventory : MonoBehaviour
         //아이템 리스트에서 확인 후 값을 수정하는 부분
         if (itemDic.Count > 0)
         {
-            foreach (KeyValuePair<int, ItemObject> i in itemDic)
+            foreach (KeyValuePair<int, Item> i in itemDic)
             {
                 if (i.Value.ID == ID && !(i.Value.IsMax))
                 {
@@ -443,7 +443,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool SubList(Dictionary<int, ItemObject> itemDic, int count, int slotType, in ItemData_Test newItem)
+    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem)
     {
         if (itemDic.Count == 0)
             return false;
@@ -457,7 +457,7 @@ public class Inventory : MonoBehaviour
 
         int outCount = 0;
         //인벤토리에 있는 값 확인후 뺴기
-        foreach (KeyValuePair<int, ItemObject> i in itemDic)
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
             if (i.Value.ID == ID && !(i.Value.IsEquip))
             {
@@ -533,11 +533,11 @@ public class Inventory : MonoBehaviour
         return icons;
     }
 
-    private bool IsCheckItemCount(Dictionary<int, ItemObject> itemDic, int id, int count)
+    private bool IsCheckItemCount(Dictionary<int, Item> itemDic, int id, int count)
     {
         int listCount = itemDic.Count;
         int sum = 0;
-        foreach (KeyValuePair<int, ItemObject> i in itemDic)
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
             if (i.Value.ID == id)
                 sum += i.Value.Count;
@@ -574,7 +574,7 @@ public class Inventory : MonoBehaviour
 
     public void ChangeSlot(int dropSlotIndex, int dragSlotIndex)
     {
-        ItemObject itemObject;
+        Item itemObject;
         if (itemDics[(int)displayType].ContainsKey(dropSlotIndex))
         {
             itemObject = itemDics[(int)displayType][dropSlotIndex];
