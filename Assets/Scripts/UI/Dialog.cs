@@ -138,6 +138,7 @@ public class Dialog : MonoBehaviour
         else if (ServeQuestManager.Instance.questDBDic.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] <=2)
         {
             tmp = key;
+            ServeQuestManager.Instance.QuestItemCheck(key);
             ServeQuestManager.Instance.QuestClearCheck(key);
             if (ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex) == null)
             {
