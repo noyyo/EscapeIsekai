@@ -57,13 +57,9 @@ public class ItemDB : CustomSingleton<ItemDB>
     private void DefaultItem()
     {
         inventory.TryAddItem(10010000, 1, out int i);
-        Debug.Log("통과");
         inventory.TryAddItem(10200000, 2, out i);
-        Debug.Log("통과");
         inventory.TryAddItem(10010000, 1, out i);
-        Debug.Log("통과");
         inventory.TryAddItem(10200000, 10, out i);
-        Debug.Log("통과");
 
         itemCraftingManager.CallAddRecipe(10110000);
         itemCraftingManager.CallAddRecipe(10110001);

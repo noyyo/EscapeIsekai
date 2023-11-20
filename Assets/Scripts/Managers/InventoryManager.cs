@@ -11,6 +11,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     [SerializeField] private int itemKategorieCount = 4;
     [SerializeField] private int inventroySlotCount = 60;
+    [SerializeField] private bool test;
     //추가 및 삭제를 위해 List를 생성
     private List<Slot> slotList;
     //위와 비슷한 이유로 List로 생성
@@ -50,6 +51,15 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private void Start()
     {
         Init();
+    }
+
+    private void Update()
+    {
+        if (test)
+        {
+            CallAddItems(new int[] { 10010000, 10200000 }, new int[] { -2, -10 });
+            test = false;
+        }
     }
 
     private void Init()

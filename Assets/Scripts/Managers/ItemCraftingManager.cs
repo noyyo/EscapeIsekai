@@ -5,114 +5,115 @@ using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
     protected ItemCraftingManager() { }
-    private GameManager _gameManager;
-    private UI_Manager _ui_Manager;
-    private InventoryManager _inventoryManager;
-    private ItemCraftingController _craftingController;
-    private GameObject _itemCraftingUI;
-    private GameObject _craftingSlotPrefab;
-    private GameObject _itemCaftingMaterials_UI;
-    private GameObject _itemExplanation_UI;
-    private MaterialsSlot[] _materialsSlots;
-    private ItemRecipe _clickSlot;
-    private bool _isMake;
+    private GameManager gameManager;
+    private UI_Manager ui_Manager;
+    private InventoryManager inventoryManager;
+    private ItemCraftingController craftingController;
+    private GameObject itemCraftingUI;
+    private GameObject craftingSlotPrefab;
+    private GameObject itemCaftingMaterials_UI;
+    private GameObject itemExplanation_UI;
+    private MaterialsSlot[] materialsSlots;
+    private ItemRecipe clickSlot;
+    private bool isMake;
 
-    public GameObject CraftingSlotPrefab { get { return _craftingSlotPrefab; } }
-    public ItemRecipe ClickSlot { get { return _clickSlot; } }
-    public MaterialsSlot[] MaterialsSlots { get { return _materialsSlots; } }
-    public bool IsMake { get { return _isMake; } }
+    public GameObject CraftingSlotPrefab { get { return craftingSlotPrefab; } }
+    public ItemRecipe ClickSlot { get { return clickSlot; } }
+    public MaterialsSlot[] MaterialsSlots { get { return materialsSlots; } }
+    public bool IsMake { get { return isMake; } }
 
-    public event Action onClickCraftingSlotEvent;
-    public event Action offOutLineEvent;
-    public event Action<ItemRecipe> onUpdateUIEvent;
-    public event Action onCraftingEvent;
+    public event Action OnClickCraftingSlotEvent;
+    public event Action OffOutLineEvent;
+    public event Action<ItemRecipe> OnUpdateUIEvent;
+    public event Action OnCraftingEvent;
 
     private void Awake()
     {
-        _gameManager = GameManager.Instance;
-        _ui_Manager = UI_Manager.Instance;
-        _inventoryManager = InventoryManager.Instance;
-        _craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
+        gameManager = GameManager.Instance;
+        ui_Manager = UI_Manager.Instance;
+        inventoryManager = InventoryManager.Instance;
+        craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
         
     }
 
     private void Start()
     {
         Init();
-        _ui_Manager.UI_ItemCraftingTurnOnEvent += ItemCraftingUITurnOn;
-        onCraftingEvent += CraftingItem;
+        ui_Manager.UI_ItemCraftingTurnOnEvent += ItemCraftingUITurnOn;
 
-        onClickCraftingSlotEvent += ItemMaterialsUITurnOn;
-        onClickCraftingSlotEvent += CallUpdateUI;
-        onClickCraftingSlotEvent += CallOffOutLineEvent;
+        OnClickCraftingSlotEvent += ItemMaterialsUITurnOn;
+        OnClickCraftingSlotEvent += CallUpdateUI;
+        OnClickCraftingSlotEvent += CallOffOutLineEvent;
 
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += CallOffOutLineEvent;
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += ItemMaterialsUITurnOff;
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += ItemCraftingUITurnOff;
+        ui_Manager.UI_ItemCraftingTurnOffEvent += CallOffOutLineEvent;
+        ui_Manager.UI_ItemCraftingTurnOffEvent += ItemMaterialsUITurnOff;
+        ui_Manager.UI_ItemCraftingTurnOffEvent += ItemCraftingUITurnOff;
     }
 
     private void Init()
     {
-        _itemCraftingUI = _ui_Manager.ItemCrafting_UI;
-        _itemCaftingMaterials_UI = _itemCraftingUI.transform.GetChild(2).gameObject;
-        _itemExplanation_UI = _itemCraftingUI.transform.GetChild(3).gameObject;
-        _materialsSlots = _itemCaftingMaterials_UI.transform.GetChild(3).GetComponentsInChildren<MaterialsSlot>();
-        _craftingController = _gameManager.Player.GetComponent<ItemCraftingController>();
+        itemCraftingUI = ui_Manager.ItemCrafting_UI;
+        itemCaftingMaterials_UI = itemCraftingUI.transform.GetChild(2).gameObject;
+        itemExplanation_UI = itemCraftingUI.transform.GetChild(3).gameObject;
+        materialsSlots = itemCaftingMaterials_UI.transform.GetChild(3).GetComponentsInChildren<MaterialsSlot>();
+        craftingController = gameManager.Player.GetComponent<ItemCraftingController>();
     }
 
-    public void CallOnClickCraftingSlotEvent(ItemRecipe newRecipe, bool isMake)
+    public void CallOnClickCraftingSlotEvent(ItemRecipe newRecipe, bool isNewMake)
     {
-        _clickSlot = newRecipe;
-        _isMake = isMake;
-        onClickCraftingSlotEvent?.Invoke();
+        clickSlot = newRecipe;
+        isMake = isNewMake;
+        OnClickCraftingSlotEvent?.Invoke();
     }
 
     public void CallOffOutLineEvent()
     {
-        offOutLineEvent?.Invoke();
-        offOutLineEvent = null;
+        OffOutLineEvent?.Invoke();
+        OffOutLineEvent = null;
     }
 
     public void CallUpdateUI()
     {
-        onUpdateUIEvent?.Invoke(ClickSlot);
+        OnUpdateUIEvent?.Invoke(ClickSlot);
     }
 
     public void CallOnCrafting()
     {
-        onCraftingEvent?.Invoke();
+        OnCraftingEvent?.Invoke();
     }
 
     private void ItemMaterialsUITurnOn()
     {
-        _itemCaftingMaterials_UI.SetActive(true);
-        _itemExplanation_UI.SetActive(true);
+        itemCaftingMaterials_UI.SetActive(true);
+        itemExplanation_UI.SetActive(true);
     }
 
     private void ItemMaterialsUITurnOff()
     {
-        _itemCaftingMaterials_UI.SetActive(false);
-        _itemExplanation_UI.SetActive(false);
+        itemCaftingMaterials_UI.SetActive(false);
+        itemExplanation_UI.SetActive(false);
     }
 
     private void ItemCraftingUITurnOff()
     {
-        _itemCraftingUI.SetActive(false);
+        itemCraftingUI.SetActive(false);
     }
 
     private void ItemCraftingUITurnOn()
     {
-        _itemCraftingUI.SetActive(true);
+        itemCraftingUI.SetActive(true);
     }
 
     public void CallAddRecipe(int id)
     {
-        _craftingController.AddRecipe(id);
+        craftingController.AddRecipe(id);
     }
 
-    private void CraftingItem()
+    public bool CraftingItem(bool isMake)
     {
-        if (_isMake)
-            _inventoryManager.CallAddItems(ClickSlot);
+        this.isMake = isMake;
+        if (this.isMake)
+            return inventoryManager.CallAddItems(ClickSlot);
+        return false;
     }
 }

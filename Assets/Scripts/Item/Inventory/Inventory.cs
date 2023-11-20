@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -64,14 +63,9 @@ public class Inventory : MonoBehaviour
     public void OnInventory(InputAction.CallbackContext context)
     {
         if (!ui_Manager.IsTurnOnInventory)
-        {
-            //ui_Manager.CallUI_InventoryTurnOn();
-            ui_Manager.CallUI_ItemCraftingTurnOn();
-        }
+            ui_Manager.CallUI_InventoryTurnOn();
         else
-        {
-            //ui_Manager.CallUI_InventoryTurnOff();
-        }
+            ui_Manager.CallUI_InventoryTurnOff();
     }
 
     public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
@@ -161,9 +155,6 @@ public class Inventory : MonoBehaviour
                 return false;
             }
             //추가
-            Debug.Log("Inventory Add");
-            Debug.Log(newItem.ID);
-            Debug.Log(index);
             itemDic.Add(index, itemManager.InstantiateItemObject(ID, addCount));
             //표시
             if (isDisplay)
@@ -200,7 +191,10 @@ public class Inventory : MonoBehaviour
                 }   
                 else
                 {
-                    if (isDisplay)
+                    if (i.Value.Count == 0)
+                        stack.Push(i.Key);
+                    else
+                        if (isDisplay)
                         slotList[i.Key].SetSlotCount(i.Value.Count);
                     break;
                 }
@@ -468,8 +462,11 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    if (isDisplay)
-                        slotList[i.Key].SetSlotCount(i.Value.Count);
+                    if(i.Value.Count == 0)
+                        stack.Push(i.Key);
+                    else
+                        if (isDisplay)
+                            slotList[i.Key].SetSlotCount(i.Value.Count);
                     break;
                 }
             }

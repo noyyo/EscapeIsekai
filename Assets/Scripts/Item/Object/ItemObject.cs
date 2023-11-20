@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
@@ -79,7 +76,7 @@ public class ItemObject : MonoBehaviour
     /// <returns></returns>
     public bool TryAddItem(int count, out int excessCount)
     {
-        if (itemData.MaxCount <= Count + count || 0 > Count + count)
+        if (itemData.MaxCount < Count + count || 0 > Count + count)
         {
             if (count > 0)
             {

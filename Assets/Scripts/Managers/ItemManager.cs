@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class ItemManager : CustomSingleton<ItemManager>
 {
-    private GameManager gameManager;
     private ItemDB itemDB;
 
     private void Awake()
     {
-        gameManager = GameManager.Instance;
         itemDB = ItemDB.Instance;
     }
 
