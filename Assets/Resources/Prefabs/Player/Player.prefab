@@ -98,6 +98,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponCollider: {fileID: 7565489988554134363}
   character: {fileID: 4456351884499520549}
+--- !u!1 &2031894718767172043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8923627735587210179}
+  m_Layer: 10
+  m_Name: ThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8923627735587210179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031894718767172043}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.272, y: 1.45, z: -0.06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1381902527657890012}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3636864027430099031
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +208,7 @@ Transform:
   - {fileID: 6429838886098863425}
   - {fileID: 7642263332754294561}
   - {fileID: 8705390855979661114}
+  - {fileID: 8923627735587210179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &559845576802341356
@@ -204,11 +236,18 @@ MonoBehaviour:
     fallParameterName: Fall
     attackParameterName: '@Attack'
     comboAttackParameterName: ComboAttack
-    SkillParameterName: Skill
-    PowerUpParameterName: PowerUp
+    skillParameterName: Skill
+    powerUpParameterName: PowerUp
     superJumpParameterName: SuperJump
+    throwParameterName: Throw
   <Weapon>k__BackingField: {fileID: 6810982163607697777}
   <AnimationEventReceiver>k__BackingField: {fileID: 3887204699005849829}
+  playerUI: {fileID: 0}
+  grenades: []
+  hasGrenades: 2
+  grenadeObj: {fileID: 7897977018467375845, guid: db7dca70c2ea9ad47807076e6bf3adf1,
+    type: 3}
+  throwPoint: {fileID: 8923627735587210179}
 --- !u!114 &124441179316973516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,9 +349,9 @@ MonoBehaviour:
     uiBar: {fileID: 0}
   superJump:
     curValue: 0
-    maxValue: 0
-    startValue: 0
-    regenRate: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
     decayRate: 0
     uiBar: {fileID: 0}
   noHungerHealthDecay: 1
@@ -356,8 +395,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventroySlotCount: 60
-  _slotPrefab: {fileID: 0}
-  _slotSpawn: {fileID: 0}
 --- !u!114 &4175917233906764143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,11 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce8fca97bd5c6e4fbbd6fa96adb9acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventory_GameObject: {fileID: 0}
-  _inventoryTypeGroup: {fileID: 0}
-  _inventoryTailGroup: {fileID: 0}
-  _itemExplanationPopup: {fileID: 0}
-  _inventory: {fileID: 0}
 --- !u!114 &4347541557683314867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,10 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87228d524bfaf348913413e72bb5d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemCraftingUI: {fileID: 0}
-  _craftingItemTypeListPrefab: {fileID: 0}
   _craftingItemListCount: 3
-  _craftingItemListSpawn: {fileID: 0}
 --- !u!114 &582720041897207318
 MonoBehaviour:
   m_ObjectHideFlags: 0
