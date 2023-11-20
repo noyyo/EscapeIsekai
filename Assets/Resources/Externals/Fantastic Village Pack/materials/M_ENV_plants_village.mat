@@ -15,20 +15,24 @@ MonoBehaviour:
   version: 1
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_ENV_plants_village
   m_Shader: {fileID: 4800000, guid: 1fcb4ca398bcd774fb73fdfe8578b489, type: 3}
-  m_ShaderKeywords: 
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -44,16 +48,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_CE0A1D1: 0.2
     - Vector1_CE879C73: 0.6
     - _AlphaClipThreshold: 0.5
     - _AlphaCutoff: 0.5
     - _Smoothness: 0
-    - _WindScale: 0.4
-    - _WindStrength: 0.3
+    - _WindScale: 0
+    - _WindStrength: 0
     m_Colors:
     - Color_D4FF726E: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_C9ABB48D: {r: 2, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _WindSpeed: {r: 2, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []

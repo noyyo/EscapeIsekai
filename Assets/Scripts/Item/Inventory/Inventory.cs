@@ -20,6 +20,7 @@ public class Inventory : MonoBehaviour
 
     public ItemType DisplayType { get { return displayType; } }
 
+    public event Action<int,int> AddItem;
     private void Awake()
     {
         ui_Manager = UI_Manager.Instance;
@@ -350,6 +351,10 @@ public class Inventory : MonoBehaviour
                 isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem);
             else
                 isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem);
+        }
+        if(isAddItem)
+        {
+            AddItem?.Invoke(id,count);
         }
         return isAddItem;
     }

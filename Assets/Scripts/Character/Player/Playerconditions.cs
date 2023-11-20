@@ -19,7 +19,7 @@ public class Condition
 
     public void Add(float amount)
     {
-        curValue = Mathf.Min(curValue+ amount, maxValue);
+        curValue = Mathf.Min(curValue + amount, maxValue);
     }
 
     public void Subtract(float amount)
@@ -34,6 +34,7 @@ public class Condition
     }
 }
 
+
 public class Playerconditions : MonoBehaviour
 {
     public Condition health;
@@ -44,15 +45,26 @@ public class Playerconditions : MonoBehaviour
     public Condition superJump;
     public float noHungerHealthDecay;
 
-
-    void Start()
+    
+    public void Initialize(PlayerUI playerUI)
     {
         health.curValue = health.startValue;
+        health.uiBar = playerUI.hpBar_Image;
+
         hunger.curValue = hunger.startValue;
+        hunger.uiBar = playerUI.hunger_Image;
+
         stamina.curValue = stamina.startValue;
+        stamina.uiBar = playerUI.stamina_Image;
+
         skill.curValue = skill.startValue;
+        skill.uiBar = playerUI.Skill_Image;
+
         powerUp.curValue = powerUp.startValue;
+        powerUp.uiBar = playerUI.powerUp_Image;
+
         superJump.curValue = superJump.startValue;
+        superJump.uiBar = playerUI.SuperJump_Image;
     }
 
     void Update()
