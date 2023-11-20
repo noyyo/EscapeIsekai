@@ -97,7 +97,7 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 100) //대장장이
                 {
-                    ItemCraftingManager.Instance.CallOnCraftingUI();
+                    ItemCraftingManager.Instance.CallOnCrafting();
                     Cursor.lockState = CursorLockMode.None;
                 }
                 if (id == 200) //요리
@@ -138,6 +138,7 @@ public class Dialog : MonoBehaviour
         else if (ServeQuestManager.Instance.questDBDic.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] <=2)
         {
             tmp = key;
+            ServeQuestManager.Instance.QuestItemCheck(key);
             ServeQuestManager.Instance.QuestClearCheck(key);
             if (ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex) == null)
             {

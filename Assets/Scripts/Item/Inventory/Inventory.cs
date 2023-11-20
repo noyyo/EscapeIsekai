@@ -35,6 +35,7 @@ public class Inventory : MonoBehaviour
     private ItemSlotInfo _clickItem;
     private GameManager _gameManager;
 
+    public event Action<int,int> AddItem;
     private void Awake()
     {
         _gameManager = GameManager.Instance;
@@ -552,6 +553,10 @@ public class Inventory : MonoBehaviour
                     }
                     break;
             }
+        }
+        if(isAddItem)
+        {
+            AddItem?.Invoke(id,count);
         }
         return isAddItem;
     }
