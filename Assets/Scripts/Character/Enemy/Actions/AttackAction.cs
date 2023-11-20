@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum ActionTypes
@@ -35,6 +36,7 @@ public abstract class AttackAction : ScriptableObject
     public ActionCondition Condition;
     protected float timeStarted { get; set; }
     protected float timeRunning { get { return (Time.time - timeStarted); } }
+    protected bool isRunning;
     /// <summary>
     /// 액션이 완료되면 true로 세팅해야합니다. true값이 되면 다음 프레임에서 액션의 실행은 종료됩니다.
     /// </summary>
@@ -71,8 +73,9 @@ public abstract class AttackAction : ScriptableObject
     private bool isAnimStarted;
     [HideInInspector]
     public float lastUsedTime;
+    
 
-    protected HashSet<GameObject> alreadyAttackApplied = new HashSet<GameObject>();
+    private HashSet<GameObject> alreadyAttackApplied = new HashSet<GameObject>();
 
     public void SetStateMachine(EnemyStateMachine stateMachine)
     {
@@ -97,6 +100,7 @@ public abstract class AttackAction : ScriptableObject
         isEffectStarted = false;
         isEffectEnded = false;
         alreadyAttackApplied.Clear();
+        isRunning = true;
     }
     /// <summary>
     /// 매 프레임마다 호출됩니다.
@@ -135,6 +139,7 @@ public abstract class AttackAction : ScriptableObject
         else
         {
             lastUsedTime = Time.time;
+            isRunning = false;
         }
         animState[Config.AnimTriggerHash1] = AnimState.NotStarted;
         animState[Config.AnimTriggerHash2] = AnimState.NotStarted;
@@ -159,6 +164,7 @@ public abstract class AttackAction : ScriptableObject
             StateMachine.RemoveActionInActive(this);
             HasRemainingEffect = false;
             lastUsedTime = Time.time;
+            isRunning = false;
         }
     }
     /// <summary>
@@ -167,14 +173,54 @@ public abstract class AttackAction : ScriptableObject
     /// <param name="target">데미지 및 공격 효과를 적용할 대상입니다.</param>
     /// <param name="isPossibleMultihit">이미 공격이 적용된 대상에게도 다시 공격을 적용할 수 있는지 여부입니다.</param>
     /// <param name="targetObj">공격을 이미 받았는지 판단하기 위한 대상의 GameObject입니다.</param>
-    protected void ApplyAttack(IDamageable target, bool isPossibleMultihit, GameObject targetObj)
+    protected void ApplyAttack(GameObject targetObj, bool isPossibleMultihit = false)
     {
         if (!isPossibleMultihit && alreadyAttackApplied.Contains(targetObj))
             return;
-
         alreadyAttackApplied.Add(targetObj);
+        IDamageable target = GetDamageableComponent(targetObj);
+        if (target == null)
+            return;
         target.TakeDamage(Config.DamageAmount);
         target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, StateMachine.Enemy.gameObject);
+    }
+    private IDamageable GetDamageableComponent(GameObject targetObj)
+    {
+        IDamageable target = null;
+        if (targetObj.tag == Tags.PlayerTag)
+        {
+            Player player;
+            targetObj.TryGetComponent(out player);
+            if (player == null)
+            {
+                Debug.LogError("Player 스크립트를 찾을 수 없습니다.");
+                return null;
+            }
+            target = player.StateMachine;
+        }
+        else if (targetObj.transform.tag == Tags.EnemyTag)
+        {
+            Enemy enemy;
+            targetObj.TryGetComponent(out enemy);
+            if (enemy == null)
+            {
+                Debug.LogError("Enemy 스크립트를 찾을 수 없습니다.");
+                return null;
+            }
+            target = enemy.StateMachine;
+        }
+        else if (targetObj.tag == Tags.EnvironmentTag)
+        {
+            BaseEnvironmentObject environmentObj;
+            targetObj.TryGetComponent(out environmentObj);
+            if (environmentObj == null)
+            {
+                Debug.LogError("대상에게 BaseEnvironmentObject 컴포넌트가 없습니다.");
+                return null;
+            }
+            target = environmentObj;
+        }
+        return target;
     }
     private void InitializeAnimState()
     {
@@ -244,8 +290,12 @@ public abstract class AttackAction : ScriptableObject
         if (animState[currentAnimHash] == AnimState.Playing)
         {
             AnimatorStateInfo currentInfo = StateMachine.Animator.GetCurrentAnimatorStateInfo(0);
+
+
             if (!isAnimStarted && lastAnimStateInfo.fullPathHash != currentInfo.fullPathHash || (lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash && lastAnimStateInfo.normalizedTime >= currentInfo.normalizedTime))
             {
+                if (currentInfo.IsTag("BattleStance"))
+                    return;
                 lastAnimStateInfo = currentInfo;
                 currentAnimNormalizedTime = currentInfo.normalizedTime;
                 isAnimStarted = true;

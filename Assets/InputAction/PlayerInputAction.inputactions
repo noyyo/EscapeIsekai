@@ -103,16 +103,9 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+
                 },
-                {
-                    "name": "Inventory",
-                    "type": "Button",
-                    "id": "006be5e7-9c2c-4bb5-9520-904e7bda0a92",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
+               
                 {
                     "name": "Throw",
                     "type": "Button",
@@ -121,6 +114,7 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+
                 }
             ],
             "bindings": [
@@ -288,18 +282,9 @@
                     "action": "Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
+
                 },
-                {
-                    "name": "",
-                    "id": "2077d196-a560-4eea-8e0d-bf28f9ebea1b",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
+                
                 {
                     "name": "",
                     "id": "bf4560e0-625f-499f-a428-359a64b03b80",
@@ -310,6 +295,7 @@
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
+
                 }
             ]
         },
@@ -325,6 +311,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "6dc39ca7-d765-4aa8-9972-108c84789e8d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -336,6 +331,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ade8f6a3-12fb-403c-9594-516e5f4b6912",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

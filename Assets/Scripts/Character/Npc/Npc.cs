@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Timeline.Actions;
 using UnityEditorInternal;
@@ -36,16 +37,24 @@ public class Npc : MonoBehaviour
     {
         player = GameManager.Instance.Player;
         stateMachine = player.GetComponent<Player>().StateMachine;
+        ServeQuestManager.Instance.CanClear += OnClearMark;
+        ServeQuestManager.Instance.CanAccept += CanAcceptMark;
+        OnAcceptMark();
+        
     }
     private void OnTriggerEnter(Collider other)
     {
         target = other.gameObject;
+        if(other.tag == "Player")
         isHit = true;
     }
     private void OnTriggerExit(Collider other)
     {
         stateMachine.ChangeState(stateMachine.IdleState);
-        isHit = false;
+        if (other.tag == "Player")
+        {
+            isHit = false;
+        }
         target = null;
     }
 
@@ -53,11 +62,35 @@ public class Npc : MonoBehaviour
     private void OnInteraction()
     {
         if(isHit)
-        {
+        {   
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
             stateMachine.ChangeState(stateMachine.NothingState);
         }
     }
 
+
+    private void OnClearMark(int Npcid)
+    {
+        if(Npcid == id)
+        {
+            //Debug.Log("깰수있는 퀘스트 존재");
+        }
+    }
+
+    private void OnAcceptMark()
+    {
+        if(ServeQuestManager.Instance.MarkInit(id))
+        {
+         //   Debug.Log("난킬수있어");
+        }
+    }
+
+    private void CanAcceptMark(int Npcid)
+    {
+        if(Npcid== id)
+        {
+         //   Debug.Log("나 또킬수있어");
+        }
+    }
 }

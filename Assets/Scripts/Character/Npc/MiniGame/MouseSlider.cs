@@ -1,50 +1,56 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MouseSlider : MonoBehaviour
 {
     public bool isClick;
     public Image fadeImage;
-
+    public GameObject parent;
+    public GameObject mouseEffect;
     private Vector3 startpos;
     private Vector3 endpos;
     private List<int> sliceList;
     private Color c;
     private bool isFade = true;
     private bool isSuccess;
-
+    public event Action<bool> MiniGameFinished;
     public static MouseSlider Instance;
     private void Awake()
     {
         Instance = this;
         sliceList = new List<int>();
-        gameObject.SetActive(false);
+        parent.SetActive(false);
+        mouseEffect.SetActive(false);
     }
     private void Start()
     {
         c = fadeImage.GetComponent<Image>().color;
-      StartCoroutine("StartMission");
     }
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(parent.active)
         {
-            startpos = Input.mousePosition;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            endpos = Input.mousePosition;
-            CheckDir();
-            if (CheckDir() == sliceList[0])
+            if (Input.GetMouseButtonDown(0))
             {
-                StartCoroutine("Success") ;
+                startpos = Input.mousePosition;
             }
-            else
+            if (Input.GetMouseButtonUp(0))
             {
-                StartCoroutine("Fail");
+                endpos = Input.mousePosition;
+                CheckDir();
+                if (CheckDir() == sliceList[0])
+                {
+                    StartCoroutine("Success");
+                }
+                else
+                {
+                    StartCoroutine("Fail");
+                }
             }
         }
        
@@ -71,7 +77,8 @@ public class MouseSlider : MonoBehaviour
 
     IEnumerator StartMission()
     {
-        gameObject.SetActive (true);
+        parent.SetActive (true);
+        mouseEffect.SetActive (true);
         Cursor.lockState = CursorLockMode.Confined;
         for (int i = 0; i < 4; i++)
         {
@@ -100,17 +107,19 @@ public class MouseSlider : MonoBehaviour
     IEnumerator Success() 
     {
         sliceList.RemoveAt(0);
-        Debug.Log("성공");
         if(sliceList.Count == 0)
         {
             Cursor.lockState = CursorLockMode.Locked;
             isSuccess = true;
+            MiniGameFinished?.Invoke(isSuccess);
             StopAllCoroutines();
         }
         return null; 
     }
     IEnumerator Fail() //실패해서 처음부터
     {
+        isSuccess = false;
+        MiniGameFinished?.Invoke(isSuccess);
         sliceList.Clear();
         StartCoroutine("StartMission");
         return null;

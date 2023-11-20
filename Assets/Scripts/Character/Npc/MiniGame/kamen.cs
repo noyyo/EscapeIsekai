@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
+
 public class kamen : MonoBehaviour
 {   
     public static kamen Instance;
     public GameObject parent;
     public GameObject mark; //복사해서 쓸 프리팹
     [Tooltip("마크 몇개나 만들껀지")]
-    public int howManyMark;
+    private int howManyMark;
+    public event Action<bool> MiniGameFinished;
     private GameObject markClone ;
 
     [HideInInspector]
@@ -18,7 +22,6 @@ public class kamen : MonoBehaviour
 
     private void Awake()
     {
-        gameObject.SetActive(false);
         Instance = this;
     }
     private void Start()
@@ -56,20 +59,22 @@ public class kamen : MonoBehaviour
             if (i == x-1&& markClone.activeSelf == false)
             {
                 isSuccess = true;
-            }
+            }              
         }
-    
+        MiniGameFinished?.Invoke(isSuccess);
         yield return null;
     }
 
     IEnumerator StartMission()
     {
-        StartCoroutine("MakeMark", howManyMark);
+        parent.SetActive(true);
+        StartCoroutine("MakeMark", 2);
         yield return null;
     }
-    public bool GetSuccess()
+    
+    public void MarkFail()
     {
-        return isSuccess;
+        isSuccess=false;
+        MiniGameFinished?.Invoke(isSuccess);
     }
-
 }

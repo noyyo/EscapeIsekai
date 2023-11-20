@@ -125,6 +125,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+
                 },
                 {
                     ""name"": ""Inventory"",
@@ -143,6 +144,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+
                 }
             ],
             ""bindings"": [
@@ -310,6 +312,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+
                 },
                 {
                     ""name"": """",
@@ -332,6 +335,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+
                 }
             ]
         },
@@ -347,6 +351,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dc39ca7-d765-4aa8-9972-108c84789e8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -358,6 +371,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ade8f6a3-12fb-403c-9594-516e5f4b6912"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -379,11 +403,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_PowerUp = m_Player.FindAction("PowerUp", throwIfNotFound: true);
         m_Player_SuperJump = m_Player.FindAction("SuperJump", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
-        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
+        m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -456,8 +482,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PowerUp;
     private readonly InputAction m_Player_SuperJump;
     private readonly InputAction m_Player_Interaction;
-    private readonly InputAction m_Player_Inventory;
+
     private readonly InputAction m_Player_Throw;
+
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -473,8 +500,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @PowerUp => m_Wrapper.m_Player_PowerUp;
         public InputAction @SuperJump => m_Wrapper.m_Player_SuperJump;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
-        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
+
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -517,12 +545,11 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
-            @Inventory.started += instance.OnInventory;
-            @Inventory.performed += instance.OnInventory;
-            @Inventory.canceled += instance.OnInventory;
+
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
+
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -560,12 +587,11 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
-            @Inventory.started -= instance.OnInventory;
-            @Inventory.performed -= instance.OnInventory;
-            @Inventory.canceled -= instance.OnInventory;
+
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
+
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -588,11 +614,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Skip;
+    private readonly InputAction m_UI_Inventory;
     public struct UIActions
     {
         private @PlayerInputAction m_Wrapper;
         public UIActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Skip => m_Wrapper.m_UI_Skip;
+        public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -605,6 +633,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Skip.started += instance.OnSkip;
             @Skip.performed += instance.OnSkip;
             @Skip.canceled += instance.OnSkip;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -612,6 +643,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Skip.started -= instance.OnSkip;
             @Skip.performed -= instance.OnSkip;
             @Skip.canceled -= instance.OnSkip;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -642,11 +676,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnPowerUp(InputAction.CallbackContext context);
         void OnSuperJump(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
-        void OnInventory(InputAction.CallbackContext context);
+
         void OnThrow(InputAction.CallbackContext context);
+
     }
     public interface IUIActions
     {
         void OnSkip(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

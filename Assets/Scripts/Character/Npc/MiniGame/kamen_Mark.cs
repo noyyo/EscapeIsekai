@@ -12,20 +12,21 @@ public class kamen_Mark : MonoBehaviour
     [SerializeField]
     private int speed;
     private int inputkey;
+    private RectTransform rect;
     private void Awake()
     {
         reSize = new Vector2(200, 200);
-
+        rect= gameObject.GetComponent<RectTransform>();
     }
     private void Update()
     {
-        if(gameObject.GetComponent<RectTransform>().sizeDelta.x < 30)
+        if(rect.sizeDelta.x < 30)
         {
             StartCoroutine("Fail"); //실패
         }
         reSize.y -= Time.deltaTime * speed;
         reSize.x -= Time.deltaTime * speed;
-        gameObject.GetComponent<RectTransform>().sizeDelta = reSize;
+        rect.sizeDelta = reSize;
     }
     IEnumerator RemoveMark()
     {
@@ -43,24 +44,25 @@ public class kamen_Mark : MonoBehaviour
                 }
                 if (kamen.Instance.inputKey == inputkey)
                 {
-                    if (gameObject.GetComponent<RectTransform>().sizeDelta.x < 110 && gameObject.GetComponent<RectTransform>().sizeDelta.x > 90)//성공
+                    if (rect.sizeDelta.x < 110 && rect.sizeDelta.x > 90)//성공
                     {
                         //플레이어 검술 애니메이션
                         gameObject.SetActive(false);
                     }
-                    if (gameObject.GetComponent<RectTransform>().sizeDelta.x > 110) // 타이밍실패
+                    if (rect.sizeDelta.x > 110) // 타이밍실패
                     {
-
+                        kamen.Instance.MarkFail();
                         StartCoroutine("Fail");
                     }
-                    if (gameObject.GetComponent<RectTransform>().sizeDelta.x < 90) // 타이밍실패
+                    if (rect.sizeDelta.x < 90) // 타이밍실패
                     {
-
+                        kamen.Instance.MarkFail();
                         StartCoroutine("Fail");
                     }
                 }
                 if(kamen.Instance.inputKey != inputkey&& kamen.Instance.inputKey != 0) //버튼 실패
                 {
+                    kamen.Instance.MarkFail();
                     StartCoroutine("Fail");
                 }
             }

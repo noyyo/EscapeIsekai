@@ -36,7 +36,7 @@ public class ItemCraftingSlot : MonoBehaviour
 
     private void Start()
     {
-        _craftingManager.onClickCraftingButtonEvent += MakeCheck;
+        _craftingManager.onCraftingEvent += MakeCheck;
     }
 
     //목차버튼 누르면 슬롯을 활성화하기 위한 메서드

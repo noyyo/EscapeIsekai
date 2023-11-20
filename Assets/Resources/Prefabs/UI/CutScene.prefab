@@ -31,7 +31,6 @@ Transform:
   m_Children:
   - {fileID: 7847956677312584341}
   - {fileID: 3393199836202121363}
-  - {fileID: 273357684537986570}
   - {fileID: 2563819739154692617}
   - {fileID: 506519924525760483}
   m_Father: {fileID: 0}
@@ -10005,11 +10004,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RecenterTarget: 0
+  m_RecenterTarget: 1
   m_VerticalAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 0.1
+    m_MaxSpeed: 0.5
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -10033,7 +10032,7 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 0.16
+    m_MaxSpeed: 0.6
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -24805,7 +24804,8 @@ Transform:
   m_LocalPosition: {x: 191.5, y: 132.3, z: 212.6}
   m_LocalScale: {x: 25, y: 100, z: 25}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 273357684537986570}
   m_Father: {fileID: 1285772888585749825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7664147581120102364
@@ -25041,7 +25041,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4093640704
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -25149,7 +25149,7 @@ Transform:
   m_GameObject: {fileID: 8940064200183079820}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 194.17252, y: -19.973406, z: 271.03616}
+  m_LocalPosition: {x: 223.56253, y: -24.043406, z: 211.76617}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30081,12 +30081,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9082451526021073174}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -54.2, y: 100, z: 212.6}
-  m_LocalScale: {x: 50, y: 100, z: 50}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1285772888585749825}
+  m_Father: {fileID: 3393199836202121363}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &567828457587561834
 Light:
@@ -30134,10 +30134,10 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 512
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
