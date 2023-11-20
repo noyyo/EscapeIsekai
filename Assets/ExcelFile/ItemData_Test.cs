@@ -34,37 +34,34 @@ public enum ItemType
 [Serializable]
 public class ItemData_Test
 {
-    [SerializeField] private int _id;
-    [SerializeField] private string _itemName;
-    [SerializeField] private string _itemExplanation;
-    [SerializeField] private int _price;
-    [SerializeField] private int _maxCount;
-    [SerializeField] private string _dropPrefabPath;
-    [SerializeField] private string _iconPath;
-    [SerializeField] private bool _isStat;
-    [SerializeField] private bool _isCrafting;
+    [SerializeField] private int id;
+    [SerializeField] private string itemName;
+    [SerializeField] private string itemExplanation;
+    [SerializeField] private int price;
+    [SerializeField] private int maxCount;
+    [SerializeField] private string dropPrefabPath;
+    [SerializeField] private string iconPath;
+    [SerializeField] private bool isStat;
+    [SerializeField] private bool isCrafting;
 
-    private GameObject _dropPrefab;
-    private Sprite _icon;
+    private GameObject dropPrefab;
+    private Sprite icon;
 
-    public int ID { get { return _id; } }
-    public string ItemName { get { return _itemName; } }
-    public string ItemExplanation { get { return _itemExplanation; } }
-    public int Price { get { return _price; } }
-    public int MaxCount { get { return _maxCount; } }
-    public bool IsStat { get { return _isStat; } }
-    public bool IsCrafting { get { return _isCrafting; } }
+    public int ID { get { return id; } }
+    public string ItemName { get { return itemName; } }
+    public string ItemExplanation { get { return itemExplanation; } }
+    public int Price { get { return price; } }
+    public int MaxCount { get { return maxCount; } }
+    public bool IsStat { get { return isStat; } }
+    public bool IsCrafting { get { return isCrafting; } }
 
     public GameObject DropPrefab
     {
         get
         {
-            if(_dropPrefab == null)
-            {
-                _dropPrefab = Resources.Load<GameObject>(_dropPrefabPath);
-            }
-
-            return _dropPrefab;
+            if (dropPrefab == null)
+                dropPrefab = Resources.Load<GameObject>(dropPrefabPath);
+            return dropPrefab;
         }
     }
 
@@ -72,12 +69,9 @@ public class ItemData_Test
     {
         get
         {
-            if (_icon == null)
-            {
-                _icon = Resources.Load<Sprite>(_iconPath);
-            }
-
-            return _icon;
+            if (icon == null)
+                icon = Resources.Load<Sprite>(iconPath);
+            return icon;
         }
     }
 }
