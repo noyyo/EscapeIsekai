@@ -36,13 +36,12 @@ public class GameManager : CustomSingleton<GameManager>
         if (_soundManagerObject == null)
             _soundManagerObject = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/SoundManager"));
         _soundManager = _soundManagerObject.GetComponent<SoundManager>();
-
-        if(timeSlip ==null)
+        PlayerInit();
+        _ui_Manager = UI_Manager.Instance;
+        if (timeSlip == null)
         {
             timeSlip = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TimeSlip"));
         }
-        PlayerInit();
-        _ui_Manager = UI_Manager.Instance;
     }
 
     private void Start()

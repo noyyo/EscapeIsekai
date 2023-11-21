@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
-
-    [SerializeField] private int _itemId;
+    [HideInInspector]
+    public int _itemId;
     private bool _gathering = false;
     private ItemData_Test itemData;
     private Player _playerInputSystem;

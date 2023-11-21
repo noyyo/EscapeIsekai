@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-
-    private GameObject _genItem;
+    [HideInInspector]
+    public GameObject _genItem;
     private ItemData_Test itemData;
     [Tooltip("생성될 아이템의 아이디를 입력")]
     public int itemId;

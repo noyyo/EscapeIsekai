@@ -25,7 +25,6 @@ public class TimeSlip : MonoBehaviour
     private void Awake()
     {
         action = GameManager.Instance.Player.GetComponent<Player>();
-        action.Input.PlayerActions.TimeSlip.started += OnTimeSlip;
         animator = GetComponentInChildren<Animator>();
         ShowBtn();
         panel.SetActive(false);
@@ -33,6 +32,7 @@ public class TimeSlip : MonoBehaviour
     }
     private void Start()
     {
+        action.Input.PlayerActions.TimeSlip.started += OnTimeSlip;
         npcs = GameObject.FindGameObjectsWithTag("Npc");
 
     }

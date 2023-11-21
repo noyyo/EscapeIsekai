@@ -443,7 +443,7 @@ public class ServeQuestManager : MonoBehaviour
                 GameObject[] arry = GameObject.FindGameObjectsWithTag(Tags.ItemSpawnerTag);
                 for (int i = 0; i < arry.Length; i++)
                 {
-                    if (arry[i].GetComponent<ItemSpawner>()._genItem.GetComponent<GatheringObject>()._itemId == questDBDic[key].QuestItem || arry[i].GetComponent<ItemSpawner>()._genItem.GetComponent<GatheringObject>()._itemId == questDBDic[key].QuestItem2)
+                    if (arry[i].GetComponent<ItemSpawner>().itemId == questDBDic[key].QuestItem || arry[i].GetComponent<ItemSpawner>().itemId == questDBDic[key].QuestItem2)
                     {
                         GameObject gameObject = Instantiate(Resources.Load<GameObject>("Prefabs/Entities/Quest/QuestZone"), arry[i].transform.position + new Vector3(0, 20, 0), Quaternion.Euler(new Vector3(90, 0, 0)));
                         gameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
