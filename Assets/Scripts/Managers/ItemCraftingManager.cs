@@ -39,6 +39,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     private void Start()
     {
+        Init();
         ui_Manager.UI_ItemCraftingTurnOnEvent += ItemCraftingUITurnOn;
 
         OnClickCraftingSlotEvent += ItemMaterialsUITurnOn;
@@ -52,7 +53,6 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     private void Init()
     {
-        Init();
         itemCraftingUI = ui_Manager.ItemCrafting_UI;
         itemCaftingMaterials_UI = itemCraftingUI.transform.GetChild(2).gameObject;
         itemExplanation_UI = itemCraftingUI.transform.GetChild(3).gameObject;
