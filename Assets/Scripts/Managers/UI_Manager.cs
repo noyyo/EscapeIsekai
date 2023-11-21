@@ -1,31 +1,29 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class UI_Manager : CustomSingleton<UI_Manager>
 {
     protected UI_Manager() { }
-    [SerializeField] private GameObject _cavas;
+    [SerializeField] private GameObject cavas;
     public GameObject gathering;
     public GameObject talkManager;
     public GameObject questManager;
     public GameObject dialog;
 
-    private GameManager _gameManager;
-    private InventoryManager _inventoryManager;
-    private ItemCraftingManager _itemCraftingManager;
-    private GameObject _inventory_ui;
-    private GameObject _itemCrafting_ui;
-    private GameObject _quickSlot_ui;
+    private GameManager gameManager;
+    private InventoryManager inventoryManager;
+    private ItemCraftingManager itemCraftingManager;
+    private GameObject inventoryUI;
+    private GameObject itemCraftingUI;
+    //private GameObject _quickSlot_ui;
 
-    private bool _isNotUIInputPossible = false;
-    private bool _isTurnOnInventory;
-    public GameObject Canvas { get { return _cavas; } }
-    public GameObject Inventory_UI { get { return _inventory_ui; } }
-    public GameObject ItemCrafting_UI { get { return _itemCrafting_ui; } }
-    public GameObject QuickSlot_UI { get { return _quickSlot_ui; } }
-    public bool IsTurnOnInventory { get { return _isTurnOnInventory; } }
+    private bool isNotUIInputPossible = false;
+    private bool isTurnOnInventory;
+    public GameObject Canvas { get { return cavas; } }
+    public GameObject Inventory_UI { get { return inventoryUI; } }
+    public GameObject ItemCrafting_UI { get { return itemCraftingUI; } }
+    //public GameObject QuickSlot_UI { get { return _quickSlot_ui; } }
+    public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
 
     public event Action UI_AllTurnOffEvent;
     public event Action UI_InventoryTurnOnEvent;
@@ -40,9 +38,9 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     private void Awake()
     {
-        _gameManager = GameManager.Instance;
-        _inventoryManager = InventoryManager.Instance;
-        _itemCraftingManager = ItemCraftingManager.Instance;
+        gameManager = GameManager.Instance;
+        inventoryManager = InventoryManager.Instance;
+        itemCraftingManager = ItemCraftingManager.Instance;
         Init();
     }
 
@@ -59,26 +57,26 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     public void Init()
     {
-        _cavas = GameObject.FindGameObjectWithTag("Canvas");
-        if (_cavas == null)
-            _cavas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
+        cavas = GameObject.FindGameObjectWithTag("Canvas");
+        if (cavas == null)
+            cavas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
 
         if (gathering == null)
         {
-            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"),_cavas.transform);
+            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"),cavas.transform);
             gathering.SetActive(false);
         }
 
-        if (_inventory_ui == null)
+        if (inventoryUI == null)
         {
-            _inventory_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), _cavas.transform);
-            _inventory_ui.SetActive(false);
+            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), cavas.transform);
+            inventoryUI.SetActive(false);
         }
 
         if (_itemCrafting_ui == null)
             _itemCrafting_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), _cavas.transform);
-        if (_quickSlot_ui == null)
-            _quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
+       // if (_quickSlot_ui == null)
+            //_quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
         if(questManager == null)
             questManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/QuestManager"));
         if (talkManager == null)
@@ -90,7 +88,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         }
     }
 
-    //UI ON, OFF¸¦ À§ÇÑ ¸Þ¼­µå
+    //UI ON, OFFÂ¸Â¦ Ã€Â§Ã‡Ã‘ Â¸ÃžÂ¼Â­ÂµÃ¥
     public void CallUI_AllTurnOff()
     {
         UI_AllTurnOffEvent?.Invoke();
@@ -98,15 +96,15 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     public void CallUI_InventoryTurnOn()
     {
-        if (_isNotUIInputPossible) return;
+        if (isNotUIInputPossible) return;
         UI_InventoryTurnOnEvent?.Invoke();
-        _isTurnOnInventory = !_isTurnOnInventory;
+        isTurnOnInventory = !isTurnOnInventory;
     }
     public void CallUI_InventoryTurnOff()
     {
-        if (_isNotUIInputPossible) return;
+        if (isNotUIInputPossible) return;
         UI_InventoryTurnOffEvent?.Invoke();
-        _isTurnOnInventory = !_isTurnOnInventory;
+        isTurnOnInventory = !isTurnOnInventory;
     }
     public void CallUI_ItemCraftingTurnOn()
     {

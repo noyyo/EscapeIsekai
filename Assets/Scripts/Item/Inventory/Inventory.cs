@@ -1,75 +1,73 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ItemSlotInfo
-{
-    public int id;
-    public int count;
-    public int index;
-    public bool equip;
-
-    public ItemSlotInfo(int newID, int newindex, int newCount = 1)
-    {
-        id = newID;
-        count = newCount;
-        index = newindex;
-    }
-    public ItemSlotInfo() { }
-}
-
 public class Inventory : MonoBehaviour
-{   
-    [SerializeField] private int _inventroySlotCount = 60;
-    private GameObject _slotPrefab;
-    private GameObject _slotSpawn;
-    private InventoryManager _inventoryManager;
-    private UI_Manager _ui_Manager;
-    private List<Slot> _slotArray;
-    private List<ItemSlotInfo>[] _ItemList;
-    private ItemDB _itemDB;
-    private ItemType _displayType;
-    private ItemSlotInfo _clickItem;
-    private GameManager _gameManager;
+{
+    private int inventroySlotCount;
+    private GameObject slotPrefab;
+    private GameObject slotSpawn;
+    private InventoryManager inventoryManager;
+    private UI_Manager ui_Manager;
+    private ItemManager itemManager;
+    private List<Slot> slotList;
+    private Dictionary<int, Item>[] itemDics;
+    private ItemDB itemDB;
+    private ItemType displayType;
+    private int clickSlotIndex;
+    private PlayerInputSystem playerInputSystem;
+
+    public ItemType DisplayType { get { return displayType; } }
 
     public event Action<int,int> AddItem;
     private void Awake()
     {
-        _gameManager = GameManager.Instance;
-        _ui_Manager = UI_Manager.Instance;
-        _itemDB = ItemDB.Instance;
-        _inventoryManager = InventoryManager.Instance;
-        _slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
+        ui_Manager = UI_Manager.Instance;
+        itemDB = ItemDB.Instance;
+        inventoryManager = InventoryManager.Instance;
+        itemManager = ItemManager.Instance;
+        slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
+        playerInputSystem = GetComponent<PlayerInputSystem>();
+        InitInventory();
+        CreateSlot();
     }
 
     private void Start()
     {
-        InitInventory();
-        CreateSlot();
         DisplaySlotAllClear();
-        _ui_Manager.UI_InventoryTurnOnEvent += OnDisplaySlot;
+        ui_Manager.UI_InventoryTurnOnEvent += OnDisplaySlot;
+        playerInputSystem.InputActions.UI.Inventory.started += OnInventory;
+        inventoryManager.OnSetDisplayTypeEvent += SetDisplayType;
     }
 
     private void InitInventory()
     {
-        _slotArray = _inventoryManager.SlotList;
-        _ItemList = _inventoryManager.ItemList;
-        _displayType = ItemType.Equipment;
-        _slotSpawn = _ui_Manager.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
+        slotList = inventoryManager.SlotList;
+        itemDics = inventoryManager.ItemDics;
+        inventroySlotCount = inventoryManager.InventroySlotCount;
+        displayType = ItemType.Equipment;
+        slotSpawn = ui_Manager.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
     }
 
     private void CreateSlot()
     {
-        for (int i = 0; i < _inventroySlotCount; i++)
+        for (int i = 0; i < inventroySlotCount; i++)
         {
-            GameObject obj = Instantiate(_slotPrefab);
-            obj.transform.SetParent(_slotSpawn.transform, false);
+            GameObject obj = Instantiate(slotPrefab);
+            obj.transform.SetParent(slotSpawn.transform, false);
             obj.GetComponent<Slot>().UniqueIndex = i;
-            _slotArray.Add(obj.GetComponent<Slot>());
+            slotList.Add(obj.GetComponent<Slot>());
         }
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (!ui_Manager.IsTurnOnInventory)
+            ui_Manager.CallUI_InventoryTurnOn();
+        else
+            ui_Manager.CallUI_InventoryTurnOff();
     }
 
     public bool[] TryAddItems(int[] id, int[] count, out int[] errorItemCount)
@@ -78,31 +76,7 @@ public class Inventory : MonoBehaviour
         bool[] boolArray = new bool[idCount];
         errorItemCount = new int[idCount];
         for (int i = 0; i < idCount; i++)
-        {
             boolArray[i] = TryAddItem(id[i], count[i], out errorItemCount[i]);
-        }
-        return boolArray;
-    }
-
-    public bool[] TryAddItems(ItemRecipe itemRecipe, out int[] errorItemCounts)
-    {
-        int idCount = itemRecipe.Materials.Length;
-        bool[] boolArray = new bool[idCount];
-        bool isCraftingItem = true;
-        errorItemCounts = new int[idCount];
-        for (int i = 0; i < idCount; i++)
-        {
-            boolArray[i] = IsCheckItem(itemRecipe.Materials[i], itemRecipe.MaterialsCount[i], out int sum);
-            if (!boolArray[i])
-                isCraftingItem = false;
-        }
-        if (isCraftingItem)
-        {
-            for (int i = 0; i < idCount; i++)
-                TryAddItem(itemRecipe.Materials[i], -(itemRecipe.MaterialsCount[i]), out errorItemCounts[i]);
-            TryAddItem(itemRecipe.CraftingID, 1, out int errorItemCount);
-        }
-
         return boolArray;
     }
 
@@ -110,314 +84,212 @@ public class Inventory : MonoBehaviour
     {
         errorItemCount = count;
         bool isAddItem = false;
-        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData_Test newItem))
         {
-            switch (id)
-            {
-                case >= 10300000:
-                    
-                    break;
-                case >= 10200000:
-                    if (count >= 0)
-                        if (AddList(_ItemList[2], count, ItemType.Material, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    else
-                        if (SubList(_ItemList[2], count, ItemType.Material, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    break;
-                case >= 10100000:
-                    if (count >= 0)
-                        if (AddList(_ItemList[1], count, ItemType.Consumable, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    else
-                        if (SubList(_ItemList[1], count, ItemType.Consumable, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    break;
-                default:
-                    if (count >= 0)
-                        if (AddList(_ItemList[0], count, ItemType.Equipment, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    else
-                        if (SubList(_ItemList[0], count, ItemType.Equipment, in newItem, out errorItemCount))
-                            isAddItem = true;
-                    break;
-            }
+            int newItemType = (id / 100000) % 10;
+            if (count >= 0)
+                isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem, out errorItemCount);
+            else
+                isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem, out errorItemCount);
         }
         return isAddItem;
     }
 
-    private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int errorItemCount)
+    private bool AddList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem, out int errorItemCount)
     {
-        int itemListCount = itemList.Count;
-        if (itemListCount == _inventroySlotCount)
+        if (itemDic.Count == inventroySlotCount)
         {
             errorItemCount = count;
             return false;
         }
 
         errorItemCount = 0;
-        int id = newItem.ID;
+        int ID = newItem.ID;
         bool isDisplay = false;
+        int newItemMaxCount = newItem.MaxCount;
 
-        if (slotType == _displayType)
+        if (slotType == (int)displayType)
             isDisplay = true;
 
-        if (slotType != ItemType.Equipment)
+        //아이템 리스트에서 확인 후 값을 수정하는 부분
+        if(itemDic.Count > 0)
         {
-            if (itemListCount == 0)
+            foreach (KeyValuePair<int, Item> i in itemDic)
             {
-                if (count > newItem.MaxCount)
+                if (i.Value.ID == ID && !(i.Value.IsMax))
                 {
-                    while (true)
+                    if (!(i.Value.TryAddItem(count, out errorItemCount)))
+                        count = errorItemCount;
+                    else
                     {
-                        count -= newItem.MaxCount;
-                        if (count <= 0)
-                        {
-                            if (isDisplay)
-                                _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount + count);
-                            itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount + count));
-                            itemListCount++;
-                            break;
-                        }
-                        else
-                        {
-                            if (isDisplay)
-                                _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount);
-                            itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount));
-                            itemListCount++;
-                        }
+                        if (isDisplay)
+                            slotList[i.Key].SetSlotCount(i.Value.Count);
+                        return true;
                     }
-                }
-                else
-                {
+                        
                     if (isDisplay)
-                        _slotArray[0].AddItem(newItem, 0, count);
-                    itemList.Add(new ItemSlotInfo(id, 0, count));
-                    itemListCount++;
+                        slotList[i.Key].SetSlotCount(i.Value.Count);
                 }
-                return true;
-            }
-            else
-            {
-                for (int i = 0; i < itemListCount; i++)
-                {
-                    if (itemList[i].id == id)
-                    {
-                        int newItemMaxCount = newItem.MaxCount;
-                        int nowItemCount = itemList[i].count;
-                        if (nowItemCount == newItemMaxCount)
-                        {
-                            if (nowItemCount + count > newItemMaxCount)
-                            {
-                                count = count - (newItemMaxCount - nowItemCount);
-                                itemList[i].count = newItemMaxCount;
-                                if (isDisplay)
-                                    _slotArray[i].SetSlotCount(newItemMaxCount);
-                                while (true)
-                                {
-                                    count -= newItemMaxCount;
-                                    if (count <= 0) break;
-                                    if (isDisplay)
-                                        _slotArray[itemListCount].AddItem(newItem, itemListCount, newItemMaxCount);
-                                    itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount));
-                                    itemListCount++;
-                                    if (itemListCount == _inventroySlotCount)
-                                    {
-                                        errorItemCount = count;
-                                        return false;
-                                    }
-                                }
-                                itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount + count));
-                                itemListCount++;
-                                if (isDisplay)
-                                    _slotArray[itemListCount - 1].AddItem(newItem, itemListCount - 1, newItemMaxCount + count);
-                            }
-                            else
-                            {
-                                itemList[i].count += count;
-                                if (isDisplay)
-                                    _slotArray[i].SetSlotCount(itemList[i].count);
-                            }
-                        }
-                    }
-                }
-                return true;
             }
         }
-        for (int i = 0; i < count; i++)
+        //새롭게 추가해주는 부분
+        bool isBreak = true;
+        while (isBreak)
         {
-            itemList.Add(new ItemSlotInfo(id, itemListCount, 1));
-            itemListCount++;
-            if (isDisplay)
-                _slotArray[(itemListCount - 1)].AddItem(newItem, (itemListCount - 1), 1);
-            if (itemListCount == _inventroySlotCount)
+            int addCount;
+            if (count >= newItemMaxCount)
             {
-                errorItemCount = count - (i + 1);
+                addCount = newItemMaxCount;
+                count -= newItemMaxCount;
+            }
+            else if(count == 0)
+                return true;
+            else
+            {
+                addCount = count;
+                isBreak = false;
+            }
+
+            int index = CheckSlotIndex(slotType);
+            if (index == -1)
+            {
+                errorItemCount = count;
                 return false;
             }
+            //추가
+            itemDic.Add(index, itemManager.InstantiateItemObject(ID, addCount));
+            //표시
+            if (isDisplay)
+                slotList[index].AddItem(itemDic[index]);
         }
         return true;
     }
 
-    private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem, out int ErrorItemCount)
+    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem, out int ErrorItemCount)
     {
-        int itemListCount = itemList.Count;
-        if (itemListCount == 0)
+        if (itemDic.Count == 0)
         {
             ErrorItemCount = count;
             return false;
         }
 
-        bool isSub = false;
-        int id = newItem.ID;
+        int ID = newItem.ID;
         Stack stack = new Stack();
-
+        ErrorItemCount = 0;
         bool isDisplay = false;
 
-        if (slotType == _displayType)
+        if (slotType == (int)displayType)
             isDisplay = true;
 
-        for (int i = 0; i < itemListCount; i++)
+        //인벤토리에 있는 값 확인후 뺴기
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
-            if (itemList[i].id == id)
+            if (i.Value.ID == ID && !(i.Value.IsEquip) )
             {
-                int nowItemCount = itemList[i].count + count;
-                if (nowItemCount <= 0)
+                if (!(i.Value.TryAddItem(count, out ErrorItemCount)))
                 {
-                    count = nowItemCount;
-                    stack.Push(i);
-                    if(nowItemCount != 0)
-                        continue;
-                }
-                count = 0;
-                if (isDisplay)
-                    _slotArray[i].SetSlotCount(nowItemCount);
-                for (int j = 0; j < stack.Count;)
+                    count = ErrorItemCount;
+                    stack.Push(i.Key);
+                }   
+                else
                 {
-                    int n = (int)stack.Pop();
-                    _slotArray[n].ClearSlot();
-                    itemList.RemoveAt(n);
-                    itemListCount--;
+                    if (i.Value.Count == 0)
+                        stack.Push(i.Key);
+                    else
+                        if (isDisplay)
+                        slotList[i.Key].SetSlotCount(i.Value.Count);
+                    break;
                 }
-                isSub = true;
-                break;
             }
         }
-        ErrorItemCount = count;
-        return isSub;
+
+        for(int i = 0; i < stack.Count;)
+        {
+            int n = (int)stack.Pop();
+            if (isDisplay)
+                slotList[n].ClearSlot();
+            itemDic.Remove(n);
+        }
+
+        if(ErrorItemCount > 0)
+            return false;
+        else
+            return true;
+    }
+
+    private int CheckSlotIndex(int itemType)
+    {
+        for(int i = 0; i < inventroySlotCount; i++)
+        {
+            if (!(itemDics[itemType].ContainsKey(i)))
+                return i;
+        }
+        return -1;
     }
 
     public void SortInventory()
     {
         DisplaySlotAllClear();
-        for(int i = 0; i < _ItemList.Length; i++)
+
+        Queue<int> queue = new Queue<int>();
+        foreach(KeyValuePair<int,Item> i in itemDics[(int)displayType])
         {
-            _ItemList[i].Sort((n1, n2) => n1.id.CompareTo(n2.id));
-            int maxIndex = _ItemList[i].Count;
-            for (int j = 0; j < maxIndex; j++)
-                _ItemList[i][j].index = j;
+            queue.Enqueue(i.Key);
         }
+
+        int queueCount = queue.Count;
+        for (int i = 0; i < queueCount; i++)
+        {
+            int n = queue.Dequeue();
+            if (i != n)
+            {
+                itemDics[(int)displayType].Add(i, itemDics[(int)displayType][n]);
+                itemDics[(int)displayType].Remove(n);
+            }
+        }
+
         OnDisplaySlot();
     }
     public void SetDisplayType(ItemType itemType)
     {
         DisplaySlotClear();
-        _displayType = itemType;
+        displayType = itemType;
         OnDisplaySlot();
     }
     private void OnDisplaySlot()
     {
-        switch (_displayType)
-        {
-            case ItemType.Equipment:
-                foreach (ItemSlotInfo item in _ItemList[0])
-                {
-                    _slotArray[item.index].AddItem(item);
-                }
-                break;
-            case ItemType.Consumable:
-                foreach (ItemSlotInfo item in _ItemList[1])
-                {
-                    _slotArray[item.index].AddItem(item);
-                }
-                break;
-            case ItemType.Material:
-                foreach (ItemSlotInfo item in _ItemList[2])
-                {
-                    _slotArray[item.index].AddItem(item);
-                }
-                break;
-            default:
-                foreach (ItemSlotInfo item in _ItemList[3])
-                {
-                    _slotArray[item.index].AddItem(item);
-                }
-                break;
-        }
+        //AddItem으로 초기화된 또는 변경된 슬롯에 값을 넣어줘야됨
+        foreach (KeyValuePair<int, Item> item in itemDics[(int)displayType])
+            slotList[item.Key].AddItem(item.Value);
     }
     private void DisplaySlotAllClear()
     {
-        for (int i = 0; i < _inventroySlotCount; i++)
-        {
-            _slotArray[i].ClearSlot();
-        }
-
+        for (int i = 0; i < inventroySlotCount; i++)
+            slotList[i].ClearSlot();
     }
     private void DisplaySlotClear()
     {
-        switch (_displayType)
-        {
-            case ItemType.Equipment:
-                foreach (ItemSlotInfo item in _ItemList[0])
-                    _slotArray[item.index].ClearSlot();
-                break;
-            case ItemType.Consumable:
-                foreach (ItemSlotInfo item in _ItemList[1])
-                    _slotArray[item.index].ClearSlot();
-                break;
-            case ItemType.Material:
-                foreach (ItemSlotInfo item in _ItemList[2])
-                    _slotArray[item.index].ClearSlot();
-                break;
-            default:
-                foreach (ItemSlotInfo item in _ItemList[3])
-                    _slotArray[item.index].ClearSlot();
-                break;
-        }
+        foreach (KeyValuePair<int, Item> item in itemDics[(int)displayType])
+            slotList[item.Key].ClearSlot();
     }
     public void UseItem()
     {
-        _clickItem = _inventoryManager.ClickItem;
-        if (_displayType == ItemType.Equipment)
-            EquipItem(_clickItem);
+        clickSlotIndex = inventoryManager.ClickSlotIndex;
+        if (displayType == ItemType.Equipment)
+            EquipItem();
         else
-            TryAddItem(_clickItem.id, -1, out int errorCount);
+            TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
     }
 
     public bool IsCheckItem(int id, int count, out int itemSum)
     {
         bool isItemCount = false;
         itemSum = 0;
-        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
-        {
-            switch (id)
-            {
-                case >= 10300000:
-                    isItemCount = IsCheckItemCount(_ItemList[3], newItem, count, ref itemSum);
-                    break;
-                case >= 10200000:
-                    isItemCount = IsCheckItemCount(_ItemList[2], newItem, count, ref itemSum);
-                    break;
-                case >= 10100000:
-                    isItemCount = IsCheckItemCount(_ItemList[1], newItem, count, ref itemSum);
-                    break;
-                default:
-                    isItemCount = IsCheckItemCount(_ItemList[0], newItem, count, ref itemSum);
-                    break;
-            }
-        }
+        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+            isItemCount = IsCheckItemCount(itemDics[(id / 100000) % 10], id, count, ref itemSum);
         return isItemCount;
     }
+
     public bool[] IsCheckItems(int[] id, int[] count, out int[] itemSum)
     {
         bool isItemCount = false;
@@ -425,31 +297,22 @@ public class Inventory : MonoBehaviour
         itemSum = new int[idLenght];
         bool[] boolArray = new bool[idLenght];
 
-        for (int i  = 0; i < idLenght; i++)
+        for (int i = 0; i < idLenght; i++)
         {
-            if (_itemDB.GetItemData(id[i], out ItemData_Test newItem))
-            {
-                switch (id[i])
-                {
-                    case >= 10300000:
-                        isItemCount = IsCheckItemCount(_ItemList[3], newItem, count[i], ref itemSum[i]);
-                        break;
-                    case >= 10200000:
-                        isItemCount = IsCheckItemCount(_ItemList[2], newItem, count[i], ref itemSum[i]);
-                        break;
-                    case >= 10100000:
-                        isItemCount = IsCheckItemCount(_ItemList[1], newItem, count[i], ref itemSum[i]);
-                        break;
-                    default:
-                        isItemCount = IsCheckItemCount(_ItemList[0], newItem, count[i], ref itemSum[i]);
-                        break;
-                }
-            }
+            if (itemDB.GetItemData(id[i], out ItemData_Test newItem))
+                isItemCount = IsCheckItemCount(itemDics[(id[i] / 100000) % 10], id[i], count[i], ref itemSum[i]);
             boolArray[i] = isItemCount;
         }
         return boolArray;
     }
 
+    /// <summary>
+    /// 이미지를 반환합니다 
+    /// 0은 제작될 아이템, 나머지는 재료 아이템의 아이콘을 반환합니다.
+    /// </summary>
+    /// <param name="newRecipe"></param>
+    /// <param name="itemSum">재료의 갯수배열 만큼 반환합니다.</param>
+    /// <returns></returns>
     public Sprite[] IsCheckItems(in ItemRecipe newRecipe, out int[] itemSum)
     {
         int idLenght = newRecipe.Materials.Length;
@@ -457,42 +320,24 @@ public class Inventory : MonoBehaviour
         int[] materialsCount = newRecipe.MaterialsCount;
         itemSum = new int[idLenght];
         Sprite[] icons = new Sprite[idLenght + 1];
-        _itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
+        itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
         for (int i = 0; i < idLenght; i++)
         {
-            if (_itemDB.GetItemData(materials[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(materials[i], out ItemData_Test newItem))
             {
-                switch (materials[i])
-                {
-                    case >= 10300000:
-                        IsCheckItemCount(_ItemList[3], newItem, materialsCount[i], ref itemSum[i]);
-                        break;
-                    case >= 10200000:
-                        IsCheckItemCount(_ItemList[2], newItem, materialsCount[i], ref itemSum[i]);
-                        break;
-                    case >= 10100000:
-                        IsCheckItemCount(_ItemList[1], newItem, materialsCount[i], ref itemSum[i]);
-                        break;
-                    default:
-                        IsCheckItemCount(_ItemList[0], newItem, materialsCount[i], ref itemSum[i]);
-                        break;
-                }
-                icons[i+1] = newItem.Icon;
+                IsCheckItemCount(itemDics[(materials[i] / 100000) % 10], materials[i], materialsCount[i], ref itemSum[i]);
+                icons[i + 1] = newItem.Icon;
             }
         }
         return icons;
     }
 
-    private bool IsCheckItemCount(List<ItemSlotInfo> itemList, ItemData_Test newItem, int count, ref int sum)
+    private bool IsCheckItemCount(Dictionary<int, Item> itemDic, int id, int count, ref int sum)
     {
-        int listCount = itemList.Count;
-        sum = 0;
-        for (int i = 0; i < listCount; i++)
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
-            if (itemList[i].id == newItem.ID)
-            {
-                sum += itemList[i].count;
-            }
+            if (i.Value.ID == id)
+                sum += i.Value.Count;
         }
         return sum >= count ? true : false;
     }
@@ -500,59 +345,13 @@ public class Inventory : MonoBehaviour
     public bool TryAddItem(int id, int count)
     {
         bool isAddItem = false;
-        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData_Test newItem))
         {
-            switch (id)
-            {
-                case >= 10300000:
-                    if (count >= 0)
-                    {
-                        if (AddList(_ItemList[3], count, ItemType.ETC, in newItem))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_ItemList[3], count, ItemType.ETC, in newItem))
-                            isAddItem = true;
-                    }
-                    break;
-                case >= 10200000:
-                    if (count >= 0)
-                    {
-                        if (AddList(_ItemList[2], count, ItemType.Material, in newItem))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_ItemList[2], count, ItemType.Material, in newItem))
-                            isAddItem = true;
-                    }
-                    break;
-                case >= 10100000:
-                    if (count >= 0)
-                    {
-                        if (AddList(_ItemList[1], count, ItemType.Consumable, in newItem))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_ItemList[1], count, ItemType.Consumable, in newItem))
-                            isAddItem = true;
-                    }
-                    break;
-                default:
-                    if (count >= 0)
-                    {
-                        if (AddList(_ItemList[0], count, ItemType.Equipment, in newItem))
-                            isAddItem = true;
-                    }
-                    else
-                    {
-                        if (SubList(_ItemList[0], count, ItemType.Equipment, in newItem))
-                            isAddItem = true;
-                    }
-                    break;
-            }
+            int newItemType = (id / 100000) % 10;
+            if (count >= 0)
+                isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem);
+            else
+                isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem);
         }
         if(isAddItem)
         {
@@ -566,9 +365,7 @@ public class Inventory : MonoBehaviour
         int idCount = id.Length;
         bool[] boolArray = new bool[idCount];
         for (int i = 0; i < idCount; i++)
-        {
             boolArray[i] = TryAddItem(id[i], count[i]);
-        }
         return boolArray;
     }
 
@@ -576,195 +373,130 @@ public class Inventory : MonoBehaviour
     {
         int idCount = itemRecipe.Materials.Length;
         bool[] boolArray = new bool[idCount];
-        bool isCraftingItem = true;
         for (int i = 0; i < idCount; i++)
-        {
-            boolArray[i] = IsCheckItem(itemRecipe.Materials[i], itemRecipe.MaterialsCount[i]);
-            if (!boolArray[i])
-            {
-                isCraftingItem = false;
-            }
-        }
-        if (isCraftingItem)
-        {
-            for (int i = 0; i < idCount; i++)
-            {
-                TryAddItem(itemRecipe.Materials[i], -(itemRecipe.MaterialsCount[i]));
-            }
-            TryAddItem(itemRecipe.CraftingID, 1);
-        }
-
+            boolArray[i] = TryAddItem(itemRecipe.Materials[i], -(itemRecipe.MaterialsCount[i]));
+        TryAddItem(itemRecipe.CraftingID, 1);
         return boolArray;
     }
 
-    private bool AddList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem)
+    private bool AddList(Dictionary<int,Item> itemDic, int count, int slotType, in ItemData_Test newItem)
     {
-        int itemListCount = itemList.Count;
-        if (itemListCount == _inventroySlotCount)
+        if (itemDic.Count == inventroySlotCount)
             return false;
 
-        int id = newItem.ID;
+        int ID = newItem.ID;
         bool isDisplay = false;
+        int newItemMaxCount = newItem.MaxCount;
 
-        if (slotType == _displayType)
+        if (slotType == (int)displayType)
             isDisplay = true;
 
-        if (slotType != ItemType.Equipment)
+        int outCount = 0;
+        //아이템 리스트에서 확인 후 값을 수정하는 부분
+        if (itemDic.Count > 0)
         {
-            if (itemListCount == 0)
+            foreach (KeyValuePair<int, Item> i in itemDic)
             {
-                if (count > newItem.MaxCount)
+                if (i.Value.ID == ID && !(i.Value.IsMax))
                 {
-                    while (true)
+                    if (!(i.Value.TryAddItem(count, out outCount)))
+                        count = outCount;
+                    else
                     {
-                        count -= newItem.MaxCount;
-                        if (count <= 0)
-                        {
-                            if (isDisplay)
-                                _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount + count);
-                            itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount + count));
-                            itemListCount++;
-                            break;
-                        }
-                        else
-                        {
-                            if (isDisplay)
-                                _slotArray[itemListCount].AddItem(newItem, itemListCount, newItem.MaxCount);
-                            itemList.Add(new ItemSlotInfo(id, itemListCount, newItem.MaxCount));
-                            itemListCount++;
-                        }
+                        if (isDisplay)
+                            slotList[i.Key].SetSlotCount(i.Value.Count);
+                        return true;
                     }
-                }
-                else
-                {
+
                     if (isDisplay)
-                        _slotArray[0].AddItem(newItem, 0, count);
-                    itemList.Add(new ItemSlotInfo(id, 0, count));
-                    itemListCount++;
+                        slotList[i.Key].SetSlotCount(i.Value.Count);
                 }
-                return true;
-            }
-            else
-            {
-                for (int i = 0; i < itemListCount; i++)
-                {
-                    if (itemList[i].id == id)
-                    {
-                        int newItemMaxCount = newItem.MaxCount;
-                        int nowItemCount = itemList[i].count;
-                        if (nowItemCount == newItemMaxCount)
-                        {
-                            if (nowItemCount + count > newItemMaxCount)
-                            {
-                                count = count - (newItemMaxCount - nowItemCount);
-                                itemList[i].count = newItemMaxCount;
-                                if (isDisplay)
-                                    _slotArray[i].SetSlotCount(newItemMaxCount);
-                                while (true)
-                                {
-                                    count -= newItemMaxCount;
-                                    if (count <= 0) break;
-                                    if (isDisplay)
-                                        _slotArray[itemListCount].AddItem(newItem, itemListCount, newItemMaxCount);
-                                    itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount));
-                                    itemListCount++;
-                                    if (itemListCount == _inventroySlotCount)
-                                        return false;
-                                }
-                                itemList.Add(new ItemSlotInfo(id, itemListCount, newItemMaxCount + count));
-                                itemListCount++;
-                                if (isDisplay)
-                                    _slotArray[itemListCount - 1].AddItem(newItem, itemListCount - 1, newItemMaxCount + count);
-                            }
-                            else
-                            {
-                                itemList[i].count += count;
-                                if (isDisplay)
-                                    _slotArray[i].SetSlotCount(itemList[i].count);
-                            }
-                        }
-                    }
-                }
-                return true;
             }
         }
-        for (int i = 0; i < count; i++)
+        //새롭게 추가해주는 부분
+        bool isBreak = true;
+        while (isBreak)
         {
-            itemList.Add(new ItemSlotInfo(id, itemListCount, 1));
-            itemListCount++;
-            if (isDisplay)
-                _slotArray[(itemListCount - 1)].AddItem(newItem, (itemListCount - 1), 1);
-            if (itemListCount == _inventroySlotCount)
+            int addCount;
+            if (count >= newItemMaxCount)
+            {
+                addCount = newItemMaxCount;
+                count -= newItemMaxCount;
+            }
+            else if (count == 0)
+                return true;
+            else
+            {
+                addCount = count;
+                isBreak = false;
+            }
+
+            int index = CheckSlotIndex(slotType);
+            if (index == -1)
                 return false;
+            //추가
+            itemDic.Add(index, itemManager.InstantiateItemObject(ID, addCount));
+            //표시
+            if (isDisplay)
+                slotList[index].AddItem(itemDic[index]);
         }
         return true;
     }
 
-    private bool SubList(List<ItemSlotInfo> itemList, int count, ItemType slotType, in ItemData_Test newItem)
+    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem)
     {
-        int itemListCount = itemList.Count;
-        if (itemListCount == 0)
+        if (itemDic.Count == 0)
             return false;
 
-        bool isSub = false;
-        int id = newItem.ID;
+        int ID = newItem.ID;
         Stack stack = new Stack();
-
         bool isDisplay = false;
 
-        if (slotType == _displayType)
+        if (slotType == (int)displayType)
             isDisplay = true;
 
-        for (int i = 0; i < itemListCount; i++)
+        int outCount = 0;
+        //인벤토리에 있는 값 확인후 뺴기
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
-            if (itemList[i].id == id)
+            if (i.Value.ID == ID && !(i.Value.IsEquip))
             {
-                int nowItemCount = itemList[i].count + count;
-                if (nowItemCount <= 0)
+                if (!(i.Value.TryAddItem(count, out outCount)))
                 {
-                    count = nowItemCount;
-                    stack.Push(i);
-                    if (nowItemCount != 0)
-                        continue;
+                    count = outCount;
+                    stack.Push(i.Key);
                 }
-                count = 0;
-                if (isDisplay)
-                    _slotArray[i].SetSlotCount(nowItemCount);
-                for (int j = 0; j < stack.Count;)
+                else
                 {
-                    int n = (int)stack.Pop();
-                    _slotArray[n].ClearSlot();
-                    itemList.RemoveAt(n);
-                    itemListCount--;
+                    if(i.Value.Count == 0)
+                        stack.Push(i.Key);
+                    else
+                        if (isDisplay)
+                            slotList[i.Key].SetSlotCount(i.Value.Count);
+                    break;
                 }
-                isSub = true;
-                break;
             }
         }
-        return isSub;
+
+        for (int i = 0; i < stack.Count;)
+        {
+            int n = (int)stack.Pop();
+            if (isDisplay)
+                slotList[n].ClearSlot();
+            itemDic.Remove(n);
+        }
+
+        if (outCount > 0)
+            return false;
+        else
+            return true;
     }
 
     public bool IsCheckItem(int id, int count)
     {
         bool isItemCount = false;
-        if (_itemDB.GetItemData(id, out ItemData_Test newItem))
-        {
-            switch (id)
-            {
-                case >= 10300000:
-                    isItemCount = IsCheckItemCount(_ItemList[3], newItem, count);
-                    break;
-                case >= 10200000:
-                    isItemCount = IsCheckItemCount(_ItemList[2], newItem, count);
-                    break;
-                case >= 10100000:
-                    isItemCount = IsCheckItemCount(_ItemList[1], newItem, count);
-                    break;
-                default:
-                    isItemCount = IsCheckItemCount(_ItemList[0], newItem, count);
-                    break;
-            }
-        }
+        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+            isItemCount = IsCheckItemCount(itemDics[(id / 100000) % 10], id, count);
         return isItemCount;
     }
 
@@ -776,24 +508,8 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < idLenght; i++)
         {
-            if (_itemDB.GetItemData(id[i], out ItemData_Test newItem))
-            {
-                switch (id[i])
-                {
-                    case >= 10300000:
-                        isItemCount = IsCheckItemCount(_ItemList[3], newItem, count[i]);
-                        break;
-                    case >= 10200000:
-                        isItemCount = IsCheckItemCount(_ItemList[2], newItem, count[i]);
-                        break;
-                    case >= 10100000:
-                        isItemCount = IsCheckItemCount(_ItemList[1], newItem, count[i]);
-                        break;
-                    default:
-                        isItemCount = IsCheckItemCount(_ItemList[0], newItem, count[i]);
-                        break;
-                }
-            }
+            if (itemDB.GetItemData(id[i], out ItemData_Test newItem))
+                isItemCount = IsCheckItemCount(itemDics[(id[i] / 100000) % 10], id[i], count[i]);
             boolArray[i] = isItemCount;
         }
         return boolArray;
@@ -805,96 +521,72 @@ public class Inventory : MonoBehaviour
         int[] materials = newRecipe.Materials;
         int[] materialsCount = newRecipe.MaterialsCount;
         Sprite[] icons = new Sprite[idLenght + 1];
-        _itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
+        itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
         for (int i = 0; i < idLenght; i++)
         {
-            if (_itemDB.GetItemData(materials[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(materials[i], out ItemData_Test newItem))
             {
-                switch (materials[i])
-                {
-                    case >= 10300000:
-                        IsCheckItemCount(_ItemList[3], newItem, materialsCount[i]);
-                        break;
-                    case >= 10200000:
-                        IsCheckItemCount(_ItemList[2], newItem, materialsCount[i]);
-                        break;
-                    case >= 10100000:
-                        IsCheckItemCount(_ItemList[1], newItem, materialsCount[i]);
-                        break;
-                    default:
-                        IsCheckItemCount(_ItemList[0], newItem, materialsCount[i]);
-                        break;
-                }
+                IsCheckItemCount(itemDics[(materials[i] / 100000) % 10], materials[i], materialsCount[i]);
                 icons[i + 1] = newItem.Icon;
             }
         }
         return icons;
     }
 
-    private bool IsCheckItemCount(List<ItemSlotInfo> itemList, ItemData_Test newItem, int count)
+    private bool IsCheckItemCount(Dictionary<int, Item> itemDic, int id, int count)
     {
-        int listCount = itemList.Count;
+        int listCount = itemDic.Count;
         int sum = 0;
-        for (int i = 0; i < listCount; i++)
+        foreach (KeyValuePair<int, Item> i in itemDic)
         {
-            if (itemList[i].id == newItem.ID)
-            {
-                sum += itemList[i].count;
-            }
+            if (i.Value.ID == id)
+                sum += i.Value.Count;
         }
         return sum >= count ? true : false;
     }
 
-    private void EquipItem(ItemSlotInfo itemSlotInfo)
+    private void EquipItem()
     {
-        if (!itemSlotInfo.equip)
+        if (!(itemDics[(int)displayType][clickSlotIndex].IsEquip))
         {
-            _itemDB.GetStats(itemSlotInfo.id, out ItemStats equipItemData);
-
             Debug.Log("장비를 장착합니다..");
-
-            itemSlotInfo.equip = true;
-
-            _slotArray[itemSlotInfo.index].DisplayEquip();
-            _inventoryManager.CalOnTextChangeUnEquipEvent();
-            
+            itemDics[(int)displayType][clickSlotIndex].IsEquip = true;
+            slotList[clickSlotIndex].DisplayEquip();
+            //사용 버튼의 텍스트를 장비해제으로 수정
+            inventoryManager.CalOnTextChangeUnEquipEvent();
         }
         else
         {
-            _itemDB.GetStats(itemSlotInfo.id, out ItemStats equipItemData);
-
             Debug.Log("장비를 해제합니다.");
-
-            itemSlotInfo.equip = false;
-            _slotArray[itemSlotInfo.index].UnDisplayEquip();
-            _inventoryManager.CallOnTextChangeEquipEvent();
+            itemDics[(int)displayType][clickSlotIndex].IsEquip = false;
+            slotList[clickSlotIndex].UnDisplayEquip();
+            //사용 버튼의 텍스트를 장비착용으로 수정
+            inventoryManager.CallOnTextChangeEquipEvent();
         }
         
     }
+
     public void Drop()
     {
-        _clickItem = _inventoryManager.ClickItem;
-
-        _itemDB.GetItemData(_clickItem.id, out ItemData_Test newItem);
-        Instantiate(newItem.DropPrefab);
-
-        TryAddItem(_clickItem.id, -1, out int errorCount);
+        TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
+        itemManager.Drop(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex], 1, this.transform.position);
     }
 
-    public void ChangeSlot(ItemSlotInfo newSlot, ItemSlotInfo oldSlot, int newIndex, int oldIndex)
+    public void ChangeSlot(int dropSlotIndex, int dragSlotIndex)
     {
-        if (newSlot == null)
+        Item itemObject;
+        if (itemDics[(int)displayType].ContainsKey(dropSlotIndex))
         {
-            oldSlot.index = newIndex;
-            _slotArray[newIndex].AddItem(oldSlot);
-            _slotArray[oldIndex].ClearSlot();
-            return;
+            itemObject = itemDics[(int)displayType][dropSlotIndex];
+            itemDics[(int)displayType][dropSlotIndex] = itemDics[(int)displayType][dragSlotIndex];
+            itemDics[(int)displayType][dragSlotIndex] = itemObject;
         }
-
-        newSlot.index = oldIndex;
-        oldSlot.index = newIndex;
-
-        _slotArray[newIndex].AddItem(oldSlot);
-        _slotArray[oldIndex].AddItem(newSlot);
+        else
+        {
+            itemDics[(int)displayType].Add(dropSlotIndex, itemDics[(int)displayType][dragSlotIndex]);
+            itemDics[(int)displayType].Remove(dragSlotIndex);
+        }
+        DisplaySlotAllClear();
+        OnDisplaySlot();
     }
 }
