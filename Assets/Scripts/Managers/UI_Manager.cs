@@ -73,8 +73,8 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             inventoryUI.SetActive(false);
         }
 
-        if (inventoryUI == null)
-            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), cavas.transform);
+        if (itemCraftingUI == null)
+            itemCraftingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), cavas.transform);
        // if (_quickSlot_ui == null)
             //_quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
         if(questManager == null)
