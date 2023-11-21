@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _genItem;
+    [SerializeField] public GameObject _genItem;
     private Vector3 _direction = new Vector3(0, 1f, 0);
     // Start is called before the first frame update
     void Start()

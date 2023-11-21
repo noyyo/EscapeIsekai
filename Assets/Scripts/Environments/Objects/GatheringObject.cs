@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class GatheringObject : MonoBehaviour
 {
     [Tooltip("생성될 아이템의 아이디를 입력")]
-    [SerializeField] private int _itemId = 10010000;
+    [SerializeField] public int _itemId = 10010000;
     private bool _gathering = false;
     private ItemData_Test itemData;
     private Player _playerInputSystem;

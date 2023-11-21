@@ -8,6 +8,9 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     protected UI_Manager() { }
     [SerializeField] private GameObject _cavas;
     public GameObject gathering;
+    public GameObject talkManager;
+    public GameObject questManager;
+    public GameObject dialog;
 
     private GameManager _gameManager;
     private InventoryManager _inventoryManager;
@@ -76,6 +79,15 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             _itemCrafting_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), _cavas.transform);
         if (_quickSlot_ui == null)
             _quickSlot_ui = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SpecialAbilities/QuickSlot_UI"), _cavas.transform);
+        if(questManager == null)
+            questManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/QuestManager"));
+        if (talkManager == null)
+            talkManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/TalkManager"));
+        if (dialog == null)
+        {
+            dialog = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/UI_Dialog"));
+            dialog.GetComponent<Dialog>().questManager = questManager.GetComponent<QuestManager>();
+        }
     }
 
     //UI ON, OFF를 위한 메서드
