@@ -8,8 +8,7 @@ using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
-    [Tooltip("생성될 아이템의 아이디를 입력")]
-    [SerializeField] private int _itemId = 10010000;
+    [SerializeField] private int _itemId;
     private bool _gathering = false;
     private ItemData_Test itemData;
     private Player _playerInputSystem;
@@ -18,7 +17,7 @@ public class GatheringObject : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == Tags.PlayerTag)
         {
             _gathering = true;
             if(_playerInputSystem == null)
@@ -35,7 +34,7 @@ public class GatheringObject : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Tags.PlayerTag)
         {
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             UI_Manager.Instance.gathering.SetActive(false);
@@ -44,8 +43,6 @@ public class GatheringObject : MonoBehaviour
     }
     private void Start()
     {
-        //DataManager.Instance.LoadDatas();
-        //ItemData data = DataManager.Instance.dicItemDatas[_itemId];
         _UI_Manager = UI_Manager.Instance;
         ItemDB.Instance.GetItemData(_itemId, out itemData);
     }

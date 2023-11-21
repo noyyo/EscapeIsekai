@@ -8,12 +8,15 @@ public class Item
     private ItemStats itemStats;
 
     public int ID { get; private set; }
+    public string Type { get; private set; }
     public string ItemName { get; private set; }
     public string ItemExplanation { get; private set; }
     public int Price { get; private set; }
     public int MaxCount { get; private set; }
     public bool IsStat { get; private set; }
     public bool IsCrafting { get; private set; }
+    public bool IsSale { get; private set; }
+    public int Effect { get; private set; }
     public GameObject DropPrefab { get; private set; }
     public Sprite Icon { get; private set; }
     public ItemData_Test ItemData { get { return itemData; } }
@@ -38,12 +41,15 @@ public class Item
         itemData = data;
         itemStats = stats;
         ID = data.ID;
+        Type = data.Type;
         ItemName = data.ItemName;
         ItemExplanation = data.ItemExplanation;
         Price = data.Price;
         MaxCount = data.MaxCount;
         IsStat = data.IsStat;
         IsCrafting = data.IsCrafting;
+        IsSale = data.IsSale;
+        Effect = data.Effect;
         DropPrefab = data.DropPrefab;
         Icon = data.Icon;
 
@@ -74,12 +80,15 @@ public class Item
         itemData = item.itemData;
         itemStats = item.itemStats;
         ID = item.ID;
+        Type = item.Type;
         ItemName = item.ItemName;
         ItemExplanation = item.ItemExplanation;
         Price = item.Price;
         MaxCount = item.MaxCount;
         IsStat = item.IsStat;
         IsCrafting = item.IsCrafting;
+        IsSale = item.IsSale;
+        Effect = item.Effect;
         DropPrefab = item.DropPrefab;
         Icon = item.Icon;
 
