@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.BoolParameter;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
@@ -119,15 +118,14 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     }
 
     //아이템 추가를 위해 Inventroy에서 호출
-    public bool CallAddItems(int[] id, int[] count, out int[] errorItemCount)
+    public bool CallTryAddItems(int[] id, int[] count)
     {
-        bool[] array = inventory.TryAddItems(id, count, out errorItemCount);
-        return !Array.Exists(array, x => x == false);
+        return inventory.TryAddItems(id, count);
     }
 
-    public bool CallAddItem(int id, int count, out int errorItemCount)
+    public bool CallTryAddItem(int id, int count)
     {
-        return inventory.TryAddItem(id, count, out errorItemCount);
+        return inventory.TryAddItem(id, count);
     }
 
     public bool CallIsCheckItem(int id, int count, out int sum)
@@ -151,14 +149,12 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     }
     public bool CallAddItems(ItemRecipe itemRecipe)
     {
-        bool[] array = inventory.TryAddItems(itemRecipe);
-        return !Array.Exists(array, x => x == false);
+        return inventory.TryAddItems(itemRecipe);
     }
 
     public bool CallAddItems(int[] id, int[] count)
     {
-        bool[] array = inventory.TryAddItems(id, count);
-        return !Array.Exists(array, x => x == false);
+        return inventory.TryAddItems(id, count);
     }
 
     public bool CallAddItem(int id, int count)
