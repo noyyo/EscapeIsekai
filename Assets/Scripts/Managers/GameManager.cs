@@ -16,7 +16,7 @@ public class GameManager : CustomSingleton<GameManager>
     private SoundManager _soundManager;
     private PlayerInputSystem _playerInputSystem;
     private GameObject _soundManagerObject;
-
+    private GameObject timeSlip;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
     public GameObject Player 
     { 
@@ -36,9 +36,12 @@ public class GameManager : CustomSingleton<GameManager>
         if (_soundManagerObject == null)
             _soundManagerObject = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/SoundManager"));
         _soundManager = _soundManagerObject.GetComponent<SoundManager>();
-
         PlayerInit();
         _ui_Manager = UI_Manager.Instance;
+        if (timeSlip == null)
+        {
+            timeSlip = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TimeSlip"));
+        }
     }
 
     private void Start()

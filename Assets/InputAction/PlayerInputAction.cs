@@ -134,6 +134,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TimeSlip"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd7c934e-8c10-4333-a677-f4ed1b9e4f0a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -312,6 +321,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2de62343-6268-4475-9f7c-d787178192c4"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimeSlip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -380,6 +400,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_SuperJump = m_Player.FindAction("SuperJump", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+        m_Player_TimeSlip = m_Player.FindAction("TimeSlip", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
@@ -457,6 +478,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SuperJump;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Throw;
+    private readonly InputAction m_Player_TimeSlip;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -473,6 +495,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @SuperJump => m_Wrapper.m_Player_SuperJump;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
+        public InputAction @TimeSlip => m_Wrapper.m_Player_TimeSlip;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -518,6 +541,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
+            @TimeSlip.started += instance.OnTimeSlip;
+            @TimeSlip.performed += instance.OnTimeSlip;
+            @TimeSlip.canceled += instance.OnTimeSlip;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -558,6 +584,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
+            @TimeSlip.started -= instance.OnTimeSlip;
+            @TimeSlip.performed -= instance.OnTimeSlip;
+            @TimeSlip.canceled -= instance.OnTimeSlip;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -643,6 +672,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnSuperJump(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnTimeSlip(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

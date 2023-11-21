@@ -35,6 +35,7 @@ public enum ItemType
 public class ItemData_Test
 {
     [SerializeField] private int id;
+    [SerializeField] private string type;
     [SerializeField] private string itemName;
     [SerializeField] private string itemExplanation;
     [SerializeField] private int price;
@@ -43,17 +44,22 @@ public class ItemData_Test
     [SerializeField] private string iconPath;
     [SerializeField] private bool isStat;
     [SerializeField] private bool isCrafting;
+    [SerializeField] private bool isSale;
+    [SerializeField] private int effect;
 
     private GameObject dropPrefab;
     private Sprite icon;
 
     public int ID { get { return id; } }
+    public string Type { get { return type; } }
     public string ItemName { get { return itemName; } }
     public string ItemExplanation { get { return itemExplanation; } }
     public int Price { get { return price; } }
     public int MaxCount { get { return maxCount; } }
     public bool IsStat { get { return isStat; } }
     public bool IsCrafting { get { return isCrafting; } }
+    public bool IsSale { get { return isSale; } }
+    public int Effect { get { return effect; } }
 
     public GameObject DropPrefab
     {
