@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
+
     [SerializeField] private int _itemId;
     private bool _gathering = false;
     private ItemData_Test itemData;
@@ -52,7 +53,7 @@ public class GatheringObject : MonoBehaviour
         if (_gathering)
         {
             _UI_Manager.gathering.SetActive(false);
-            //Ã¤Áı¹öÆ° ´©¸£¸é ¹Ù·Î ÀÎº¥Åä¸®·Î
+            //ì±„ì§‘ë²„íŠ¼ ëˆ„ë¥´ë©´ ë°”ë¡œ ì¸ë²¤í† ë¦¬ë¡œ
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             Destroy(gameObject);

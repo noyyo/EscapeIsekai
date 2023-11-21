@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+
     private GameObject _genItem;
     private ItemData_Test itemData;
-
-    [Tooltip("»ı¼ºµÉ ¾ÆÀÌÅÛÀÇ ¾ÆÀÌµğ¸¦ ÀÔ·Â")]
+    [Tooltip("ìƒì„±ë  ì•„ì´í…œì˜ ì•„ì´ë””ë¥¼ ì…ë ¥")]
     public int itemId;
-
     private Vector3 _direction = new Vector3(0, 1f, 0);
     private Vector3 _position;
     void Start()
