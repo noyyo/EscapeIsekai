@@ -45,12 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36b81cf67c1f8546b22e1846d773090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mixer: {fileID: 24100000, guid: 3ce4796eaba3aec42a4312ca9437d986, type: 2}
-  _bgmList:
-  - Key: "\uAE30\uBCF8"
-    Value: {fileID: 8300000, guid: 99bb64c2cbae89f4d809370150f27d11, type: 3}
-  _soundEffects: []
-  _poolMaxCount: 20
+  mixer: {fileID: 24100000, guid: 3ce4796eaba3aec42a4312ca9437d986, type: 2}
+  poolMaxCount: 20
+  defaultBGMName: "\uBBF8\uC9C0\uC758 \uC12C"
 --- !u!82 &1154049382673019661
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,84 +1,80 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MaterialsSlot : MonoBehaviour
 {
-    [SerializeField] private GameObject _image;
-    [SerializeField] private TMP_Text _text;
-    private Image _icon;
-    private ItemDB _itemDB;
-    private int _itemCount;
-    private int _consumption;
-    private ItemCraftingManager _craftingManager;
+    [SerializeField] private GameObject image;
+    [SerializeField] private TMP_Text text;
+    private Image icon;
+    private ItemDB itemDB;
+    private int itemCount;
+    private int consumption;
+    private ItemCraftingManager craftingManager;
 
     private void Awake()
     {
-        _itemDB = ItemDB.Instance;
-        _icon = _image.GetComponent<Image>();
+        itemDB = ItemDB.Instance;
+        icon = image.GetComponent<Image>();
+        craftingManager = ItemCraftingManager.Instance;
     }
 
     private void Start()
     {
-        _craftingManager = ItemCraftingManager.Instance;
-        _craftingManager.onCraftingEvent += UpdateItemData;
+        craftingManager.OnCraftingEvent += UpdateItemData;
     }
 
     public void GetItemData(ItemData_Test newItem, int consumption, int count)
     {
-        _icon.enabled = true;
-        _icon.sprite = newItem.Icon;
-        _itemCount = count;
-        _consumption = consumption;
+        icon.enabled = true;
+        icon.sprite = newItem.Icon;
+        itemCount = count;
+        this.consumption = consumption;
         UpdateText();
     }
 
     public void GetItemData(int id, int consumption, int count)
     {
-        _icon.enabled = true;
-        _itemDB.GetItemData(id, out ItemData_Test newItem);
-        _icon.sprite = newItem.Icon;
-        _itemCount = count;
-        _consumption = consumption;
+        icon.enabled = true;
+        itemDB.GetItemData(id, out ItemData_Test newItem);
+        icon.sprite = newItem.Icon;
+        itemCount = count;
+        this.consumption = consumption;
         UpdateText();
     }
 
     public void GetItemData(Sprite icon, int consumption, int count)
     {
-        _icon.enabled = true;
-        _icon.sprite = icon;
-        _itemCount = count;
-        _consumption = consumption;
+        this.icon.enabled = true;
+        this.icon.sprite = icon;
+        itemCount = count;
+        this.consumption = consumption;
         UpdateText();
     }
 
     public void UpdateItemData()
     {
-        if(_itemCount >= _consumption)
-            _itemCount -= _consumption;
+        if(itemCount >= consumption)
+            itemCount -= consumption;
         UpdateText();
     }
 
     public void UpdateText()
     {
-        _text.text = _itemCount + " / " + _consumption;
+        text.text = itemCount + " / " + consumption;
 
-        if (_consumption == 0)
-            _text.text = "";
+        if (consumption == 0)
+            text.text = "";
 
-        if (_consumption > _itemCount)
-            _text.color = Color.red;
+        if (consumption > itemCount)
+            text.color = Color.red;
         else
-            _text.color = Color.black;
+            text.color = Color.black;
     }
 
     public void Init()
     {
-        _icon.enabled = false;
-        _text.text = "";
+        icon.enabled = false;
+        text.text = "";
     }
 }

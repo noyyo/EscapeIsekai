@@ -12,7 +12,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Dialog : MonoBehaviour
 {
-    public QuestManager QuestManager;
+    public QuestManager questManager;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI talkText;
     public RawImage texture;
@@ -24,14 +24,18 @@ public class Dialog : MonoBehaviour
     private bool isAction;
     private GameObject targetNpc;
     public static Dialog Instance;
+
+    private GameObject player;
     private void Awake()
     {
         Instance = this;
+        player = GameManager.Instance.Player;
         panel.SetActive(false);
     }
 
     public void Action(GameObject scanObj) //대화시작
     {
+        player.GetComponent<PlayerInputSystem>().PlayerActions.Disable();
         Cursor.lockState = CursorLockMode.Confined;
         if (isAction)
         {
@@ -77,10 +81,13 @@ public class Dialog : MonoBehaviour
     }
     public void Talk(int id, bool isNPC)
     {
-        int questTalkIndex = QuestManager.GetQuestTalkIndex(id);
+        int questTalkIndex = questManager.GetQuestTalkIndex(id);
         string talkData = TalkManager.Instance.GetTalk(id + questTalkIndex, talkIndex);
         int key = ServeQuestManager.Instance.GetQuest(id);
-
+        if (tmp != 0&&ServeQuestManager.Instance.playerQuest[key]!=2 && ServeQuestManager.Instance.playerQuest[tmp] ==2)
+        {
+            key = tmp;
+        }
         if(key != tmp && tmp !=0&& ServeQuestManager.Instance.GetTalk(tmp, serveQuestTalkIndex)!= ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex))
         {
             key = tmp;
@@ -142,13 +149,19 @@ public class Dialog : MonoBehaviour
             ServeQuestManager.Instance.QuestClearCheck(key);
             if (ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex) == null)
             {
-                ExitTalk();
-                if(ServeQuestManager.Instance.playerQuest[key] == 0)
+                ServeQuestManager.Instance.MakeQuestZone(key);
+                ServeQuestManager.Instance.AddQuestList(key);
+                if (ServeQuestManager.Instance.playerQuest[key] == 0)
                 {
                     ServeQuestManager.Instance.playerQuest[key] = 1;
                 }
+                Npc npc = targetNpc.GetComponent<Npc>();
+                ServeQuestManager.Instance.ChangeMark(key, npc);
+
+                ExitTalk();
                 return;
             }
+            nameText.text = targetNpc.name;
             talkText.text = ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex);
             isAction = true;
             serveQuestTalkIndex++;
@@ -168,6 +181,7 @@ public class Dialog : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         targetNpc = null;
         panel.SetActive(isAction);
+        player.GetComponent<PlayerInputSystem>().PlayerActions.Enable();
     }
 
     private void TalkMotion()

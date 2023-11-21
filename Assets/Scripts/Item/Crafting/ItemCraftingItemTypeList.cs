@@ -10,38 +10,39 @@ using UnityEngine.UI;
 public class ItemCraftingItemTypeList : MonoBehaviour
 {
     public TMP_Text listName;
-    [SerializeField] private GameObject _arrow;
-    [SerializeField] private Button _button;
-    [SerializeField] private GameObject _craftingItemSlotSpawn;
+    [SerializeField] private GameObject arrow;
+    [SerializeField] private Button button;
+    [SerializeField] private GameObject craftingItemSlotSpawn;
     //private bool _isDisplay;
-    private List<ItemCraftingSlot> _slotList = new List<ItemCraftingSlot>();
-    private ItemCraftingManager _craftingManager;
-    private GameObject _prefabs;
-    private int _slotListLength = -1;
+    private List<ItemCraftingSlot> slotList = new List<ItemCraftingSlot>();
+    private ItemCraftingManager craftingManager;
+    private GameObject prefabs;
+    private int slotListLength = -1;
 
     //public event Action slotActiveEvent;
 
     private void Awake()
     {
-        if (_button == null)
+        if (button == null)
         {
-            _button = GetComponentInChildren<Button>();
+            button = GetComponentInChildren<Button>();
         }
         //_isDisplay = false;
-        _craftingManager = ItemCraftingManager.Instance;
-        _prefabs = _craftingManager.CraftingSlotPrefab;
+        craftingManager = ItemCraftingManager.Instance;
+        prefabs = craftingManager.CraftingSlotPrefab;
 
-        if(_craftingItemSlotSpawn == null)
+        if(craftingItemSlotSpawn == null)
         {
-            _craftingItemSlotSpawn = this.gameObject;
+            craftingItemSlotSpawn = this.gameObject;
         }
     }
 
     private void Start()
     {
-        _button.onClick.AddListener(OnClickButton);
+        button.onClick.AddListener(OnClickButton);
     }
 
+    //사이즈 조절 불가로 버그 유발
     private void OnClickButton()
     {
         //_isDisplay = !_isDisplay;
@@ -59,14 +60,14 @@ public class ItemCraftingItemTypeList : MonoBehaviour
     public void AddRecipe(in ItemRecipe newRecipe)
     {
         CreateItemCraftingSlot();
-        _slotList[_slotListLength].SetSlot(newRecipe);
+        slotList[slotListLength].SetSlot(newRecipe);
     }
 
     private void CreateItemCraftingSlot()
     {
-        ItemCraftingSlot newSlot = Instantiate(_prefabs, this.transform).GetComponent<ItemCraftingSlot>();
+        ItemCraftingSlot newSlot = Instantiate(prefabs, this.transform).GetComponent<ItemCraftingSlot>();
         //slotActiveEvent += newSlot.TurnOnOffSlot;
-        _slotList.Add(newSlot);
-        _slotListLength++;
+        slotList.Add(newSlot);
+        slotListLength++;
     }
 }

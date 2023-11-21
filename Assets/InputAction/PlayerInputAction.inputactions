@@ -103,9 +103,7 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-
                 },
-               
                 {
                     "name": "Throw",
                     "type": "Button",
@@ -114,7 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-
+                },
+                {
+                    "name": "TimeSlip",
+                    "type": "Button",
+                    "id": "dd7c934e-8c10-4333-a677-f4ed1b9e4f0a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -282,9 +288,7 @@
                     "action": "Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
-
                 },
-                
                 {
                     "name": "",
                     "id": "bf4560e0-625f-499f-a428-359a64b03b80",
@@ -295,7 +299,17 @@
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
-
+                },
+                {
+                    "name": "",
+                    "id": "2de62343-6268-4475-9f7c-d787178192c4",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TimeSlip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
