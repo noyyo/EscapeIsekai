@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5380291595180726728}
   - component: {fileID: 5250038217173507160}
   m_Layer: 0
-  m_Name: AOEObject
+  m_Name: BreathParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ ParticleSystem:
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
-  autoRandomSeed: 1
+  autoRandomSeed: 0
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -666,14 +666,14 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 30
+    angle: 45
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 1, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 0, z: 1}
+    m_Position: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 22.5, y: 0, z: 0}
+    m_Scale: {x: 1, y: 0.5, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -748,7 +748,7 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 1
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
@@ -811,7 +811,7 @@ ParticleSystem:
     arc:
       value: 360
       mode: 3
-      spread: 0.5
+      spread: 1
       speed:
         serializedVersion: 2
         minMaxState: 0
@@ -4843,5 +4843,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c129bb91efb03c149b5d1f5f3956a523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
-  damagable: 1

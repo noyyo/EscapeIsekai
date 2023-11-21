@@ -43,7 +43,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     private void OnTriggerEnter(Collider other)
     {
         IDamageable target = null;
-        if (other.tag == Tags.EnemyTag)
+        if (other.tag == TagsAndLayers.EnemyTag)
         {
             Enemy enemy;
             enemy = other.GetComponentInParent<Enemy>();

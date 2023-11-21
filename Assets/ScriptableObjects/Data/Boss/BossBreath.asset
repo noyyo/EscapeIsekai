@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffafee78c9fd22041a86e72e18498e14, type: 3}
-  m_Name: BossAOEAttack
+  m_Name: BossBreath
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -37,7 +37,6 @@ MonoBehaviour:
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
-    AOEType: 2
   Condition:
     Priority: 1
     WaitUntilExecute: 0
@@ -45,7 +44,6 @@ MonoBehaviour:
     LessThanThisHp: 100
     MoreThanThisDistance: 0
     LessThanThisDistance: 20
-    AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
@@ -54,9 +52,11 @@ MonoBehaviour:
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  BreathParticlePrefab: {fileID: 1124824223702901456, guid: 78d6580fec946ae4fb3c5a5e84087cc5,
+  aoeType: 2
+  breathParticlePrefab: {fileID: 1124824223702901456, guid: 78d6580fec946ae4fb3c5a5e84087cc5,
     type: 3}
-  StartSpeed: 5
-  StartSize: 4
-  MaxParticle: 600
-  ParticlePositionOffeset: {x: 0, y: 0, z: 0}
+  startSpeed: 5
+  startSize: 5
+  maxParticle: 300
+  verticalAngle: 30
+  offset: {x: 0, y: 4, z: 4}
