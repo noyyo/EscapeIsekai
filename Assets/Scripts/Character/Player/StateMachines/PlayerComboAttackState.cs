@@ -103,7 +103,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
         alreadyCollided.Add(other.gameObject);
         IDamageable target = null;
-        if (other.tag == Tags.EnemyTag)
+        if (other.tag == TagsAndLayers.EnemyTag)
         {
             Enemy enemy;
             other.TryGetComponent(out enemy);
@@ -115,7 +115,7 @@ public class PlayerComboAttackState : PlayerAttackState
             target = enemy.StateMachine;
 
         }
-        else if (other.tag == Tags.EnvironmentTag)
+        else if (other.tag == TagsAndLayers.EnvironmentTag)
         {
             BaseEnvironmentObject environmentObj;
             other.TryGetComponent(out environmentObj);

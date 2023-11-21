@@ -66,7 +66,7 @@ public class GameManager : CustomSingleton<GameManager>
     private void PlayerInit()
     {
         //다른 오브젝트에 Player태그가 설정되어가 있을경우 걸러내기 위한 foreach문
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(Tags.PlayerTag);
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(TagsAndLayers.PlayerTag);
         foreach (GameObject gameObject in gameObjects)
         {
             if (gameObject.name == "Player")
