@@ -18,7 +18,7 @@ public class GatheringObject : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Tags.PlayerTag)
+        if(other.tag == TagsAndLayers.PlayerTag)
         {
             _gathering = true;
             if(_playerInputSystem == null)
@@ -35,7 +35,7 @@ public class GatheringObject : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == Tags.PlayerTag)
+        if (other.tag == TagsAndLayers.PlayerTag)
         {
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             UI_Manager.Instance.gathering.SetActive(false);
