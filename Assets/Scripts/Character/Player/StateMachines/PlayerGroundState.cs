@@ -80,6 +80,16 @@ public class PlayerGroundState : PlayerBaseState
         stateMachine.ChangeState(stateMachine.ThrowState);
     }
 
+    protected override void OnNoStaminaStarted(InputAction.CallbackContext context)
+    {
+        stateMachine.ChangeState(stateMachine.NoStamina);
+    }
+
+    protected override void OnShieldStarted(InputAction.CallbackContext context)
+    {
+        stateMachine.ChangeState(stateMachine.ShieldState);
+    }
+
     protected override void AddInputActionsCallbacks()
     {
         base.AddInputActionsCallbacks();

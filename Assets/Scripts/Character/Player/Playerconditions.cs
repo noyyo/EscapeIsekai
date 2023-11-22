@@ -17,6 +17,9 @@ public class Condition
     public float decayRate;
     public Image uiBar;
 
+    public bool isShieldActive;
+    public float shieldValue;
+
     public void Add(float amount)
     {
         curValue = Mathf.Min(curValue + amount, maxValue);
@@ -32,6 +35,17 @@ public class Condition
     {
         return curValue / maxValue;
     }
+
+    public void ActivateShield(float shieldAmount)
+    {
+        shieldValue = shieldAmount;
+        isShieldActive = true;
+    }
+
+    public void DeActivateShield()
+    {
+        isShieldActive = false;
+    }
 }
 
 
@@ -45,7 +59,8 @@ public class Playerconditions : MonoBehaviour
     public Condition superJump;
     public float noHungerHealthDecay;
 
-    
+    private bool nostaminaActive = false;
+
     public void Initialize(PlayerUI playerUI)
     {
         health.curValue = health.startValue;
@@ -78,6 +93,13 @@ public class Playerconditions : MonoBehaviour
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
 
+        if (health.isShieldActive)
+        {
+            health.Subtract(health.decayRate * Time.deltaTime);
+            if(health.curValue == 0.0f)
+                health.DeActivateShield();
+        }
+
         health.uiBar.fillAmount = health.GetPercentage();
         hunger.uiBar.fillAmount = hunger.GetPercentage();
         stamina.uiBar.fillAmount = stamina.GetPercentage();
@@ -98,11 +120,33 @@ public class Playerconditions : MonoBehaviour
 
     public bool UseStamina(float amount)
     {
-        if (stamina.curValue - amount < 0)
+        if(!nostaminaActive && stamina.curValue - amount < 0)
             return false;
 
-        stamina.Subtract(amount);
+        if (!nostaminaActive)
+            stamina.curValue -= amount;
+
         return true;
+    }
+
+    public void ActiveNoStaminaBuff()
+    {
+        nostaminaActive = true;
+    }
+
+    public void DeActivateNoStaminaBuff()
+    {
+        nostaminaActive = false;
+    }
+
+    public void ActivateShield(float shieldAmount)
+    {
+        health.ActivateShield(shieldAmount);
+    }
+
+    public void DeActivateShield()
+    {
+        health.DeActivateShield();
     }
 
     public bool UseSkill(float amount)
