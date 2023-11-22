@@ -134,6 +134,24 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NoStamina"",
+                    ""type"": ""Button"",
+                    ""id"": ""0759e211-c41d-4584-9774-caf2b06b525f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shield"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1d7b955-9516-4f39-82b8-76dcbe4cacab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -312,6 +330,28 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03b1ec31-1f0d-48cd-bdb4-e3ab2a631e41"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NoStamina"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""631fb44b-0a46-4058-bcbd-8b16c86dff13"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shield"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -380,6 +420,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_SuperJump = m_Player.FindAction("SuperJump", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+        m_Player_NoStamina = m_Player.FindAction("NoStamina", throwIfNotFound: true);
+        m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
@@ -457,6 +499,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SuperJump;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Throw;
+    private readonly InputAction m_Player_NoStamina;
+    private readonly InputAction m_Player_Shield;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -473,6 +517,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @SuperJump => m_Wrapper.m_Player_SuperJump;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
+        public InputAction @NoStamina => m_Wrapper.m_Player_NoStamina;
+        public InputAction @Shield => m_Wrapper.m_Player_Shield;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -518,6 +564,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
+            @NoStamina.started += instance.OnNoStamina;
+            @NoStamina.performed += instance.OnNoStamina;
+            @NoStamina.canceled += instance.OnNoStamina;
+            @Shield.started += instance.OnShield;
+            @Shield.performed += instance.OnShield;
+            @Shield.canceled += instance.OnShield;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -558,6 +610,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
+            @NoStamina.started -= instance.OnNoStamina;
+            @NoStamina.performed -= instance.OnNoStamina;
+            @NoStamina.canceled -= instance.OnNoStamina;
+            @Shield.started -= instance.OnShield;
+            @Shield.performed -= instance.OnShield;
+            @Shield.canceled -= instance.OnShield;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -643,6 +701,8 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnSuperJump(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnNoStamina(InputAction.CallbackContext context);
+        void OnShield(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

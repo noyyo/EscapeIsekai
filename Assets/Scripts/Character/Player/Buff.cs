@@ -7,36 +7,44 @@ using System;
 public enum BuffTypes
 {
     speed,
-    strength
+    nostamina,
+    shield
 }
 
 public class Buff : MonoBehaviour
 {
-    public float Duration;
+    public float duration;
     public float buffStartTime;
     private PlayerStateMachine playerStateMachine;
-    public BuffTypes BuffType;
+    private Playerconditions playerconditions;
+    public BuffTypes buffType;
    
     
     public Buff(BuffTypes type, PlayerStateMachine stateMachine)   // 생성자
     {
-        BuffType = type;
+        buffType = type;
         playerStateMachine = stateMachine;
+        playerconditions = playerStateMachine.Player.Playerconditions;
     }
 
 
     public void ApplyBuff(float powerUpDuration)
     {
-        Duration = powerUpDuration;
+        duration = powerUpDuration;
         buffStartTime = Time.time;
 
-        switch (BuffType)
+        switch (buffType)
         {
             case BuffTypes.speed:
                 playerStateMachine.MovementSpeedModifier = 2.0f;
                 break;
-            case BuffTypes.strength:
-                playerStateMachine.AttackPowerModifier = 2.0f;
+            case BuffTypes.nostamina:
+                Debug.Log("스태미나 버프!"); 
+                playerconditions.ActiveNoStaminaBuff();
+                break;
+            case BuffTypes.shield:
+                Debug.Log("보호막 활성화");
+                playerconditions.ActivateShield(1000);
                 break;
             default:
                 break;
@@ -45,13 +53,18 @@ public class Buff : MonoBehaviour
 
     public void EndBuff()
     {
-        switch (BuffType)
+        switch (buffType)
         {
             case BuffTypes.speed:
                 playerStateMachine.MovementSpeedModifier = 1.0f;
                 break;
-            case BuffTypes.strength:
-                playerStateMachine.AttackPowerModifier = 1.0f;
+            case BuffTypes.nostamina:
+                Debug.Log("스태미너 버프 빠짐");
+                playerconditions.DeActivateNoStaminaBuff();
+                break;
+            case BuffTypes.shield:
+                Debug.Log("보호막 사라짐");
+                playerconditions.DeActivateShield();
                 break;
             default:
                 break;

@@ -97,7 +97,28 @@ public class Player : MonoBehaviour
         enabled = false;
     }
 
-    
+    public void CreateGrenadeWithDelay(float delayInSeconds)
+    {
+        if (hasGrenades == 0)
+            return;
+
+        StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
+    }
+
+    private IEnumerator CreateGrenadeCoroutine(float delayInSeconds)
+    {
+        yield return new WaitForSeconds(delayInSeconds);
+
+        GameObject instantGrenade = Instantiate(grenadeObj, throwPoint.position, transform.rotation);
+        Grenade grenade = instantGrenade.GetComponent<Grenade>();
+
+        if (grenade != null)
+        {
+            grenade.Init();
+        }
+    }
+
+    /*
     public void CreateGrenade()
     {
         if (hasGrenades == 0)
@@ -115,5 +136,5 @@ public class Player : MonoBehaviour
         
     }
     
-    
+    */
 }

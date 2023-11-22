@@ -59,6 +59,8 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.SuperJump.started += OnSuperJumpStarted;
         input.PlayerActions.Throw.started += OnThrowStarted;
+        input.PlayerActions.NoStamina.started += OnNoStaminaStarted;
+        input.PlayerActions.Shield.started += OnShieldStarted;
     }
 
 
@@ -77,6 +79,8 @@ public class PlayerBaseState : IState
 
         input.PlayerActions.SuperJump.started -= OnSuperJumpStarted;
         input.PlayerActions.Throw.started -= OnThrowStarted;
+        input.PlayerActions.NoStamina.started -= OnNoStaminaStarted;
+        input.PlayerActions.Shield.started -= OnShieldStarted;
     }
 
 
@@ -113,6 +117,17 @@ public class PlayerBaseState : IState
     {
 
     }
+
+    protected virtual void OnNoStaminaStarted(InputAction.CallbackContext context)
+    {
+
+    }
+
+    protected virtual void OnShieldStarted(InputAction.CallbackContext context)
+    {
+
+    }
+
 
     private void ReadMovementInput()
     {

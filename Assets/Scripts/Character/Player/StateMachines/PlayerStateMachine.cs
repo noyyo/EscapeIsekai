@@ -25,6 +25,10 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
     public PlayerThrowState ThrowState { get; }
 
+    public PlayerNoStamina NoStamina { get; }
+
+    public PlayerShieldState ShieldState { get; }
+
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
     public float RotationDamping { get; private set; }
@@ -65,6 +69,8 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
         SuperJump = new PlayerSuperJump(this);
         ThrowState = new PlayerThrowState(this);
+        NoStamina = new PlayerNoStamina(this);
+        ShieldState = new PlayerShieldState(this);
 
         MainCameraTransform = Camera.main.transform;
 
@@ -95,7 +101,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
         for (int i = 0; i < buffs.Count; i++)
         {
             buff = buffs[i];
-            if(Time.time - buff.buffStartTime >= buff.Duration)
+            if(Time.time - buff.buffStartTime >= buff.duration)
             {
                 buff.EndBuff();
                 buffs.Remove(buff);

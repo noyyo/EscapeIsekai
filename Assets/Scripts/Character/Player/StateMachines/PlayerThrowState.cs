@@ -13,7 +13,7 @@ public class PlayerThrowState : PlayerGroundState
         base.Enter();
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
-        stateMachine.Player.CreateGrenade();
+        stateMachine.Player.CreateGrenadeWithDelay(0.8f);
     }
 
     public override void Exit()

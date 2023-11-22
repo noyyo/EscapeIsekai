@@ -103,9 +103,7 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-
                 },
-               
                 {
                     "name": "Throw",
                     "type": "Button",
@@ -114,7 +112,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-
+                },
+                {
+                    "name": "NoStamina",
+                    "type": "Button",
+                    "id": "0759e211-c41d-4584-9774-caf2b06b525f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shield",
+                    "type": "Button",
+                    "id": "e1d7b955-9516-4f39-82b8-76dcbe4cacab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -282,9 +297,7 @@
                     "action": "Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
-
                 },
-                
                 {
                     "name": "",
                     "id": "bf4560e0-625f-499f-a428-359a64b03b80",
@@ -295,7 +308,28 @@
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
-
+                },
+                {
+                    "name": "",
+                    "id": "03b1ec31-1f0d-48cd-bdb4-e3ab2a631e41",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NoStamina",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "631fb44b-0a46-4058-bcbd-8b16c86dff13",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
