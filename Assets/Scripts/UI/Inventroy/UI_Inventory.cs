@@ -1,137 +1,146 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Inventory : MonoBehaviour
 {
-    [SerializeField] private GameObject _inventoryTailButtonArea;
-    [SerializeField] private GameObject _itemExplanationPopup;
-    [SerializeField] private Button[] _inventoryTypeButtons;
-    [SerializeField] private Button[] _inventoryTailButtons;
-    [SerializeField] private GameObject _tailUseButton;
-    [SerializeField] private TMP_Text _tailUseButtonText;
-    [SerializeField] private Button _backButton;
+    [SerializeField] private GameObject inventoryTailButtonArea;
+    [SerializeField] private GameObject itemExplanationPopup;
+    [SerializeField] private Button[] inventoryTypeButtons;
+    [SerializeField] private Button[] inventoryTailButtons;
+    [SerializeField] private GameObject tailUseButton;
+    [SerializeField] private TMP_Text tailUseButtonText;
+    [SerializeField] private Button backButton;
 
-    private Inventory _inventory;
-    private GameObject _inventory_GameObject;
-    private InventoryManager _inventoryManager;
-    private UI_Manager _ui_manager;
-    private GameManager _gameManager;
+    private Inventory inventory;
+    private GameObject inventoryUI;
+    private InventoryManager inventoryManager;
+    private UI_Manager ui_manager;
+    private GameManager gameManager;
+    private TMP_Text[] itemExplanationTexts;
+    private string delimiter;
+    private string lineBreaking;
 
     //현재 출력되고 있는 카테고리
-    private ItemType _nowDisplayItemType;
-
-    public GameObject ItemExplanationPopup { get { return _itemExplanationPopup; } }
+    private ItemType nowDisplayItemType;
 
     private void Awake()
     {
-        _gameManager = GameManager.Instance;
-        _inventoryManager = InventoryManager.Instance;
-        _ui_manager = UI_Manager.Instance;
+        gameManager = GameManager.Instance;
+        inventoryManager = InventoryManager.Instance;
+        ui_manager = UI_Manager.Instance;
+
+        delimiter = " : ";
+        lineBreaking = "\n";
         Init();
     }
 
     //변할수있는 값 초기화
     private void Init()
     {
-        _nowDisplayItemType = ItemType.Equipment;
+        nowDisplayItemType = ItemType.Equipment;
 
-        if (_inventory_GameObject == null)
-            _inventory_GameObject = this.gameObject;
+        if (inventoryUI == null)
+            inventoryUI = this.gameObject;
 
-        if (_inventoryTailButtonArea == null)
-            _inventoryTailButtonArea = this.transform.GetChild(1).GetChild(1).gameObject;
+        if (inventoryTailButtonArea == null)
+            inventoryTailButtonArea = this.transform.GetChild(1).GetChild(1).gameObject;
 
-        if (_itemExplanationPopup == null)
-            _itemExplanationPopup = this.transform.GetChild(3).gameObject;
+        if (itemExplanationPopup == null)
+            itemExplanationPopup = this.transform.GetChild(3).gameObject;
 
-        if (_inventory == null)
-            _inventory = _gameManager.Player.GetComponent<Inventory>();
+        if (inventory == null)
+            inventory = gameManager.Player.GetComponent<Inventory>();
 
         //버튼 설정
         // 장비 : 0, 소비 : 1, 재료 : 2, 기타 : 3
-        if(_inventoryTypeButtons.Length == 0)
-            _inventoryTypeButtons = this.transform.GetChild(2).GetComponentsInChildren<Button>();
+        if(inventoryTypeButtons.Length == 0)
+            inventoryTypeButtons = this.transform.GetChild(2).GetComponentsInChildren<Button>();
 
         //정렬 : 0, 버리기 : 1, 사용 : 2
-        if( _inventoryTypeButtons.Length == 0)
-            _inventoryTailButtons = _inventoryTailButtonArea.GetComponentsInChildren<Button>();
+        if( inventoryTypeButtons.Length == 0)
+            inventoryTailButtons = inventoryTailButtonArea.GetComponentsInChildren<Button>();
 
         //뒤로가기
-        if(_backButton == null)
-            _backButton = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
+        if(backButton == null)
+            backButton = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
 
-        if(_tailUseButton == null)
-            _tailUseButton = _inventoryTailButtons[2].gameObject;
+        if(tailUseButton == null)
+            tailUseButton = inventoryTailButtons[2].gameObject;
 
-        if(_tailUseButtonText == null)
-            _tailUseButtonText = _tailUseButton.GetComponentInChildren<TMP_Text>();
+        if(tailUseButtonText == null)
+            tailUseButtonText = tailUseButton.GetComponentInChildren<TMP_Text>();
 
-        _inventoryTypeButtons[0].onClick.AddListener(() => { OnCategoryButton(ItemType.Equipment); });
-        _inventoryTypeButtons[1].onClick.AddListener(() => { OnCategoryButton(ItemType.Consumable); });
-        _inventoryTypeButtons[2].onClick.AddListener(() => { OnCategoryButton(ItemType.Material); });
-        _inventoryTypeButtons[3].onClick.AddListener(() => { OnCategoryButton(ItemType.ETC); });
+        itemExplanationTexts = itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
 
-        _inventoryTailButtons[0].onClick.AddListener(_inventory.SortInventory);
-        _inventoryTailButtons[1].onClick.AddListener(_inventory.Drop);
-        _inventoryTailButtons[2].onClick.AddListener(_inventory.UseItem);
+        inventoryTypeButtons[0].onClick.AddListener(() => { OnCategoryButton(ItemType.Equipment); });
+        inventoryTypeButtons[1].onClick.AddListener(() => { OnCategoryButton(ItemType.Consumable); });
+        inventoryTypeButtons[2].onClick.AddListener(() => { OnCategoryButton(ItemType.Material); });
+        inventoryTypeButtons[3].onClick.AddListener(() => { OnCategoryButton(ItemType.ETC); });
 
-        _backButton.onClick.AddListener(_ui_manager.CallUI_InventoryTurnOff); //돌아가기
+        inventoryTailButtons[0].onClick.AddListener(inventory.SortInventory);
+        inventoryTailButtons[1].onClick.AddListener(inventory.Drop);
+        inventoryTailButtons[2].onClick.AddListener(inventory.UseItem);
 
-        _ui_manager.UI_InventoryTurnOnEvent += InventroyUITurnOn;
-        _ui_manager.UI_InventoryTurnOffEvent += InventroyUITurnOff;
+        backButton.onClick.AddListener(ui_manager.CallUI_InventoryTurnOff); //돌아가기
 
-        _inventoryManager.onTextChangeEquipEvent += ButtonTextChange_Equip;
-        _inventoryManager.onTextChangeUnEquipEvent += ButtonTextChange_Unequip;
+        ui_manager.UI_InventoryTurnOnEvent += InventroyUITurnOn;
+        ui_manager.UI_InventoryTurnOffEvent += InventroyUITurnOff;
+
+        inventoryManager.OnTextChangeEquipEvent += ButtonTextChange_Equip;
+        inventoryManager.OnTextChangeUnEquipEvent += ButtonTextChange_Unequip;
+        inventoryManager.OnItemExplanationPopUpEvent += ActiveItemExplanationPopUp;
     }
 
     //이벤트에 걸린 메서드( 인벤토리 창 ON, OFF)
     private void InventroyUITurnOn()
     {
-        _inventory_GameObject.SetActive(true);
+        inventoryUI.SetActive(true);
     }
 
     private void InventroyUITurnOff()
     {
-        _inventory_GameObject.SetActive(false);
+        inventoryUI.SetActive(false);
     }
 
     // 카테고리 변경됨으로써 현재 카테고리 저장후 UI표시
     private void CallItemSlots(ItemType displayType)
     {
-        _nowDisplayItemType = displayType;
-        _inventory.SetDisplayType(displayType);
+        nowDisplayItemType = displayType;
+        inventoryManager.CallOnSetDisplayType(displayType);
     }
 
     // 설명창 끄기
     public void TurnOffItemExplanationPopup()
     {
-        _itemExplanationPopup.SetActive(false);
+        itemExplanationPopup.SetActive(false);
     }
 
     //현재 카테고리에 따른 밑쪽 버튼텍스트 번경 및 ON, OFF
-    public void DisplayInventoryTailUI()
+    public void DisplayInventoryTailUI(bool isEquip)
     {
-        _inventoryTailButtonArea.SetActive(true);
-        switch (_nowDisplayItemType)
+        inventoryTailButtonArea.SetActive(true);
+        switch (nowDisplayItemType)
         {
             case ItemType.Equipment:
-                _tailUseButton.SetActive(true);
-                if (_inventoryManager.ClickItem.equip)
+                tailUseButton.SetActive(true);
+                if (isEquip)
                     ButtonTextChange_Unequip();
                 else
                     ButtonTextChange_Equip();
                 break;
             case ItemType.Consumable:
-                _tailUseButton.SetActive(true);
-                _tailUseButtonText.text = "소비";
+                tailUseButton.SetActive(true);
+                tailUseButtonText.text = "소비";
                 break;
             case ItemType.Material:
-                _tailUseButton.SetActive(false);
+                tailUseButton.SetActive(false);
                 break;
             default:
-                _tailUseButton.SetActive(false);
+                tailUseButton.SetActive(false);
                 break;
         }
     }
@@ -139,13 +148,13 @@ public class UI_Inventory : MonoBehaviour
     // 밑쪽 버튼 모두 OFF
     public void TurnOffInventoryTailUI()
     {
-        _inventoryTailButtonArea.SetActive(false);
+        inventoryTailButtonArea.SetActive(false);
     }
 
     //카테고리 버튼 눌렀을시 해야해는 동작 모음 (이벤트로 바꿔도 상관없을듯)
     public void OnCategoryButton(ItemType categoryType)
     {
-        if (_nowDisplayItemType == categoryType) return;
+        if (nowDisplayItemType == categoryType) return;
         InventoryUITurnOff();
         CallItemSlots(categoryType); //Slot에 표시되는 Item 바꾸기
     }
@@ -154,16 +163,30 @@ public class UI_Inventory : MonoBehaviour
     {
         TurnOffItemExplanationPopup(); // 설명창 오프
         TurnOffInventoryTailUI(); // 인벤토리 UI 오프
-        _inventoryManager.CallTurnOffItemClick(); //클릭시 뜨는 UI 오프
+        inventoryManager.CallTurnOffItemClick(); //클릭시 뜨는 UI 오프
     }
     
     public void ButtonTextChange_Equip()
     {
-        _tailUseButtonText.text = "장착";
+        tailUseButtonText.text = "장착";
     }
 
     public void ButtonTextChange_Unequip()
     {
-        _tailUseButtonText.text = "장비 해제";
+        tailUseButtonText.text = "장비 해제";
+    }
+
+    public void ActiveItemExplanationPopUp(Item itemObject)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (KeyValuePair<string, float> i in itemObject.Stats)
+        {
+            if (i.Value > 0)
+                sb.Append(i.Key + delimiter + (int)i.Value + lineBreaking);
+        }
+        itemExplanationTexts[0].text = itemObject.ItemName;
+        itemExplanationTexts[1].text = sb.ToString();
+        itemExplanationTexts[2].text = itemObject.ItemExplanation;
+        itemExplanationPopup.SetActive(true);
     }
 }

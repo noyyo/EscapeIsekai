@@ -15,9 +15,10 @@ public class Npc : MonoBehaviour
     public TimelineAsset[] Motion;
     public bool isHit;
     private GameObject target;
-
     private GameObject player;
     private PlayerStateMachine stateMachine;
+
+    public GameObject[] marks;
     private void Update()
     {
         if(isHit && target != null)
@@ -39,6 +40,7 @@ public class Npc : MonoBehaviour
         stateMachine = player.GetComponent<Player>().StateMachine;
         ServeQuestManager.Instance.CanClear += OnClearMark;
         ServeQuestManager.Instance.CanAccept += CanAcceptMark;
+        ServeQuestManager.Instance.isAllClear += ShutDownMark;
         OnAcceptMark();
         
     }
@@ -62,7 +64,7 @@ public class Npc : MonoBehaviour
     private void OnInteraction()
     {
         if(isHit)
-        {   
+        {
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
             stateMachine.ChangeState(stateMachine.NothingState);
@@ -74,7 +76,9 @@ public class Npc : MonoBehaviour
     {
         if(Npcid == id)
         {
-            //Debug.Log("깰수있는 퀘스트 존재");
+            marks[0].SetActive(false);
+            marks[1].SetActive(false);
+            marks[2].SetActive(true);
         }
     }
 
@@ -82,15 +86,40 @@ public class Npc : MonoBehaviour
     {
         if(ServeQuestManager.Instance.MarkInit(id))
         {
-         //   Debug.Log("난킬수있어");
+            marks[0].SetActive(true);
+            marks[1].SetActive(false);
+            marks[2].SetActive(false);
         }
     }
 
+    private void ShutDownMark(int npcid)
+    {
+        if(npcid == id)
+        {
+            marks[0].SetActive(false);
+            marks[1].SetActive(false);
+            marks[2].SetActive(false);
+        }
+    }
     private void CanAcceptMark(int Npcid)
     {
         if(Npcid== id)
         {
-         //   Debug.Log("나 또킬수있어");
+            marks[0].SetActive(true);
+            marks[1].SetActive(false);
+            marks[2].SetActive(false);
+        }
+    }
+
+    public void CheckeState(int state)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            marks[i].SetActive(false);
+            if(state == i && i !=2)
+            {
+                marks[i].SetActive(true);
+            }
         }
     }
 }

@@ -13,199 +13,466 @@ MonoBehaviour:
   m_Name: ItemExcel
   m_EditorClassIdentifier: 
   ItemDatas:
-  - _id: 10010000
-    _itemName: "\uB098\uBB34 \uAC80"
-    _itemExplanation: "\uB098\uBB34\uB85C \uB9CC\uB4E0 \uAC80\uC785\uB2C8\uB2E4."
-    _price: 10
-    _maxCount: 1
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/0
-    _isStat: 1
-    _isCrafting: 1
-  - _id: 10200000
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD"
-    _itemExplanation: "\uC7AC\uB8CC\uAC00 \uB420 \uD5C8\uB984\uD55C \uAC00\uC8FD\uC785\uB2C8\uB2E4."
-    _price: 10
-    _maxCount: 1
-    _dropPrefabPath: Prefabs/Entities/DropItem/1
-    _iconPath: Sprite/Icon/1
-    _isStat: 0
-    _isCrafting: 0
-  - _id: 10001000
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758"
-    _itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD\uC73C\uB85C \uB9CC\uB4E0 \uC0C1\uC758\uC785\uB2C8\uB2E4."
-    _price: 10
-    _maxCount: 1
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/2
-    _isStat: 1
-    _isCrafting: 1
-  - _id: 10002000
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758"
-    _itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD\uC73C\uB85C \uB9CC\uB4E0 \uD558\uC758\uC785\uB2C8\uB2E4."
-    _price: 10
-    _maxCount: 1
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/2
-    _isStat: 1
-    _isCrafting: 1
-  - _id: 10000000
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790"
-    _itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD\uC73C\uB85C \uB9CC\uB4E0 \uBAA8\uC790\uC785\uB2C8\uB2E4."
-    _price: 10
-    _maxCount: 1
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/2
-    _isStat: 1
-    _isCrafting: 1
-  - _id: 10100000
-    _itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158"
-    _itemExplanation: "\uD3EC\uC158"
-    _price: 1
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/3
-    _isStat: 1
-    _isCrafting: 1
-  - _id: 10300000
-    _itemName: "\uAE30\uD0C0\uAE30\uD0C0\uAE30\uD0C0"
-    _itemExplanation: "\uAE30\uD0C0\uAE30\uD0C0\uAE30\uD0C0"
-    _price: 100
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/4
-    _isStat: 0
-    _isCrafting: 0
-  - _id: 10400000
-    _itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD018\uC2A4\uD2B8 \uC544\uC774\uD15C"
-    _itemExplanation: "\uD018\uC2A4\uD2B8 \uC544\uC774\uD15C"
-    _price: 1
-    _maxCount: 1
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/4
-    _isStat: 1
-    _isCrafting: 0
-  - _id: 10110000
-    _itemName: "\uB098\uBB34 \uAC80\uC758 \uB808\uC2DC\uD53C"
-    _itemExplanation: "\uB098\uBB34 \uAC80\uC758 \uC81C\uC791 \uBC29\uBC95\uC774
+  - id: 1001
+    type: Nomal
+    itemName: "\uD3EC\uC158 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 0
+    isSale: 0
+    effect: 0
+  - id: 2001
+    type: Gather
+    itemName: "\uB098\uBB34"
+    itemExplanation: "\uB2E8\uB2E8\uD55C \uB098\uBB34\uC785\uB2C8\uB2E4."
+    price: 100
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Wood
+    iconPath: Sprite/Icon/Gather_1
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 2002
+    type: Gather
+    itemName: "\uD480"
+    itemExplanation: "\uC9C8\uAE34 \uD480\uC785\uB2C8\uB2E4."
+    price: 50
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Grass
+    iconPath: Sprite/Icon/Gather_2
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 2003
+    type: Gather
+    itemName: "\uC9DA"
+    itemExplanation: "\uB9C8\uB978 \uC9C0\uD478\uB77C\uAE30\uC785\uB2C8\uB2E4."
+    price: 150
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Straw
+    iconPath: Sprite/Icon/Gather_3
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 2004
+    type: Gather
+    itemName: "\uB3CC"
+    itemExplanation: "\uB2E8\uB2E8\uD55C \uB3CC\uC785\uB2C8\uB2E4."
+    price: 200
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Stone
+    iconPath: Sprite/Icon/Gather_4
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 2005
+    type: Gather
+    itemName: "\uC0AC\uACFC"
+    itemExplanation: "\uC0C1\uD07C\uD55C \uD5A5\uC774\uB0A9\uB2C8\uB2E4."
+    price: 50
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Apple
+    iconPath: Sprite/Icon/Gather_5
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 5
+  - id: 2006
+    type: Gather
+    itemName: "\uD1A0\uB9C8\uD1A0"
+    itemExplanation: "\uC2E0\uC120\uD574 \uBCF4\uC785\uB2C8\uB2E4."
+    price: 100
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Tomato
+    iconPath: Sprite/Icon/Gather_6
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 10
+  - id: 2007
+    type: Gather
+    itemName: "\uC625\uC218\uC218"
+    itemExplanation: "\uC88B\uC740 \uD0C4\uC218\uD654\uBB3C\uC785\uB2C8\uB2E4."
+    price: 150
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/Corn
+    iconPath: Sprite/Icon/Gather_7
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 15
+  - id: 2008
+    type: Gather
+    itemName: "\uBC14\uB098\uB098"
+    itemExplanation: "\uAC04\uC2DD\uC73C\uB85C \uBA39\uAE30 \uC88B\uC2B5\uB2C8\uB2E4"
+    price: 100
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Gather/banana
+    iconPath: Sprite/Icon/Gather_8
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 10
+  - id: 3002
+    type: Food
+    itemName: "\uC2A4\uD14C\uC774\uD06C"
+    itemExplanation: "\uAD7D\uC9C0 \uC54A\uC544\uB3C4 \uB9DB\uC788\uC2B5\uB2C8\uB2E4"
+    price: 500
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Beef
+    iconPath: Sprite/Icon/Food_2
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 30
+  - id: 3003
+    type: Food
+    itemName: "\uBE0C\uB85C\uCF5C\uB9AC"
+    itemExplanation: "\uAC74\uAC15\uC5D0\uB294 \uC88B\uC2B5\uB2C8\uB2E4"
+    price: 100
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Broccoli
+    iconPath: Sprite/Icon/Food_3
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 20
+  - id: 3004
+    type: Food
+    itemName: "\uBE75"
+    itemExplanation: "\uACE0\uC18C\uD55C \uBC84\uD130\uD5A5\uC774 \uB0A9\uB2C8\uB2E4"
+    price: 200
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Bread
+    iconPath: Sprite/Icon/Food_4
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 50
+  - id: 3006
+    type: Food
+    itemName: "\uB2ED\uB2E4\uB9AC"
+    itemExplanation: "\uACE0\uD5A5\uC758 \uCE58\uD0A8\uC774 \uC0DD\uAC01\uB0A9\uB2C8\uB2E4"
+    price: 300
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Chicken
+    iconPath: Sprite/Icon/Food_5
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 20
+  - id: 3007
+    type: Food
+    itemName: "\uCE74\uB808"
+    itemExplanation: "\uB4E0\uB4E0\uD55C \uD55C\uB07C\uAC00 \uB420\uAC81\uB2C8\uB2E4"
+    price: 700
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Curry
+    iconPath: Sprite/Icon/Food_6
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 100
+  - id: 3008
+    type: Food
+    itemName: "\uC8FD"
+    itemExplanation: "\uC18C\uD654\uC5D0 \uC88B\uC2B5\uB2C8\uB2E4"
+    price: 500
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Stew
+    iconPath: Sprite/Icon/Food_7
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 50
+  - id: 3009
+    type: Food
+    itemName: "\uC2A4\uD504"
+    itemExplanation: "\uAC00\uBCCD\uAC8C \uC2DD\uC0AC\uD558\uAE30 \uC88B\uC2B5\uB2C8\uB2E4"
+    price: 600
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Food/Soup
+    iconPath: Sprite/Icon/Food_8
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 70
+  - id: 4101
+    type: Nomal
+    itemName: "\uB098\uBB34\uAC80"
+    itemExplanation: "\uB098\uBB34\uB85C \uB9CC\uB4E0 \uAC80\uC785\uB2C8\uB2E4."
+    price: 1000
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_2
+    isStat: 1
+    isCrafting: 1
+    isSale: 0
+    effect: 30
+  - id: 6001
+    type: Craft
+    itemName: "\uBE68\uAC04\uD3EC\uC158"
+    itemExplanation: "HP\uB97C \uD68C\uBCF5\uD569\uB2C8\uB2E4"
+    price: 500
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Craft/
+    iconPath: Sprite/Icon/Craft_1
+    isStat: 1
+    isCrafting: 1
+    isSale: 1
+    effect: 100
+  - id: 6002
+    type: Craft
+    itemName: "\uD30C\uB780\uD3EC\uC158"
+    itemExplanation: "\uD30C\uB780\uC0C9 \uD3EC\uC158"
+    price: 500
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Craft/
+    iconPath: Sprite/Icon/Craft_2
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+    effect: 0
+  - id: 10000000
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790"
+    itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD\uC73C\uB85C \uB9CC\uB4E0 \uBAA8\uC790\uC785\uB2C8\uB2E4."
+    price: 10
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/2
+    isStat: 1
+    isCrafting: 1
+    isSale: 1
+    effect: 0
+  - id: 10001000
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758"
+    itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD\uC73C\uB85C \uB9CC\uB4E0 \uC0C1\uC758\uC785\uB2C8\uB2E4."
+    price: 10
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/2
+    isStat: 1
+    isCrafting: 1
+    isSale: 1
+    effect: 0
+  - id: 10002000
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758"
+    itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD\uC73C\uB85C \uB9CC\uB4E0 \uD558\uC758\uC785\uB2C8\uB2E4."
+    price: 10
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/2
+    isStat: 1
+    isCrafting: 1
+    isSale: 1
+    effect: 0
+  - id: 10010000
+    type: Nomal
+    itemName: "\uB098\uBB34 \uAC80"
+    itemExplanation: "\uB098\uBB34\uB85C \uB9CC\uB4E0 \uAC80\uC785\uB2C8\uB2E4."
+    price: 10
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/0
+    isStat: 1
+    isCrafting: 1
+    isSale: 1
+    effect: 0
+  - id: 10100000
+    type: Nomal
+    itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158"
+    itemExplanation: "\uD3EC\uC158"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/3
+    isStat: 1
+    isCrafting: 1
+    isSale: 1
+    effect: 0
+  - id: 10110000
+    type: Nomal
+    itemName: "\uB098\uBB34 \uAC80\uC758 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uB098\uBB34 \uAC80\uC758 \uC81C\uC791 \uBC29\uBC95\uC774 \uC801\uD78C
+      \uC885\uC774\uC785\uB2C8\uB2E4."
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/5
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10110001
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758\uC758 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758\uC758 \uC81C\uC791
+      \uBC29\uBC95\uC774 \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/6
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10110002
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758\uC758 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758\uC758 \uC81C\uC791
+      \uBC29\uBC95\uC774 \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/6
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10110003
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790\uC758 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790\uC758 \uC81C\uC791
+      \uBC29\uBC95\uC774 \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/6
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10110004
+    type: Nomal
+    itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158\uC758 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158\uC758 \uC81C\uC791 \uBC29\uBC95\uC774
       \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
-    _price: 1
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/5
-    _isStat: 0
-    _isCrafting: 0
-  - _id: 10110001
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758\uC758 \uB808\uC2DC\uD53C"
-    _itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758\uC758 \uC81C\uC791
-      \uBC29\uBC95\uC774 \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
-    _price: 1
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/6
-    _isStat: 0
-    _isCrafting: 0
-  - _id: 10110002
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758\uC758 \uB808\uC2DC\uD53C"
-    _itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758\uC758 \uC81C\uC791
-      \uBC29\uBC95\uC774 \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
-    _price: 1
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/6
-    _isStat: 0
-    _isCrafting: 0
-  - _id: 10110003
-    _itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790\uC758 \uB808\uC2DC\uD53C"
-    _itemExplanation: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790\uC758 \uC81C\uC791
-      \uBC29\uBC95\uC774 \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
-    _price: 1
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/6
-    _isStat: 0
-    _isCrafting: 0
-  - _id: 10110004
-    _itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158\uC758 \uB808\uC2DC\uD53C"
-    _itemExplanation: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158\uC758 \uC81C\uC791 \uBC29\uBC95\uC774
-      \uC801\uD78C \uC885\uC774\uC785\uB2C8\uB2E4."
-    _price: 1
-    _maxCount: 99
-    _dropPrefabPath: Prefabs/Entities/DropItem/0
-    _iconPath: Sprite/Icon/7
-    _isStat: 0
-    _isCrafting: 0
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/7
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10200000
+    type: Nomal
+    itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD"
+    itemExplanation: "\uC7AC\uB8CC\uAC00 \uB420 \uD5C8\uB984\uD55C \uAC00\uC8FD\uC785\uB2C8\uB2E4."
+    price: 10
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/DropItem/1
+    iconPath: Sprite/Icon/1
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10300000
+    type: Nomal
+    itemName: "\uAE30\uD0C0\uAE30\uD0C0\uAE30\uD0C0"
+    itemExplanation: "\uAE30\uD0C0\uAE30\uD0C0\uAE30\uD0C0"
+    price: 100
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/4
+    isStat: 0
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 10400000
+    type: Nomal
+    itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD018\uC2A4\uD2B8 \uC544\uC774\uD15C"
+    itemExplanation: "\uD018\uC2A4\uD2B8 \uC544\uC774\uD15C"
+    price: 1
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/DropItem/0
+    iconPath: Sprite/Icon/4
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 0
   Stats:
-  - _id: 10010000
-    _hp: 0
-    _temperature: 0
-    _atk: 5
-    _def: 0
-    _speed: 0
-    _stamina: 0
-  - _id: 10001000
-    _hp: 5
-    _temperature: 1
-    _atk: 0
-    _def: 2
-    _speed: 0
-    _stamina: 0
-  - _id: 10002000
-    _hp: 3
-    _temperature: 1
-    _atk: 0
-    _def: 2
-    _speed: 0
-    _stamina: 0
-  - _id: 10000000
-    _hp: 2
-    _temperature: 1
-    _atk: 0
-    _def: 1
-    _speed: 0
-    _stamina: 0
-  - _id: 10100000
-    _hp: 10
-    _temperature: 0
-    _atk: 0
-    _def: 0
-    _speed: 0
-    _stamina: 0
-  - _id: 10400000
-    _hp: 5
-    _temperature: 0
-    _atk: 1
-    _def: 1
-    _speed: 0
-    _stamina: 0
+  - id: 10010000
+    hp: 0
+    temperature: 0
+    atk: 5
+    def: 0
+    speed: 0
+    stamina: 0
+  - id: 10001000
+    hp: 5
+    temperature: 1
+    atk: 0
+    def: 2
+    speed: 0
+    stamina: 0
+  - id: 10002000
+    hp: 3
+    temperature: 1
+    atk: 0
+    def: 2
+    speed: 0
+    stamina: 0
+  - id: 10000000
+    hp: 2
+    temperature: 1
+    atk: 0
+    def: 1
+    speed: 0
+    stamina: 0
+  - id: 10100000
+    hp: 10
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+  - id: 10400000
+    hp: 5
+    temperature: 0
+    atk: 1
+    def: 1
+    speed: 0
+    stamina: 0
   Recipe:
-  - _id: 10110000
-    _craftingID: 10010000
-    _craftingPrice: 50
-    _materials_string: 10300000
-    _materials_count_string: 1
-    _availableCount: 0
-  - _id: 10110001
-    _craftingID: 10001000
-    _craftingPrice: 30
-    _materials_string: 10200000
-    _materials_count_string: 3
-    _availableCount: 0
-  - _id: 10110002
-    _craftingID: 10002000
-    _craftingPrice: 30
-    _materials_string: 10200000
-    _materials_count_string: 3
-    _availableCount: 0
-  - _id: 10110003
-    _craftingID: 10000000
-    _craftingPrice: 30
-    _materials_string: 10200000
-    _materials_count_string: 2
-    _availableCount: 0
-  - _id: 10110004
-    _craftingID: 10100000
-    _craftingPrice: 10
-    _materials_string: 10300000
-    _materials_count_string: 2
-    _availableCount: 0
+  - id: 10110000
+    craftingID: 10010000
+    craftingPrice: 50
+    materials_string: 10300000
+    materials_count_string: 1
+    availableCount: 0
+  - id: 10110001
+    craftingID: 10001000
+    craftingPrice: 30
+    materials_string: 10200000
+    materials_count_string: 3
+    availableCount: 0
+  - id: 10110002
+    craftingID: 10002000
+    craftingPrice: 30
+    materials_string: 10200000
+    materials_count_string: 3
+    availableCount: 0
+  - id: 10110003
+    craftingID: 10000000
+    craftingPrice: 30
+    materials_string: 10200000
+    materials_count_string: 2
+    availableCount: 0
+  - id: 10110004
+    craftingID: 10100000
+    craftingPrice: 10
+    materials_string: 10300000
+    materials_count_string: 2
+    availableCount: 0

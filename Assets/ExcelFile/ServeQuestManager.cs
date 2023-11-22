@@ -1,10 +1,13 @@
+using Krearthur.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 using static UnityEditor.Progress;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -18,9 +21,17 @@ public class ServeQuestManager : MonoBehaviour
     public Dictionary<int, int> playerQuest; //0 미진행 1 진행중 2 완료
     public Dictionary<int, int> playerQuestKillCount;
     public Dictionary<int, int> playerQuestKillCount2;
+    public GameObject parent;
+    public TextMeshProUGUI header;
+    public TextMeshProUGUI content;
 
     public event Action<int> CanAccept;
     public event Action<int> CanClear;
+    public event Action<int> isAllClear;
+    public event Action<int> updateQuest;
+
+    public Dictionary<GameObject,int> questList = new Dictionary<GameObject, int>();
+    public Dictionary<GameObject, int> questZoneDic = new Dictionary<GameObject, int>();
     private void Awake()
     {
         Instance = this;
@@ -33,6 +44,107 @@ public class ServeQuestManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.Player.GetComponent<Inventory>().AddItem += QuestItemCheck;
+        updateQuest += UpdateQuest;
+    }
+    public void UpdateQuest(int key)
+    {
+        var questPair = questList
+ .Where(item => item.Value ==key)
+ .Select(item => item.Key)
+ .ToList();
+        if(questPair.Count!=0)
+        {
+            foreach (GameObject tmp in questPair)
+            {
+                if (tmp.gameObject.GetComponent<TextMeshProUGUI>().text == questDBDic[key].QuestName)
+                {
+                    tmp.gameObject.GetComponent<TextMeshProUGUI>().text += " -완료";
+                }
+            } 
+        }
+    }
+    public void AddQuestList(int key)
+    {
+        if (playerQuest[key] ==0)
+        {
+            if (questDBDic[key].QuestType == 1)
+            {
+                if(questDBDic[key].QuestItem2>0 && questDBDic[key].QuestItem> 0)
+                {
+                    TextMeshProUGUI tempheader = Instantiate(header, parent.transform);
+                    tempheader.text = questDBDic[key].QuestName;
+                    TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
+                    ItemData_Test DB = new ItemData_Test();
+                    ItemData_Test DB2 = new ItemData_Test();
+                    string contentText = null;
+                    if (ItemDB.Instance.GetItemData(questDBDic[key].QuestItem, out DB) && ItemDB.Instance.GetItemData(questDBDic[key].QuestItem2, out DB2))
+                    {
+                        contentText = $"{DB.ItemName} : {questDBDic[key].QuestItemCount}개를(을) 구해보자\n" +
+                            $"{DB2.ItemName} : {questDBDic[key].QuestItem2Count}개를(을) 구해보자";
+                    }
+                    tempcontent.text = contentText;
+                    questList.Add(tempheader.gameObject, key);
+                    questList.Add(tempcontent.gameObject, key);
+                }
+                else
+                {
+                    TextMeshProUGUI tempheader = Instantiate(header, parent.transform);
+                    tempheader.text = questDBDic[key].QuestName;
+                    TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
+                    ItemData_Test DB = new ItemData_Test();
+                    string contentText = null;
+                    if (ItemDB.Instance.GetItemData(questDBDic[key].QuestItem, out DB))
+                    {
+                        contentText = $"{DB.ItemName} : {questDBDic[key].QuestItemCount}개를(을) 구해보자";
+                    }
+                    tempcontent.text = contentText;
+                    questList.Add(tempheader.gameObject, key);
+                    questList.Add(tempcontent.gameObject, key);
+                }
+            }
+            if (questDBDic[key].QuestType == 2)
+            {
+                if (questDBDic[key].QuestMonster > 0 && questDBDic[key].QuestMonster2 >0)
+                {
+                    TextMeshProUGUI tempheader = Instantiate(header, parent.transform);
+                    tempheader.text = questDBDic[key].QuestName;
+                    TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
+                    string contentText = null;
+                    contentText = $"{questDBDic[key].QuestMonster}을(를) {questDBDic[key].QuestMonsterCount}마리 처치하자\n" +
+                                  $"{questDBDic[key].QuestMonster2}을(를) {questDBDic[key].QuestMonster2Count}마리 처치하자";
+                    tempcontent.text = contentText;
+                    questList.Add(tempheader.gameObject, key);
+                    questList.Add(tempcontent.gameObject, key);
+                }
+                else
+                {
+                    TextMeshProUGUI tempheader = Instantiate(header, parent.transform);
+                    tempheader.text = questDBDic[key].QuestName;
+                    TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
+                    string contentText = null;
+                    contentText = $"{questDBDic[key].QuestMonster}을(를) {questDBDic[key].QuestMonsterCount}마리 처치하자";
+                    tempcontent.text = contentText;
+                    questList.Add(tempheader.gameObject, key);
+                    questList.Add(tempcontent.gameObject, key);
+                }
+            }
+        }
+        if (playerQuest[key] == 2)
+        {
+            List<GameObject> keysToRemove = new List<GameObject>();
+            foreach (KeyValuePair<GameObject, int> Data in questList)
+            {
+                if (Data.Value == key)
+                {
+                    keysToRemove.Add(Data.Key);
+                }
+            }
+            foreach (GameObject keyToRemove in keysToRemove)
+            {
+                Destroy(keyToRemove);
+                questList.Remove(keyToRemove);
+            }
+        }
     }
     public bool MarkInit(int Npcid)
     {
@@ -51,6 +163,7 @@ public class ServeQuestManager : MonoBehaviour
                 return true;
             }
         }
+        isAllClear?.Invoke(Npcid);
         return false;
     }
     public int GetQuest(int Npcid)
@@ -116,10 +229,6 @@ public class ServeQuestManager : MonoBehaviour
                             {
                                 InventoryManager.Instance.CallAddItem(questDBDic[key].Reword, 1);
                             }
-                            if(MarkInit(questDBDic[key].Npc))
-                            {
-                                CanAccept?.Invoke(questDBDic[key].Npc);
-                            }
                         }
                     }
                 }
@@ -134,10 +243,6 @@ public class ServeQuestManager : MonoBehaviour
                             if (questDBDic[key].Reword > 0)
                             {
                                 InventoryManager.Instance.CallAddItem(questDBDic[key].Reword, 1);
-                            }
-                            if (MarkInit(questDBDic[key].Npc))
-                            {
-                                CanAccept?.Invoke(questDBDic[key].Npc);
                             }
                         }
                     }
@@ -159,10 +264,6 @@ public class ServeQuestManager : MonoBehaviour
                             {
                                 InventoryManager.Instance.CallAddItem(questDBDic[key].Reword, 1);
                             }
-                            if (MarkInit(questDBDic[key].Npc))
-                            {
-                                CanAccept?.Invoke(questDBDic[key].Npc);
-                            }
                         }
                     }
                    else if (questDBDic[key].QuestMonsterCount <= playerQuestKillCount[key])
@@ -171,10 +272,6 @@ public class ServeQuestManager : MonoBehaviour
                         if (questDBDic[key].Reword > 0)
                         {
                             InventoryManager.Instance.Inventory.TryAddItem(questDBDic[key].Reword, 1);
-                        }
-                        if (MarkInit(questDBDic[key].Npc))
-                        {
-                            CanAccept?.Invoke(questDBDic[key].Npc);
                         }
                     }
                 }
@@ -225,6 +322,7 @@ public class ServeQuestManager : MonoBehaviour
                         if (questDBDic[id].QuestMonsterCount <= playerQuestKillCount[id] && questDBDic[id].QuestMonster2Count <= playerQuestKillCount2[id] && questDBDic[id].QuestType == 2)
                         {
                             CanClear?.Invoke(questDBDic[id].Npc);
+                            updateQuest?.Invoke(id);
                         }
                     }
                     else
@@ -232,6 +330,7 @@ public class ServeQuestManager : MonoBehaviour
                         if (questDBDic[id].QuestMonsterCount <= playerQuestKillCount[id] && questDBDic[id].QuestType == 2)
                         {
                             CanClear?.Invoke(questDBDic[id].Npc);
+                            updateQuest?.Invoke(id);
                         }
                     }
                 }
@@ -241,6 +340,7 @@ public class ServeQuestManager : MonoBehaviour
                     if (questDBDic[id].QuestMonsterCount <= playerQuestKillCount[id] && questDBDic[id].QuestMonster2Count <= playerQuestKillCount2[id]&& questDBDic[id].QuestType ==2)
                     {
                         CanClear?.Invoke(questDBDic[id].Npc);
+                        updateQuest?.Invoke(id);
                     }
                 }
             }
@@ -260,6 +360,7 @@ public class ServeQuestManager : MonoBehaviour
                         if (InventoryManager.Instance.CallIsCheckItem(questDBDic[key].QuestItem2, questDBDic[key].QuestItem2Count))
                         {
                             CanClear?.Invoke(questDBDic[key].Npc);
+                            updateQuest?.Invoke(key);
                         }
                     }
                 }
@@ -268,6 +369,7 @@ public class ServeQuestManager : MonoBehaviour
                     if (InventoryManager.Instance.CallIsCheckItem(questDBDic[key].QuestItem, questDBDic[key].QuestItemCount))
                     {
                         CanClear?.Invoke(questDBDic[key].Npc);
+                        updateQuest?.Invoke(key);
                     }
                 }
             }
@@ -299,8 +401,91 @@ public class ServeQuestManager : MonoBehaviour
                     }
                 }
                 CanClear?.Invoke(questDBDic[val].Npc);
-
+                updateQuest?.Invoke(val);
             }
         }
+    }
+
+    public void ChangeMark(int key,Npc npc)
+    {
+        npc.CheckeState(playerQuest[key]);
+        if (playerQuest[key] == 2)
+        {
+            if (MarkInit(questDBDic[key].Npc))
+            {
+                CanAccept?.Invoke(questDBDic[key].Npc);
+            }
+        }
+    }
+
+    public void MakeQuestZone(int key)
+    {
+            if (questDBDic[key].QuestType == 1)
+            {
+                if (playerQuest[key] == 2)
+                {
+                    List<GameObject> keysToRemove = new List<GameObject>();
+                    foreach (KeyValuePair<GameObject, int> Data in questZoneDic)
+                    {
+                        if (Data.Value == key)
+                        {
+                            keysToRemove.Add(Data.Key);
+                        }
+                    }
+                    foreach (GameObject keyToRemove in keysToRemove)
+                    {
+                        Destroy(keyToRemove);
+                        questZoneDic.Remove(keyToRemove);
+                    }
+                }
+            if (playerQuest[key] == 0)
+            {
+                GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.ItemSpawnerTag);
+                for (int i = 0; i < arry.Length; i++)
+                {
+                    if (arry[i].GetComponent<ItemSpawner>().itemId == questDBDic[key].QuestItem || arry[i].GetComponent<ItemSpawner>().itemId == questDBDic[key].QuestItem2)
+                    {
+                        GameObject gameObject = Instantiate(Resources.Load<GameObject>("Prefabs/Entities/Quest/QuestZone"), arry[i].transform.position + new Vector3(0, 20, 0), Quaternion.Euler(new Vector3(90, 0, 0)));
+                        gameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                        questZoneDic.Add(gameObject, key);
+                    
+                    }
+                }
+            }
+        }
+            if (questDBDic[key].QuestType == 2)
+            {
+                if(playerQuest[key] == 2)
+                {
+                List<GameObject> keysToRemove = new List<GameObject>();
+                    foreach (KeyValuePair<GameObject,int> Data in questZoneDic)
+                    {
+                        if(Data.Value == key)
+                        {
+                        keysToRemove.Add(Data.Key);
+                        }
+                    }
+                foreach (GameObject keyToRemove in keysToRemove)
+                {
+                    Destroy(keyToRemove);
+                    questZoneDic.Remove(keyToRemove);
+                }
+                }
+                if(playerQuest[key] == 0)
+                {
+                    GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.EnemySpawnerTag);
+                    for (int i = 0; i < arry.Length; i++)
+                    {
+                        for (int j = 0; j < arry[i].GetComponent<EnemySpawner>().EnemyPrefabs.Length; j++)
+                        {
+                            if (arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID == questDBDic[key].QuestMonster|| arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID == questDBDic[key].QuestMonster2)
+                            {
+                               
+                                questZoneDic.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Entities/Quest/QuestZone"), arry[i].transform.position+new Vector3(0,20,0), Quaternion.Euler(new Vector3(90, 0, 0))), key);
+                            }
+                        }
+                    }
+                }
+            }
     }
 }

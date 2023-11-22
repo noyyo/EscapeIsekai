@@ -2922,11 +2922,17 @@ MonoBehaviour:
     fallParameterName: Fall
     attackParameterName: '@Attack'
     comboAttackParameterName: ComboAttack
-    SkillParameterName: Skill
-    PowerUpParameterName: PowerUp
+    skillParameterName: Skill
+    powerUpParameterName: PowerUp
     superJumpParameterName: SuperJump
+    throwParameterName: Throw
   <Weapon>k__BackingField: {fileID: 179589325}
   <AnimationEventReceiver>k__BackingField: {fileID: 968996916}
+  playerUI: {fileID: 0}
+  grenades: []
+  hasGrenades: 0
+  grenadeObj: {fileID: 0}
+  throwPoint: {fileID: 0}
 --- !u!143 &1651200937
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3404,6 +3410,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1203017107087405452
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7010574
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7010574
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.09229593
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.09229593
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 681767316412754608, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1788910370859376687, guid: 3888622a53b992349aa84534f3e1bca7,
+        type: 3}
+      propertyPath: m_Name
+      value: AOEIndicatorCircle30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3888622a53b992349aa84534f3e1bca7, type: 3}
 --- !u!1001 &3647743887663835825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3825,6 +3899,7 @@ SceneRoots:
   - {fileID: 346673789}
   - {fileID: 2082845917}
   - {fileID: 4161807496927772028}
+  - {fileID: 1203017107087405452}
   - {fileID: 3978953868364013710}
   - {fileID: 5613943056796410350}
   - {fileID: 3647743887663835825}

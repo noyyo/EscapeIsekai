@@ -1,49 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class DamageReflectiveRocks : BaseEnvironmentObject
 {
 
-    [Tooltip("대미지 배율 - 기본값 1")][SerializeField] private float _magnification = 1;
+    [Tooltip("대미지 배율 - 기본값 1")][SerializeField] private float magnification = 1;
 
     [Tooltip("내가 원하는 값으로 커스텀 - 위의 배율도 적용됨")][Header("Csutom")]
-    [SerializeField] bool _isCustom;
-    [SerializeField] private int _customDamage;
-    [SerializeField] private float _customValue;
-    [SerializeField] private bool _lockAttackEffectTypes;
-    [SerializeField] private AttackEffectTypes _customAttackEffectTypes;
+    [SerializeField] bool isCustom;
+    [SerializeField] private int customDamage;
+    [SerializeField] private float customValue;
+    [SerializeField] private bool lockAttackEffectTypes;
+    [SerializeField] private AttackEffectTypes customAttackEffectTypes;
     
-    private int _damage;
-    private float _value;
-    private AttackEffectTypes _attackEffectTypes;
+    private int damage;
+    private float value;
+    private AttackEffectTypes attackEffectTypes;
 
     private void Start()
     {
-        _damage = (int)(_customDamage * _magnification);
-        _value = _customValue;
-        _attackEffectTypes = _customAttackEffectTypes;
+        damage = (int)(customDamage * magnification);
+        value = customValue;
+        attackEffectTypes = customAttackEffectTypes;
     }
 
     public override void TakeDamage(int damage)
     {
-        if (!_isCustom)
-            _damage = (int)(damage * _magnification);
+        if (!isCustom)
+            this.damage = (int)(damage * magnification);
     }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
     {
-        if (!_isCustom)
-            _value = value;
-        if (!_lockAttackEffectTypes)
-            _attackEffectTypes = attackEffectTypes;
+        if (!isCustom)
+            this.value = value;
+        if (!lockAttackEffectTypes)
+            this.attackEffectTypes = attackEffectTypes;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         IDamageable target = null;
-        if (other.tag == Tags.EnemyTag)
+        if (other.tag == TagsAndLayers.EnemyTag)
         {
             Enemy enemy;
             enemy = other.GetComponentInParent<Enemy>();
@@ -53,8 +50,8 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
                 return;
             }
             target = enemy.StateMachine;
-            target?.TakeDamage(_damage);
-            target?.TakeEffect(_attackEffectTypes, _value, this.gameObject);
+            target?.TakeDamage(damage);
+            target?.TakeEffect(attackEffectTypes, value, this.gameObject);
         }
         
     }

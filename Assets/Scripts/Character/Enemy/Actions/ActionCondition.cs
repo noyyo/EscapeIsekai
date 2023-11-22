@@ -22,10 +22,6 @@ public class ActionCondition
     [Range(0f, 100f)] public float MoreThanThisDistance = 0f;
     [Range(0f, 100f)] public float LessThanThisDistance = 100f;
 
-    [Header("AngleCondition")]
-    [Tooltip("적이 바라보는 방향에서 해당 각도 내에 공격 대상이 존재해야 합니다. 0은 대상을 정확히 바라볼 때 360은 대상이 어떤 방향이든 실행합니다.")]
-    [Range(0, 360)] public int AttackAngle = 0;
-
     [Header("ActionCondition")]
     public ActionTypes WhenThisTypeIsActivated = ActionTypes.None;
     public ActionTypes WhenThisTypeIsDeactivated = ActionTypes.None;

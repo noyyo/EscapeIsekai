@@ -5,19 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MeleeAttack", menuName = "Characters/Enemy/AttackAction/MeleeAttack")]
 public class MeleeAttack : AttackAction
 {
-    [ReadOnly] public Weapon Weapon;
+    [SerializeField][ReadOnly] private Weapon weapon;
+    [SerializeField] private AOETypes aoeType;
     private AOEIndicator indicator;
 
     public override void OnAwake()
     {
         base.OnAwake();
-        Weapon = StateMachine.Enemy.GetComponentInChildren<Weapon>();
-        if (Weapon == null)
+        weapon = StateMachine.Enemy.GetComponentInChildren<Weapon>();
+        if (weapon == null)
         {
             Debug.LogError("Weapon이 필요합니다.");
             return;
         }
-        Weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
+        weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
         StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
     }
     public override void OnStart()
@@ -53,21 +54,26 @@ public class MeleeAttack : AttackAction
 
         if (animEvent.stringParameter == "AOEIndicatorOn")
         {
-            if (Config.AOEType == AOETypes.None)
+            if (aoeType == AOETypes.None)
                 return;
-            indicator = AOEIndicatorPool.Instance.GetIndicatorPool(Config.AOEType).Get();
-            Transform transform = StateMachine.Enemy.Agent.transform;
-            indicator.IndicateAOE(transform.position, transform.forward, Condition.LessThanThisDistance);
+            indicator = AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Get();
+            Transform transform = StateMachine.Enemy.transform;
+            indicator.IndicateCircleAOE(transform.position, transform.forward, Condition.LessThanThisDistance);
         }
         else if (animEvent.stringParameter == "AOEIndicatorOff")
         {
             if (indicator == null)
                 return;
-            AOEIndicatorPool.Instance.GetIndicatorPool(Config.AOEType).Release(indicator);
+            AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
         }
     }
     private void OnWeaponTriggerEnter(Collider other)
     {
         ApplyAttack(other.gameObject);
+    }
+    protected override void OnDrawGizmo(Transform enemyTransform)
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(enemyTransform.position, Condition.LessThanThisDistance);
     }
 }

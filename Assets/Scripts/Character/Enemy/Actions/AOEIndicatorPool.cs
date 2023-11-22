@@ -39,15 +39,4 @@ public class AOEIndicatorPool : CustomSingleton<AOEIndicatorPool>
             indicators.Add(indicator.AOEType, new ObjectPool<AOEIndicator>(() => Instantiate(indicator), indi => indi.gameObject.SetActive(true), projector => projector.gameObject.SetActive(false), maxSize: 50));
         }
     }
-    private AOEIndicator FindIndicatorByType(AOETypes type)
-    {
-        for (int i = 0; i < IndicatorPrefabs.Length; i++)
-        {
-            if (IndicatorPrefabs[i].AOEType == type)
-            {
-                return IndicatorPrefabs[i];
-            }
-        }
-        return null;
-    }
 }

@@ -37,7 +37,6 @@ MonoBehaviour:
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
-    AOEType: 4
   Condition:
     Priority: 1
     WaitUntilExecute: 0
@@ -45,7 +44,6 @@ MonoBehaviour:
     LessThanThisHp: 100
     MoreThanThisDistance: 0
     LessThanThisDistance: 5
-    AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
@@ -54,4 +52,5 @@ MonoBehaviour:
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  Weapon: {fileID: 0}
+  weapon: {fileID: 0}
+  aoeType: 5

@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
-    [Tooltip("ª˝º∫µ… æ∆¿Ã≈€¿« æ∆¿Ãµ∏¶ ¿‘∑¬")]
-    [SerializeField] private int _itemId = 10010000;
+    [HideInInspector]
+    public int _itemId;
     private bool _gathering = false;
     private ItemData_Test itemData;
     private Player _playerInputSystem;
@@ -18,7 +18,7 @@ public class GatheringObject : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == TagsAndLayers.PlayerTag)
         {
             _gathering = true;
             if(_playerInputSystem == null)
@@ -35,7 +35,7 @@ public class GatheringObject : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == TagsAndLayers.PlayerTag)
         {
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             UI_Manager.Instance.gathering.SetActive(false);
@@ -44,8 +44,6 @@ public class GatheringObject : MonoBehaviour
     }
     private void Start()
     {
-        //DataManager.Instance.LoadDatas();
-        //ItemData data = DataManager.Instance.dicItemDatas[_itemId];
         _UI_Manager = UI_Manager.Instance;
         ItemDB.Instance.GetItemData(_itemId, out itemData);
     }
@@ -55,7 +53,7 @@ public class GatheringObject : MonoBehaviour
         if (_gathering)
         {
             _UI_Manager.gathering.SetActive(false);
-            //√§¡˝πˆ∆∞ ¥©∏£∏È πŸ∑Œ ¿Œ∫•≈‰∏Æ∑Œ
+            //Ï±ÑÏßëÎ≤ÑÌäº ÎàÑÎ•¥Î©¥ Î∞îÎ°ú Ïù∏Î≤§ÌÜ†Î¶¨Î°ú
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             Destroy(gameObject);
