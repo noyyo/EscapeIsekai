@@ -12,14 +12,16 @@ public class NpcAi : MonoBehaviour
     public GameObject dayPosition;
     public GameObject nightPosition;
     [SerializeField]
-    float range = 1; //움직일 반경
+    float range = 2; //움직일 반경
     [SerializeField]
     float time; // 새로운 경로 탐색 쿨타임
     private bool isRunning = false;
     Vector3 point;
+    private Animator animator;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
     }
     private void Start()
     {
@@ -29,6 +31,20 @@ public class NpcAi : MonoBehaviour
     {
         while (true)
         {
+            if(agent.velocity != Vector3.zero)
+            {
+                if (animator != null)
+                {
+                    animator.SetBool("Walk", true);
+                }
+            }
+            if (agent.velocity == Vector3.zero)
+            {
+                if (animator != null)
+                {
+                    animator.SetBool("Walk", false);
+                }
+            }
             if (!GameManager.Instance.IsDay) //밤일때
             {
                 isRunning = false;
@@ -59,6 +75,7 @@ public class NpcAi : MonoBehaviour
                 dayPosition.transform.position = point;
             }
             agent.SetDestination(dayPosition.transform.position);
+            
             yield return new WaitForSecondsRealtime(time);
         }
         if (nightPosition == null)

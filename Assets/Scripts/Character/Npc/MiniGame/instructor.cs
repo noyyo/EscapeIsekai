@@ -194,6 +194,7 @@ public class instructor : MonoBehaviour
             comboKey.Clear();
             StopAllCoroutines();
             failCount = 0;
+            isSuccess= false;
             MiniGameFinished?.Invoke(isSuccess);
         }
         ReMake();
