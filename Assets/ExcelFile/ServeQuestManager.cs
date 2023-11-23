@@ -440,7 +440,7 @@ public class ServeQuestManager : MonoBehaviour
                 }
             if (playerQuest[key] == 0)
             {
-                GameObject[] arry = GameObject.FindGameObjectsWithTag(Tags.ItemSpawnerTag);
+                GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.ItemSpawnerTag);
                 for (int i = 0; i < arry.Length; i++)
                 {
                     if (arry[i].GetComponent<ItemSpawner>().itemId == questDBDic[key].QuestItem || arry[i].GetComponent<ItemSpawner>().itemId == questDBDic[key].QuestItem2)
@@ -473,7 +473,7 @@ public class ServeQuestManager : MonoBehaviour
                 }
                 if(playerQuest[key] == 0)
                 {
-                    GameObject[] arry = GameObject.FindGameObjectsWithTag(Tags.EnemySpawnerTag);
+                    GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.EnemySpawnerTag);
                     for (int i = 0; i < arry.Length; i++)
                     {
                         for (int j = 0; j < arry[i].GetComponent<EnemySpawner>().EnemyPrefabs.Length; j++)

@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
     {
         if (character == null)
             Debug.LogError("무기를 사용할 캐릭터가 없습니다.");
-        if (character.tag == Tags.PlayerTag)
+        if (character.tag == TagsAndLayers.PlayerTag)
         {
             Player player = GetComponentInParent<Player>();
             if (player == null)
@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour
             }
             player.AnimationEventReceiver.AnimEventCalled += EventDecision;
         }
-        else if (character.tag == Tags.EnemyTag)
+        else if (character.tag == TagsAndLayers.EnemyTag)
         {
             Enemy enemy = GetComponentInParent<Enemy>();
             if (enemy == null)

@@ -187,7 +187,7 @@ public abstract class AttackAction : ScriptableObject
     private IDamageable GetDamageableComponent(GameObject targetObj)
     {
         IDamageable target = null;
-        if (targetObj.tag == Tags.PlayerTag)
+        if (targetObj.tag == TagsAndLayers.PlayerTag)
         {
             Player player;
             targetObj.TryGetComponent(out player);
@@ -198,7 +198,7 @@ public abstract class AttackAction : ScriptableObject
             }
             target = player.StateMachine;
         }
-        else if (targetObj.transform.tag == Tags.EnemyTag)
+        else if (targetObj.transform.tag == TagsAndLayers.EnemyTag)
         {
             Enemy enemy;
             targetObj.TryGetComponent(out enemy);
@@ -209,7 +209,7 @@ public abstract class AttackAction : ScriptableObject
             }
             target = enemy.StateMachine;
         }
-        else if (targetObj.tag == Tags.EnvironmentTag)
+        else if (targetObj.tag == TagsAndLayers.EnvironmentTag)
         {
             BaseEnvironmentObject environmentObj;
             targetObj.TryGetComponent(out environmentObj);
@@ -320,5 +320,5 @@ public abstract class AttackAction : ScriptableObject
             }
         }
     }
-    
+    protected virtual void OnDrawGizmo(Transform enemyTransform) { }
 }

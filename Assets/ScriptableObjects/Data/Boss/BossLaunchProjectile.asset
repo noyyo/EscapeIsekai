@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acc9c6d95196536448777862f1532c85, type: 3}
-  m_Name: BossProjectileAttack
+  m_Name: BossLaunchProjectile
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -44,7 +44,6 @@ MonoBehaviour:
     LessThanThisHp: 100
     MoreThanThisDistance: 0
     LessThanThisDistance: 30
-    AttackAngle: 0
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
@@ -53,10 +52,12 @@ MonoBehaviour:
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  howManyBullet: 30
-  bulletType: 1
-  bulletAngle: 60
-  spacing: 0.4
-  YOffset: -7
-  howBullet: {fileID: 5794389468231328038, guid: db07f9fefbeee6c42b114c901f89977b,
+  projectilePrefab: {fileID: -8098167964025744761, guid: db07f9fefbeee6c42b114c901f89977b,
     type: 3}
+  projectileAmount: 8
+  projectileSpeed: 5
+  horizontalAngle: 180
+  verticalAngle: 15
+  spacing: 0
+  isTargeting: 0
+  offset: {x: 0, y: 1.5, z: 4}

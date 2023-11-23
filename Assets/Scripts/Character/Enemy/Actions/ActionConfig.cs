@@ -19,7 +19,6 @@ public class ActionConfig
     [HideInInspector] public int AnimTriggerHash2;
     [Tooltip("우선순위를 무시하고 이 액션을 바로 이어서 실행합니다.")]
     public AttackAction ChainedAction = null;
-    public AOETypes AOEType = AOETypes.None;
     
     public void InitializeAnimHash()
     {

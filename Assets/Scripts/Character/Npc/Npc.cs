@@ -21,7 +21,7 @@ public class Npc : MonoBehaviour
     public GameObject[] marks;
     private void Update()
     {
-        if(isHit && target != null)
+        if(isHit && target != null&& isNPC)
         {
             Vector3 lookDirection = target.transform.position - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);

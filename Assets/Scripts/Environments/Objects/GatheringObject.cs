@@ -18,7 +18,7 @@ public class GatheringObject : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == Tags.PlayerTag)
+        if(other.tag == TagsAndLayers.PlayerTag)
         {
             _gathering = true;
             if(_playerInputSystem == null)
@@ -29,13 +29,14 @@ public class GatheringObject : MonoBehaviour
             _playerInputSystem.Input.PlayerActions.Interaction.started += Gathering;
 
             _UI_Manager.itemName = itemData.ItemName;
-            _UI_Manager.itemExplanation = itemData.ItemExplanation;
+            _UI_Manager.itemExplanation = itemData.ItemExplanation; //함수로 바꿔보자 인자로 넘겨주기
             _UI_Manager.gathering.SetActive(true);
+            _UI_Manager.UI_gathering.Setting();
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == Tags.PlayerTag)
+        if (other.tag == TagsAndLayers.PlayerTag)
         {
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             UI_Manager.Instance.gathering.SetActive(false);

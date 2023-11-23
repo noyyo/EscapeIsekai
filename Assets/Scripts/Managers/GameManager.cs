@@ -16,7 +16,7 @@ public class GameManager : CustomSingleton<GameManager>
     private SoundManager _soundManager;
     private PlayerInputSystem _playerInputSystem;
     private GameObject _soundManagerObject;
-    private GameObject timeSlip;
+    public GameObject timeSlip;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
     public GameObject Player 
     { 
@@ -82,7 +82,7 @@ public class GameManager : CustomSingleton<GameManager>
     private void PlayerInit()
     {
         //다른 오브젝트에 Player태그가 설정되어가 있을경우 걸러내기 위한 foreach문
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(Tags.PlayerTag);
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(TagsAndLayers.PlayerTag);
         foreach (GameObject gameObject in gameObjects)
         {
             if (gameObject.name == "Player")
