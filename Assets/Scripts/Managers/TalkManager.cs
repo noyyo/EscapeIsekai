@@ -25,17 +25,19 @@ public class TalkManager : CustomSingleton<TalkManager>
         talkData.Add(1 + 14, new string[] { "유물을 모두 모았군","밤에 와주게 포탈을 만들어 놓을테니" });
 
         //대장장이
-        talkData.Add(100 + 0, new string[] { "하이" ,"뚝딱뚝딱해봐"});
+        talkData.Add(100 + 0, new string[] { "반가워! 뭔가 도움이 필요해?" ,"제작이 필요하면 한번 둘러봐"});
         //요리사
-        talkData.Add(200 + 0, new string[] { "하이", "지글지글해보실" });
+        talkData.Add(200 + 0, new string[] { "나는 먹는게 제일 좋아", "먹는것에 대한 기쁨을 너에게도 알려줄게!" });
         //잡화점
-        talkData.Add(300 + 0, new string[] { "하이", "뭐살래" });
+        talkData.Add(300 + 0, new string[] { "무언가 필요한게 있니?", "한번 둘러봐" });
         //여관
-        talkData.Add(400 + 0, new string[] { "하이", "잘래?" });
+        talkData.Add(400 + 0, new string[] { "오랜만에 보는구나", "많이 지쳤으면 쉬고 가는건 어때??" });
         //검술
         talkData.Add(500 + 0, new string[] { "하이", "검좀배울래?" });
+        talkData.Add(600 + 0, new string[] { "마을 밖은 몬스터가 많아","항간에 듣기로 마을 동서남북에","특별한 무언가를 지닌 괴물이 살고있다고해" });
         //상자
         talkData.Add(1000 + 0, new string[] { "낡은 상자다" });
+        talkData.Add(1200 + 0, new string[] { "도와줘서 고마워" });
     }
     public string GetTalk(int id, int talkIndex) 
     {

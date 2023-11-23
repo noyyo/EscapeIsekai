@@ -36,8 +36,9 @@ public class TimeSlip : MonoBehaviour
         npcs = GameObject.FindGameObjectsWithTag("Npc");
 
     }
-    IEnumerator ShowString()
+    public IEnumerator ShowString()
     {
+        GameManager.Instance.Player.GetComponent<PlayerInputSystem>().InputActions.Disable();
         panel.SetActive(true);
         text.gameObject.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
@@ -108,7 +109,10 @@ public class TimeSlip : MonoBehaviour
 
     void OnTimeSlip(InputAction.CallbackContext context)
     {
-        GameManager.Instance.Player.GetComponent<PlayerInputSystem>().InputActions.Disable();
+        StartCoroutine("ShowString");
+    }
+    public void NpcAction()
+    {
         StartCoroutine("ShowString");
     }
 
