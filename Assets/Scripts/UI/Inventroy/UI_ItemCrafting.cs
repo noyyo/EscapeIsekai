@@ -59,23 +59,29 @@ public class UI_ItemCrafting : MonoBehaviour
         itemText[0].text = craftingItem.ItemName;
         itemText[1].text = craftingItem.ItemExplanation;
 
-        itemDB.GetStats(craftingItem.ID, out ItemStats itemStats);
-        StringBuilder sb = new StringBuilder();
+        if(itemDB.GetStats(craftingItem.ID, out ItemStats itemStats))
+        {
+            StringBuilder sb = new StringBuilder();
 
-        if(itemStats.HP > 0)
-            sb.Append("HP : " + itemStats.HP + "\n");
-        if (itemStats.Temperature > 0)
-            sb.Append("Temperature : " + itemStats.Temperature + "\n");
-        if (itemStats.ATK > 0)
-            sb.Append("ATK : " + itemStats.ATK + "\n");
-        if (itemStats.DEF > 0)
-            sb.Append("DEF : " + itemStats.DEF + "\n");
-        if (itemStats.Speed > 0)
-            sb.Append("Speed : " + itemStats.Speed + "\n");
-        if (itemStats.Stamina > 0)
-            sb.Append("Stamina : " + itemStats.Stamina + "\n");
+            if (itemStats.HP > 0)
+                sb.Append("HP : " + itemStats.HP + "\n");
+            if (itemStats.Temperature > 0)
+                sb.Append("Temperature : " + itemStats.Temperature + "\n");
+            if (itemStats.ATK > 0)
+                sb.Append("ATK : " + itemStats.ATK + "\n");
+            if (itemStats.DEF > 0)
+                sb.Append("DEF : " + itemStats.DEF + "\n");
+            if (itemStats.Speed > 0)
+                sb.Append("Speed : " + itemStats.Speed + "\n");
+            if (itemStats.Stamina > 0)
+                sb.Append("Stamina : " + itemStats.Stamina + "\n");
 
-        itemText[2].text = sb.ToString();
+            itemText[2].text = sb.ToString();
+        }
+        else
+        {
+            itemText[2].text = "";
+        }
     }
 
     //æ∆¿Ã≈€ ΩΩ∑‘¿ª ¥≠∑∂¿ª∂ß

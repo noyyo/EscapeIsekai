@@ -61,6 +61,14 @@ public class GameManager : CustomSingleton<GameManager>
         _ui_Manager.UI_ItemCraftingTurnOffEvent += CursorDisable;
         _ui_Manager.UI_ItemCraftingTurnOffEvent += PlayInputSystemEnable;
         _ui_Manager.UI_ItemCraftingTurnOffEvent += CallOnUnpauseEvent;
+
+        _ui_Manager.UI_TradingTurnOnEvent += CursorEnable;
+        _ui_Manager.UI_TradingTurnOnEvent += PlayInputSystemDisable;
+        _ui_Manager.UI_TradingTurnOnEvent += CallOnPauseEvent;
+
+        _ui_Manager.UI_TradingTurnOffEvent += CursorDisable;
+        _ui_Manager.UI_TradingTurnOffEvent += PlayInputSystemEnable;
+        _ui_Manager.UI_TradingTurnOffEvent += CallOnUnpauseEvent;
     }
 
     private void PlayerInit()

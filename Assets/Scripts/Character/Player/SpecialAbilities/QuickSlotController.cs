@@ -27,8 +27,8 @@ public class QuickSlotController : MonoBehaviour
 
     private void Start()
     {
-        _ui_Manager.UI_QuickSlotTurnOnEvent += TurnOnQucikSlotUI;
-        _ui_Manager.UI_QuickSlotTurnOffEvent += TurnOffQucikSlotUI;
+        //_ui_Manager.UI_QuickSlotTurnOnEvent += TurnOnQucikSlotUI;
+        //_ui_Manager.UI_QuickSlotTurnOffEvent += TurnOffQucikSlotUI;
         CreateSlot();
     }
 
