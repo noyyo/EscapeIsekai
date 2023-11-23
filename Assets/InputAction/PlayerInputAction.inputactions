@@ -114,7 +114,6 @@
                     "initialStateCheck": false
                 },
                 {
-
                     "name": "NoStamina",
                     "type": "Button",
                     "id": "0759e211-c41d-4584-9774-caf2b06b525f",
@@ -127,11 +126,15 @@
                     "name": "Shield",
                     "type": "Button",
                     "id": "e1d7b955-9516-4f39-82b8-76dcbe4cacab",
-
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "TimeSlip",
                     "type": "Button",
-                    "id": "dd7c934e-8c10-4333-a677-f4ed1b9e4f0a",
-
+                    "id": "6a7c61d7-9c21-4add-b61b-41989e31b29a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -317,7 +320,6 @@
                 },
                 {
                     "name": "",
-
                     "id": "03b1ec31-1f0d-48cd-bdb4-e3ab2a631e41",
                     "path": "<Keyboard>/3",
                     "interactions": "",
@@ -335,14 +337,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shield",
-
-                    "id": "2de62343-6268-4475-9f7c-d787178192c4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8c32765-b566-4191-822b-c40652640b44",
                     "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "TimeSlip",
-
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
