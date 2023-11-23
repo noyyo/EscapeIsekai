@@ -12,6 +12,7 @@ public class ItemStats
     [SerializeField] private float def;
     [SerializeField] private float speed;
     [SerializeField] private float stamina;
+    [SerializeField] private int hunger;
 
     public int ID { get { return id; } }
     public int HP { get { return hp; } }
@@ -20,4 +21,5 @@ public class ItemStats
     public float DEF { get { return def; } }
     public float Speed { get { return speed; } }
     public float Stamina { get { return stamina; } }
+    public int Hunger { get { return hunger; } }
 }

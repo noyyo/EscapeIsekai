@@ -33,6 +33,7 @@ public class Item
     public float DefaultDEF { get; private set; }
     public float DefaultSpeed { get; private set; }
     public float DefaultStamina { get; private set; }
+    public int DefaultHunger { get; private set; }
 
     public Dictionary<string, float> Stats { get; private set; }
 
@@ -61,6 +62,7 @@ public class Item
             DefaultDEF = stats.DEF;
             DefaultSpeed = stats.Speed;
             DefaultStamina = stats.Stamina;
+            DefaultHunger = stats.Hunger;
         }
         Count = count;
 
@@ -71,7 +73,8 @@ public class Item
                     {"ATK", (float)DefaultATK},
                     {"DEF", (float)DefaultDEF},
                     {"Speed", (float)DefaultSpeed},
-                    {"Stamina", (float)DefaultStamina}
+                    {"Stamina", (float)DefaultStamina},
+                    {"Hunger", (int)DefaultHunger}
                 };
     }
 
@@ -100,6 +103,7 @@ public class Item
             DefaultDEF = item.DefaultDEF;
             DefaultSpeed = item.DefaultSpeed;
             DefaultStamina = item.DefaultStamina;
+            DefaultHunger = item.DefaultHunger;
         }
         Count = count;
 
@@ -110,7 +114,8 @@ public class Item
                     {"ATK", (float)DefaultATK},
                     {"DEF", (float)DefaultDEF},
                     {"Speed", (float)DefaultSpeed},
-                    {"Stamina", (float)DefaultStamina}
+                    {"Stamina", (float)DefaultStamina},
+                    {"Hunger", (int)DefaultHunger}
                 };
     }
 

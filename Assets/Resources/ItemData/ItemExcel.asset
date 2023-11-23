@@ -214,7 +214,7 @@ MonoBehaviour:
     dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
     iconPath: Sprite/Icon/Nomal_2
     isStat: 1
-    isCrafting: 1
+    isCrafting: 0
     isSale: 0
     effect: 30
   - id: 6001
@@ -226,7 +226,7 @@ MonoBehaviour:
     dropPrefabPath: Prefabs/Entities/Items/Craft/
     iconPath: Sprite/Icon/Craft_1
     isStat: 1
-    isCrafting: 1
+    isCrafting: 0
     isSale: 1
     effect: 100
   - id: 6002
@@ -238,7 +238,7 @@ MonoBehaviour:
     dropPrefabPath: Prefabs/Entities/Items/Craft/
     iconPath: Sprite/Icon/Craft_2
     isStat: 0
-    isCrafting: 1
+    isCrafting: 0
     isSale: 1
     effect: 0
   - id: 10000000
@@ -410,6 +410,7 @@ MonoBehaviour:
     def: 0
     speed: 0
     stamina: 0
+    hunger: 0
   - id: 10001000
     hp: 5
     temperature: 1
@@ -417,6 +418,7 @@ MonoBehaviour:
     def: 2
     speed: 0
     stamina: 0
+    hunger: 0
   - id: 10002000
     hp: 3
     temperature: 1
@@ -424,6 +426,7 @@ MonoBehaviour:
     def: 2
     speed: 0
     stamina: 0
+    hunger: 0
   - id: 10000000
     hp: 2
     temperature: 1
@@ -431,6 +434,7 @@ MonoBehaviour:
     def: 1
     speed: 0
     stamina: 0
+    hunger: 0
   - id: 10100000
     hp: 10
     temperature: 0
@@ -438,6 +442,7 @@ MonoBehaviour:
     def: 0
     speed: 0
     stamina: 0
+    hunger: 0
   - id: 10400000
     hp: 5
     temperature: 0
@@ -445,6 +450,111 @@ MonoBehaviour:
     def: 1
     speed: 0
     stamina: 0
+    hunger: 0
+  - id: 2005
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 5
+  - id: 2006
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 10
+  - id: 2007
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 15
+  - id: 2008
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 10
+  - id: 3002
+    hp: 50
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 30
+  - id: 3003
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 20
+  - id: 3004
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 50
+  - id: 3006
+    hp: 20
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 20
+  - id: 3007
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 100
+  - id: 3008
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 50
+  - id: 3009
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 70
+  - id: 4101
+    hp: 0
+    temperature: 0
+    atk: 30
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 0
+  - id: 6001
+    hp: 100
+    temperature: 0
+    atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 0
   Recipe:
   - id: 10110000
     craftingID: 10010000

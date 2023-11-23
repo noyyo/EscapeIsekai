@@ -6,6 +6,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     protected UI_Manager() { }
     [SerializeField] private GameObject cavas;
     public GameObject gathering;
+    public UI_Gathering UI_gathering;
     public GameObject talkManager;
     public GameObject questManager;
     public GameObject dialog;
@@ -64,6 +65,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         if (gathering == null)
         {
             gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"),cavas.transform);
+            UI_gathering = gathering.GetComponent<UI_Gathering>();
             gathering.SetActive(false);
         }
 
@@ -124,4 +126,5 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     {
         UI_QuickSlotTurnOffEvent?.Invoke();
     }
+    
 }
