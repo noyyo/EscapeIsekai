@@ -142,17 +142,17 @@ public class SoundManager : CustomSingleton<SoundManager>
     //사운드 조절
     public void MasterVolume(float val)
     {
-        mixer.SetFloat("MasterVolume", (val * 0.8f) - 80);
+        mixer.SetFloat("MasterVolume", val - 80);
     }
 
     public void BGMVolume(float val)
     {
-        mixer.SetFloat("BGMVolume", (val * 0.8f) - 80);
+        mixer.SetFloat("BGMVolume", val - 80);
     }
 
     public void SFXVolume(float val)
     {
-        mixer.SetFloat("SFXVolume", (val * 0.8f) - 80);
+        mixer.SetFloat("SFXVolume", val - 80);
     }
     //------
 
