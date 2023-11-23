@@ -24,22 +24,13 @@ public class TradingController : MonoBehaviour
 
     private void Awake()
     {
+        ui_Manager = UI_Manager.Instance;
+        itemDB = ItemDB.Instance;
         tradingManager = TradingManager.Instance;
         tradingManager.Init(SellItem, BuyItem, Repurchase);
-        itemDB = ItemDB.Instance;
         inventoryManager = InventoryManager.Instance;
-        ui_Manager = UI_Manager.Instance;
-
         slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Trading/TradingSlot");
-        shopSlotSpawnTransform = ui_Manager.Trading_UI.transform.GetChild(3).GetChild(0).GetChild(0);
-        playerSlotSpawnTransform = ui_Manager.Trading_UI.transform.GetChild(5).GetChild(0).GetChild(0);
-        tradingSlotList = tradingManager.TradingSlotList;
-
-        playerInventoryDatas = inventoryManager.ItemDics;
-        shopItemDatas = tradingManager.ShopItemIDList;
-        repurchaseItem = tradingManager.RepurchaseItem;
-
-        CreatePlayerSlot();
+        Init();
     }
 
     private void Start()
@@ -47,6 +38,17 @@ public class TradingController : MonoBehaviour
         tradingManager.addShopItem += AddShopItem;
         tradingManager.clickSlotButtonEvent += () => ClickSlot(tradingManager.ClickID);
         tradingManager.clickBuyButtonEvent += ClickActionButton;
+    }
+
+    private void Init()
+    {
+        shopSlotSpawnTransform = ui_Manager.Trading_UI.transform.GetChild(3).GetChild(0).GetChild(0);
+        playerSlotSpawnTransform = ui_Manager.Trading_UI.transform.GetChild(5).GetChild(0).GetChild(0);
+        tradingSlotList = tradingManager.TradingSlotList;
+        playerInventoryDatas = inventoryManager.ItemDics;
+        shopItemDatas = tradingManager.ShopItemIDList;
+        repurchaseItem = tradingManager.RepurchaseItem;
+        CreatePlayerSlot();
     }
 
     private void CreatePlayerSlot()

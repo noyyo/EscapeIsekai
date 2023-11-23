@@ -9,13 +9,10 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public GameObject talkManager;
     public GameObject questManager;
     public GameObject dialog;
-
-    private GameManager gameManager;
-    private InventoryManager inventoryManager;
-    private ItemCraftingManager itemCraftingManager;
     private GameObject inventoryUI;
     private GameObject itemCraftingUI;
     private GameObject tradingUI;
+    private GameObject optionUI;
 
     private bool isNotUIInputPossible = false;
     private bool isTurnOnInventory;
@@ -23,6 +20,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public GameObject Inventory_UI { get { return inventoryUI; } }
     public GameObject ItemCrafting_UI { get { return itemCraftingUI; } }
     public GameObject Trading_UI { get { return tradingUI; } }
+    public GameObject Option_UI { get { return optionUI; } }
     public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
 
     public event Action UI_AllTurnOffEvent;
@@ -32,15 +30,14 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public event Action UI_ItemCraftingTurnOffEvent;
     public event Action UI_TradingTurnOnEvent;
     public event Action UI_TradingTurnOffEvent;
+    public event Action UI_OptionTurnOnEvent;
+    public event Action UI_OptionTurnOffEvent;
 
     public string itemName;
     public string itemExplanation;
 
     private void Awake()
     {
-        gameManager = GameManager.Instance;
-        inventoryManager = InventoryManager.Instance;
-        itemCraftingManager = ItemCraftingManager.Instance;
         Init();
     }
 
@@ -49,6 +46,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         UI_AllTurnOffEvent += CallUI_InventoryTurnOff;
         UI_AllTurnOffEvent += CallUI_ItemCraftingTurnOff;
         UI_AllTurnOffEvent += CallUI_TradingTurnOff;
+        UI_AllTurnOffEvent += CallUI_OptionTurnOff;
     }
 
     public void Init()
@@ -89,9 +87,14 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             tradingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Trading/UI_Trading"), cavas.transform);
             tradingUI.SetActive(false);
         }
+
+        if(optionUI == null)
+        {
+            optionUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Option"), cavas.transform);
+            optionUI.SetActive(false);
+        }
     }
 
-    //UI ON, OFF¸¦ À§ÇÑ ¸Þ¼­µå
     public void CallUI_AllTurnOff()
     {
         UI_AllTurnOffEvent?.Invoke();
@@ -126,5 +129,15 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public void CallUI_TradingTurnOff()
     {
         UI_TradingTurnOffEvent?.Invoke();
+    }
+
+    public void CallUI_OptionTurnOn()
+    {
+        UI_OptionTurnOnEvent?.Invoke();
+    }
+
+    public void CallUI_OptionTurnOff()
+    {
+        UI_OptionTurnOffEvent?.Invoke();
     }
 }

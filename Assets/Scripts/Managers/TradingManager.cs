@@ -20,8 +20,6 @@ public class TradingManager : CustomSingleton<TradingManager>
 
     //[Tooltip("상한값 설정")][Range(1f,5f)][SerializeField] private float supremum = 1.5f;
     //[Tooltip("하한값 설정")][Range(0f, 1f)][SerializeField] private float infimum = 0.5f;
-    [SerializeField] private bool test = true;
-
     [SerializeField] private int repurchaseItemMaxCount = 10;
     [Tooltip("마지막 재구매는 제외합니다.")][SerializeField] 
     private int shopCategoryCount = 3;
@@ -86,15 +84,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         tryRepurchase = (itemID, itemCount) => Repurchase(repurchase(itemID, itemCount));
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayPlayerSlot;
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayShopSlot;
-        if (test)
-        {
-            addShopItem(10100000);
-            addShopItem(10000000);
-            addShopItem(10001000);
-            addShopItem(10002000);
-            addShopItem(10010000);
-            test = false;
-        }
+        
     }
 
     public void Init(Func<int, int, int> newSellItem, Func<int, int, int> newByItem, Func<int, int, int> newRepurchase)
@@ -102,6 +92,15 @@ public class TradingManager : CustomSingleton<TradingManager>
         sellItem = newSellItem;
         byitem = newByItem;
         repurchase = newRepurchase;
+    }
+
+    private void defaultAddShopItem()
+    {
+        addShopItem(10100000);
+        addShopItem(10000000);
+        addShopItem(10001000);
+        addShopItem(10002000);
+        addShopItem(10010000);
     }
 
     private bool SellItem(int addMoney)
