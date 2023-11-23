@@ -14,6 +14,7 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private GameObject tailUseButton;
     [SerializeField] private TMP_Text tailUseButtonText;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button optionButton;
 
     private Inventory inventory;
     private GameObject inventoryUI;
@@ -86,6 +87,7 @@ public class UI_Inventory : MonoBehaviour
         inventoryTailButtons[2].onClick.AddListener(inventory.UseItem);
 
         backButton.onClick.AddListener(ui_manager.CallUI_InventoryTurnOff); //돌아가기
+        optionButton.onClick.AddListener(() => { ui_manager.CallUI_InventoryTurnOff(); ui_manager.CallUI_OptionTurnOn(); });
 
         ui_manager.UI_InventoryTurnOnEvent += InventroyUITurnOn;
         ui_manager.UI_InventoryTurnOffEvent += InventroyUITurnOff;
