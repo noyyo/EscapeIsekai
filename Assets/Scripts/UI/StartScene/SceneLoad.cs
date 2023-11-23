@@ -6,6 +6,6 @@ public class SceneLoad : MonoBehaviour
 {
     public void LoadScene()
     {
-        loadingSceneController.Instance.LoadScene("MainScene");
+        loadingSceneController.Instance.LoadScene("QuestUITest");
     }
 }

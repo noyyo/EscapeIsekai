@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartStory : MonoBehaviour
 {
     public TMP_Text storyTxt;
     public GameObject nextButton;
     public GameObject endButton;
+    public Image black;
+    public GameObject white;
+    public AudioSource effect;
 
     public string[] dialogues;
-    public int talkNum;
+    private int talkNum;
+    private bool isEnd = false;
     
-    public StringBuilder st =new StringBuilder();
-    public WaitForSeconds next = new WaitForSeconds(0.05f);
+    private StringBuilder sb =new StringBuilder();
     void Start()
     {
         StartTalk(dialogues);
@@ -27,35 +31,48 @@ public class StartStory : MonoBehaviour
 
     public void NextTalk()
     {
-        storyTxt.text = null;
-        talkNum++;
-
-        if(talkNum == dialogues.Length)
+        if(isEnd)
         {
-            nextButton.SetActive(false);
-            endButton.SetActive(true);
-            EndTalk();
-            return;
+            isEnd = false;
+            storyTxt.text = null;
+            talkNum++;
+
+            if(talkNum == 9)
+            {
+                black.canvasRenderer.SetAlpha(0f);
+            }
+            if(talkNum == 11)
+            {
+                white.SetActive(true);
+                effect.Play();
+            }
+            if(talkNum == dialogues.Length)
+            {
+                nextButton.SetActive(false);
+                endButton.SetActive(true);
+                EndTalk();
+                return;
+            }
+            StartCoroutine(Typing(dialogues[talkNum]));
         }
-        StartCoroutine(Typing(dialogues[talkNum]));
     }
 
     public void EndTalk()
     {
         talkNum = 0;
-        Debug.Log("end");
     }
 
     IEnumerator Typing(string talk)
     {
         storyTxt.text = null;
-        st.Clear();
+        sb.Clear();
 
         for (int i = 0; i < talk.Length; i++)
         {
-            st.Append(talk[i]);
-            storyTxt.text = st.ToString();
-            yield return next;
+            sb.Append(talk[i]);
+            storyTxt.text = sb.ToString();
+            yield return null;
         }
+        isEnd = true;
     }
 }

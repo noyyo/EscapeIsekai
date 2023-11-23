@@ -5,8 +5,29 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
-public class loadingSceneController : CustomSingleton<loadingSceneController>
+public class loadingSceneController : MonoBehaviour
 {
+    private static loadingSceneController instance;
+    public static loadingSceneController Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                var obj = FindObjectOfType<loadingSceneController>();
+                if (obj != null)
+                {
+                    instance = obj;
+                }
+                else
+                {
+                    instance = Create();
+                }
+            }
+            return instance;
+        }
+    }
+    
     private static loadingSceneController Create()
     {
         return Instantiate(Resources.Load<loadingSceneController>("LoadingUI"));
