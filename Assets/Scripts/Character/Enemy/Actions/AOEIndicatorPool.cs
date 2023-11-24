@@ -19,6 +19,11 @@ public class AOEIndicatorPool : CustomSingleton<AOEIndicatorPool>
     }
     public ObjectPool<AOEIndicator> GetIndicatorPool(AOETypes type)
     {
+        if (type == AOETypes.None)
+        {
+            Debug.LogError("AOE 타입이 None입니다.");
+            return null;
+        }
         return indicators[type];
     }
     private void LoadIndicatorPrefabs()

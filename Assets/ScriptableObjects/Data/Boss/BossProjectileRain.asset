@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffafee78c9fd22041a86e72e18498e14, type: 3}
-  m_Name: BossBreath
+  m_Script: {fileID: 11500000, guid: 793e616c95c48eb4693fd957a473a4a2, type: 3}
+  m_Name: BossProjectileRain
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -26,14 +26,14 @@ MonoBehaviour:
     BattleTime: 0
     IsInBattle: 0
     IsDead: 0
-  ActionType: 1
+  ActionType: 4
   Config:
-    RestTimeAfterAction: 1.5
-    EffectDurationSeconds: 0
+    RestTimeAfterAction: 1
+    EffectDurationSeconds: 5
     DamageAmount: 5
     AttackEffectType: 0
     AttackEffectValue: 0
-    animTrigger1: Breath
+    animTrigger1: ProjectileRain
     animTrigger2: 
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
@@ -44,22 +44,20 @@ MonoBehaviour:
     MoreThanThisHp: 0
     LessThanThisHp: 100
     MoreThanThisDistance: 0
-    LessThanThisDistance: 20
+    LessThanThisDistance: 100
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 10
+    CoolDown: 0
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  aoeType: 2
-  breathParticlePrefab: {fileID: 1124824223702901456, guid: 78d6580fec946ae4fb3c5a5e84087cc5,
-    type: 3}
-  startSpeed: 5
-  startSize: 5
-  maxParticle: 300
-  breathVerticalAngle: 0
-  isTargeting: 1
-  particleVerticalAngle: 30
-  offset: {x: 0, y: 4, z: 4}
+  projectilePrefab: {fileID: 0}
+  projectileAmountInBatch: 0
+  batchCount: 0
+  rainRadius: 0
+  effectRadius: 0
+  dropSpeed: 0
+  dropTime: 0
+  isTargeting: 0

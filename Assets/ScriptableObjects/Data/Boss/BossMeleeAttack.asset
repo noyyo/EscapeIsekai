@@ -28,6 +28,7 @@ MonoBehaviour:
     IsDead: 0
   ActionType: 0
   Config:
+    RestTimeAfterAction: 1
     EffectDurationSeconds: 0
     DamageAmount: 10
     AttackEffectType: 1
@@ -48,7 +49,7 @@ MonoBehaviour:
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 3
+    CoolDown: 5
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0

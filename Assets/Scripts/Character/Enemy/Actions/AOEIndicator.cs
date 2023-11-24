@@ -68,6 +68,7 @@ public class AOEIndicator : MonoBehaviour
     /// 원형으로 이루어진 AOE 범위를 표시합니다.
     /// </summary>
     /// <param name="startPosition">이펙트가 시작하는 위치입니다.</param>
+    /// <param name="forward">이펙트가 바라볼 방향입니다. Y축 방향은 무시됩니다.</param>
     /// <param name="radius">이펙트의 반경입니다.</param>
     /// <param name="depth">startPosition에서 indicator의 forward 방향으로의 깊이입니다. 기본 값은 radius와 같습니다.</param>
     public void IndicateCircleAOE(Vector3 startPosition, Vector3 forward, float radius, float depth = 0f)

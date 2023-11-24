@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffafee78c9fd22041a86e72e18498e14, type: 3}
-  m_Name: BossBreath
+  m_Script: {fileID: 11500000, guid: 77cc91d7a90e0704a916d151ac884337, type: 3}
+  m_Name: BossChargingAttack
   m_EditorClassIdentifier: 
   StateMachine:
     isPause: 0
@@ -26,15 +26,15 @@ MonoBehaviour:
     BattleTime: 0
     IsInBattle: 0
     IsDead: 0
-  ActionType: 1
+  ActionType: 3
   Config:
     RestTimeAfterAction: 1.5
     EffectDurationSeconds: 0
-    DamageAmount: 5
-    AttackEffectType: 0
-    AttackEffectValue: 0
-    animTrigger1: Breath
-    animTrigger2: 
+    DamageAmount: 10
+    AttackEffectType: 2
+    AttackEffectValue: 30
+    animTrigger1: ChargingAttackReady
+    animTrigger2: ChargingAttack
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
@@ -49,17 +49,10 @@ MonoBehaviour:
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 10
+    CoolDown: 20
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  aoeType: 2
-  breathParticlePrefab: {fileID: 1124824223702901456, guid: 78d6580fec946ae4fb3c5a5e84087cc5,
-    type: 3}
-  startSpeed: 5
-  startSize: 5
-  maxParticle: 300
-  breathVerticalAngle: 0
-  isTargeting: 1
-  particleVerticalAngle: 30
-  offset: {x: 0, y: 4, z: 4}
+  chargingSpeed: 15
+  chargingCount: 3
+  waitTimeBetweenCharging: 0

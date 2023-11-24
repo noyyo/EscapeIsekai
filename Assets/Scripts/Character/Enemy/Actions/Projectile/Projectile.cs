@@ -1,24 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
-public class Projectile : MonoBehaviour 
+public enum ProjectileLaunchTypes
 {
-    public event Action<GameObject, Projectile> ProjetileColliderEnter;
+    Shoot,
+    Drop,
+}
+public class Projectile : MonoBehaviour
+{
+    public event Action<Collider, Projectile> ProjetileColliderEnter;
     public event Action<Projectile> TimeExpired;
     // 발사한 Enemy객체.
     public Enemy Launcher { get; private set; }
     [Tooltip("해당 시간이 지날 때까지 부딪히지 않는다면 자동으로 소멸됩니다.")]
     [SerializeField][Range(1f, 20f)] private float disappearTime = 5f;
+    private ProjectileLaunchTypes launchType;
+    private AOETypes indicatorAOEType;
+    private bool isInfoSetted;
     private float timeSinceLaunced;
-    public new Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
     private new Collider collider;
     private Vector3 colliderSize;
     private Vector3 direction;
     private float launchSpeed;
+    private float indicatorLerpTime;
     private AOEIndicator indicator;
 
     private void Awake()
@@ -30,52 +41,151 @@ public class Projectile : MonoBehaviour
     /// <summary>
     /// 투사체가 발사될 정보를 설정합니다.
     /// </summary>
-    /// <param name="position">발사 지점의 월드 좌표입니다.</param>
-    /// <param name="direction">발사 지점에서의 방향 벡터입니다.</param>
-    /// <param name="launchSpeed">발사할 때의 속도입니다.</param>
     /// <param name="launcher">발사하는 Enemy객체입니다.</param>
-    /// <param name="aoeYOffset">AOE범위를 표시할 때 투사체의 아래방향으로 추가적인 AOE범위가 표시될 수치입니다. AOE범위가 보이지 않았음에도 피격되는 것을 방지하기 위한 값입니다.</param>
-    public void SetProjectile(Vector3 position, Vector3 direction, float launchSpeed, Enemy launcher, float aoeYOffset = 0f)
+    public void SetProjectileInfo(ProjectileLaunchTypes launchType, Vector3 position, Vector3 direction, float launchSpeed, Enemy launcher)
     {
-        transform.position = position;
-        transform.forward = direction;
+        this.launchType = launchType;
+        switch (launchType)
+        {
+            case ProjectileLaunchTypes.Shoot:
+                indicatorAOEType = AOETypes.Box;
+                break;
+            case ProjectileLaunchTypes.Drop:
+                indicatorAOEType = AOETypes.Circle;
+                break;
+            default:
+                indicatorAOEType = AOETypes.None;
+                break;
+        }
         this.direction = direction;
         this.launchSpeed = launchSpeed;
         Launcher = launcher;
-        float depth = launchSpeed * disappearTime;
-        Ray ray = new Ray(position, direction);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, launchSpeed * disappearTime, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+        transform.position = position;
+        transform.forward = direction;
+        SetIndicator();
+        isInfoSetted = true;
+    }
+    public void IndicateBoxAOE(float depth = 0, float yOffset = 0)
+    {
+        if (!isInfoSetted)
         {
-            depth = hit.distance;
+            Debug.LogError("투사체 정보가 설정되지 않았습니다.");
+            return;
+        }
+        if (indicatorAOEType != AOETypes.Box)
+        {
+            Debug.LogError("Indicator가 Box형이 아닙니다.");
+            return;
+        }
+        if (depth <= 0)
+            depth = launchSpeed * disappearTime;
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, depth, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+        {
+            depth = hit.distance + 0.1f;
         }
 
-        indicator = AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Get();
-        Vector3 indicatorPosition = transform.TransformPoint(new Vector3(0, -aoeYOffset / 2, 0));
-        indicator.IndicateBoxAOE(indicatorPosition, direction, colliderSize.x, colliderSize.y + aoeYOffset, depth, false);
+        indicator.IndicateBoxAOE(transform.position, direction, colliderSize.x, colliderSize.y + yOffset, depth, false);
     }
+    public void IndicateCircleAOE(float radius = 0, float depth = 0)
+    {
+        if (!isInfoSetted)
+        {
+            Debug.LogError("투사체 정보가 설정되지 않았습니다.");
+            return;
+        }
+        if (indicatorAOEType != AOETypes.Circle)
+        {
+            Debug.LogError("Indicator가 Box형이 아닙니다.");
+            return;
+        }
+        if (radius <= 0)
+            radius = Mathf.Max(colliderSize.x, colliderSize.y, colliderSize.z);
+        if (depth <= 0)
+            depth = launchSpeed * disappearTime;
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, depth, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+        {
+            depth = hit.distance + 0.1f;
+        }
+        indicator.IndicateCircleAOE(transform.position, direction, radius, depth);
+    }
+    /// <summary>
+    /// 투사체를 특정 방향으로 발사할 때 사용됩니다. SetProjectileBeforeLaunch이 되지 않았다면 오류가 발생할 수 있습니다.
+    /// </summary>
     public void Launch()
     {
-        if (indicator != null)
+        switch (launchType)
         {
-            AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Release(indicator);
+            case ProjectileLaunchTypes.Shoot:
+                ReleaseIndicator();
+                break;
+            case ProjectileLaunchTypes.Drop:
+                break;
         }
         rigidbody.AddForce(direction * rigidbody.mass * launchSpeed, ForceMode.Impulse);
-        timeSinceLaunced = 0f;
         StartCoroutine(WaitDisapperTime());
     }
-    private void OnTriggerEnter(Collider other)
+    public void LerpIndicatorScale(float multScale, float lerpTime)
     {
-        ProjetileColliderEnter?.Invoke(other.gameObject, this);
+        StartCoroutine(LerpScale(multScale, lerpTime));
+    }
+    private IEnumerator LerpScale(float multScale, float lerpTime)
+    {
+        indicatorLerpTime = 0f;
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale = startScale * multScale;
+        while (indicatorLerpTime <= lerpTime)
+        {
+            transform.localScale = Vector3.Lerp(startScale, targetScale, lerpTime);
+            indicatorLerpTime += Time.deltaTime;
+            yield return null;
+        }
     }
     private IEnumerator WaitDisapperTime()
     {
+        timeSinceLaunced = 0f;
         while (timeSinceLaunced <= disappearTime)
         {
             timeSinceLaunced += Time.deltaTime;
             yield return null;
         }
         TimeExpired?.Invoke(this);
+    }
+    public void OnGet()
+    {
+        gameObject.SetActive(true);
+    }
+    public void OnRelease()
+    {
+        if (indicator != null)
+            ReleaseIndicator();
         StopAllCoroutines();
+        gameObject.SetActive(false);
+        rigidbody.velocity = Vector3.zero;
+    }
+    private void SetIndicator()
+    {
+        if (indicator != null && indicator.AOEType == indicatorAOEType)
+            return;
+        else if (indicator != null && indicator.AOEType != indicatorAOEType)
+        {
+            ReleaseIndicator();
+            indicator =  AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Get();
+        }
+        else
+            indicator =  AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Get();
+    }
+    public void ReleaseIndicator()
+    {
+        if (indicator == null)
+            return;
+        AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Release(indicator);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        ProjetileColliderEnter?.Invoke(other, this);
     }
 }

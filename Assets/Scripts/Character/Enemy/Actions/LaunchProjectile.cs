@@ -7,13 +7,9 @@ using UnityEngine.Events;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
-public enum BulletType
-{
-    Nomal,
-    ShotGun
-}
-[CreateAssetMenu(fileName = "TestAction_ProjectileSO", menuName = "Characters/Enemy/AttackAction/TestAction_Projectile")]
-public class TestAction_Projectile : AttackAction
+
+[CreateAssetMenu(fileName = "LaunchProjectile", menuName = "Characters/Enemy/AttackAction/LaunchProjectile")]
+public class LaunchProjectile : AttackAction
 {
     [Header("투사체 설정")]
     [Tooltip(nameof(Projectile) + "을 가지고 있는 Prefab")]
@@ -33,6 +29,11 @@ public class TestAction_Projectile : AttackAction
 
     private ObjectPool<Projectile> projectilePool;
     private List<Projectile> settedProjectiles;
+
+    public LaunchProjectile()
+    {
+        ActionType = ActionTypes.LaunchProjectile;
+    }
     public override void OnAwake()
     {
         base.OnAwake();
@@ -41,7 +42,7 @@ public class TestAction_Projectile : AttackAction
     }
     private void PoolInitialize()
     {
-        projectilePool = new ObjectPool<Projectile>(() => ProjectileCreateFunc(), projectile => projectile.gameObject.SetActive(true), projectile => { projectile.gameObject.SetActive(false); projectile.rigidbody.velocity = Vector3.zero; }, defaultCapacity: projectileAmount, maxSize: projectileAmount * 3);
+        projectilePool = new ObjectPool<Projectile>(() => ProjectileCreateFunc(), projectile => projectile.OnGet(), projectile => projectile.OnRelease(), defaultCapacity: projectileAmount, maxSize: projectileAmount * 3);
         settedProjectiles = new List<Projectile>(projectileAmount);
     }
     private Projectile ProjectileCreateFunc()
@@ -60,7 +61,7 @@ public class TestAction_Projectile : AttackAction
         }
         else if (animEvent.stringParameter == "LaunchProjectile")
         {
-            LaunchProjectile();
+            LaunchProjectiles();
         }
     }
     public override void OnStart()
@@ -93,8 +94,9 @@ public class TestAction_Projectile : AttackAction
     /// </summary>
     /// <param name="target">트리거에 들어온 객체입니다.</param>
     /// <param name="projectile">투사체 자신의 정보입니다.</param>
-    private void OnProjectileTriggerEnter(GameObject target, Projectile projectile)
+    private void OnProjectileTriggerEnter(Collider other, Projectile projectile)
     {
+        GameObject target = other.gameObject;
         if (target.layer == LayerMask.NameToLayer(TagsAndLayers.GroundLayer))
         {
             projectilePool.Release(projectile);
@@ -133,7 +135,8 @@ public class TestAction_Projectile : AttackAction
         for (int i = 0; i < projectileAmount; i++)
         {
             Projectile projectile = projectilePool.Get();
-            projectile.SetProjectile(nextProjectilePosition, direction, projectileSpeed, StateMachine.Enemy, 1f);
+            projectile.SetProjectileInfo(ProjectileLaunchTypes.Shoot, nextProjectilePosition, direction, projectileSpeed, StateMachine.Enemy);
+            projectile.IndicateBoxAOE(yOffset: 1.5f);
             settedProjectiles.Add(projectile);
             nextProjectilePosition = projectile.transform.TransformPoint(new Vector3(spacing, 0, 0));
         }
@@ -157,20 +160,22 @@ public class TestAction_Projectile : AttackAction
             rotatedOffset = startRotation * offset;
             startPosition = StateMachine.Enemy.transform.TransformPoint(rotatedOffset);
         }
+        
         Vector3 nextProjectilePosition = startPosition;
         Quaternion nextProjectileRotation = startRotation;
         for (int i = 0; i < projectileAmount; i++)
         {
             Projectile projectile = projectilePool.Get();
             Vector3 direction = StateMachine.Enemy.transform.TransformDirection(nextProjectileRotation * verticalRotation * Vector3.forward);
-            projectile.SetProjectile(nextProjectilePosition, direction, projectileSpeed, StateMachine.Enemy, 1f);
+            projectile.SetProjectileInfo(ProjectileLaunchTypes.Shoot, nextProjectilePosition, direction, projectileSpeed, StateMachine.Enemy);
+            projectile.IndicateBoxAOE(yOffset: 1.5f);
             settedProjectiles.Add(projectile);
             nextProjectileRotation = nextProjectileRotation * horizontalRotation;
             rotatedOffset = nextProjectileRotation * offset;
             nextProjectilePosition = StateMachine.Enemy.transform.TransformPoint(rotatedOffset);
         }
     }
-    private void LaunchProjectile()
+    private void LaunchProjectiles()
     {
         for (int i = settedProjectiles.Count - 1; i >= 0; i--)
         {

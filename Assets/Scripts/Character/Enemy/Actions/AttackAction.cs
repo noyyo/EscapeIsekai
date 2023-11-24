@@ -8,12 +8,11 @@ using UnityEngine;
 public enum ActionTypes
 {
     None = -1,
-    Melee,
-    Target,
-    RangedTargeted,
+    MeleeAttack,
+    Breath,
     LaunchProjectile,
-    ChargedLaunchProjectile,
-    AoE,
+    CharingAttack,
+    ProjectileRain,
 }
 public enum AnimState
 {
@@ -26,10 +25,7 @@ public abstract class AttackAction : ScriptableObject
 {
     [HideInInspector]
     public EnemyStateMachine StateMachine;
-    /// <summary>
-    /// 해당 필드는 인스펙터에서 편집이 불가능합니다. 파생된 클래스에서 지정해주어야 합니다.
-    /// </summary>
-    [ReadOnly] public ActionTypes ActionType;
+    public ActionTypes ActionType;
     [SerializeField]
     public ActionConfig Config;
     [SerializeField]
@@ -73,6 +69,7 @@ public abstract class AttackAction : ScriptableObject
     private bool isAnimStarted;
     [HideInInspector]
     public float lastUsedTime;
+    private float restedTime;
     
 
     private HashSet<GameObject> alreadyAttackApplied = new HashSet<GameObject>();
@@ -101,6 +98,7 @@ public abstract class AttackAction : ScriptableObject
         isEffectEnded = false;
         alreadyAttackApplied.Clear();
         isRunning = true;
+        restedTime = 0f;
     }
     /// <summary>
     /// 매 프레임마다 호출됩니다.
@@ -111,10 +109,16 @@ public abstract class AttackAction : ScriptableObject
         {
             OnEffectFinish();
         }
-        CheckAnimationState();
+        if (!isCompleted)
+            CheckAnimationState();
 
         if (isCompleted && !HasRemainingEffect)
         {
+            if (restedTime < Config.RestTimeAfterAction)
+            {
+                restedTime += Time.deltaTime;
+                return;
+            }
             if (Config.ChainedAction != null)
             {
                 StateMachine.CurrentAction = Config.ChainedAction;
@@ -173,16 +177,21 @@ public abstract class AttackAction : ScriptableObject
     /// <param name="target">데미지 및 공격 효과를 적용할 대상입니다.</param>
     /// <param name="isPossibleMultihit">이미 공격이 적용된 대상에게도 다시 공격을 적용할 수 있는지 여부입니다.</param>
     /// <param name="targetObj">공격을 이미 받았는지 판단하기 위한 대상의 GameObject입니다.</param>
-    protected void ApplyAttack(GameObject targetObj, bool isPossibleMultihit = false)
+    protected void ApplyAttack(GameObject targetObj, bool isPossibleMultihit = false, bool isPossibleMultiEffect = false)
     {
-        if (!isPossibleMultihit && alreadyAttackApplied.Contains(targetObj))
+        if (!isPossibleMultihit && !isPossibleMultiEffect && alreadyAttackApplied.Contains(targetObj))
             return;
-        alreadyAttackApplied.Add(targetObj);
         IDamageable target = GetDamageableComponent(targetObj);
         if (target == null)
             return;
+        if (isPossibleMultiEffect && alreadyAttackApplied.Contains(targetObj))
+        {
+            target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, StateMachine.Enemy.gameObject);
+            return;
+        }
         target.TakeDamage(Config.DamageAmount);
         target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, StateMachine.Enemy.gameObject);
+        alreadyAttackApplied.Add(targetObj);
     }
     private IDamageable GetDamageableComponent(GameObject targetObj)
     {
@@ -276,11 +285,19 @@ public abstract class AttackAction : ScriptableObject
     /// <param name="animTriggerHash">Bool타입의 파라미터여야 합니다.</param>
     protected void StopAnimation(int animTriggerHash)
     {
-        AnimatorControllerParameterType paramType = StateMachine.Animator.GetParameter(animTriggerHash).type;
-        if (paramType == AnimatorControllerParameterType.Bool)
+        foreach (AnimatorControllerParameter param in StateMachine.Animator.parameters)
         {
-            StateMachine.Animator.SetBool(animTriggerHash, false);
+            if (param.nameHash == animTriggerHash)
+            {
+                if (param.type != AnimatorControllerParameterType.Bool)
+                    return;
+            }
         }
+        StateMachine.Animator.SetBool(animTriggerHash, false);
+        currentAnimHash = 0;
+        currentAnimNormalizedTime = 0f;
+        isAnimStarted = false;
+        animState[animTriggerHash] = AnimState.NotStarted;
     }
     private void CheckAnimationState()
     {
@@ -291,8 +308,7 @@ public abstract class AttackAction : ScriptableObject
         {
             AnimatorStateInfo currentInfo = StateMachine.Animator.GetCurrentAnimatorStateInfo(0);
 
-
-            if (!isAnimStarted && lastAnimStateInfo.fullPathHash != currentInfo.fullPathHash || (lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash && lastAnimStateInfo.normalizedTime >= currentInfo.normalizedTime))
+            if (!isAnimStarted && lastAnimStateInfo.fullPathHash != currentInfo.fullPathHash)
             {
                 if (currentInfo.IsTag("BattleStance"))
                     return;
@@ -300,11 +316,11 @@ public abstract class AttackAction : ScriptableObject
                 currentAnimNormalizedTime = currentInfo.normalizedTime;
                 isAnimStarted = true;
             }
-            else if (lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash)
+            else if (lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash && currentInfo.normalizedTime < 1f)
             {
                 currentAnimNormalizedTime = currentInfo.normalizedTime;
             }
-            else if (isAnimStarted && lastAnimStateInfo.fullPathHash != currentInfo.fullPathHash || (lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash && lastAnimStateInfo.normalizedTime >= currentInfo.normalizedTime))
+            else if (isAnimStarted && (lastAnimStateInfo.fullPathHash != currentInfo.fullPathHash || currentInfo.normalizedTime > 1f))
             {
                 if (StateMachine.Animator.IsInTransition(0))
                 {
