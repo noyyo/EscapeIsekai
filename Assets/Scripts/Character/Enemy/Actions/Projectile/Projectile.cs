@@ -85,7 +85,6 @@ public class Projectile : MonoBehaviour
         {
             depth = hit.distance + 0.1f;
         }
-
         indicator.IndicateBoxAOE(transform.position, direction, colliderSize.x, colliderSize.y + yOffset, depth, false);
     }
     public void IndicateCircleAOE(float radius = 0, float depth = 0)
@@ -104,13 +103,7 @@ public class Projectile : MonoBehaviour
             radius = Mathf.Max(colliderSize.x, colliderSize.y, colliderSize.z);
         if (depth <= 0)
             depth = launchSpeed * disappearTime;
-        Ray ray = new Ray(transform.position, direction);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, depth, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
-        {
-            depth = hit.distance + 0.1f;
-        }
-        indicator.IndicateCircleAOE(transform.position, direction, radius, depth);
+        indicator.IndicateCircleAOE(transform.position, direction, radius, depth, false);
     }
     /// <summary>
     /// 투사체를 특정 방향으로 발사할 때 사용됩니다. SetProjectileBeforeLaunch이 되지 않았다면 오류가 발생할 수 있습니다.
@@ -135,11 +128,11 @@ public class Projectile : MonoBehaviour
     private IEnumerator LerpScale(float multScale, float lerpTime)
     {
         indicatorLerpTime = 0f;
-        Vector3 startScale = transform.localScale;
-        Vector3 targetScale = startScale * multScale;
+        Vector3 startScale = indicator.transform.localScale;
+        Vector3 targetScale = new Vector3(startScale.x * multScale, startScale.y * multScale, startScale.z);
         while (indicatorLerpTime <= lerpTime)
         {
-            transform.localScale = Vector3.Lerp(startScale, targetScale, lerpTime);
+            indicator.transform.localScale = Vector3.Lerp(startScale, targetScale, indicatorLerpTime / lerpTime);
             indicatorLerpTime += Time.deltaTime;
             yield return null;
         }
@@ -183,9 +176,14 @@ public class Projectile : MonoBehaviour
         if (indicator == null)
             return;
         AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Release(indicator);
+        indicator = null;
     }
     private void OnTriggerEnter(Collider other)
     {
         ProjetileColliderEnter?.Invoke(other, this);
+    }
+    public void SetDisappearTime(float disappearTime)
+    {
+        this.disappearTime = Mathf.Clamp(disappearTime, 1f, 20f);
     }
 }

@@ -25,6 +25,8 @@ public class ProjectileRain : AttackAction
     private float createBatchDelay;
     private int currentCreatedBatch;
     private ObjectPool<Projectile> projectilePool;
+    // AOE를 표시할 때 Y축 방향으로 추가할 범위입니다. effectRadius와 비교해서 큰 값을 적용합니다.
+    private static readonly float additionalAOEYOffset = 1.5f;
 
     public ProjectileRain()
     {
@@ -38,15 +40,14 @@ public class ProjectileRain : AttackAction
         if (batchCount == 1)
             createBatchDelay = 0;
         else
-            createBatchDelay = Config.EffectDurationSeconds / batchCount - 1;
-        projectilePool = new ObjectPool<Projectile>(() => ProjectileCreateFunc(), projectile => projectile.OnGet(), projectile => projectile.OnRelease(), defaultCapacity: projectileAmountInBatch * batchCount, maxSize: projectileAmountInBatch * batchCount * 3);
+            createBatchDelay = Config.EffectDurationSeconds / (batchCount - 1);
+        projectilePool = new ObjectPool<Projectile>(() => ProjectileCreateFunc(), projectile => { projectile.OnGet(); projectile.SetDisappearTime(dropTime + 1f); }, projectile => projectile.OnRelease(), defaultCapacity: projectileAmountInBatch * batchCount, maxSize: projectileAmountInBatch * batchCount * 3);
     }
     public override void OnStart()
     {
         base.OnStart();
         currentCreatedBatch = 0;
         StartAnimation(Config.AnimTriggerHash1);
-        SetBasePosition();
     }
     public override void OnEnd()
     {
@@ -115,10 +116,6 @@ public class ProjectileRain : AttackAction
     {
         projectilePool.Release(projectile);
     }
-    private void SetBasePosition()
-    {
-
-    }
     private void CreateProjectileBatch()
     {
         currentCreatedBatch++;
@@ -137,10 +134,18 @@ public class ProjectileRain : AttackAction
             projectile = projectilePool.Get();
             initialPosition.x = basePosition.x + randomCircle.x;
             initialPosition.y = basePosition.y;
-            initialPosition.z = basePosition.z = randomCircle.y;
+            initialPosition.z = basePosition.z + randomCircle.y;
+            Ray ray = new Ray(initialPosition, Vector3.down);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, initialPosition.y + rainRadius, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+                initialPosition.y = hit.transform.position.y + dropSpeed * dropTime;
+            else
+                initialPosition.y = initialPosition.y -rainRadius + dropSpeed * dropTime;
+
             projectile.SetProjectileInfo(ProjectileLaunchTypes.Drop, initialPosition, Vector3.down, dropSpeed, enemy);
-            projectile.IndicateCircleAOE(radius: 1, depth: dropSpeed * dropTime);
+            projectile.IndicateCircleAOE(radius: 1, depth: dropSpeed * dropTime + Mathf.Max(effectRadius, additionalAOEYOffset));
             projectile.LerpIndicatorScale(effectRadius, dropTime);
+            projectile.Launch();
         }
     }
 }

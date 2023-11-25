@@ -71,7 +71,7 @@ public class AOEIndicator : MonoBehaviour
     /// <param name="forward">이펙트가 바라볼 방향입니다. Y축 방향은 무시됩니다.</param>
     /// <param name="radius">이펙트의 반경입니다.</param>
     /// <param name="depth">startPosition에서 indicator의 forward 방향으로의 깊이입니다. 기본 값은 radius와 같습니다.</param>
-    public void IndicateCircleAOE(Vector3 startPosition, Vector3 forward, float radius, float depth = 0f)
+    public void IndicateCircleAOE(Vector3 startPosition, Vector3 forward, float radius, float depth = 0f, bool isTopView = true)
     {
         bool isTypeError;
         isTypeError = AOEType switch
@@ -93,9 +93,12 @@ public class AOEIndicator : MonoBehaviour
             depth = radius;
         Transform projectorTransform = projector.transform;
         projectorTransform.position = startPosition;
-        forward.y = 0;
-        projectorTransform.forward = forward;
-        projectorTransform.rotation = projectorTransform.rotation * initialRotation;
+        if (isTopView)
+            forward.y = 0;
+        if (forward != Vector3.zero)
+            projectorTransform.forward = forward;
+        if (isTopView)
+            projectorTransform.rotation = projectorTransform.rotation * initialRotation;
         projectorTransform.localScale = new Vector3(initialScale.x * radius, initialScale.y * radius, depth);
     }
 }

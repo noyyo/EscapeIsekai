@@ -180,6 +180,7 @@ public class LaunchProjectile : AttackAction
         for (int i = settedProjectiles.Count - 1; i >= 0; i--)
         {
             settedProjectiles[i].Launch();
+            settedProjectiles[i].ReleaseIndicator();
             settedProjectiles.RemoveAt(i);
         }
     }
