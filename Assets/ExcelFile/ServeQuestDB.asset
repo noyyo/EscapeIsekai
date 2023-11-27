@@ -28,7 +28,7 @@ MonoBehaviour:
     QuestMonster2Count: 0
     Reword: 10100000
     isClear: 0
-    BeforeDialog: "\uB9CE\uC774 \uBABB\uBCF4\uB358 \uC0AC\uB78C\uC774\uB124??,\uC9C0\uAE08
+    BeforeDialog: "\uB9CE\uC774 \uBABB \uBCF4\uB358 \uC0AC\uB78C\uC774\uB124??,\uC9C0\uAE08
       \uD639\uC2DC \uD560\uC77C\uC774 \uC5C6\uB2E4\uBA74 \uB0B4 \uBD80\uD0C1\uC880
       \uB4E4\uC5B4\uC8FC\uC9C0 \uC54A\uC744\uB798?,\uB098\uB294 \uB300\uC7A5\uAC04\uC744
       \uC6B4\uC601\uD558\uB294 \uB300\uC7A5\uC7A5\uC774\uC778\uB370,\uD654\uB85C\uC5D0
@@ -141,7 +141,7 @@ MonoBehaviour:
     QuestName: "\uC57C\uC601\uC758 \uB300\uD558\uC5EC[\uD29C\uD1A0\uB9AC\uC5BC]"
     QuestDescription: "\uD29C\uD1A0\uB9AC\uC5BC"
     QuestItem: 2003
-    QuestItemCount: 0
+    QuestItemCount: 3
     QuestItem2: 2001
     QuestItem2Count: 0
     QuestMonster: 0
@@ -163,3 +163,514 @@ MonoBehaviour:
       \uC0AC\uC6A9\uD574\uBCF4\uB3C4\uB85D \uD574\uBD10!, \uC57C\uC601\uBC29\uBC95\uC740
       [T]\uB97C \uB20C\uB974\uBA74 \uC790\uC5F0\uC2A4\uB7FD\uAC8C \uC54C\uAC8C\uB420\uAC70\uC57C!,
       \uADF8\uB7FC \uB098\uC911\uC5D0\uBCF4\uC790"
+  - id: 10007
+    Npc: 0
+    QuestType: 2
+    QuestName: "\uD6C8\uB828\uC774 \uD544\uC694\uD574"
+    QuestDescription: "\uAC15\uC778\uD55C\uC5EC\uC790"
+    QuestItem: 9999
+    QuestItemCount: 9
+    QuestItem2: 9999
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uC694\uC998 \uC1E0\uC9C8\uC744 \uBABB\uD588\uB354\uB2C8 \uBAB8\uC774
+      \uC880 \uBED0\uADFC\uD558\uB124,\uD639\uC2DC \uAC70\uAE30 \uB108 \uD560 \uC77C
+      \uC5C6\uC73C\uBA74 \uC6B4\uB3D9\uC5D0 \uC4F8\uB9CC\uD55C \uBB3C\uAC74 \uC880
+      \uAC00\uC838\uB2E4 \uC904\uB798?,\uC774 \uADFC\uCC98\uC5D0\uC11C \uC544\uB839\uC73C\uB85C
+      \uC0AC\uC6A9 \uD560 \uD070 \uB3CC\uC880 \uAD6C\uD574\uC918"
+    AfterDialog: "\uC774 \uC815\uB3C4\uBA74 \uAD1C\uCC2E\uACA0\uC5B4,\uACE0\uB9C8\uC6CC
+      \uBAB8 \uC870\uC2EC\uD574"
+  - id: 10008
+    Npc: 0
+    QuestType: 2
+    QuestName: "\uD6C8\uB828\uC774 \uD544\uC694\uD5742"
+    QuestDescription: "\uAC15\uC778\uD55C\uC5EC\uC790"
+    QuestItem: 9999
+    QuestItemCount: 9
+    QuestItem2: 9999
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uC544\uB839\uC73C\uB85C \uAD6C\uD574\uB2E4\uC900\uAC8C \uADF8\uB9CC
+      \uC6B4\uB3D9\uD558\uB2E4 \uBD80\uB7EC\uC838 \uBC84\uB838\uC5B4\u2026,\uD639\uC2DC\u2026\uD55C\uBC88\uB9CC
+      \uB354 \uB4E4\uC5B4\uC904\uB798?..,\uC774\uBC88\uC5D4 \uC870\uAE08 \uB354 \uD2BC\uD2BC\uD55C
+      \uAD11\uBB3C\uC774 \uD544\uC694\uD560\uAEBC \uAC19\uC544."
+    AfterDialog: "\uADF8\uB798!! \uC774\uC815\uB3C4\uBA74  \uAF64 \uAD1C\uCC2E\uC740
+      \uC544\uB839\uC744 \uB9CC\uB4E4 \uC218 \uC788\uC744\uAEBC\uC57C!!,\uC774\uAC70\uB294
+      \uBD80\uB7EC\uC9C4 \uC544\uB839\uC73C\uB85C \uC7A0\uAE50 \uB9CC\uB4E4\uC5B4\uBCF8
+      \uBB34\uAE30\uC778\uB370 \uD55C\uBC88 \uC0AC\uC6A9\uD574\uBD10"
+  - id: 10009
+    Npc: 0
+    QuestType: 1
+    QuestName: "\uC0C1\uC778\uC758 \uACE8\uCE6B\uAC70\uB9AC"
+    QuestDescription: "\uB300\uC0C1\uC778"
+    QuestItem: 0
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 9999
+    QuestMonsterCount: 11
+    QuestMonster2: 11
+    QuestMonster2Count: 11
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uC55E\uC5D0 \uAC00\uB85C\uB9C9\uACE0\uC788\uB294 \uBAAC\uC2A4\uD130\uB54C\uBB38\uC5D0
+      \uAD50\uC5ED\uC744 \uD560 \uC218\uAC00 \uC5C6\uC5B4, \uB098\uB294 \uBB3C\uAC74\uC744
+      \uC9C0\uCF1C\uC57C\uD574\uC11C \uD639\uC2DC \uAC00\uB2A5\uD558\uB2E4\uBA74,\uBAAC\uC2A4\uD130\uC880
+      \uB300\uC2E0 \uCC98\uCE58\uD574\uC904\uB798??"
+    AfterDialog: "\uB355\uBD84\uC5D0 \uB9C8\uC744\uB85C \uB3CC\uC544\uAC08 \uC218
+      \uC788\uC744\uAEBC\uAC19\uC544, \uC774\uAC70\uB294 \uAD50\uC5ED\uD488\uC778\uB370
+      \uC6B0\uB9AC \uC0AC\uC7A5\uB2D8 \uBAB0\uB798 \uD558\uB098\uC904\uAC8C, \uC798
+      \uC0AC\uC6A9\uD558\uAE38 \uBC14\uB798"
+  - id: 10010
+    Npc: 0
+    QuestType: 1
+    QuestName: "\uB3C4\uC801\uC774 \uB418\uACE0\uC2F6\uC740\uC790"
+    QuestDescription: "\uB3C4\uC801"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uB3C4\uC801\uC774 \uB418\uACE0\uC2F6\uC740\uC790\u2026,\uB098\uC5D0\uAC8C\uB85C\u2026,\uC5B4\uB77C!
+      \uBC29\uAE08\uB9D0\uC740 \uD63C\uC7A3\uB9D0\uC774\uC57C, \uB098\uB294 \uC774
+      \uC544\uB798 \uD558\uC218\uAD6C\uC5D0\uC11C \uC0B4\uACE0\uC788\uB294\uB370,\uCD09\uCD09\uD55C
+      \uBC14\uB098\uB098\uAC00 \uBA39\uACE0\uC2F6\uC5B4,\uC544\u2026\uBA39\uACE0\uC2F6\uB2E4.."
+    AfterDialog: "???,\uC124\uB9C8 \uB0B4 \uD63C\uC7A3\uB9D0\uC744 \uB4E3\uACE0 \uBC14\uB098\uB098\uB97C
+      \uAC00\uC838\uB2E4\uC900\uAC70\uC57C??,\uB108\uBB34 \uACE0\uB9C8\uC6CC\u2026,\uBCF4\uB2F5\uC740
+      \uC904 \uC218\uC788\uB294\uAC8C \uC5C6\uACE0\u2026\uC815\uBCF4\uB97C \uC880
+      \uC8FC\uC790\uBA74,\uC5B4\uB5A4 \uBCF4\uC2A4\uB294 \uD3ED\uBC1C\uBB3C \uAC19\uC740
+      \uBB34\uC5B8\uAC00\uC5D0 \uB9CE\uC774 \uCDE8\uC57D\uD558\uB2E4\uACE0\uD574"
+  - id: 10011
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uC783\uC5B4\uBC84\uB9B0 \uB3C8 \uC8FC\uBA38\uB2C8"
+    QuestDescription: "\uBAA8\uD5D8\uAC00"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uC77C\uD589\uC5D0 \uD544\uC694\uD55C \uBB3C\uD488\uC744 \uC0AC\uB7EC\uAC00\uB358
+      \uB3C4\uC911\uC5D0, \uADF8\uB9CC \uB3C8\uC744 \uC783\uC5B4\uBC84\uB9AC\uACE0
+      \uB9D0\uC558\uC5B4..,\uD639\uC2DC\u2026\uB3C8 \uC880 \uBE4C\uB824\uC904 \uC218
+      \uC788\uAC9F\uB2C8?...,\uC544..\uADF8\uB798..\uC5B4\uCA54 \uC218\uC5C6\uB124\u2026,\uB204\uAC00
+      \uCC3E\uC544\uC8FC\uC9C0 \uC54A\uC73C\uB824\uB098\u2026(\uBE64\uD788 \uBC14\uB77C\uBCF4\uBA70)"
+    AfterDialog: "\uBB50\uC57C \uC9C4\uC9DC \uAD6C\uD574\uC654\uB124?(\uC0AC\uC2E4
+      \uB3C8\uC740 \uC544\uAE4C \uCC3E\uC558\uB294\uB370),\uC815\uB9D0 \uB108\uBB34
+      \uACE0\uB9C8\uC6CC(\uADF8\uB7FC \uC774\uAC74 \uB204\uAC00 \uB5A8\uC5B4\uD2B8\uB9B0\uAC70\uC57C??),\uC774\uAC74
+      \uB0B4\uAC00 \uCC29\uC6A9\uD558\uB358 \uC7A5\uBE44\uC778\uB370 \uB108\uAC00
+      \uC0AC\uC6A9\uD558\uBA74 \uC88B\uC744\uAEBC\uAC19\uC544,(\uB0A1\uC740\uAC70\uB294
+      \uC598 \uC8FC\uACE0 \uB098\uB294 \uC774 \uB3C8\uC73C\uB85C \uC77C\uD589\uBAB0\uB798
+      \uC7A5\uBE44\uB098 \uC0AC\uC57C\uACA0\uB2E4.)"
+  - id: 10012
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uC6D4\uB3D9\uC900\uBE44"
+    QuestDescription: "\uBAA9\uC218"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uBC14\uC058\uB2C8\uAE4C \uC660\uB9CC\uD558\uBA74 \uB9D0 \uAC78\uC9C0\uB9C8,\uBB50??
+      \uB3C4\uC640\uC904\uAC8C \uC5C6\uB0D0\uACE0??,\uADF8\uB7FC \uB098\uBB34\uB098
+      \uC880 \uD328\uC624\uB358\uC9C0"
+    AfterDialog: "\uADF8\uB798.\uADF8\uB798,\uADF8 \uB098\uBB34\uB294 \uC800 \uCABD\uC5D0
+      \uC880 \uC313\uC544\uB450\uACE0,\uC544\uC9C1 \uD560 \uC77C\uC774 \uB354\uC788\uC5B4"
+  - id: 10013
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uC6D4\uB3D9\uC900\uBE442"
+    QuestDescription: "\uBAA9\uC218"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uBAA8\uD53C\uC637\uC744 \uB9CC\uB4E4 \uAC00\uC8FD\uC774 \uD544\uC694\uD574,\uAC00\uC838\uC624\uAC70\uB098
+      \uB9D0\uB358\uC9C0"
+    AfterDialog: "\uB9D0\uB05D\uB9C8\uB2E4 \uD241\uBA85\uC2A4\uB7FD\uAC8C \uB300\uB2F5\uD574\uC11C
+      \uBBF8\uC548\uD574\u2026,\uC0AC\uC2E4 \uB098\uB294 \uC774\uBC29\uC778\uC774
+      \uB9CE\uC774 \uB450\uB824\uC6CC\uC11C \uADF8\uB798\u2026,\uB2E4\uC74C\uC5D0
+      \uC624\uBA74 \uB9DB\uC788\uB294 \uBC25\uC774\uB77C\uB3C4 \uD55C\uB07C \uB300\uC811\uD560\uAC8C"
+  - id: 10014
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uB370\uB9C8\uC2DC\uC544(?)\uB97C \uC704\uD558\uC5EC"
+    QuestDescription: "\uC218\uC0C1\uD55C\uC778\uBB3C"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uB370\uB9C8\uC2DC\uC544\uB97C \uC704\uD558\uC5EC!!,\uB108\uAC00
+      \uC624\uAE30\uC804 \uC5B4\uB5A4 \uC774\uBC29\uC778\uC774 \uD56D\uC0C1 \uC678\uCE58\uB358\uB9D0\uC778\uB370,\uBAAC\uC2A4\uD130\uC640
+      \uC2F8\uC6B0\uAE30\uC804\uC5D0 \uAC01\uC624\uB97C \uC138\uAE34\uB2E4\uB294
+      \uB9D0\uC774\uB798,\uB108\uBB34 \uC88B\uC9C0\uC54A\uC544?? \uADF8\uB798\uC11C
+      \uB098\uB294 \uD3C9\uC18C\uC5D0\uB3C4 \uC774 \uB9D0\uC744 \uC790\uC8FC \uC4F0\uACE0\uC788\uC5B4,\uC9C0\uAE08\uC740
+      \uC800 \uC55E\uC5D0 \uBAAC\uC2A4\uD130\uB97C \uCC98\uCE58\uD558\uB294\uAC8C
+      \uC870\uAE08 \uBB34\uC12D\uB124\u2026,\uD639\uC2DC \uB300\uC2E0\u2026\uBD80\uD0C1
+      \uC880 \uD574\uB3C4\uB420\uAE4C?..."
+    AfterDialog: "\uACE0\uB9C8\uC6CC!!!!,\uC2F8\uC6B0\uAE30\uC804\uC5D0 \uB108\uC758
+      \uC678\uCE68 \uC18C\uB9AC \uC798\uB4E4\uC5C8\uC5B4!!,\uB355\uBD84\uC5D0 \uB098\uB3C4
+      \uAC01\uC624\uB97C \uB2E4\uC2DC \uBD88\uD0DC\uC6B8 \uC218 \uC788\uC744\uAEBC\uAC19\uC544,\uAC19\uC774
+      \uB2E4\uC2DC \uC678\uCE58\uC790!,\uB370\uB9C8\uC2DC\uC544\uB97C \uC704\uD558\uC5EC!"
+  - id: 10015
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uADE0\uD615\uC758 \uC218\uD638\uC790"
+    QuestDescription: "\uC232\uAC70\uC8FC\uBBFC"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uB098\uB294 \uC5EC\uAE30\uB97C \uAD00\uB9AC\uD558\uB294 \uC815\uB839\uC5D0\uAC8C
+      \uC704\uC784\uC744 \uBC1B\uACE0, \uAD34\uBB3C\uC758 \uAC1C\uCCB4\uB97C \uC870\uC808\uD558\uACE0
+      \uC788\uC5B4,\uC694\uC998\uB530\uB77C \uBD80\uCA4D \uC218\uAC00 \uB9CE\uC774
+      \uB298\uC5B4\uB098\uC11C \uBC85\uCC2C\uAC10\uC774 \uC5C6\uC9C0\uC54A\uC558\uB294\uB370,\uD639\uC2DC
+      \uB098 \uC880 \uB3C4\uC640\uC8FC\uACA0\uC5B4?"
+    AfterDialog: "\uC774\uAC78\uB85C \uC218\uB294 \uC5B4\uB290\uC815\uB3C4 \uAD00\uB9AC\uAC00
+      \uB41C\uAC70\uAC19\uC544, \uD558\uC9C0\uB9CC \uC870\uB9CC\uAC04 \uB2E4\uC2DC
+      \uB298\uC5B4\uB098\uACA0\uC9C0\u2026"
+  - id: 10016
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uADE0\uD615\uC758 \uC218\uD638\uC7902"
+    QuestDescription: "\uC232\uAC70\uC8FC\uBBFC"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uC218\uB97C \uC77C\uBD80 \uC870\uC808\uD588\uC9C0\uB9CC \uC0DD\uAC01\uBCF4\uB2E4
+      \uC18D\uB3C4\uAC00 \uB9CE\uC774 \uBE60\uB978\uAC70\uAC19\uC544,\uD55C\uBC88
+      \uB354 \uB3C4\uC640\uC8FC\uACA0\uC5B4??"
+    AfterDialog: "\uC88B\uC544 \uC774\uAC78\uB85C \uC5B4\uB290\uC815\uB3C4\uB294
+      \uB9C8\uBB34\uB9AC\uB41C\uAC70 \uAC19\uAD70,\uB2A5\uB825\uC774 \uC880 \uC788\uB294\uAC70\uAC19\uC740\uB370
+      \uAD00\uB9AC\uC790\uC778 \uC815\uB839\uC5D0\uAC8C\uB3C4 \uD55C\uBC88 \uCC3E\uC544\uAC00\uBCF4\uACA0\uC5B4??,\uC815\uB839\uC740
+      \uC232 \uC548\uCABD \uAE4A\uC740\uACF3\uC5D0\uC11C \uC790\uB9AC\uB97C \uC7A1\uACE0\uC788\uC744\uAEBC\uC57C,\uAC00\uB294\uAE38\uC5D0
+      \uAD34\uBB3C\uB4E4\uC774 \uB9CE\uC73C\uB2C8 \uAF2D \uC870\uC2EC\uD558\uACE0"
+  - id: 10017
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uC815\uB839\uC758 \uBD80\uD0C1"
+    QuestDescription: "\uC232\uC758\uC815\uB839"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uADF8\uB300\uAC00 \uC62C \uAC83\uC744 \uC774\uBBF8 \uC790\uC5F0\uC5D0\uAC8C
+      \uB4E3\uACE0\uC788\uC5C8\uB2E4.,\uCD5C\uADFC \uAD34\uBB3C\uC758 \uC218\uAC00
+      \uB298\uC5B4\uB09C \uAC83\uC740 \uAE4A\uC219\uD55C \uACF3\uC5D0 \uC874\uC7AC\uD558\uB294
+      {\uC911\uAC04\uBCF4\uC2A4}\uAC00 \uC790\uB9AC\uB97C \uC7A1\uACE0 \uAE09\uACA9\uD558\uAC8C
+      \uC99D\uAC00\uD558\uAE30 \uC2DC\uC791\uD588\uC9C0,\uBD80\uB514 {\uC911\uAC04\uBCF4\uC2A4}\uB97C
+      \uAF2D \uBB3C\uB9AC\uCCD0 \uC8FC\uAC8C"
+    AfterDialog: "\uC790\uC5F0\uB3C4 \uADF8\uB300\uC5D0\uAC8C \uAC10\uC0AC\uD558\uB294\uAC70
+      \uAC19\uAD70,\uC774\uB85C\uC368 \uC232\uC740 \uB2E4\uC2DC \uD3C9\uD654\uAC00
+      \uC62C\uAC83\uC774\uC57C,\uC232\uC758 \uB354 \uAE4A\uC740\uACF3\uB3C4 \uC874\uC7AC\uD558\uB124\uB9CC
+      \uBD80\uB514 \uADF8\uCABD\uC740 \uB418\uB3C4\uB85D \uAC00\uC9C0\uB9D0\uAC8C\uB098,\uADF8\uACF3\uC740
+      \uB098\uB85C\uC368\uB3C4 \uAD00\uB9AC\uD560 \uC218 \uC5C6\uB294 \uC54C\uC218\uC5C6\uB294
+      \uBB34\uC5B8\uAC00\uAC00 \uC874\uC7AC\uD558\uB294\uB4EF\uD574"
+  - id: 10018
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uB3CC\uACE0\uB3C4\uB294 \uC5ED\uBCD1"
+    QuestDescription: "\uC5ED\uBCD1\uC758\uC0AC"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uC804\uC5FC\uBCD1\uC73C\uB85C \uD658\uC790\uB4E4\uC758 \uC0C1\uD0DC\uAC00
+      \uC810\uC810 \uB354 \uC545\uD654\uB418\uACE0\uC788\uC5B4\u2026,\uC9C0\uAE08\uC758
+      \uB098\uB85C\uC368\uB294 \uB354 \uC774\uC0C1\uC758 \uC7AC\uB8CC\uAC00 \uC5C6\uAE30\uB54C\uBB38\uC5D0
+      \uB3C4\uC6C0\uC774 \uD544\uC694\uD574, \uADFC\uCC98\uC5D0\uC11C \uC57D\uCD08\uB85C
+      \uC4F8\uB9CC\uD55C\uAC83\uC744 \uAD6C\uD574\uC8FC\uC9C0 \uC54A\uC744\uB798??"
+    AfterDialog: "\uC774\uC815\uB3C4\uBA74 \uCDA9\uBD84\uD574!!,\uACE0\uB9C8\uC6CC!!
+      \uB355\uBD84\uC5D0 \uB354 \uB9CE\uC740 \uD658\uC790\uB97C \uAD6C\uD560 \uC218
+      \uC788\uC744\uAEBC\uAC19\uC544!!"
+  - id: 10019
+    Npc: 1100
+    QuestType: 1
+    QuestName: "\uB178\uC608 \uD574\uBC29"
+    QuestDescription: "\uD751\uC778\uB178\uC608"
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: "\uADF8\u2026\uC5B4\u2026\uADF8\u2026\uC5B4\u3153\uC5B4..(\uBAA9\uC774
+      \uB9D0\uB77C..),\uACE0\u2026\uB9C8\uC6CC..,\uC774 \uC55E\uC740 \uBAAC\uC2A4\uD130\uC5D0\uAC8C
+      \uBD99\uC7A1\uD78C \uC8FC\uBBFC\uB4E4\uC774 \uB178\uC608\uAC00 \uB418\uC11C
+      \uC77C\uD558\uACE0\uC788\uC5B4,\uBD80\uB514 \uC81C\uBC1C \uADF8\uB4E4\uC744
+      \uCC98\uCE58\uD558\uACE0 \uC6B0\uB9AC\uB97C \uD574\uBC29\uD574\uC918"
+    AfterDialog: "\uC774\uC81C \uB2E4\uC2DC \uB9C8\uC744\uB85C \uB3CC\uC544\uAC08
+      \uC218 \uC788\uC5B4,\uAC00\uC871\uB4E4\uC744 \uC0B4\uC544\uC11C \uBCFC \uC218
+      \uC788\uB2E4\uB294 \uAFC8\uC774 \uB4DC\uB514\uC5B4 \uC774\uB8E8\uC5B4\uC9C0\uB294\uAD70,\uB108\uB294
+      \uB9C8\uC744\uC758 \uC601\uC6C5\uC774\uC57C.."
+  - id: 10020
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10021
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10022
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10023
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10024
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10025
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10026
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10027
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10028
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10029
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10030
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
+  - id: 10031
+    Npc: 1100
+    QuestType: 1
+    QuestName: 
+    QuestDescription: 
+    QuestItem: 10110000
+    QuestItemCount: 0
+    QuestItem2: 0
+    QuestItem2Count: 0
+    QuestMonster: 0
+    QuestMonsterCount: 0
+    QuestMonster2: 0
+    QuestMonster2Count: 0
+    Reword: 0
+    isClear: 0
+    BeforeDialog: 
+    AfterDialog: 
