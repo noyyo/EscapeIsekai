@@ -9,6 +9,8 @@ public class EndStroy : Story
 {
     public GameObject e_nextButton;
     public Image white;
+    public AudioSource beep;
+    public GameObject credit;
     private Animator animator;
 
     void Start()
@@ -27,19 +29,13 @@ public class EndStroy : Story
 
             if (talkNum == 2)
             {
-                //white.canvasRenderer.SetAlpha(0f);
-                //animator.Play();
+                beep.Play();
                 animator.SetTrigger("Trigger");
             }
             if (talkNum == dialogues.Length)
             {
-                //nextButton.SetActive(false);
                 EndTalk();
-                #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
-                #else
-                    Application.Quit();
-                #endif
+                credit.SetActive(true);
                 return;
             }
             StartCoroutine(Typing(dialogues[talkNum]));
