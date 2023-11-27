@@ -11,7 +11,7 @@ public class GameManager : CustomSingleton<GameManager>
     [Range(0.0f, 1.0f)]
     public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
     public bool IsDay;
-
+    public GameObject dialogCamera;
     private UI_Manager _ui_Manager;
     private SoundManager _soundManager;
     private PlayerInputSystem _playerInputSystem;
@@ -41,6 +41,12 @@ public class GameManager : CustomSingleton<GameManager>
         if (timeSlip == null)
         {
             timeSlip = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TimeSlip"));
+        }
+
+        if(dialogCamera ==null)
+        {
+            dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
+            dialogCamera.SetActive(false);
         }
     }
 

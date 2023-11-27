@@ -83,7 +83,7 @@ public class Dialog : MonoBehaviour
     }
     public void Talk(int id, bool isNPC)
     {
-        int questTalkIndex = questManager.GetQuestTalkIndex(id);
+        int questTalkIndex = UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id);
         string talkData = TalkManager.Instance.GetTalk(id + questTalkIndex, talkIndex);
         int key = ServeQuestManager.Instance.GetQuest(id);
         if (tmp != 0&&ServeQuestManager.Instance.playerQuest[key]!=2 && ServeQuestManager.Instance.playerQuest[tmp] ==2)
@@ -128,9 +128,13 @@ public class Dialog : MonoBehaviour
                     if(targetNpc.GetComponentInChildren<Animator>() != null)
                     {
                         animator = targetNpc.GetComponentInChildren<Animator>();
+                        if(animator.GetBool("Open")==false)
+                        {
+                             MinigameManager.Instance.ChangeSuccess += ChestOpen;
+                             StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(1));
+                        }
                     }
-                    MinigameManager.Instance.ChangeSuccess += ChestOpen;
-                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(1));
+                  
                 }
                 ExitTalk();
                 return;
