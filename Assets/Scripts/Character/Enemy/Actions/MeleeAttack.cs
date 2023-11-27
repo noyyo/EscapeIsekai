@@ -66,7 +66,14 @@ public class MeleeAttack : AttackAction
             float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(StateMachine.Enemy.Agent.agentTypeID).agentSlope) * Condition.LessThanThisDistance;
             Vector3 indicatorPosition = transform.position;
             indicatorPosition.y += maxSlopeHeight;
-            indicator.IndicateCircleAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+            if (aoeType == AOETypes.Box)
+            {
+                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+            }
+            else
+            {
+                indicator.IndicateCircleAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+            }
         }
         else if (animEvent.stringParameter == "AOEIndicatorOff")
         {

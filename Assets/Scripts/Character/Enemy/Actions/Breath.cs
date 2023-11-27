@@ -9,7 +9,7 @@ using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.Rendering.DebugUI;
 
-[CreateAssetMenu(fileName = "AOEActionSO", menuName = "Characters/Enemy/AttackAction/Breath")]
+[CreateAssetMenu(fileName = "Breath", menuName = "Characters/Enemy/AttackAction/Breath")]
 
 public class Breath : AttackAction
 {
