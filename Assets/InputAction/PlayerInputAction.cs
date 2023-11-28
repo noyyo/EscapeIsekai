@@ -161,6 +161,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Option"",
+                    ""type"": ""Button"",
+                    ""id"": ""c66284f5-c5ea-482f-8192-509ecdacdbee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -372,6 +381,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""TimeSlip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea72aefc-0399-4bf5-9509-067cc1f00fb7"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Option"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -443,6 +463,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_NoStamina = m_Player.FindAction("NoStamina", throwIfNotFound: true);
         m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
         m_Player_TimeSlip = m_Player.FindAction("TimeSlip", throwIfNotFound: true);
+        m_Player_Option = m_Player.FindAction("Option", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
@@ -523,6 +544,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_NoStamina;
     private readonly InputAction m_Player_Shield;
     private readonly InputAction m_Player_TimeSlip;
+    private readonly InputAction m_Player_Option;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -542,6 +564,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @NoStamina => m_Wrapper.m_Player_NoStamina;
         public InputAction @Shield => m_Wrapper.m_Player_Shield;
         public InputAction @TimeSlip => m_Wrapper.m_Player_TimeSlip;
+        public InputAction @Option => m_Wrapper.m_Player_Option;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -596,6 +619,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @TimeSlip.started += instance.OnTimeSlip;
             @TimeSlip.performed += instance.OnTimeSlip;
             @TimeSlip.canceled += instance.OnTimeSlip;
+            @Option.started += instance.OnOption;
+            @Option.performed += instance.OnOption;
+            @Option.canceled += instance.OnOption;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -645,6 +671,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @TimeSlip.started -= instance.OnTimeSlip;
             @TimeSlip.performed -= instance.OnTimeSlip;
             @TimeSlip.canceled -= instance.OnTimeSlip;
+            @Option.started -= instance.OnOption;
+            @Option.performed -= instance.OnOption;
+            @Option.canceled -= instance.OnOption;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -733,6 +762,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnNoStamina(InputAction.CallbackContext context);
         void OnShield(InputAction.CallbackContext context);
         void OnTimeSlip(InputAction.CallbackContext context);
+        void OnOption(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

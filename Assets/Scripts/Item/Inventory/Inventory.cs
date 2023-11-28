@@ -65,9 +65,13 @@ public class Inventory : MonoBehaviour
     public void OnInventory(InputAction.CallbackContext context)
     {
         if (!ui_Manager.IsTurnOnInventory)
+        {
             ui_Manager.CallUI_InventoryTurnOn();
+        }
         else
-            ui_Manager.CallUI_InventoryTurnOff();   
+        {
+            ui_Manager.CallUI_InventoryTurnOff();
+        }  
     }
 
     /// <summary>
@@ -203,7 +207,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < idCount; i++)
             TryAddItem(itemRecipe.Materials[i], -(itemRecipe.MaterialsCount[i]));
-        TryAddItem(itemRecipe.CraftingID, 1);
+        TryAddItem(itemRecipe.CraftingID, itemRecipe.AvailableCount);
         return true;
     }
 

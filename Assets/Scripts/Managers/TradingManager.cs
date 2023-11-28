@@ -25,7 +25,6 @@ public class TradingManager : CustomSingleton<TradingManager>
     private int shopCategoryCount = 3;
     private GameManager gameManager;
     private UI_Manager ui_Manager;
-    private TradingController tradingController;
     private List<UI_TradingSlot>[] tradingSlotList;
     private List<int>[] shopItemIDList;
     private List<ItemsSoldByUser> repurchaseItem;
@@ -33,7 +32,6 @@ public class TradingManager : CustomSingleton<TradingManager>
     private int clickIndex;
     private int playerMoney = 0;
 
-    public TradingController TradingController { get { return tradingController; } }
     public List<UI_TradingSlot>[] TradingSlotList { get { return tradingSlotList; } }
     public List<ItemsSoldByUser> RepurchaseItem { get { return repurchaseItem; } }
     public List<int>[] ShopItemIDList { get { return shopItemIDList; } }
@@ -57,8 +55,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public event Action clickBuyButtonEvent;
     public event Action moneyTextUpdateEvent;
     public Action<string, string, string> itemExplanationText;
-    
-
+   
     public int displayPlayerItemCategory = 0;
     public int displayShopItemCategory = 0;
     public bool isPlayerSlotClick;
@@ -71,7 +68,6 @@ public class TradingManager : CustomSingleton<TradingManager>
         tradingSlotList = new List<UI_TradingSlot>[2];
         for (int i = 0; i < 2; i++)
             tradingSlotList[i] = new List<UI_TradingSlot>();
-        tradingController = gameManager.Player.GetComponent<TradingController>();
         shopItemIDList = new List<int>[shopCategoryCount];
         for (int i = 0; i < shopCategoryCount; i++)
             shopItemIDList[i] = new List<int>();
@@ -84,7 +80,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         tryRepurchase = (itemID, itemCount) => Repurchase(repurchase(itemID, itemCount));
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayPlayerSlot;
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayShopSlot;
-        
+        defaultAddShopItem();
     }
 
     public void Init(Func<int, int, int> newSellItem, Func<int, int, int> newByItem, Func<int, int, int> newRepurchase)

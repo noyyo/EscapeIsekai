@@ -15,12 +15,14 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private TMP_Text tailUseButtonText;
     [SerializeField] private Button backButton;
     [SerializeField] private Button optionButton;
+    [SerializeField] private TMP_Text money;
 
     private Inventory inventory;
     private GameObject inventoryUI;
     private InventoryManager inventoryManager;
     private UI_Manager ui_manager;
     private GameManager gameManager;
+    private TradingManager tradingManager;
     private TMP_Text[] itemExplanationTexts;
     private string delimiter;
     private string lineBreaking;
@@ -33,6 +35,7 @@ public class UI_Inventory : MonoBehaviour
         gameManager = GameManager.Instance;
         inventoryManager = InventoryManager.Instance;
         ui_manager = UI_Manager.Instance;
+        tradingManager = TradingManager.Instance;
 
         delimiter = " : ";
         lineBreaking = "\n";
@@ -95,6 +98,8 @@ public class UI_Inventory : MonoBehaviour
         inventoryManager.OnTextChangeEquipEvent += ButtonTextChange_Equip;
         inventoryManager.OnTextChangeUnEquipEvent += ButtonTextChange_Unequip;
         inventoryManager.OnItemExplanationPopUpEvent += ActiveItemExplanationPopUp;
+
+        tradingManager.moneyTextUpdateEvent += MoneyTextUpdate;
     }
 
     //이벤트에 걸린 메서드( 인벤토리 창 ON, OFF)
@@ -190,5 +195,10 @@ public class UI_Inventory : MonoBehaviour
         itemExplanationTexts[1].text = sb.ToString();
         itemExplanationTexts[2].text = itemObject.ItemExplanation;
         itemExplanationPopup.SetActive(true);
+    }
+
+    private void MoneyTextUpdate()
+    {
+        money.text = tradingManager.PlayerMoney.ToString();
     }
 }

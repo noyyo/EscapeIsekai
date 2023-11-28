@@ -86,16 +86,18 @@ public class UI_Trading : MonoBehaviour
     {
         int i = 0;
         int count = tradingManager.TradingSlotList[0].Count;
-        for (; i < count; i++)
-            tradingManager.TradingSlotList[0][i].CallOnResetEvent();
-
-        i = 0;
-        if (inventoryManager.ItemDics[category].Count != 0)
+        if(count != 0)
         {
-            foreach (KeyValuePair<int, Item> item in inventoryManager.ItemDics[category])
+            for (; i < count; i++)
+                tradingManager.TradingSlotList[0][i].CallOnResetEvent();
+            i = 0;
+            if (inventoryManager.ItemDics[category].Count != 0)
             {
-                tradingManager.TradingSlotList[0][i].DisPlayItemData(item.Value);
-                i++;
+                foreach (KeyValuePair<int, Item> item in inventoryManager.ItemDics[category])
+                {
+                    tradingManager.TradingSlotList[0][i].DisPlayItemData(item.Value);
+                    i++;
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private GameObject itemCraftingUI;
     private GameObject tradingUI;
     private GameObject optionUI;
+    private UI_Option option;
 
     private bool isNotUIInputPossible = false;
     private bool isTurnOnInventory;
@@ -93,8 +94,13 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         if(optionUI == null)
         {
             optionUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Option"), cavas.transform);
-            optionUI.SetActive(false);
+            option = optionUI.GetComponent<UI_Option>();
         }
+    }
+
+    private void SetIsNotUIInputPossible()
+    {
+        isNotUIInputPossible = !isNotUIInputPossible;
     }
 
     public void CallUI_AllTurnOff()
@@ -135,12 +141,20 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     public void CallUI_OptionTurnOn()
     {
-        UI_OptionTurnOnEvent?.Invoke();
+        if (!option.IsDisplay)
+        {
+            UI_OptionTurnOnEvent?.Invoke();
+            SetIsNotUIInputPossible();
+        }
     }
 
     public void CallUI_OptionTurnOff()
     {
-        UI_OptionTurnOffEvent?.Invoke();
+        if (option.IsDisplay)
+        {
+            UI_OptionTurnOffEvent?.Invoke();
+            SetIsNotUIInputPossible();
+        }
     }
     
 }
