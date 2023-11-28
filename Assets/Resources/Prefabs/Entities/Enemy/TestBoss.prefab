@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8173583245187436449}
   m_Layer: 0
   m_Name: Weapon
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponCollider: {fileID: 4125420593350585312}
-  character: {fileID: 6346231580300982091}
+  character: {fileID: 4905389303623734039}
 --- !u!1 &4905389303623734039
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,8 +245,7 @@ MonoBehaviour:
     IsDead: 0
   Actions:
   - {fileID: 11400000, guid: c5f041c4c12a8934993c79141e086ce7, type: 2}
-  - {fileID: 11400000, guid: eed6b8716fb931d44be6953f49113721, type: 2}
-  - {fileID: 11400000, guid: 3ce7ba37e017d4b43a32b909efc69d1f, type: 2}
+  - {fileID: 11400000, guid: d122342c4087f6a47a6ad1ccef6f987a, type: 2}
 --- !u!114 &2767205643780481981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +297,7 @@ GameObject:
   - component: {fileID: 9042787696641969824}
   m_Layer: 0
   m_Name: TestBossCapsule
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
