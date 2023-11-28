@@ -13,19 +13,7 @@ MonoBehaviour:
   m_Name: ItemExcel
   m_EditorClassIdentifier: 
   ItemDatas:
-  - id: 16001
-    type: Nomal
-    itemName: "\uBE68\uAC04 \uD3EC\uC158 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uBE68\uAC04 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 0
-    isSale: 0
-    effect: 0
-  - id: 2001
+  - id: 10202001
     type: Gather
     itemName: "\uB098\uBB34"
     itemExplanation: "\uB2E8\uB2E8\uD55C \uB098\uBB34\uC785\uB2C8\uB2E4."
@@ -36,8 +24,7 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2002
+  - id: 10202002
     type: Gather
     itemName: "\uD480"
     itemExplanation: "\uC9C8\uAE34 \uD480\uC785\uB2C8\uB2E4."
@@ -48,8 +35,7 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2003
+  - id: 10202003
     type: Gather
     itemName: "\uC9DA"
     itemExplanation: "\uB9C8\uB978 \uC9C0\uD478\uB77C\uAE30\uC785\uB2C8\uB2E4."
@@ -60,8 +46,7 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2004
+  - id: 10202004
     type: Gather
     itemName: "\uB3CC"
     itemExplanation: "\uB2E8\uB2E8\uD55C \uB3CC\uC785\uB2C8\uB2E4."
@@ -72,8 +57,7 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2005
+  - id: 10202005
     type: Gather
     itemName: "\uC0AC\uACFC"
     itemExplanation: "\uC0C1\uD07C\uD55C \uD5A5\uC774\uB0A9\uB2C8\uB2E4."
@@ -84,8 +68,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2006
+  - id: 10202006
     type: Gather
     itemName: "\uD1A0\uB9C8\uD1A0"
     itemExplanation: "\uC2E0\uC120\uD574 \uBCF4\uC785\uB2C8\uB2E4."
@@ -96,8 +79,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2007
+  - id: 10202007
     type: Gather
     itemName: "\uC625\uC218\uC218"
     itemExplanation: "\uC88B\uC740 \uD0C4\uC218\uD654\uBB3C\uC785\uB2C8\uB2E4."
@@ -108,8 +90,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 2008
+  - id: 10202008
     type: Gather
     itemName: "\uBC14\uB098\uB098"
     itemExplanation: "\uAC04\uC2DD\uC73C\uB85C \uBA39\uAE30 \uC88B\uC2B5\uB2C8\uB2E4"
@@ -120,187 +101,347 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 3002
+  - id: 10303002
     type: Food
     itemName: "\uC2A4\uD14C\uC774\uD06C"
     itemExplanation: "\uAD7D\uC9C0 \uC54A\uC544\uB3C4 \uB9DB\uC788\uC2B5\uB2C8\uB2E4"
-    price: 500
+    price: 1500
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Beef
     iconPath: Sprite/Icon/Food_2
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 3003
+  - id: 10303003
     type: Food
     itemName: "\uBE0C\uB85C\uCF5C\uB9AC"
     itemExplanation: "\uAC74\uAC15\uC5D0\uB294 \uC88B\uC2B5\uB2C8\uB2E4"
-    price: 100
+    price: 200
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Broccoli
     iconPath: Sprite/Icon/Food_3
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 3004
+  - id: 10303004
     type: Food
     itemName: "\uBE75"
     itemExplanation: "\uACE0\uC18C\uD55C \uBC84\uD130\uD5A5\uC774 \uB0A9\uB2C8\uB2E4"
-    price: 200
+    price: 500
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Bread
     iconPath: Sprite/Icon/Food_4
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 3006
+  - id: 10303006
     type: Food
     itemName: "\uB2ED\uB2E4\uB9AC"
     itemExplanation: "\uACE0\uD5A5\uC758 \uCE58\uD0A8\uC774 \uC0DD\uAC01\uB0A9\uB2C8\uB2E4"
-    price: 300
+    price: 600
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Chicken
-    iconPath: Sprite/Icon/Food_5
+    iconPath: Sprite/Icon/Food_6
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 3007
+  - id: 10303007
     type: Food
     itemName: "\uCE74\uB808"
     itemExplanation: "\uB4E0\uB4E0\uD55C \uD55C\uB07C\uAC00 \uB420\uAC81\uB2C8\uB2E4"
-    price: 700
+    price: 3500
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Curry
-    iconPath: Sprite/Icon/Food_6
+    iconPath: Sprite/Icon/Food_7
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 3008
+  - id: 10303008
     type: Food
     itemName: "\uC8FD"
     itemExplanation: "\uC18C\uD654\uC5D0 \uC88B\uC2B5\uB2C8\uB2E4"
-    price: 500
+    price: 800
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Stew
-    iconPath: Sprite/Icon/Food_7
+    iconPath: Sprite/Icon/Food_8
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 3009
+  - id: 10303009
     type: Food
     itemName: "\uC2A4\uD504"
     itemExplanation: "\uAC00\uBCCD\uAC8C \uC2DD\uC0AC\uD558\uAE30 \uC88B\uC2B5\uB2C8\uB2E4"
-    price: 600
+    price: 1000
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Food/Soup
-    iconPath: Sprite/Icon/Food_8
+    iconPath: Sprite/Icon/Food_9
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 4101
+  - id: 10004101
     type: Nomal
     itemName: "\uB098\uBB34\uAC80"
     itemExplanation: "\uB098\uBB34\uB85C \uB9CC\uB4E0 \uAC80\uC785\uB2C8\uB2E4."
-    price: 1000
+    price: 500
     maxCount: 1
     dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
     iconPath: Sprite/Icon/Nomal_2
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 0
-    effect: 0
-  - id: 4102
+  - id: 10004102
     type: Craft
     itemName: "\uB545\uC758 \uAC80"
     itemExplanation: "\uB2E4\uB8E8\uAE30\uC5D0 \uD070 \uD798\uC774 \uD544\uC694\uD569\uB2C8\uB2E4"
-    price: 3000
+    price: 800
     maxCount: 1
-    dropPrefabPath: 
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/GroundSword
     iconPath: Sprite/Icon/Nomal_5
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 4103
+  - id: 10004103
     type: Craft
     itemName: "\uBE5B\uC758 \uAC80"
     itemExplanation: "\uAC00\uBCCD\uAC8C \uB9CE\uC774 \uD718\uB450\uB97C \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 4000
+    price: 1500
     maxCount: 1
-    dropPrefabPath: 
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/LightSword
     iconPath: Sprite/Icon/Nomal_6
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 4104
+  - id: 10004104
     type: Craft
     itemName: "\uBD88\uC758 \uAC80"
     itemExplanation: "\uB2FF\uC73C\uBA74 \uB9CE\uC774 \uC544\uD50C\uAC81\uB2C8\uB2E4"
-    price: 5000
+    price: 2500
     maxCount: 1
-    dropPrefabPath: 
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/FireSword
     iconPath: Sprite/Icon/Nomal_7
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 4201
+  - id: 10004201
     type: Craft
     itemName: "\uB098\uBB34\uBC29\uD328"
     itemExplanation: "\uB098\uBB34\uB85C \uB41C \uBC29\uBC30\uC785\uB2C8\uB2E4."
-    price: 1000
+    price: 800
     maxCount: 1
-    dropPrefabPath: 
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/WoodShield
     iconPath: Sprite/Icon/Nomal_3
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 4202
+  - id: 10004202
     type: Craft
     itemName: "\uCCA0\uBC29\uD328"
     itemExplanation: "\uC544\uC8FC \uD2BC\uD2BC\uD569\uB2C8\uB2E4."
     price: 2000
     maxCount: 1
-    dropPrefabPath: 
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/IornShield
     iconPath: Sprite/Icon/Nomal_4
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 6001
+  - id: 5000
+    type: Nomal
+    itemName: "\uC720\uBB3C"
+    itemExplanation: "\uC774\uAC83\uC744 \uBAA8\uC544 \uD604\uC2E4\uB85C \uB3CC\uC544\uAC11\uC2DC\uB2E4"
+    price: 1
+    maxCount: 4
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/relic
+    iconPath: Sprite/Icon/Nomal_0
+    isStat: 0
+    isCrafting: 0
+    isSale: 0
+  - id: 10106001
     type: Craft
     itemName: "\uBE68\uAC04\uD3EC\uC158"
     itemExplanation: "HP\uB97C \uD68C\uBCF5\uD569\uB2C8\uB2E4"
     price: 500
     maxCount: 99
-    dropPrefabPath: Prefabs/Entities/Items/Craft/
+    dropPrefabPath: Prefabs/Entities/Items/Normal/RedBottle
     iconPath: Sprite/Icon/Craft_1
     isStat: 1
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
-  - id: 6002
+  - id: 10106002
     type: Craft
     itemName: "\uD30C\uB780\uD3EC\uC158"
     itemExplanation: "\uD30C\uB780\uC0C9 \uD3EC\uC158"
     price: 500
     maxCount: 99
-    dropPrefabPath: Prefabs/Entities/Items/Craft/
+    dropPrefabPath: Prefabs/Entities/Items/Normal/BlueBottle
     iconPath: Sprite/Icon/Craft_2
     isStat: 0
-    isCrafting: 0
+    isCrafting: 1
     isSale: 1
-    effect: 0
+  - id: 10113002
+    type: Nomal
+    itemName: "\uC2A4\uD14C\uC774\uD06C \uB808\uC2DC\uD53C"
+    itemExplanation: "\uC2A4\uD14C\uC774\uD06C\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10113003
+    type: Nomal
+    itemName: "\uBE0C\uB85C\uCF5C\uB9AC \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE0C\uB85C\uCF5C\uB9AC\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10113004
+    type: Nomal
+    itemName: "\uBE75 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE75\uC744 \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10113005
+    type: Nomal
+    itemName: "\uB2ED\uB2E4\uB9AC \uB808\uC2DC\uD53C"
+    itemExplanation: "\uB2ED\uB2E4\uB9AC\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10113006
+    type: Nomal
+    itemName: "\uCE74\uB808 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uCE74\uB808\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10113007
+    type: Nomal
+    itemName: "\uC8FD \uB808\uC2DC\uD53C"
+    itemExplanation: "\uC8FD\uC744 \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10113008
+    type: Nomal
+    itemName: "\uC2A4\uD504 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uC2A4\uD504\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10114101
+    type: Nomal
+    itemName: "\uB098\uBB34\uAC80 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uB098\uBB34\uAC80\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_2
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10114102
+    type: Nomal
+    itemName: "\uB545\uC758 \uAC80 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uB545\uC758 \uAC80\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_3
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10114103
+    type: Nomal
+    itemName: "\uBE5B\uC758 \uAC80 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE5B\uC758 \uAC80\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_4
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10114104
+    type: Nomal
+    itemName: "\uBD88\uC758 \uAC80 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBD88\uC758 \uAC80\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_5
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10114201
+    type: Nomal
+    itemName: "\uB098\uBB34\uBC29\uD328 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uB098\uBB34\uBC29\uD328\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_6
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10114202
+    type: Nomal
+    itemName: "\uCCA0\uBC29\uD328 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uCCA0\uBC29\uD328\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_7
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10116001
+    type: Nomal
+    itemName: "\uBE68\uAC04 \uD3EC\uC158 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE68\uAC04 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
+  - id: 10116002
+    type: Nomal
+    itemName: "\uD30C\uB780\uD3EC\uC158 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD30C\uB780 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 1
+    maxCount: 99
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 1
   - id: 10000000
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790"
@@ -312,7 +453,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 1
     isSale: 1
-    effect: 0
   - id: 10001000
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758"
@@ -324,7 +464,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 1
     isSale: 1
-    effect: 0
   - id: 10002000
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758"
@@ -336,7 +475,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 1
     isSale: 1
-    effect: 0
   - id: 10010000
     type: Nomal
     itemName: "\uB098\uBB34 \uAC80"
@@ -348,7 +486,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 1
     isSale: 1
-    effect: 0
   - id: 10100000
     type: Nomal
     itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158"
@@ -360,7 +497,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 1
     isSale: 1
-    effect: 0
   - id: 10110000
     type: Nomal
     itemName: "\uB098\uBB34 \uAC80\uC758 \uB808\uC2DC\uD53C"
@@ -373,7 +509,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10110001
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uC0C1\uC758\uC758 \uB808\uC2DC\uD53C"
@@ -386,7 +521,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10110002
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uD558\uC758\uC758 \uB808\uC2DC\uD53C"
@@ -399,7 +533,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10110003
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD \uBAA8\uC790\uC758 \uB808\uC2DC\uD53C"
@@ -412,7 +545,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10110004
     type: Nomal
     itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD3EC\uC158\uC758 \uB808\uC2DC\uD53C"
@@ -425,7 +557,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10200000
     type: Nomal
     itemName: "\uD5C8\uB984\uD55C \uAC00\uC8FD"
@@ -437,7 +568,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10300000
     type: Nomal
     itemName: "\uAE30\uD0C0\uAE30\uD0C0\uAE30\uD0C0"
@@ -449,7 +579,6 @@ MonoBehaviour:
     isStat: 0
     isCrafting: 0
     isSale: 1
-    effect: 0
   - id: 10400000
     type: Nomal
     itemName: "\uD14C\uC2A4\uD2B8\uC6A9 \uD018\uC2A4\uD2B8 \uC544\uC774\uD15C"
@@ -461,127 +590,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 0
-  - id: 5000
-    type: Nomal
-    itemName: "\uC720\uBB3C"
-    itemExplanation: "\uC774\uAC83\uC744 \uBAA8\uC544 \uD604\uC2E4\uB85C \uB3CC\uC544\uAC11\uC2DC\uB2E4"
-    price: 1
-    maxCount: 4
-    dropPrefabPath: 
-    iconPath: Sprite/Icon/Nomal_0
-    isStat: 0
-    isCrafting: 0
-    isSale: 0
-    effect: 0
-  - id: 16002
-    type: Nomal
-    itemName: "\uD30C\uB780\uD3EC\uC158 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uD30C\uB780 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13002
-    type: Nomal
-    itemName: "\uC2A4\uD14C\uC774\uD06C \uB808\uC2DC\uD53C"
-    itemExplanation: "\uC2A4\uD14C\uC774\uD06C\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13003
-    type: Nomal
-    itemName: "\uBE0C\uB85C\uCF5C\uB9AC \uB808\uC2DC\uD53C"
-    itemExplanation: "\uBE0C\uB85C\uCF5C\uB9AC\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13004
-    type: Nomal
-    itemName: "\uBE75 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uBE75\uC744 \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13005
-    type: Nomal
-    itemName: "\uB2ED\uB2E4\uB9AC \uB808\uC2DC\uD53C"
-    itemExplanation: "\uB2ED\uB2E4\uB9AC\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13006
-    type: Nomal
-    itemName: "\uCE74\uB808 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uCE74\uB808\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13007
-    type: Nomal
-    itemName: "\uC8FD \uB808\uC2DC\uD53C"
-    itemExplanation: "\uC8FD\uC744 \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 13008
-    type: Nomal
-    itemName: "\uC2A4\uD504 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uC2A4\uD504\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 0
-    maxCount: 1
-    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
-    iconPath: Sprite/Icon/Nomal_1
-    isStat: 0
-    isCrafting: 1
-    isSale: 0
-    effect: 0
-  - id: 1401
-    type: 
-    itemName: "\uB098\uBB34\uAC80"
-    itemExplanation: 
-    price: 0
-    maxCount: 0
-    dropPrefabPath: 
-    iconPath: 
-    isStat: 0
-    isCrafting: 0
-    isSale: 0
-    effect: 0
   Stats:
   - id: 10010000
     hp: 0
@@ -664,13 +672,13 @@ MonoBehaviour:
     stamina: 0
     hunger: 10
   - id: 3002
-    hp: 50
+    hp: 70
     temperature: 0
     atk: 0
     def: 0
     speed: 0
     stamina: 0
-    hunger: 30
+    hunger: 100
   - id: 3003
     hp: 0
     temperature: 0
@@ -688,21 +696,21 @@ MonoBehaviour:
     stamina: 0
     hunger: 50
   - id: 3006
-    hp: 20
+    hp: 30
     temperature: 0
     atk: 0
     def: 0
     speed: 0
     stamina: 0
-    hunger: 20
+    hunger: 30
   - id: 3007
-    hp: 0
+    hp: 50
     temperature: 0
     atk: 0
     def: 0
     speed: 0
     stamina: 0
-    hunger: 100
+    hunger: 200
   - id: 3008
     hp: 0
     temperature: 0
@@ -710,7 +718,7 @@ MonoBehaviour:
     def: 0
     speed: 0
     stamina: 0
-    hunger: 50
+    hunger: 70
   - id: 3009
     hp: 0
     temperature: 0
@@ -718,7 +726,7 @@ MonoBehaviour:
     def: 0
     speed: 0
     stamina: 0
-    hunger: 70
+    hunger: 100
   - id: 4101
     hp: 0
     temperature: 0
@@ -805,4 +813,82 @@ MonoBehaviour:
     craftingPrice: 10
     materials_string: 10300000
     materials_count_string: 2
+    availableCount: 0
+  - id: 10114101
+    craftingID: 10004101
+    craftingPrice: 10
+    materials_string: 10202001
+    materials_count_string: 2
+    availableCount: 0
+  - id: 10114102
+    craftingID: 10004102
+    craftingPrice: 50
+    materials_string: 10202001, 10202002
+    materials_count_string: 3, 5
+    availableCount: 0
+  - id: 10114103
+    craftingID: 10004103
+    craftingPrice: 50
+    materials_string: 10202001, 10202004
+    materials_count_string: 5, 3
+    availableCount: 0
+  - id: 10114104
+    craftingID: 10004104
+    craftingPrice: 50
+    materials_string: 10202004, 10202003
+    materials_count_string: 3, 5
+    availableCount: 0
+  - id: 10114201
+    craftingID: 10004201
+    craftingPrice: 50
+    materials_string: 10202001, 10202003
+    materials_count_string: 3, 2
+    availableCount: 0
+  - id: 10114202
+    craftingID: 10004202
+    craftingPrice: 50
+    materials_string: 10202004, 10004201
+    materials_count_string: 5, 1
+    availableCount: 0
+  - id: 10113002
+    craftingID: 10303002
+    craftingPrice: 50
+    materials_string: 10303006
+    materials_count_string: 2
+    availableCount: 0
+  - id: 10113003
+    craftingID: 10303003
+    craftingPrice: 50
+    materials_string: 10202005
+    materials_count_string: 2
+    availableCount: 0
+  - id: 10113004
+    craftingID: 10303004
+    craftingPrice: 50
+    materials_string: 10202007
+    materials_count_string: 2
+    availableCount: 0
+  - id: 10113006
+    craftingID: 10303006
+    craftingPrice: 50
+    materials_string: 10202006, 10202008
+    materials_count_string: 2, 2
+    availableCount: 0
+  - id: 10113007
+    craftingID: 10303007
+    craftingPrice: 50
+    materials_string: 10303009, 10303006, 10202006
+    materials_count_string: 1, 1, 2
+    availableCount: 0
+  - id: 10113008
+    craftingID: 10303008
+    craftingPrice: 50
+    materials_string: 10202005, 10202007
+    materials_count_string: 2, 3
+    availableCount: 0
+  - id: 10113009
+    craftingID: 10303009
+    craftingPrice: 50
+    materials_string: 10202006, 10202007
+    materials_count_string: 2, 3
     availableCount: 0
