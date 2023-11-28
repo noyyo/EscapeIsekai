@@ -29,7 +29,6 @@ public class Projectile : MonoBehaviour
     private Vector3 colliderSize;
     private Vector3 direction;
     private float launchSpeed;
-    private float indicatorLerpTime;
     private AOEIndicator indicator;
 
     private void Awake()
@@ -123,19 +122,7 @@ public class Projectile : MonoBehaviour
     }
     public void LerpIndicatorScale(float multScale, float lerpTime)
     {
-        StartCoroutine(LerpScale(multScale, lerpTime));
-    }
-    private IEnumerator LerpScale(float multScale, float lerpTime)
-    {
-        indicatorLerpTime = 0f;
-        Vector3 startScale = indicator.transform.localScale;
-        Vector3 targetScale = new Vector3(startScale.x * multScale, startScale.y * multScale, startScale.z);
-        while (indicatorLerpTime <= lerpTime)
-        {
-            indicator.transform.localScale = Vector3.Lerp(startScale, targetScale, indicatorLerpTime / lerpTime);
-            indicatorLerpTime += Time.deltaTime;
-            yield return null;
-        }
+        indicator.LerpIndicatorScale(multScale, lerpTime);
     }
     private IEnumerator WaitDisapperTime()
     {
