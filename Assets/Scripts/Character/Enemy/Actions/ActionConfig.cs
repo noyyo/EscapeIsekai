@@ -8,6 +8,8 @@ using UnityEngine;
 [Serializable]
 public class ActionConfig
 {
+    [Tooltip("액션이 끝난 후 멈춰있을 시간")]
+    public float RestTimeAfterAction;
     [Tooltip("액션의 효과가 지속되는 시간")]
     public float EffectDurationSeconds;
     public int DamageAmount;

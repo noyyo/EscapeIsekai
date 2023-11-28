@@ -17,6 +17,7 @@ public class NpcAi : MonoBehaviour
     float time; // 새로운 경로 탐색 쿨타임
     private bool isRunning = false;
     Vector3 point;
+    Vector3 selfPoint;
     private Animator animator;
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class NpcAi : MonoBehaviour
     }
     private void Start()
     {
+        selfPoint = gameObject.transform.position;
         StartCoroutine("NpcMove");
     }
     IEnumerator NpcMove() //이동시작, 밤낮에 따라 경로 달라짐 밤은 고정경로
@@ -68,15 +70,17 @@ public class NpcAi : MonoBehaviour
 
             if(dayPosition ==null)
             {
-                yield break;
+                RandomPoint(selfPoint, range, out point);
+                agent.SetDestination(point);
+                float tmptime = Random.Range(1, 5);
+                yield return new WaitForSecondsRealtime(tmptime);
             }
-            if (RandomPoint(dayPosition.transform.position, range, out point))
+            else if (RandomPoint(dayPosition.transform.position, range, out point)&& dayPosition !=null)
             {
                 dayPosition.transform.position = point;
+                agent.SetDestination(dayPosition.transform.position);
+                yield return new WaitForSecondsRealtime(time);
             }
-            agent.SetDestination(dayPosition.transform.position);
-            
-            yield return new WaitForSecondsRealtime(time);
         }
         if (nightPosition == null)
         {

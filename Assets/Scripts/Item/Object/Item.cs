@@ -16,7 +16,6 @@ public class Item
     public bool IsStat { get; private set; }
     public bool IsCrafting { get; private set; }
     public bool IsSale { get; private set; }
-    public int Effect { get; private set; }
     public GameObject DropPrefab { get; private set; }
     public Sprite Icon { get; private set; }
     public ItemData_Test ItemData { get { return itemData; } }
@@ -50,7 +49,6 @@ public class Item
         IsStat = data.IsStat;
         IsCrafting = data.IsCrafting;
         IsSale = data.IsSale;
-        Effect = data.Effect;
         DropPrefab = data.DropPrefab;
         Icon = data.Icon;
 
@@ -91,7 +89,6 @@ public class Item
         IsStat = item.IsStat;
         IsCrafting = item.IsCrafting;
         IsSale = item.IsSale;
-        Effect = item.Effect;
         DropPrefab = item.DropPrefab;
         Icon = item.Icon;
 

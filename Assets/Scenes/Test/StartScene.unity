@@ -246,7 +246,7 @@ Animator:
   m_GameObject: {fileID: 247024531}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a8f65d6398cfbec47a4a22767f0ab0eb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6ec06451d502dc246b9d44555ca87f65, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -655,7 +655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &720972375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1510,7 +1510,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1388545226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,11 +1524,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyTxt: {fileID: 994700838}
-  nextButton: {fileID: 421944361}
-  endButton: {fileID: 992998740}
-  black: {fileID: 1645944430}
-  white: {fileID: 247024531}
-  effect: {fileID: 1388545232}
   dialogues:
   - "\uAFC8\uC744 \uAFE8\uB2E4..."
   - "\uBB34\uB824 \uB3FC\uC9C0\uB97C \uC7A1\uB294 \uAFC8...! "
@@ -1552,6 +1547,13 @@ MonoBehaviour:
   - "\uB3FC\uC9C0\uAFC8 \uD55C \uBC88 \uAFD4\uC11C \uBCF5\uAD8C\uC0AC\uB7EC\uAC00\uB2E4\uAC00..? "
   - "\uC544\uC9C1 \uBABB\uD574\uBCF8 \uAC83\uB4E4\uC774 \uB108\uBB34 \uB9CE\uC740\uB370... "
   - "\uB2E4\uC2DC \uB3CC\uC544\uAC08 \uC21C \uC5C6\uC744\uAE4C..? "
+  talkNum: 0
+  isEnd: 0
+  nextButton: {fileID: 421944361}
+  endButton: {fileID: 992998740}
+  black: {fileID: 1645944430}
+  white: {fileID: 247024531}
+  effect: {fileID: 1388545232}
 --- !u!114 &1388545227
 MonoBehaviour:
   m_ObjectHideFlags: 0

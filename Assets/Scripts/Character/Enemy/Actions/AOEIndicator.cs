@@ -20,6 +20,7 @@ public class AOEIndicator : MonoBehaviour
     private DecalProjector projector;
     private Vector3 initialScale;
     private Quaternion initialRotation;
+    private float indicatorLerpTime;
 
     private void Awake()
     {
@@ -68,9 +69,10 @@ public class AOEIndicator : MonoBehaviour
     /// 원형으로 이루어진 AOE 범위를 표시합니다.
     /// </summary>
     /// <param name="startPosition">이펙트가 시작하는 위치입니다.</param>
+    /// <param name="forward">이펙트가 바라볼 방향입니다. Y축 방향은 무시됩니다.</param>
     /// <param name="radius">이펙트의 반경입니다.</param>
     /// <param name="depth">startPosition에서 indicator의 forward 방향으로의 깊이입니다. 기본 값은 radius와 같습니다.</param>
-    public void IndicateCircleAOE(Vector3 startPosition, Vector3 forward, float radius, float depth = 0f)
+    public void IndicateCircleAOE(Vector3 startPosition, Vector3 forward, float radius, float depth = 0f, bool isTopView = true)
     {
         bool isTypeError;
         isTypeError = AOEType switch
@@ -92,9 +94,28 @@ public class AOEIndicator : MonoBehaviour
             depth = radius;
         Transform projectorTransform = projector.transform;
         projectorTransform.position = startPosition;
-        forward.y = 0;
-        projectorTransform.forward = forward;
-        projectorTransform.rotation = projectorTransform.rotation * initialRotation;
+        if (isTopView)
+            forward.y = 0;
+        if (forward != Vector3.zero)
+            projectorTransform.forward = forward;
+        if (isTopView)
+            projectorTransform.rotation = projectorTransform.rotation * initialRotation;
         projectorTransform.localScale = new Vector3(initialScale.x * radius, initialScale.y * radius, depth);
+    }
+    public void LerpIndicatorScale(float multScale, float lerpTime)
+    {
+        StartCoroutine(LerpScale(multScale, lerpTime));
+    }
+    private IEnumerator LerpScale(float multScale, float lerpTime)
+    {
+        indicatorLerpTime = 0f;
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale = new Vector3(startScale.x * multScale, startScale.y * multScale, startScale.z);
+        while (indicatorLerpTime <= lerpTime)
+        {
+            transform.localScale = Vector3.Lerp(startScale, targetScale, indicatorLerpTime / lerpTime);
+            indicatorLerpTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }

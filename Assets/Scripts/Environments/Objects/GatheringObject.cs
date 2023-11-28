@@ -29,7 +29,7 @@ public class GatheringObject : MonoBehaviour
             _playerInputSystem.Input.PlayerActions.Interaction.started += Gathering;
 
             _UI_Manager.itemName = itemData.ItemName;
-            _UI_Manager.itemExplanation = itemData.ItemExplanation; //ÇÔ¼ö·Î ¹Ù²ãº¸ÀÚ ÀÎÀÚ·Î ³Ñ°ÜÁÖ±â
+            _UI_Manager.itemExplanation = itemData.ItemExplanation; 
             _UI_Manager.gathering.SetActive(true);
             _UI_Manager.UI_gathering.Setting();
         }
@@ -54,7 +54,6 @@ public class GatheringObject : MonoBehaviour
         if (_gathering)
         {
             _UI_Manager.gathering.SetActive(false);
-            //ì±„ì§‘ë²„íŠ¼ ëˆ„ë¥´ë©´ ë°”ë¡œ ì¸ë²¤í† ë¦¬ë¡œ
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             Destroy(gameObject);

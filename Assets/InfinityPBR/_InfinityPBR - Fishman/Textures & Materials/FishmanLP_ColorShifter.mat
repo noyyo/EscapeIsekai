@@ -2,20 +2,24 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FishmanLP_ColorShifter
-  m_Shader: {fileID: 4800000, guid: 389c822e4e25a40a7a409f71df112f6c, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 04c0ff33a2c9b4f8792689e36c97ecdf, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -59,7 +63,9 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
     - _ColorIDFuzziness: 0.01
     - _ColorIDRange: 0.01
@@ -106,6 +112,13 @@ Material:
     - _H4: 0.991587
     - _H40: 0.051779937
     - _H41: 0.10984849
+    - _H42: 0.5
+    - _H43: 0.5
+    - _H44: 0
+    - _H45: 0
+    - _H46: 0
+    - _H47: 0
+    - _H48: 0
     - _H5: 0
     - _H6: 0
     - _H7: 0.5
@@ -153,6 +166,13 @@ Material:
     - _S4: 1
     - _S40: 0.7688679
     - _S41: 0.84433967
+    - _S42: 0.5
+    - _S43: 0.5
+    - _S44: 0.5
+    - _S45: 0.5
+    - _S46: 0.5
+    - _S47: 0.7404315
+    - _S48: 0.5
     - _S5: 1
     - _S6: 0.5
     - _S7: 0.5
@@ -200,6 +220,13 @@ Material:
     - _V4: 0.254717
     - _V40: 0.24528301
     - _V41: 0.6698113
+    - _V42: 0.5
+    - _V43: 0.5
+    - _V44: 0.5
+    - _V45: 0.5
+    - _V46: 0.5
+    - _V47: 0.5
+    - _V48: 0.5
     - _V5: 1
     - _V6: 0.5
     - _V7: 0.5
@@ -246,9 +273,17 @@ Material:
     - _Color4: {r: 1, g: 1, b: 0, a: 1}
     - _Color40: {r: 0, g: 0.19607843, b: 0, a: 1}
     - _Color41: {r: 0.19607843, g: 0, b: 0.19607843, a: 1}
+    - _Color42: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
+    - _Color43: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
+    - _Color44: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
+    - _Color45: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
+    - _Color46: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
+    - _Color47: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
+    - _Color48: {r: 0, g: 0.19607836, b: 0.19607836, a: 0}
     - _Color5: {r: 0.19607843, g: 0.19607843, b: 0, a: 1}
     - _Color6: {r: 0, g: 0.19607843, b: 0.19607843, a: 1}
     - _Color7: {r: 0.76862746, g: 0, b: 0, a: 1}
     - _Color8: {r: 0, g: 0.76862746, b: 0, a: 1}
     - _Color9: {r: 0, g: 0, b: 0.76862746, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

@@ -132,17 +132,18 @@ public class PlayerStateMachine : StateMachine, IDamageable
     {
         if (!AffectedEffectInfo.CanBeAffected(attackEffectTypes))
             return;
-
+        Vector3 direction = Player.transform.position - attacker.transform.position;
         switch (attackEffectTypes)
         {
             case AttackEffectTypes.KnockBack:
-                Vector3 direction = Player.transform.position - attacker.transform.position;
                 direction.Normalize();
                 Player.ForceReceiver.AddForce(direction * value);
                 // KnockBack 로직
                 break;
             case AttackEffectTypes.Airborne:
                 Player.ForceReceiver.AddForce(Vector3.up * value);
+                direction.y = 0;
+                Player.ForceReceiver.AddForce(direction.normalized * value);
                 // Airborne 로직
                 break;
             case AttackEffectTypes.Stun:
