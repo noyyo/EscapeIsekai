@@ -20,6 +20,7 @@ public class AOEIndicator : MonoBehaviour
     private DecalProjector projector;
     private Vector3 initialScale;
     private Quaternion initialRotation;
+    private float indicatorLerpTime;
 
     private void Awake()
     {
@@ -100,5 +101,21 @@ public class AOEIndicator : MonoBehaviour
         if (isTopView)
             projectorTransform.rotation = projectorTransform.rotation * initialRotation;
         projectorTransform.localScale = new Vector3(initialScale.x * radius, initialScale.y * radius, depth);
+    }
+    public void LerpIndicatorScale(float multScale, float lerpTime)
+    {
+        StartCoroutine(LerpScale(multScale, lerpTime));
+    }
+    private IEnumerator LerpScale(float multScale, float lerpTime)
+    {
+        indicatorLerpTime = 0f;
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale = new Vector3(startScale.x * multScale, startScale.y * multScale, startScale.z);
+        while (indicatorLerpTime <= lerpTime)
+        {
+            transform.localScale = Vector3.Lerp(startScale, targetScale, indicatorLerpTime / lerpTime);
+            indicatorLerpTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }

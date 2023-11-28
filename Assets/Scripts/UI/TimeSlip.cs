@@ -21,7 +21,8 @@ public class TimeSlip : MonoBehaviour
     private Player action;
     private string originalText = "얼마나 시간을 보낼까?";
     private GameObject[] npcs;
-
+    private GameObject obj;
+    public GameObject tent;
     private void Awake()
     {
         action = GameManager.Instance.Player.GetComponent<Player>();
@@ -34,7 +35,6 @@ public class TimeSlip : MonoBehaviour
     {
         action.Input.PlayerActions.TimeSlip.started += OnTimeSlip;
         npcs = GameObject.FindGameObjectsWithTag("Npc");
-
     }
     public IEnumerator ShowString()
     {
@@ -104,12 +104,17 @@ public class TimeSlip : MonoBehaviour
         panel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.Player.GetComponent<PlayerInputSystem>().InputActions.Enable();
+        if(obj!=null)
+        {
+            Destroy(obj);
+        }
         yield return null;
     }
 
     void OnTimeSlip(InputAction.CallbackContext context)
     {
         StartCoroutine("ShowString");
+        obj= Instantiate(tent,GameManager.Instance.Player.transform.position,Quaternion.identity);
     }
     public void NpcAction()
     {

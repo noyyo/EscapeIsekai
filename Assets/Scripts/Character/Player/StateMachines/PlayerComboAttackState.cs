@@ -127,7 +127,7 @@ public class PlayerComboAttackState : PlayerAttackState
             target = environmentObj;
         }
 
-        target?.TakeDamage(attackInfoData.Damage);
+        target?.TakeDamage(attackInfoData.Damage + attackInfoData.Power);
         target?.TakeEffect(attackInfoData.AttackEffectType, attackInfoData.AttackEffectValue, stateMachine.Player.gameObject);
     }
 }
