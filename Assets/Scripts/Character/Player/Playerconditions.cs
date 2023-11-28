@@ -48,6 +48,11 @@ public class Condition
     }
 }
 
+public class PlayerStat
+{
+    public int Power { get; private set; } = 10;
+    public int Guard { get; private set; } = 10;
+}
 
 public class Playerconditions : MonoBehaviour
 {

@@ -17,8 +17,14 @@ public class Npc : MonoBehaviour
     private GameObject target;
     private GameObject player;
     private PlayerStateMachine stateMachine;
-
+    PlayableDirector playableDirector;
     public GameObject[] marks;
+    private UI_Manager uI_Manager;
+    private void Awake()
+    {
+        playableDirector = GetComponent<PlayableDirector>();
+        uI_Manager = UI_Manager.Instance;
+    }
     private void Update()
     {
         if(isHit && target != null&& isNPC)
@@ -42,13 +48,34 @@ public class Npc : MonoBehaviour
         ServeQuestManager.Instance.CanAccept += CanAcceptMark;
         ServeQuestManager.Instance.isAllClear += ShutDownMark;
         OnAcceptMark();
-        
+        MotionInit();
+    }
+
+    void MotionInit()
+    {
+        for (int i = 0; i < Motion.Length; i++)
+        {
+            for (int j = 0; j < Motion[i].outputTrackCount; j++)
+            {
+                ActivationTrack actiTrack = Motion[i].GetOutputTrack(j) as ActivationTrack;
+                AnimationTrack animaTrack = Motion[i].GetOutputTrack(j) as AnimationTrack;
+                GameObject targetObject = GameManager.Instance.dialogCamera.gameObject;
+                playableDirector.SetGenericBinding(actiTrack, targetObject);
+                playableDirector.SetGenericBinding(animaTrack, targetObject);
+            }
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         target = other.gameObject;
         if(other.tag == "Player")
-        isHit = true;
+        {
+            uI_Manager.itemName = gameObject.name;
+            uI_Manager.itemExplanation = "대화하기";
+            uI_Manager.UI_gathering.Setting();
+            UI_Manager.Instance.gathering.SetActive(true);
+            isHit = true;
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -56,6 +83,7 @@ public class Npc : MonoBehaviour
         if (other.tag == "Player")
         {
             isHit = false;
+            UI_Manager.Instance.gathering.SetActive(false);
         }
         target = null;
     }
@@ -67,6 +95,7 @@ public class Npc : MonoBehaviour
         {
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
+            UI_Manager.Instance.gathering.SetActive(false);
             stateMachine.ChangeState(stateMachine.NothingState);
         }
     }

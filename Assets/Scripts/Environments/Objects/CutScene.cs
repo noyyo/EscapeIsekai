@@ -12,6 +12,7 @@ public class CutScene : MonoBehaviour
     [SerializeField] private GameObject _cylinder; //ºû±âµÕ
     private PlayerInput _playerInput;
     private CylinderLighting timeCylinder; //ºû±âµÕ Active Å¬·¡½º
+    private bool isPlaying = false;
 
     IEnumerator lightCoroutine;
     void Start()
@@ -35,6 +36,7 @@ public class CutScene : MonoBehaviour
         }
         _pd.Play(_ta);  //Å¸ÀÓ¶óÀÎ ÇÃ·¹ÀÌ
         _playerInput.SwitchCurrentActionMap("UI"); //playerInput ¾×¼Ç ¸Ê º¯°æ
+        isPlaying = true;
         StartCoroutine(lightCoroutine);
     }
     private IEnumerator LightCylinder()
@@ -44,8 +46,13 @@ public class CutScene : MonoBehaviour
     }
     void OnSkip()  //Å¸ÀÓ¶óÀÎ ½ºÅµ
     {
+        if(!isPlaying)
+        {
+            return;
+        }
         if (_pd.time > 0)
         {
+            isPlaying = false;
             _playerInput.SwitchCurrentActionMap("Player");
             _pd.time = _pd.duration;
         }

@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-
+    public event Action<Collision> OnCollisionOcurred;
     [field: SerializeField] public EnemySO Data { get; private set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
@@ -70,5 +70,10 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(false);
         Agent.enabled = false;
         transform.position = Vector3.zero;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnCollisionOcurred?.Invoke(collision);
     }
 }

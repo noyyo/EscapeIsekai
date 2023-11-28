@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "MeleeAttack", menuName = "Characters/Enemy/AttackAction/MeleeAttack")]
 public class MeleeAttack : AttackAction
@@ -9,6 +10,10 @@ public class MeleeAttack : AttackAction
     [SerializeField] private AOETypes aoeType;
     private AOEIndicator indicator;
 
+    public MeleeAttack()
+    {
+        ActionType = ActionTypes.MeleeAttack;
+    }
     public override void OnAwake()
     {
         base.OnAwake();
@@ -58,7 +63,17 @@ public class MeleeAttack : AttackAction
                 return;
             indicator = AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Get();
             Transform transform = StateMachine.Enemy.transform;
-            indicator.IndicateCircleAOE(transform.position, transform.forward, Condition.LessThanThisDistance);
+            float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(StateMachine.Enemy.Agent.agentTypeID).agentSlope) * Condition.LessThanThisDistance;
+            Vector3 indicatorPosition = transform.position;
+            indicatorPosition.y += maxSlopeHeight;
+            if (aoeType == AOETypes.Box)
+            {
+                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+            }
+            else
+            {
+                indicator.IndicateCircleAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+            }
         }
         else if (animEvent.stringParameter == "AOEIndicatorOff")
         {
