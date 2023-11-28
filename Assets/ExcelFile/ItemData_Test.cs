@@ -45,7 +45,6 @@ public class ItemData_Test
     [SerializeField] private bool isStat;
     [SerializeField] private bool isCrafting;
     [SerializeField] private bool isSale;
-    [SerializeField] private int effect;
 
     private GameObject dropPrefab;
     private Sprite icon;
@@ -59,8 +58,6 @@ public class ItemData_Test
     public bool IsStat { get { return isStat; } }
     public bool IsCrafting { get { return isCrafting; } }
     public bool IsSale { get { return isSale; } }
-    public int Effect { get { return effect; } }
-
     public GameObject DropPrefab
     {
         get

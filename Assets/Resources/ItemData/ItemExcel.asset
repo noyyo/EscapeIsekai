@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ItemExcel
   m_EditorClassIdentifier: 
   ItemDatas:
-  - id: 1001
+  - id: 16001
     type: Nomal
-    itemName: "\uD3EC\uC158 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    itemName: "\uBE68\uAC04 \uD3EC\uC158 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE68\uAC04 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
     price: 0
     maxCount: 1
     dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
@@ -84,7 +84,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 5
+    effect: 0
   - id: 2006
     type: Gather
     itemName: "\uD1A0\uB9C8\uD1A0"
@@ -96,7 +96,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 10
+    effect: 0
   - id: 2007
     type: Gather
     itemName: "\uC625\uC218\uC218"
@@ -108,7 +108,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 15
+    effect: 0
   - id: 2008
     type: Gather
     itemName: "\uBC14\uB098\uB098"
@@ -120,7 +120,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 10
+    effect: 0
   - id: 3002
     type: Food
     itemName: "\uC2A4\uD14C\uC774\uD06C"
@@ -132,7 +132,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 30
+    effect: 0
   - id: 3003
     type: Food
     itemName: "\uBE0C\uB85C\uCF5C\uB9AC"
@@ -144,7 +144,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 20
+    effect: 0
   - id: 3004
     type: Food
     itemName: "\uBE75"
@@ -156,7 +156,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 50
+    effect: 0
   - id: 3006
     type: Food
     itemName: "\uB2ED\uB2E4\uB9AC"
@@ -168,7 +168,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 20
+    effect: 0
   - id: 3007
     type: Food
     itemName: "\uCE74\uB808"
@@ -180,7 +180,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 100
+    effect: 0
   - id: 3008
     type: Food
     itemName: "\uC8FD"
@@ -192,7 +192,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 50
+    effect: 0
   - id: 3009
     type: Food
     itemName: "\uC2A4\uD504"
@@ -204,7 +204,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 70
+    effect: 0
   - id: 4101
     type: Nomal
     itemName: "\uB098\uBB34\uAC80"
@@ -216,7 +216,67 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 0
-    effect: 30
+    effect: 0
+  - id: 4102
+    type: Craft
+    itemName: "\uB545\uC758 \uAC80"
+    itemExplanation: "\uB2E4\uB8E8\uAE30\uC5D0 \uD070 \uD798\uC774 \uD544\uC694\uD569\uB2C8\uB2E4"
+    price: 3000
+    maxCount: 1
+    dropPrefabPath: 
+    iconPath: Sprite/Icon/Nomal_5
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 4103
+    type: Craft
+    itemName: "\uBE5B\uC758 \uAC80"
+    itemExplanation: "\uAC00\uBCCD\uAC8C \uB9CE\uC774 \uD718\uB450\uB97C \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 4000
+    maxCount: 1
+    dropPrefabPath: 
+    iconPath: Sprite/Icon/Nomal_6
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 4104
+    type: Craft
+    itemName: "\uBD88\uC758 \uAC80"
+    itemExplanation: "\uB2FF\uC73C\uBA74 \uB9CE\uC774 \uC544\uD50C\uAC81\uB2C8\uB2E4"
+    price: 5000
+    maxCount: 1
+    dropPrefabPath: 
+    iconPath: Sprite/Icon/Nomal_7
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 4201
+    type: Craft
+    itemName: "\uB098\uBB34\uBC29\uD328"
+    itemExplanation: "\uB098\uBB34\uB85C \uB41C \uBC29\uBC30\uC785\uB2C8\uB2E4."
+    price: 1000
+    maxCount: 1
+    dropPrefabPath: 
+    iconPath: Sprite/Icon/Nomal_3
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 0
+  - id: 4202
+    type: Craft
+    itemName: "\uCCA0\uBC29\uD328"
+    itemExplanation: "\uC544\uC8FC \uD2BC\uD2BC\uD569\uB2C8\uB2E4."
+    price: 2000
+    maxCount: 1
+    dropPrefabPath: 
+    iconPath: Sprite/Icon/Nomal_4
+    isStat: 1
+    isCrafting: 0
+    isSale: 1
+    effect: 0
   - id: 6001
     type: Craft
     itemName: "\uBE68\uAC04\uD3EC\uC158"
@@ -228,7 +288,7 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 0
     isSale: 1
-    effect: 100
+    effect: 0
   - id: 6002
     type: Craft
     itemName: "\uD30C\uB780\uD3EC\uC158"
@@ -402,6 +462,126 @@ MonoBehaviour:
     isCrafting: 0
     isSale: 1
     effect: 0
+  - id: 5000
+    type: Nomal
+    itemName: "\uC720\uBB3C"
+    itemExplanation: "\uC774\uAC83\uC744 \uBAA8\uC544 \uD604\uC2E4\uB85C \uB3CC\uC544\uAC11\uC2DC\uB2E4"
+    price: 1
+    maxCount: 4
+    dropPrefabPath: 
+    iconPath: Sprite/Icon/Nomal_0
+    isStat: 0
+    isCrafting: 0
+    isSale: 0
+    effect: 0
+  - id: 16002
+    type: Nomal
+    itemName: "\uD30C\uB780\uD3EC\uC158 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uD30C\uB780 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13002
+    type: Nomal
+    itemName: "\uC2A4\uD14C\uC774\uD06C \uB808\uC2DC\uD53C"
+    itemExplanation: "\uC2A4\uD14C\uC774\uD06C\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13003
+    type: Nomal
+    itemName: "\uBE0C\uB85C\uCF5C\uB9AC \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE0C\uB85C\uCF5C\uB9AC\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13004
+    type: Nomal
+    itemName: "\uBE75 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uBE75\uC744 \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13005
+    type: Nomal
+    itemName: "\uB2ED\uB2E4\uB9AC \uB808\uC2DC\uD53C"
+    itemExplanation: "\uB2ED\uB2E4\uB9AC\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13006
+    type: Nomal
+    itemName: "\uCE74\uB808 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uCE74\uB808\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13007
+    type: Nomal
+    itemName: "\uC8FD \uB808\uC2DC\uD53C"
+    itemExplanation: "\uC8FD\uC744 \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 13008
+    type: Nomal
+    itemName: "\uC2A4\uD504 \uB808\uC2DC\uD53C"
+    itemExplanation: "\uC2A4\uD504\uB97C \uC694\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
+    price: 0
+    maxCount: 1
+    dropPrefabPath: Prefabs/Entities/Items/Nomal/Scroll
+    iconPath: Sprite/Icon/Nomal_1
+    isStat: 0
+    isCrafting: 1
+    isSale: 0
+    effect: 0
+  - id: 1401
+    type: 
+    itemName: "\uB098\uBB34\uAC80"
+    itemExplanation: 
+    price: 0
+    maxCount: 0
+    dropPrefabPath: 
+    iconPath: 
+    isStat: 0
+    isCrafting: 0
+    isSale: 0
+    effect: 0
   Stats:
   - id: 10010000
     hp: 0
@@ -551,6 +731,46 @@ MonoBehaviour:
     hp: 100
     temperature: 0
     atk: 0
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 0
+  - id: 4201
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 30
+    speed: 0
+    stamina: 0
+    hunger: 0
+  - id: 4202
+    hp: 0
+    temperature: 0
+    atk: 0
+    def: 80
+    speed: 0
+    stamina: 0
+    hunger: 0
+  - id: 4102
+    hp: 0
+    temperature: 0
+    atk: 50
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 0
+  - id: 4103
+    hp: 0
+    temperature: 0
+    atk: 70
+    def: 0
+    speed: 0
+    stamina: 0
+    hunger: 0
+  - id: 4104
+    hp: 0
+    temperature: 0
+    atk: 80
     def: 0
     speed: 0
     stamina: 0

@@ -5,31 +5,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartStory : MonoBehaviour
+public class StartStory : Story
 {
-    public TMP_Text storyTxt;
     public GameObject nextButton;
     public GameObject endButton;
     public Image black;
     public GameObject white;
     public AudioSource effect;
 
-    public string[] dialogues;
-    private int talkNum;
-    private bool isEnd = false;
     
     private StringBuilder sb =new StringBuilder();
     void Start()
     {
         StartTalk(dialogues);
     }
-    public void StartTalk(string[] talks)
-    {
-        dialogues = talks;
-        StartCoroutine(Typing(dialogues[talkNum]));
-    }
 
-    public void NextTalk()
+    public override void NextTalk()
     {
         if(isEnd)
         {
@@ -46,7 +37,7 @@ public class StartStory : MonoBehaviour
                 white.SetActive(true);
                 effect.Play();
             }
-            if(talkNum == dialogues.Length)
+            if(talkNum == dialogues.Length-1)
             {
                 nextButton.SetActive(false);
                 endButton.SetActive(true);
@@ -57,22 +48,5 @@ public class StartStory : MonoBehaviour
         }
     }
 
-    public void EndTalk()
-    {
-        talkNum = 0;
-    }
 
-    IEnumerator Typing(string talk)
-    {
-        storyTxt.text = null;
-        sb.Clear();
-
-        for (int i = 0; i < talk.Length; i++)
-        {
-            sb.Append(talk[i]);
-            storyTxt.text = sb.ToString();
-            yield return null;
-        }
-        isEnd = true;
-    }
 }
