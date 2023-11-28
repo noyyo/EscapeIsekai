@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
+    public CapsuleCollider Collider { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerInputSystem Input { get; private set; }
     public CharacterController Controller { get; private set; }
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
         AnimationData.Initialize();
 
         Rigidbody = GetComponent<Rigidbody>();
+        Collider = GetComponent<CapsuleCollider>();
         Animator = GetComponentInChildren<Animator>();
         Input = GetComponent<PlayerInputSystem>();
         Controller = GetComponent<CharacterController>();
@@ -118,23 +120,4 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*
-    public void CreateGrenade()
-    {
-        if (hasGrenades == 0)
-            return;
-
-        // 투척물 오브젝트를 생성하고 Rigidbody를 가져옴
-        
-        GameObject instantGrenade = Instantiate(grenadeObj, throwPoint.position, transform.rotation);
-        Grenade grenade = instantGrenade.GetComponent<Grenade>();
-
-        if (grenade != null)
-        {
-            grenade.Init();
-        }
-        
-    }
-    
-    */
 }

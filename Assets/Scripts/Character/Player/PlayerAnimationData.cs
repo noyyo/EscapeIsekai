@@ -28,6 +28,8 @@ public class PlayerAnimationData
     [SerializeField] private string noStaminaParameterName = "NoStamina";
     [SerializeField] private string shieldParameterName = "Shield";
 
+    [SerializeField] private string deadParameterName = "Dead";
+
     // Parameter값을 받는 getter 생성
     // 해당 Parameter는 크게 세 가지로 나누어서 사용(Ground, Air, Attack)
     // 이후에 작은 기능들을 각각의 상태에 맞게 추가
@@ -53,6 +55,7 @@ public class PlayerAnimationData
     public int ThrowParameterHash { get; private set; }
     public int NoStaminaParameterHash { get; private set; }
     public int ShieldParameterHash { get; private set; }
+    public int DeadParameterHash { get; private set; }
 
     public void Initialize()
     {
@@ -76,5 +79,7 @@ public class PlayerAnimationData
         ThrowParameterHash = Animator.StringToHash(throwParameterName);
         NoStaminaParameterHash = Animator.StringToHash(noStaminaParameterName);
         ShieldParameterHash = Animator.StringToHash(shieldParameterName);
+
+        DeadParameterHash = Animator.StringToHash(deadParameterName);
     }
 }
