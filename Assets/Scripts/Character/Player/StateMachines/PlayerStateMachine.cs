@@ -28,6 +28,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
     public PlayerNoStamina NoStamina { get; }
 
     public PlayerShieldState ShieldState { get; }
+    public PlayerDeadState DeadState { get; }
 
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
@@ -71,6 +72,8 @@ public class PlayerStateMachine : StateMachine, IDamageable
         ThrowState = new PlayerThrowState(this);
         NoStamina = new PlayerNoStamina(this);
         ShieldState = new PlayerShieldState(this);
+
+        DeadState = new PlayerDeadState(this);
 
         MainCameraTransform = Camera.main.transform;
 
@@ -122,6 +125,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
     private void Dead()
     {
         // TODO : 죽을 때 처리할 내용
+        ChangeState(DeadState);
     }
 
     public void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
