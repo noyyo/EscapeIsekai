@@ -316,7 +316,7 @@ public abstract class AttackAction : ScriptableObject
                 currentAnimNormalizedTime = currentInfo.normalizedTime;
                 isAnimStarted = true;
             }
-            else if (lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash && currentInfo.normalizedTime < 1f)
+            else if (isAnimStarted && lastAnimStateInfo.fullPathHash == currentInfo.fullPathHash && currentInfo.normalizedTime < 1f)
             {
                 currentAnimNormalizedTime = currentInfo.normalizedTime;
             }

@@ -15,8 +15,8 @@ public class ChargingAttack : AttackAction
     private float waitedTime;
     private int alreadyChargedCount = 0;
     private bool isCharging;
-    private bool isLookingTarget;
     private bool isChargingEnd;
+    private bool isIndicatorOn;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
     private AOEIndicator indicator;
@@ -49,7 +49,11 @@ public class ChargingAttack : AttackAction
             return;
         if (animState[Config.AnimTriggerHash1] == AnimState.NotStarted)
         {
-            GetReady();
+            StartAnimation(Config.AnimTriggerHash1);
+        }
+        if (animState[Config.AnimTriggerHash1] == AnimState.Playing && currentAnimNormalizedTime > 0)
+        {
+            IndicatorOn();
         }
         if (animState[Config.AnimTriggerHash1] == AnimState.Completed && !isChargingEnd)
         {
@@ -60,15 +64,17 @@ public class ChargingAttack : AttackAction
             LookTarget();
         }
     }
-    private void GetReady()
+    private void IndicatorOn()
     {
-        StartAnimation(Config.AnimTriggerHash1);
+        if (isIndicatorOn)
+            return;
         Vector3 indicatorPosition = agent.transform.position;
         indicatorPosition.y += agent.baseOffset + agent.height - 0.1f;
         float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(agent.agentTypeID).agentSlope) * Condition.LessThanThisDistance;
         indicatorPosition.y += maxSlopeHeight;
         indicator = AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Get();
         indicator.IndicateBoxAOE(indicatorPosition, agent.transform.forward, agent.radius * 2, agent.height + maxSlopeHeight * 2, Condition.LessThanThisDistance + agent.radius, false);
+        isIndicatorOn = true;
     }
     private void Charge()
     {
@@ -87,6 +93,8 @@ public class ChargingAttack : AttackAction
                 Debug.LogError("NavMesh영역을 찾을 수 없습니다.");
             }
             AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Release(indicator);
+            isIndicatorOn = false;
+
             StartAnimation(Config.AnimTriggerHash2);
             StateMachine.Enemy.Rigidbody.isKinematic = true;
             isCharging = true;
@@ -140,7 +148,6 @@ public class ChargingAttack : AttackAction
             animState[Config.AnimTriggerHash1] = AnimState.NotStarted;
             waitedTime = 0f;
             isChargingEnd = false;
-            isLookingTarget = false;
         }
     }
     private void OnCollisionEnter(Collision collision)
