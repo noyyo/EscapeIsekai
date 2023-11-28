@@ -102,7 +102,7 @@ public class LaunchProjectile : AttackAction
             projectilePool.Release(projectile);
             return;
         }
-        ApplyAttack(target);
+        ApplyAttack(target, true);
 
     }
     private void OnDisappearTimeExpired(Projectile projectile)

@@ -6,12 +6,19 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class Weapon : MonoBehaviour
 {
-    public Collider WeaponCollider;
+    private new Collider collider;
     [Tooltip("이 무기를 사용하는 캐릭터의 게임오브젝트를 넣어주어야 합니다.")]
     public GameObject character;
     public event Action<Collider> WeaponColliderEnter;
+    [HideInInspector] public Vector3 ColliderSize;
     private static readonly string MeleeAttackStart = "MeleeAttackStart";
     private static readonly string MeleeAttackEnd = "MeleeAttackEnd";
+
+    private void Awake()
+    {
+        collider = GetComponent<Collider>();
+        ColliderSize = collider.bounds.extents * 2;
+    }
 
     private void Start()
     {
@@ -56,11 +63,11 @@ public class Weapon : MonoBehaviour
     }
     private void ActivateWeaponCollider()
     {
-        WeaponCollider.enabled = true;
+        collider.enabled = true;
     }
     private void DeactivateWeaponCollider()
     {
-        WeaponCollider.enabled = false;
+        collider.enabled = false;
     }
     public void OnTriggerEnter(Collider other)
     {

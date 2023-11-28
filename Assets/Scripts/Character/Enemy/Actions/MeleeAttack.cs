@@ -68,7 +68,7 @@ public class MeleeAttack : AttackAction
             indicatorPosition.y += maxSlopeHeight;
             if (aoeType == AOETypes.Box)
             {
-                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, weapon.ColliderSize.x, Condition.LessThanThisDistance, maxSlopeHeight * 2);
             }
             else
             {
