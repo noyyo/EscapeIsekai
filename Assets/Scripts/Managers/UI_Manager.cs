@@ -10,6 +10,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public GameObject talkManager;
     public GameObject questManager;
     public GameObject dialog;
+    public GameObject tutorialUI;
     private GameObject inventoryUI;
     private GameObject itemCraftingUI;
     private GameObject tradingUI;
@@ -94,6 +95,11 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         {
             optionUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Option"), cavas.transform);
             optionUI.SetActive(false);
+        }
+        if(tutorialUI ==null)
+        {
+            tutorialUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TutorialUI"), cavas.transform);
+            tutorialUI.SetActive(false);
         }
     }
 

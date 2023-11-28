@@ -17,6 +17,7 @@ public class GameManager : CustomSingleton<GameManager>
     private PlayerInputSystem _playerInputSystem;
     private GameObject _soundManagerObject;
     public GameObject timeSlip;
+    public UI_Manager Ui_Manager { get { return _ui_Manager; } }
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
     public GameObject Player 
     { 
@@ -48,6 +49,7 @@ public class GameManager : CustomSingleton<GameManager>
             dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
             dialogCamera.SetActive(false);
         }
+        CursorEnable();
     }
 
     private void Start()
