@@ -1,7 +1,8 @@
 ﻿// character randomizer version 1.30
+using PsychoticLab;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-
 namespace PsychoticLab
 {
     public enum Gender { Male, Female }
@@ -82,24 +83,29 @@ namespace PsychoticLab
 
 		// cam rotation y
 		float y = -30;
+        [SerializeField]
+        private GUIStyle style;
 
         // randomize character creating button
-        void OnGUI()
-        {
-            /*
-            if (GUI.Button(new Rect(10, 10, 150, 50), "Randomize Character"))
-            {
-                // call randomization method
-                Randomize();
-            }
-            */
 
-            GUIStyle style = new GUIStyle();
-            style.normal.textColor = Color.white;
-            style.fontStyle = FontStyle.Bold;
-            style.fontSize = 24;
-            GUI.Label(new Rect(10, 10, 150, 50), "Hold Right Mouse Button Down\nor use W A S D To Rotate.", style);
-        }
+   
+
+        //void OnGUI()
+        //{
+
+        //    if (GUI.Button(new Rect(10, 10, 150, 50), "Randomize Character"))
+        //    {
+        //        // call randomization method
+        //        Randomize();
+        //    }
+
+
+        //    GUIStyle style = new GUIStyle();
+        //    style.normal.textColor = Color.white;
+        //    style.fontStyle = FontStyle.Bold;
+        //    style.fontSize = 24;
+        //    GUI.Label(new Rect(10, 10, 150, 50), "Hold Right Mouse Button Down\nor use W A S D To Rotate.", style);
+        //}
 
         private void Start()
         {
@@ -144,7 +150,7 @@ namespace PsychoticLab
                 cam.LookAt(camHolder);
                 cam.SetParent(camHolder);
             }
-
+            Randomize();
             // if repeat on play is checked in the inspector, repeat the randomize method based on the shuffle speed, also defined in the inspector
             if (repeatOnPlay)
                 InvokeRepeating("Randomize", shuffleSpeed, shuffleSpeed);
@@ -182,7 +188,7 @@ namespace PsychoticLab
         }
 
         // character randomization method
-        void Randomize()
+      public  void Randomize()
         {
             // initialize settings
             Gender gender = Gender.Male;
@@ -414,43 +420,36 @@ namespace PsychoticLab
             if (primary.Length != 0)
                 mat.SetColor("_Color_Primary", primary[Random.Range(0, primary.Length)]);
             else
-                Debug.Log("No Primary Colors Specified In The Inspector");
 
             // randomize and set secondary color
             if (secondary.Length != 0)
                 mat.SetColor("_Color_Secondary", secondary[Random.Range(0, secondary.Length)]);
             else
-                Debug.Log("No Secondary Colors Specified In The Inspector");
 
             // randomize and set primary metal color
             if (metalPrimary.Length != 0)
                 mat.SetColor("_Color_Metal_Primary", metalPrimary[Random.Range(0, metalPrimary.Length)]);
             else
-                Debug.Log("No Primary Metal Colors Specified In The Inspector");
 
             // randomize and set secondary metal color
             if (metalSecondary.Length != 0)
                 mat.SetColor("_Color_Metal_Secondary", metalSecondary[Random.Range(0, metalSecondary.Length)]);
             else
-                Debug.Log("No Secondary Metal Colors Specified In The Inspector");
 
             // randomize and set primary leather color
             if (leatherPrimary.Length != 0)
                 mat.SetColor("_Color_Leather_Primary", leatherPrimary[Random.Range(0, leatherPrimary.Length)]);
             else
-                Debug.Log("No Primary Leather Colors Specified In The Inspector");
 
             // randomize and set secondary leather color
             if (leatherSecondary.Length != 0)
                 mat.SetColor("_Color_Leather_Secondary", leatherSecondary[Random.Range(0, leatherSecondary.Length)]);
             else
-                Debug.Log("No Secondary Leather Colors Specified In The Inspector");
 
             // randomize and set body art color
             if (bodyArt.Length != 0)
                 mat.SetColor("_Color_BodyArt", bodyArt[Random.Range(0, bodyArt.Length)]);
             else
-                Debug.Log("No Body Art Colors Specified In The Inspector");
 
             // randomize and set body art amount
             mat.SetFloat("_BodyArt_Amount", Random.Range(0.0f, 1.0f));
@@ -465,7 +464,6 @@ namespace PsychoticLab
             }
             else
             {
-                Debug.Log("No " + info + " Skin Colors Specified In The Inspector");
             }
 
             // randomize and set elf hair color
@@ -475,7 +473,6 @@ namespace PsychoticLab
             }
             else
             {
-                Debug.Log("No " + info + " Hair Colors Specified In The Inspector");
             }
 
             // set stubble color

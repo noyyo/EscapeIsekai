@@ -67,7 +67,7 @@ public class Inventory : MonoBehaviour
         if (!ui_Manager.IsTurnOnInventory)
             ui_Manager.CallUI_InventoryTurnOn();
         else
-            ui_Manager.CallUI_InventoryTurnOff();
+            ui_Manager.CallUI_InventoryTurnOff();   
     }
 
     /// <summary>

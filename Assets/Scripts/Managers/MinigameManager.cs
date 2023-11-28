@@ -61,7 +61,7 @@ public class MinigameManager : CustomSingleton<MinigameManager>
     /// </summary>
     public IEnumerator StartMissionCoroutine(int index)
     {
-
+        sucecesOrFail = 0;
         if (index == 1)
             _kamen.GetComponent<kamen>().StartCoroutine("StartMission");
         else if (index == 2)
@@ -74,7 +74,7 @@ public class MinigameManager : CustomSingleton<MinigameManager>
         // 미니게임이 종료될 때까지 대기
         yield return new WaitUntil(() => sucecesOrFail != 0);
         ChangeSuccess?.Invoke(sucecesOrFail);
-        sucecesOrFail = 0;
+      
     }
 
 

@@ -29,8 +29,9 @@ public class GatheringObject : MonoBehaviour
             _playerInputSystem.Input.PlayerActions.Interaction.started += Gathering;
 
             _UI_Manager.itemName = itemData.ItemName;
-            _UI_Manager.itemExplanation = itemData.ItemExplanation;
+            _UI_Manager.itemExplanation = itemData.ItemExplanation; //함수로 바꿔보자 인자로 넘겨주기
             _UI_Manager.gathering.SetActive(true);
+            _UI_Manager.UI_gathering.Setting();
         }
     }
     private void OnTriggerExit(Collider other)

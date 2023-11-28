@@ -25,6 +25,8 @@ public class PlayerAnimationData
 
     [SerializeField] private string superJumpParameterName = "SuperJump";
     [SerializeField] private string throwParameterName = "Throw";
+    [SerializeField] private string noStaminaParameterName = "NoStamina";
+    [SerializeField] private string shieldParameterName = "Shield";
 
     // Parameter값을 받는 getter 생성
     // 해당 Parameter는 크게 세 가지로 나누어서 사용(Ground, Air, Attack)
@@ -49,6 +51,8 @@ public class PlayerAnimationData
 
     public int SuperJumpParameterHash { get; private set; }
     public int ThrowParameterHash { get; private set; }
+    public int NoStaminaParameterHash { get; private set; }
+    public int ShieldParameterHash { get; private set; }
 
     public void Initialize()
     {
@@ -70,5 +74,7 @@ public class PlayerAnimationData
 
         SuperJumpParameterHash = Animator.StringToHash(superJumpParameterName);
         ThrowParameterHash = Animator.StringToHash(throwParameterName);
+        NoStaminaParameterHash = Animator.StringToHash(noStaminaParameterName);
+        ShieldParameterHash = Animator.StringToHash(shieldParameterName);
     }
 }

@@ -22,8 +22,10 @@ public class Dialog : MonoBehaviour
     private int serveQuestTalkIndex;
     private int tmp;
     private bool isAction;
+    private Animator animator;
     private GameObject targetNpc;
     public static Dialog Instance;
+
 
     private GameObject player;
     private void Awake()
@@ -81,7 +83,7 @@ public class Dialog : MonoBehaviour
     }
     public void Talk(int id, bool isNPC)
     {
-        int questTalkIndex = questManager.GetQuestTalkIndex(id);
+        int questTalkIndex = UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id);
         string talkData = TalkManager.Instance.GetTalk(id + questTalkIndex, talkIndex);
         int key = ServeQuestManager.Instance.GetQuest(id);
         if (tmp != 0&&ServeQuestManager.Instance.playerQuest[key]!=2 && ServeQuestManager.Instance.playerQuest[tmp] ==2)
@@ -97,7 +99,6 @@ public class Dialog : MonoBehaviour
             if (talkData == null)
 
             {
-                ExitTalk();
                 if (id == 1)
                 {
                     QuestManager.Instance.questId = 10;
@@ -116,13 +117,26 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 400) //여관
                 {
-
+                    GameManager.Instance.timeSlip.GetComponent<TimeSlip>().NpcAction();
                 }
                 if (id == 500) //검술
                 {
 
                 }
-
+                if (id == 1000) //상자
+                {
+                    if(targetNpc.GetComponentInChildren<Animator>() != null)
+                    {
+                        animator = targetNpc.GetComponentInChildren<Animator>();
+                        if(animator.GetBool("Open")==false)
+                        {
+                             MinigameManager.Instance.ChangeSuccess += ChestOpen;
+                             StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(1));
+                        }
+                    }
+                  
+                }
+                ExitTalk();
                 return;
             }
 
@@ -198,5 +212,24 @@ public class Dialog : MonoBehaviour
         targetNpc.GetComponent<PlayableDirector>().Play();
         targetNpc.GetComponent<Npc>().ResetTarget();
         targetNpc.GetComponent<Npc>().isHit= false;
+    }
+
+    private void ChestOpenFail()
+    {
+        Debug.Log("상자열기 실패");
+        MinigameManager.Instance.ChangeSuccess -= ChestOpen;
+    }
+    private void ChestOpenSuccess()
+    {
+        Debug.Log("상자열기 성공");
+        animator.SetBool("Open",true);
+        MinigameManager.Instance.ChangeSuccess -= ChestOpen;
+    }
+   private void ChestOpen(int val) 
+    {
+        if (val == 1)
+            ChestOpenSuccess();
+        if (val == -1)
+            ChestOpenFail();
     }
 }

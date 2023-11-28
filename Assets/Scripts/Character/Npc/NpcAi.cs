@@ -12,23 +12,41 @@ public class NpcAi : MonoBehaviour
     public GameObject dayPosition;
     public GameObject nightPosition;
     [SerializeField]
-    float range = 1; //움직일 반경
+    float range = 2; //움직일 반경
     [SerializeField]
     float time; // 새로운 경로 탐색 쿨타임
     private bool isRunning = false;
     Vector3 point;
+    Vector3 selfPoint;
+    private Animator animator;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
     }
     private void Start()
     {
+        selfPoint = gameObject.transform.position;
         StartCoroutine("NpcMove");
     }
     IEnumerator NpcMove() //이동시작, 밤낮에 따라 경로 달라짐 밤은 고정경로
     {
         while (true)
         {
+            if(agent.velocity != Vector3.zero)
+            {
+                if (animator != null)
+                {
+                    animator.SetBool("Walk", true);
+                }
+            }
+            if (agent.velocity == Vector3.zero)
+            {
+                if (animator != null)
+                {
+                    animator.SetBool("Walk", false);
+                }
+            }
             if (!GameManager.Instance.IsDay) //밤일때
             {
                 isRunning = false;
@@ -52,14 +70,17 @@ public class NpcAi : MonoBehaviour
 
             if(dayPosition ==null)
             {
-                yield break;
+                RandomPoint(selfPoint, range, out point);
+                agent.SetDestination(point);
+                float tmptime = Random.Range(1, 5);
+                yield return new WaitForSecondsRealtime(tmptime);
             }
-            if (RandomPoint(dayPosition.transform.position, range, out point))
+            else if (RandomPoint(dayPosition.transform.position, range, out point)&& dayPosition !=null)
             {
                 dayPosition.transform.position = point;
+                agent.SetDestination(dayPosition.transform.position);
+                yield return new WaitForSecondsRealtime(time);
             }
-            agent.SetDestination(dayPosition.transform.position);
-            yield return new WaitForSecondsRealtime(time);
         }
         if (nightPosition == null)
         {

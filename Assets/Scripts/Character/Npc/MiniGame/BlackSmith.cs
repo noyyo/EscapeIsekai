@@ -82,6 +82,7 @@ public class BlackSmith : MonoBehaviour
 
     IEnumerator StartMission()
     {
+        isSuccess = false;
         time = 10f;
         target.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Random.Range(-300, 300));
         isRunning = true;

@@ -11,12 +11,12 @@ public class GameManager : CustomSingleton<GameManager>
     [Range(0.0f, 1.0f)]
     public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
     public bool IsDay;
-
+    public GameObject dialogCamera;
     private UI_Manager _ui_Manager;
     private SoundManager _soundManager;
     private PlayerInputSystem _playerInputSystem;
     private GameObject _soundManagerObject;
-    private GameObject timeSlip;
+    public GameObject timeSlip;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
     public GameObject Player 
     { 
@@ -42,6 +42,12 @@ public class GameManager : CustomSingleton<GameManager>
         {
             timeSlip = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TimeSlip"));
         }
+
+        if(dialogCamera ==null)
+        {
+            dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
+            dialogCamera.SetActive(false);
+        }
     }
 
     private void Start()
@@ -61,6 +67,22 @@ public class GameManager : CustomSingleton<GameManager>
         _ui_Manager.UI_ItemCraftingTurnOffEvent += CursorDisable;
         _ui_Manager.UI_ItemCraftingTurnOffEvent += PlayInputSystemEnable;
         _ui_Manager.UI_ItemCraftingTurnOffEvent += CallOnUnpauseEvent;
+
+        _ui_Manager.UI_TradingTurnOnEvent += CursorEnable;
+        _ui_Manager.UI_TradingTurnOnEvent += PlayInputSystemDisable;
+        _ui_Manager.UI_TradingTurnOnEvent += CallOnPauseEvent;
+
+        _ui_Manager.UI_TradingTurnOffEvent += CursorDisable;
+        _ui_Manager.UI_TradingTurnOffEvent += PlayInputSystemEnable;
+        _ui_Manager.UI_TradingTurnOffEvent += CallOnUnpauseEvent;
+
+        _ui_Manager.UI_OptionTurnOnEvent += CursorEnable;
+        _ui_Manager.UI_OptionTurnOnEvent += PlayInputSystemDisable;
+        _ui_Manager.UI_OptionTurnOnEvent += CallOnPauseEvent;
+
+        _ui_Manager.UI_OptionTurnOffEvent += CursorDisable;
+        _ui_Manager.UI_OptionTurnOffEvent += PlayInputSystemEnable;
+        _ui_Manager.UI_OptionTurnOffEvent += CallOnUnpauseEvent;
     }
 
     private void PlayerInit()
