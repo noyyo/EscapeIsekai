@@ -29,7 +29,7 @@ public class Capture : MonoBehaviour
 
     private void Start()
     {
-        cam = Camera.main;
+        //cam = Camera.main;
         SettingColor();
 
     }
@@ -41,7 +41,7 @@ public class Capture : MonoBehaviour
     {
         yield return null;
 
-        Texture2D tex = new Texture2D(rt.width, rt.height, TextureFormat.ARGB32, false, true);
+        Texture2D tex = new Texture2D(rt.width, rt.height, TextureFormat.RGBA64, false, true);
         RenderTexture.active = rt;
         tex.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
 
@@ -60,6 +60,7 @@ public class Capture : MonoBehaviour
             path = Application.dataPath + "/Resources/Sprite/Icon/";
         }
         Debug.Log(path);
+        num += 100;
 
         if(!Directory.Exists(path)) Directory.CreateDirectory(path);
 

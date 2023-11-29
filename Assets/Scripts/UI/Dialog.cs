@@ -15,7 +15,7 @@ public class Dialog : MonoBehaviour
     public QuestManager questManager;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI talkText;
-    public RawImage texture;
+    public Image profile;
     public GameObject panel;
     public Button nextB;
     private int talkIndex;
@@ -57,6 +57,10 @@ public class Dialog : MonoBehaviour
             if(targetNpc != null)
             {
                 TalkMotion();
+            }
+            if(npcData.pofile != null)
+            {
+                profile.sprite = npcData.pofile;
             }
           
             Talk(npcData.id, npcData.isNPC);

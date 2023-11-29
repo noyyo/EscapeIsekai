@@ -7,6 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class Npc : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Npc : MonoBehaviour
     public bool isNPC;
     public TimelineAsset[] Motion;
     public bool isHit;
+    public Sprite pofile;
     private GameObject target;
     private GameObject player;
     private PlayerStateMachine stateMachine;
