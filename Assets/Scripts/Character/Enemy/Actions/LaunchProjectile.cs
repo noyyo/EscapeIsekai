@@ -19,9 +19,9 @@ public class LaunchProjectile : AttackAction
     [Tooltip("투사체가 수평방향으로 발사되는 각도입니다.")]
     [SerializeField][Range(0f, 360f)] private float horizontalAngle;
     [Tooltip("투사체가 수직방향으로 발사되는 각도. 투사체들은 수직방향으로 이 각도만큼 회전되어 발사됩니다. isTargeting 옵션이 켜진 경우 무시됩니다.")]
-    [SerializeField][Range(-90f, 90f)] private float verticalAngle;
+    [SerializeField][Range(-60f, 60f)] private float verticalAngle;
     [Tooltip("투사체간의 거리입니다. 수평각도가 0인 경우 일렬로 spacing의 간격을 두고 배치됩니다. 0이 아닐 경우 무시됩니다.")]
-    [SerializeField][Range(0f, 1f)] private float spacing;
+    [SerializeField][Range(0f, 5f)] private float spacing;
     [Tooltip("isTargeting 옵션이 켜져있다면 타겟을 조준해 verticalAngle을 조정합니다.")]
     [SerializeField] private bool isTargeting;
     [Tooltip("투사체가 Enemy의 Transform에서 가지는 변위차.")]
@@ -37,7 +37,6 @@ public class LaunchProjectile : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
-        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
         PoolInitialize();
     }
     private void PoolInitialize()
@@ -67,11 +66,13 @@ public class LaunchProjectile : AttackAction
     public override void OnStart()
     {
         base.OnStart();
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
         StartAnimation(Config.AnimTriggerHash1);
     }
     public override void OnEnd()
     {
         base.OnEnd();
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= EventDecision;
     }
     public override void OnUpdate()
     {
@@ -113,11 +114,13 @@ public class LaunchProjectile : AttackAction
     {
         if (isTargeting)
         {
-            Vector3 verticalDirection = StateMachine.Player.transform.position - StateMachine.Enemy.transform.position;
+            IPositionable target = StateMachine.PositionableTarget;
+            Vector3 verticalDirection = target.GetObjectCenterPosition() - StateMachine.Enemy.transform.TransformPoint(offset);
             verticalDirection.Normalize();
             verticalDirection.x = 0;
             verticalDirection.z = 0;
-            verticalAngle = Mathf.Asin(verticalDirection.y) * Mathf.Rad2Deg;
+            verticalAngle = -Mathf.Asin(verticalDirection.y) * Mathf.Rad2Deg;
+            Mathf.Clamp(verticalAngle, -60f, 60f);
         }
 
         if (horizontalAngle == 0f)
@@ -127,7 +130,7 @@ public class LaunchProjectile : AttackAction
     }
     private void SetProjectileInStraight()
     {
-        Vector3 startPosition = StateMachine.Enemy.transform.TransformPoint(offset + new Vector3((projectileAmount - 1) * -spacing / 2, 0, 0));
+        Vector3 startPosition = StateMachine.Enemy.transform.TransformPoint(offset + new Vector3((projectileAmount - 1) / 2f * -spacing, 0, 0));
         Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0, 0);
         Vector3 direction = StateMachine.Enemy.transform.TransformDirection(verticalRotation * Vector3.forward);
         Vector3 nextProjectilePosition = startPosition;
@@ -138,7 +141,7 @@ public class LaunchProjectile : AttackAction
             projectile.SetProjectileInfo(ProjectileLaunchTypes.Shoot, nextProjectilePosition, direction, projectileSpeed, StateMachine.Enemy);
             projectile.IndicateBoxAOE(yOffset: 1.5f);
             settedProjectiles.Add(projectile);
-            nextProjectilePosition = projectile.transform.TransformPoint(new Vector3(spacing, 0, 0));
+            nextProjectilePosition = projectile.transform.TransformPoint(new Vector3(spacing, 0, 0) / projectile.transform.localScale.x);
         }
     }
     private void SetProjectileInCircle()

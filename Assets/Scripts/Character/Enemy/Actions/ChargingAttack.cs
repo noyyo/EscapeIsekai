@@ -29,7 +29,6 @@ public class ChargingAttack : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
-        StateMachine.Enemy.OnCollisionOcurred += OnCollisionEnter;
         agent = StateMachine.Enemy.Agent;
         if (agent == null)
             Debug.LogError("Enemy에 Agent컴포넌트가 없습니다.");
@@ -37,10 +36,12 @@ public class ChargingAttack : AttackAction
     public override void OnStart()
     {
         base.OnStart();
+        StateMachine.Enemy.OnCollisionOcurred += OnCollisionEnter;
     }
     public override void OnEnd()
     {
         base.OnEnd();
+        StateMachine.Enemy.OnCollisionOcurred -= OnCollisionEnter;
     }
     public override void OnUpdate()
     {

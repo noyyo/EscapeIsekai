@@ -36,7 +36,6 @@ public class ProjectileRain : AttackAction
     {
         base.OnAwake();
         enemy = StateMachine.Enemy;
-        enemy.AnimEventReceiver.AnimEventCalled += AnimationEventDecision;
         if (batchCount == 1)
             createBatchDelay = 0;
         else
@@ -46,12 +45,14 @@ public class ProjectileRain : AttackAction
     public override void OnStart()
     {
         base.OnStart();
+        enemy.AnimEventReceiver.AnimEventCalled += AnimationEventDecision;
         currentCreatedBatch = 0;
         StartAnimation(Config.AnimTriggerHash1);
     }
     public override void OnEnd()
     {
         base.OnEnd();
+        enemy.AnimEventReceiver.AnimEventCalled -= AnimationEventDecision;
     }
     public override void OnUpdate()
     {

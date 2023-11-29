@@ -23,7 +23,8 @@ public class Projectile : MonoBehaviour
     [Tooltip("해당 시간이 지날 때까지 부딪히지 않는다면 자동으로 소멸됩니다.")]
     [SerializeField][Range(1f, 20f)] private float disappearTime = 5f;
     [Tooltip("꼬리 이펙트를 남길 파티클을 지정합니다. 없어도 무관합니다.")]
-    [SerializeField] private ParticleSystem trailParticle;
+    [SerializeField] private ParticleSystem trailParticlePrefab;
+    private ParticleSystem trailParticle;
     private float initialEmissionRateOverTime;
     private ProjectileLaunchTypes launchType;
     private AOETypes indicatorAOEType;
@@ -41,8 +42,9 @@ public class Projectile : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
         colliderSize = collider.bounds.extents * 2;
-        if (trailParticle != null)
+        if (trailParticlePrefab != null)
         {
+            trailParticle = Instantiate(trailParticlePrefab, transform);
             ParticleSystem.EmissionModule emissionModule = trailParticle.emission;
             initialEmissionRateOverTime = emissionModule.rateOverTime.constant;
         }

@@ -17,6 +17,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
+    public IPositionable PositionableTarget;
     public Enemy Enemy { get; }
     public Animator Animator { get; private set; }
     public float MovementSpeedModifier { get; set; } = 1f;
@@ -73,6 +74,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         InitializeAffectedAttackEffectInfo();
         OnDie += Dead;
         Player = GameManager.Instance.Player;
+        PositionableTarget = Player.GetComponent<Player>();
     }
     private void InitializeAffectedAttackEffectInfo()
     {

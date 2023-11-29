@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
-
+[RequireComponent(typeof(Collider))]
 public class Weapon : MonoBehaviour
 {
+    [Header("-- Weapon의 콜라이더는 씬을 시작할 때 Active상태여야 합니다 --")]
     private new Collider collider;
     [Tooltip("이 무기를 사용하는 캐릭터의 게임오브젝트를 넣어주어야 합니다.")]
     public GameObject character;
@@ -18,6 +19,7 @@ public class Weapon : MonoBehaviour
     {
         collider = GetComponent<Collider>();
         ColliderSize = collider.bounds.extents * 2;
+        collider.enabled = false;
     }
 
     private void Start()
