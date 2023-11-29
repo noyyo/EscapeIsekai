@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -72,22 +73,32 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.Player.Playerconditions.superJump.curValue < groundData.SuperJumpCost)
             return;
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[0])
         stateMachine.ChangeState(stateMachine.SuperJump);
     }
 
     protected override void OnThrowStarted(InputAction.CallbackContext context)
     {
-        stateMachine.ChangeState(stateMachine.ThrowState);
+        if (stateMachine.Player.Playerconditions.throwskill.curValue < groundData.ThrowCost)
+            return;
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[1])
+            stateMachine.ChangeState(stateMachine.ThrowState);
     }
 
     protected override void OnNoStaminaStarted(InputAction.CallbackContext context)
     {
-        stateMachine.ChangeState(stateMachine.NoStamina);
+        if (stateMachine.Player.Playerconditions.noStamina.curValue < groundData.NoStaminaCost)
+            return;
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[2])
+            stateMachine.ChangeState(stateMachine.NoStamina);
     }
 
     protected override void OnShieldStarted(InputAction.CallbackContext context)
     {
-        stateMachine.ChangeState(stateMachine.ShieldState);
+        if (stateMachine.Player.Playerconditions.shield.curValue < groundData.ShieldCost)
+            return;
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[3])
+            stateMachine.ChangeState(stateMachine.ShieldState);
     }
 
     protected override void AddInputActionsCallbacks()

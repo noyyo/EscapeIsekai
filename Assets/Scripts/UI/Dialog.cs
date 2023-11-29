@@ -37,6 +37,10 @@ public class Dialog : MonoBehaviour
 
     public void Action(GameObject scanObj) //대화시작
     {
+        if (!panel.activeSelf)
+        {
+            panel.SetActive(true);
+        }
         player.GetComponent<PlayerInputSystem>().PlayerActions.Disable();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
@@ -140,6 +144,11 @@ public class Dialog : MonoBehaviour
                     }
                   
                 }
+                if(id == 2200)
+                {
+                    tempnpc.SetActive(false);
+                    StartCoroutine(GameManager.Instance.Revive());
+                }
                 if(id==9900)//튜토리얼
                 {
                     tempnpc.SetActive(false);
@@ -147,6 +156,7 @@ public class Dialog : MonoBehaviour
                     Cursor.lockState = CursorLockMode.None;
                     UI_Manager.Instance.tutorialUI.SetActive(true);
                 }
+
                 return;
             }
 

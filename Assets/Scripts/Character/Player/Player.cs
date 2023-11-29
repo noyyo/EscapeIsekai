@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
 
     void OnDie()
     {
-        Animator.SetTrigger("Die");
+        Animator.SetBool("Die",true);
         enabled = false;
     }
 
