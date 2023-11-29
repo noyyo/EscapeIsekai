@@ -11,4 +11,7 @@ public class PlayerUI : MonoBehaviour
     public Image powerUp_Image;
     public Image Skill_Image;
     public Image SuperJump_Image;
+    public Image Throw_Image;
+    public Image NoStamina_Image;
+    public Image Shield_Image;
 }

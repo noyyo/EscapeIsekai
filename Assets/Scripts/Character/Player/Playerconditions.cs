@@ -62,6 +62,9 @@ public class Playerconditions : MonoBehaviour
     public Condition skill;
     public Condition powerUp;
     public Condition superJump;
+    public Condition throwskill;
+    public Condition noStamina;
+    public Condition shield;
     public float noHungerHealthDecay;
 
     private bool nostaminaActive = false;
@@ -85,6 +88,15 @@ public class Playerconditions : MonoBehaviour
 
         superJump.curValue = superJump.startValue;
         superJump.uiBar = playerUI.SuperJump_Image;
+
+        throwskill.curValue = throwskill.startValue;
+        throwskill.uiBar = playerUI.Throw_Image;
+
+        noStamina.curValue = noStamina.startValue;
+        noStamina.uiBar = playerUI.NoStamina_Image;
+
+        shield.curValue = shield.startValue;
+        shield.uiBar = playerUI.Shield_Image;
     }
 
     void Update()
@@ -94,6 +106,9 @@ public class Playerconditions : MonoBehaviour
         skill.Add(skill.regenRate * Time.deltaTime);
         powerUp.Add(powerUp.regenRate * Time.deltaTime);
         superJump.Add(superJump.regenRate * Time.deltaTime);
+        throwskill.Add(throwskill.regenRate * Time.deltaTime);
+        noStamina.Add(noStamina.regenRate * Time.deltaTime);
+        shield.Add(shield.regenRate * Time.deltaTime);
 
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
@@ -111,6 +126,9 @@ public class Playerconditions : MonoBehaviour
         skill.uiBar.fillAmount = skill.GetPercentage();
         powerUp.uiBar.fillAmount = powerUp.GetPercentage();
         superJump.uiBar.fillAmount = superJump.GetPercentage();
+        throwskill.uiBar.fillAmount = throwskill.GetPercentage();
+        noStamina.uiBar.fillAmount = noStamina.GetPercentage();
+        shield.uiBar.fillAmount = shield.GetPercentage();
     }
 
     public void Heal(float amount)
@@ -178,6 +196,30 @@ public class Playerconditions : MonoBehaviour
             return false;
 
         superJump.Subtract(amount);
+        return true;
+    }
+    public bool UseThrow(float amount)
+    {
+        if (throwskill.curValue - amount < 0)
+            return false;
+
+        throwskill.Subtract(amount);
+        return true;
+    }
+    public bool UseNoStamina(float amount)
+    {
+        if (noStamina.curValue - amount < 0)
+            return false;
+
+        noStamina.Subtract(amount);
+        return true;
+    }
+    public bool UseShield(float amount)
+    {
+        if (shield.curValue - amount < 0)
+            return false;
+
+        shield.Subtract(amount);
         return true;
     }
 }

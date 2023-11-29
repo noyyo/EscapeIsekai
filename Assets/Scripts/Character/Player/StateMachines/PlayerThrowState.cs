@@ -14,6 +14,7 @@ public class PlayerThrowState : PlayerGroundState
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
         stateMachine.Player.CreateGrenadeWithDelay(0.8f);
+        stateMachine.Player.Playerconditions.UseThrow(groundData.ThrowCost);
     }
 
     public override void Exit()
