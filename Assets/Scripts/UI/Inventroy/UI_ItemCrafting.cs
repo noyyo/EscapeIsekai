@@ -75,6 +75,8 @@ public class UI_ItemCrafting : MonoBehaviour
                 sb.Append("Speed : " + itemStats.Speed + "\n");
             if (itemStats.Stamina > 0)
                 sb.Append("Stamina : " + itemStats.Stamina + "\n");
+            if (itemStats.Hunger > 0)
+                sb.Append("Hunger : " + itemStats.Hunger + "\n");
 
             itemText[2].text = sb.ToString();
         }
