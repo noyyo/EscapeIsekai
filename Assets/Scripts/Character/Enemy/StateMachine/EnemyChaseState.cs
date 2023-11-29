@@ -10,6 +10,7 @@ public class EnemyChaseState : EnemyBaseState
     private bool isChoosed;
     public static readonly float ChaseTime = 3f;
     private static readonly float actionCoolDownWaitTime = 1f;
+    private static readonly float actionExecutableTime = 3f;
     private float stateStartTime;
     private AttackAction action;
     public EnemyChaseState(EnemyStateMachine enemyStateMachine) : base(enemyStateMachine)
@@ -22,9 +23,9 @@ public class EnemyChaseState : EnemyBaseState
         isLookTarget = false;
         StartAnimation(enemy.AnimationData.BattleParameterHash);
         isChoosed = stateMachine.ChooseAction();
+        stateStartTime = Time.time;
         if (!isChoosed)
         {
-            stateStartTime = Time.time;
             agent.isStopped = true;
         }
         else
@@ -32,7 +33,6 @@ public class EnemyChaseState : EnemyBaseState
             action = stateMachine.CurrentAction;
             agent.autoBraking = false;
             agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
-            StartAnimation(enemy.AnimationData.RunParameterHash);
         }
 
     }
@@ -57,8 +57,19 @@ public class EnemyChaseState : EnemyBaseState
         if (!isChoosed)
         {
             if (Time.time - stateStartTime >= actionCoolDownWaitTime)
+            {
                 stateMachine.ChangeState(stateMachine.ChaseState);
-            return;
+                return;
+            }
+        }
+        else
+        {
+            if (Time.time - stateStartTime >= actionExecutableTime)
+            {
+                stateMachine.ChangeState(stateMachine.ChaseState);
+                return;
+            }
+            
         }
         if (IsInChaseRange())
         {
@@ -67,12 +78,14 @@ public class EnemyChaseState : EnemyBaseState
         else
         {
             stateMachine.ChangeState(stateMachine.ReturnToBaseState);
+            return;
         }
     }
     private void Chase()
     {
         if (action.Condition.isSatisfyDistanceCondition())
         {
+            StopAnimation(enemy.AnimationData.RunParameterHash);
             LookTarget();
             if (isLookTarget)
             {
@@ -82,6 +95,7 @@ public class EnemyChaseState : EnemyBaseState
         }
         else
         {
+
             float targetDistance = stateMachine.TargetDistance;
             if (targetDistance < action.Condition.MoreThanThisDistance)
             {
@@ -90,6 +104,7 @@ public class EnemyChaseState : EnemyBaseState
             }
             else if (targetDistance > action.Condition.LessThanThisDistance)
             {
+                StartAnimation(enemy.AnimationData.RunParameterHash);
                 MoveToTarget();
             }
         }
@@ -122,7 +137,7 @@ public class EnemyChaseState : EnemyBaseState
         NavMeshHit hit;
         Vector3 currentPosition = agent.transform.position;
         currentPosition.y -= agent.baseOffset;
-        bool isInNavMesh = NavMesh.SamplePosition(currentPosition, out hit, 1f, agent.areaMask - NavMesh.GetAreaFromName("Walkable"));
+        bool isInNavMesh = NavMesh.SamplePosition(currentPosition, out hit, 1f, agent.areaMask - (1 << NavMesh.GetAreaFromName("Walkable")));
         if (!isInNavMesh)
         {
             stateMachine.ChangeState(stateMachine.ReturnToBaseState);
@@ -131,6 +146,5 @@ public class EnemyChaseState : EnemyBaseState
         {
             agent.SetDestination(stateMachine.Player.transform.position);
         }
-        CheckIsLookTarget();
     }
 }

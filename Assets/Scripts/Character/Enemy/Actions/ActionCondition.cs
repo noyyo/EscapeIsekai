@@ -16,7 +16,7 @@ public class ActionCondition
     public bool WaitUntilExecute;
     [Header("HpPercentCondition")]
     [Range(0, 100)] public int MoreThanThisHp = 0;
-    [Range(0, 100)] public int LessThanThisHp = 100;
+    [Range(0, 1000)] public int LessThanThisHp = 1000;
 
     [Header("DistanceCondition")]
     [Range(0f, 100f)] public float MoreThanThisDistance = 0f;

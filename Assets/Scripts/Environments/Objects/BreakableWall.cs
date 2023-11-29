@@ -76,4 +76,9 @@ public class BreakableWall : BaseEnvironmentObject
         gameObject.SetActive(true);
         collider.enabled = true;
     }
+
+    public override Vector3 GetObjectCenterPosition()
+    {
+        return collider.bounds.center;
+    }
 }

@@ -5,13 +5,14 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPositionable
 {
     public event Action<Collision> OnCollisionOcurred;
     [field: SerializeField] public EnemySO Data { get; private set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
+    private new Collider collider;
     [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
     [SerializeField] private AffectedAttackEffectInfo affectedEffectInfo;
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new EnemyAnimationData();
         Rigidbody = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
         ForceReceiver = GetComponent<EnemyForceReceiver>();
         AnimEventReceiver = GetComponentInChildren<AnimationEventReceiver>();
@@ -75,5 +77,10 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         OnCollisionOcurred?.Invoke(collision);
+    }
+
+    public Vector3 GetObjectCenterPosition()
+    {
+        return collider.bounds.center;
     }
 }

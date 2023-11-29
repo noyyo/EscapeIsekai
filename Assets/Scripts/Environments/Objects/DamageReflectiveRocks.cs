@@ -11,11 +11,16 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [SerializeField] private float customValue;
     [SerializeField] private bool lockAttackEffectTypes;
     [SerializeField] private AttackEffectTypes customAttackEffectTypes;
+    private new Collider collider;
     
     private int damage;
     private float value;
     private AttackEffectTypes attackEffectTypes;
 
+    private void Awake()
+    {
+        collider = GetComponent<Collider>();
+    }
     private void Start()
     {
         damage = (int)(customDamage * magnification);
@@ -54,6 +59,11 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             target?.TakeEffect(attackEffectTypes, value, this.gameObject);
         }
         
+    }
+
+    public override Vector3 GetObjectCenterPosition()
+    {
+        return collider.bounds.center;
     }
 }
 
