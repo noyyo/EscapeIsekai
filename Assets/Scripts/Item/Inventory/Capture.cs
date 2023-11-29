@@ -11,7 +11,8 @@ public enum Grade
     Normal,
     Gather,
     Craft,
-    Food
+    Food,
+    NPC
 }
 public class Capture : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Capture : MonoBehaviour
     public RenderTexture rt;
     public Image bg;
     public int num;
+    private string path;
 
     public Grade grade;
 
@@ -48,8 +50,15 @@ public class Capture : MonoBehaviour
         var data = tex.EncodeToPNG();
         string name = $"{grade}_{num}";
         string extention = ".png";
-        string path = Application.dataPath + "/Resources/Sprite/Icon/";
+        if (grade == Grade.NPC)
+        {
+            path = Application.dataPath + "/Resources/Sprite/NPC/";
 
+        }
+        else
+        {
+            path = Application.dataPath + "/Resources/Sprite/Icon/";
+        }
         Debug.Log(path);
 
         if(!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -105,7 +114,11 @@ public class Capture : MonoBehaviour
             case Grade.Normal:
                 cam.backgroundColor = Color.white;
                 bg.color = Color.white;
-                break;                
+                break;
+            case Grade.NPC:
+                cam.backgroundColor = Color.white;
+                bg.color = Color.white;
+                break;
             case Grade.Gather:
                 cam.backgroundColor = new Color(219f/255f, 248f / 255f, 170f / 255f);
                 bg.color = new Color(219f / 255f, 248f / 255f, 170f / 255f);

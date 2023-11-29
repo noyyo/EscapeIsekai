@@ -32,6 +32,8 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [SerializeField] private FallingStalactitesTarget attackTarget;
     [Tooltip("최하 높이 설정")][SerializeField] private float limitPosY = 0;
 
+    private new Collider collider;
+    
     private int damage;
     private float value;
     private bool isBoss;
@@ -58,6 +60,9 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     }
 
     private void Init()
+        collider = GetComponent<Collider>();
+    }
+    private void Start()
     {
         damage = (int)(customDamage * magnification);
         value = customValue;
@@ -142,6 +147,11 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
                 fallingManager.CallFallingStalactites(transform, initialPosition, fallingDamage, speed, fallStartTime, attackTarget, limitPosY);
             }
         }
+    }
+
+    public override Vector3 GetObjectCenterPosition()
+    {
+        return collider.bounds.center;
     }
 }
 

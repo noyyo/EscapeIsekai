@@ -44,7 +44,6 @@ public class Breath : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
-        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
         InitializeParticle();
         SetParticleMediator();
     }
@@ -52,6 +51,7 @@ public class Breath : AttackAction
     public override void OnStart()
     {
         base.OnStart();
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
         StartAnimation(Config.AnimTriggerHash1);
     }
 
@@ -67,6 +67,7 @@ public class Breath : AttackAction
     public override void OnEnd()
     {
         base.OnEnd();
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= AnimEventDecision;
     }
 
     private void AnimEventDecision(AnimationEvent animEvent)
@@ -110,7 +111,7 @@ public class Breath : AttackAction
         if (!isTargeting)
             particleRotation = Quaternion.Euler(breathVerticalAngle, 0, 0);
         else
-            particleRotation = Quaternion.identity;
+            particleRotation = Quaternion.Euler(0,0,0);
         particle = Instantiate(breathParticlePrefab, initialPosition, particleRotation, enemyTransform);
         ParticleSystem.MainModule main = particle.main;
         ParticleSystem.ShapeModule shape = particle.shape;
@@ -132,6 +133,7 @@ public class Breath : AttackAction
                 Debug.LogError("브레스의 AOE각도는 30 or 45도여야 합니다.");
                 break;
         }
+        shape.rotation = Vector3.zero;
         float verticalScale = particleVerticalAngle / shape.angle;
         shape.scale = new Vector3(1, verticalScale, 1);
     }
@@ -148,15 +150,12 @@ public class Breath : AttackAction
     {
         if (!isTargeting)
             return;
-        Vector3 direction = StateMachine.Player.transform.position - StateMachine.Enemy.transform.position;
-        direction.x = 0;
-        direction.z = 0;
-        Vector3 forward = StateMachine.Enemy.transform.forward;
-        forward.x = 0;
-        forward.z = 0;
-        breathVerticalAngle = Vector3.SignedAngle(forward, direction, StateMachine.Enemy.transform.right);
+        IPositionable target = StateMachine.PositionableTarget;
+        Vector3 direction = target.GetObjectCenterPosition() - StateMachine.Enemy.transform.TransformPoint(offset);
+        direction.Normalize();
+        breathVerticalAngle = -Mathf.Asin(direction.y) * Mathf.Rad2Deg;
         Mathf.Clamp(breathVerticalAngle, -30f, 30f);
-        Quaternion particleRotation = Quaternion.Euler(breathVerticalAngle, 0, 0);
+        Quaternion particleRotation = Quaternion.Euler(breathVerticalAngle, particle.transform.rotation.eulerAngles.y, particle.transform.rotation.eulerAngles.z);
         particle.transform.rotation = particleRotation;
     }
     private void OnParticleCollision(GameObject other)
