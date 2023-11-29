@@ -242,6 +242,7 @@ MonoBehaviour:
     throwParameterName: Throw
     noStaminaParameterName: NoStamina
     shieldParameterName: Shield
+    deadParameterName: Dead
   <Weapon>k__BackingField: {fileID: 5338040155650280331}
   <AnimationEventReceiver>k__BackingField: {fileID: 5882289599330039590}
   playerUI: {fileID: 0}
@@ -360,6 +361,33 @@ MonoBehaviour:
     isShieldActive: 0
     shieldValue: 0
   superJump:
+    curValue: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
+    decayRate: 0
+    uiBar: {fileID: 0}
+    isShieldActive: 0
+    shieldValue: 0
+  throwskill:
+    curValue: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
+    decayRate: 0
+    uiBar: {fileID: 0}
+    isShieldActive: 0
+    shieldValue: 0
+  noStamina:
+    curValue: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
+    decayRate: 0
+    uiBar: {fileID: 0}
+    isShieldActive: 0
+    shieldValue: 0
+  shield:
     curValue: 0
     maxValue: 10
     startValue: 10
@@ -541,7 +569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6429838886098863425
 Transform:
   m_ObjectHideFlags: 0
