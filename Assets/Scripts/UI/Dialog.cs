@@ -39,6 +39,7 @@ public class Dialog : MonoBehaviour
     {
         player.GetComponent<PlayerInputSystem>().PlayerActions.Disable();
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         if (isAction)
         {
             isAction = false;
@@ -99,13 +100,15 @@ public class Dialog : MonoBehaviour
             if (talkData == null)
 
             {
+                GameObject tempnpc = targetNpc;
+                ExitTalk();
                 if (id == 1)
                 {
                     QuestManager.Instance.questId = 10;
                 }
                 if (id == 100) //대장장이
                 {
-                    ItemCraftingManager.Instance.CallOnCrafting();
+                    GameManager.Instance.Ui_Manager.CallUI_ItemCraftingTurnOn();
                     Cursor.lockState = CursorLockMode.None;
                 }
                 if (id == 200) //요리
@@ -114,6 +117,7 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 300) //잡화
                 {
+                    GameManager.Instance.Ui_Manager.CallUI_TradingTurnOn();
                 }
                 if (id == 400) //여관
                 {
@@ -125,9 +129,9 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 1000) //상자
                 {
-                    if(targetNpc.GetComponentInChildren<Animator>() != null)
+                    if(tempnpc.GetComponentInChildren<Animator>() != null)
                     {
-                        animator = targetNpc.GetComponentInChildren<Animator>();
+                        animator = tempnpc.GetComponentInChildren<Animator>();
                         if(animator.GetBool("Open")==false)
                         {
                              MinigameManager.Instance.ChangeSuccess += ChestOpen;
@@ -136,7 +140,13 @@ public class Dialog : MonoBehaviour
                     }
                   
                 }
-                ExitTalk();
+                if(id==9900)//튜토리얼
+                {
+                    tempnpc.SetActive(false);
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    UI_Manager.Instance.tutorialUI.SetActive(true);
+                }
                 return;
             }
 
@@ -216,12 +226,10 @@ public class Dialog : MonoBehaviour
 
     private void ChestOpenFail()
     {
-        Debug.Log("상자열기 실패");
         MinigameManager.Instance.ChangeSuccess -= ChestOpen;
     }
     private void ChestOpenSuccess()
     {
-        Debug.Log("상자열기 성공");
         animator.SetBool("Open",true);
         MinigameManager.Instance.ChangeSuccess -= ChestOpen;
     }
