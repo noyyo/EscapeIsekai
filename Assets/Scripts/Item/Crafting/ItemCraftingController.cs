@@ -43,7 +43,6 @@ public class ItemCraftingController : MonoBehaviour
             itemTypeLists.Add(obj.GetComponent<ItemCraftingItemTypeList>());
             itemTypeLists[i].listName.text = str[i];
         }
-
     }
 
     public void AddRecipe(int id)

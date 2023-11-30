@@ -64,7 +64,6 @@ public class ItemDB : CustomSingleton<ItemDB>
         itemCraftingManager.CallAddRecipe(10110000);
         itemCraftingManager.CallAddRecipe(10110001);
         itemCraftingManager.CallAddRecipe(10110004);
-        //
         itemCraftingManager.CallAddRecipe(10113002);
         itemCraftingManager.CallAddRecipe(10113003);
         itemCraftingManager.CallAddRecipe(10113004);
@@ -80,7 +79,6 @@ public class ItemDB : CustomSingleton<ItemDB>
         itemCraftingManager.CallAddRecipe(10114201);
         itemCraftingManager.CallAddRecipe(10114202);
         itemCraftingManager.CallAddRecipe(10116001);
-        itemCraftingManager.CallAddRecipe(10116002);
     }
 
     public bool GetItemData(int id, out ItemData_Test itemData)
