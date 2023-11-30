@@ -60,6 +60,10 @@ public class QuestManager : MonoBehaviour
         {
             if(!questCheck[i])
             {
+                if(i<3)
+                {
+                    GameManager.Instance.Player.GetComponent<Player>().playerUI.Locks[i].gameObject.SetActive(false);
+                }
                 questCheck[i] = true;
                 break;
             }
