@@ -137,8 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearTime: 5
-  trailParticle: {fileID: 1124824223702901456, guid: 5e25eab39bfafa5488d5fbcd764da45c,
-    type: 3}
+  trailParticlePrefab: {fileID: 4908303325092746229}
 --- !u!54 &-5933068239439869779
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -695,6 +694,12 @@ PrefabInstance:
 --- !u!4 &3798608935793287531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9166717234586849358, guid: 5e25eab39bfafa5488d5fbcd764da45c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5440883203996217637}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4908303325092746229 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1124824223702901456, guid: 5e25eab39bfafa5488d5fbcd764da45c,
     type: 3}
   m_PrefabInstance: {fileID: 5440883203996217637}
   m_PrefabAsset: {fileID: 0}

@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
     [Tooltip("꼬리 이펙트를 남길 파티클을 지정합니다. 없어도 무관합니다.")]
     [SerializeField] private ParticleSystem trailParticlePrefab;
     private ParticleSystem trailParticle;
-    private float initialEmissionRateOverTime;
+    private float burstCount;
     private ProjectileLaunchTypes launchType;
     private AOETypes indicatorAOEType;
     private bool isInfoSetted;
@@ -46,7 +46,7 @@ public class Projectile : MonoBehaviour
         {
             trailParticle = Instantiate(trailParticlePrefab, transform);
             ParticleSystem.EmissionModule emissionModule = trailParticle.emission;
-            initialEmissionRateOverTime = emissionModule.rateOverTime.constant;
+            burstCount = emissionModule.burstCount;
         }
     }
     /// <summary>
@@ -121,6 +121,7 @@ public class Projectile : MonoBehaviour
     /// </summary>
     public void Launch()
     {
+        gameObject.SetActive(true);
         switch (launchType)
         {
             case ProjectileLaunchTypes.Shoot:
@@ -134,11 +135,8 @@ public class Projectile : MonoBehaviour
         if (trailParticle != null)
         {
             ParticleSystem.MainModule mainModule = trailParticle.main;
-            mainModule.emitterVelocity = new Vector3(0, 0, launchSpeed);
-            mainModule.startLifetimeMultiplier = 1 / launchSpeed;
-            ParticleSystem.EmissionModule emissionModule = trailParticle.emission;
-            initialEmissionRateOverTime = emissionModule.rateOverTime.constant;
-            emissionModule.rateOverTime = initialEmissionRateOverTime / (mainModule.startLifetime.constant * mainModule.startLifetimeMultiplier);
+            ParticleSystem.VelocityOverLifetimeModule velocity = trailParticle.velocityOverLifetime;
+            velocity.z = launchSpeed;
             trailParticle.Play();
         }
     }
@@ -158,7 +156,6 @@ public class Projectile : MonoBehaviour
     }
     public void OnGet()
     {
-        gameObject.SetActive(true);
     }
     public void OnRelease()
     {

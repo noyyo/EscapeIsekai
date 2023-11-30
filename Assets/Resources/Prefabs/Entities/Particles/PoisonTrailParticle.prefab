@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9166717234586849358}
   - component: {fileID: 1124824223702901456}
   - component: {fileID: 5380291595180726728}
-  - component: {fileID: 5250038217173507160}
   m_Layer: 0
   m_Name: PoisonTrailParticle
   m_TagString: Untagged
@@ -117,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1602,7 +1601,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1973,7 +1972,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -0.6
+      scalar: -0.4
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4831,15 +4830,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5250038217173507160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6252886606377246018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c129bb91efb03c149b5d1f5f3956a523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

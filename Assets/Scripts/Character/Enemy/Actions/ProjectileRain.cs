@@ -98,12 +98,12 @@ public class ProjectileRain : AttackAction
     private Projectile ProjectileCreateFunc()
     {
         Projectile projectile = Instantiate(projectilePrefab);
-        projectile.ProjetileColliderEnter += ProjectileColliderEnter;
+        projectile.ProjetileColliderEnter += ProjectileTriggerEnter;
         projectile.TimeExpired += ProjectileTimeExpired;
         return projectile;
     }
 
-    private void ProjectileColliderEnter(Collider other, Projectile projectile)
+    private void ProjectileTriggerEnter(Collider other, Projectile projectile)
     {
         projectilePool.Release(projectile);
         Collider[] colliders = Physics.OverlapSphere(projectile.transform.position, effectRadius);
