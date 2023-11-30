@@ -50,6 +50,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
     [ReadOnly] public float BattleTime;
     [ReadOnly] public bool IsInBattle;
     [ReadOnly] public bool IsDead;
+    // 기본적으로 움직일 수 없는 개체만 사용합니다.
+    [ReadOnly] public bool IsMovable;
     
 
     public EnemyStateMachine(Enemy enemy)
@@ -65,6 +67,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         FleeState = new EnemyFleeState(this);
         DeadState = new EnemyDeadState(this);
         IsFleeable = enemy.Data.IsFleeable;
+        IsMovable = enemy.Data.IsMovable;
         actionData = enemy.Actions;
         actionsToExecute = new List<AttackAction>(actionData.Length);
         IsPauseChanged += PauseAnimation;
@@ -75,7 +78,17 @@ public class EnemyStateMachine : StateMachine, IDamageable
         OnDie += Dead;
         Player = GameManager.Instance.Player;
         PositionableTarget = Player.GetComponent<Player>();
+        enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
     }
+
+    private void EventDecision(AnimationEvent animEvent)
+    {
+        if (animEvent.stringParameter == "SetMovable")
+        {
+            SetMovable(animEvent.intParameter != 0);
+        }
+    }
+
     private void InitializeAffectedAttackEffectInfo()
     {
         AttackEffectTypes[] effectTypes = Enemy.Data.AffectedEffects;
@@ -268,6 +281,18 @@ public class EnemyStateMachine : StateMachine, IDamageable
     private void MoveByForce()
     {
         agent.Move(forceReceiver.Movement * Time.deltaTime);
+    }
+    private void SetMovable(bool isMovable)
+    {
+        this.IsMovable = isMovable;
+        if (isMovable)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
     }
     public void ResetStateMachine()
     {

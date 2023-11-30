@@ -14,7 +14,7 @@ public class LaunchProjectile : AttackAction
     [Header("투사체 설정")]
     [Tooltip(nameof(Projectile) + "을 가지고 있는 Prefab")]
     [SerializeField] private Projectile projectilePrefab;
-    [SerializeField][Range(1, 36)] private int projectileAmount;
+    [SerializeField][Range(1, 36)] private int projectileAmount = 1;
     [SerializeField][Range(0.5f, 30f)] private float projectileSpeed;
     [Tooltip("투사체가 수평방향으로 발사되는 각도입니다.")]
     [SerializeField][Range(0f, 360f)] private float horizontalAngle;
@@ -24,12 +24,15 @@ public class LaunchProjectile : AttackAction
     [SerializeField][Range(0f, 5f)] private float spacing;
     [Tooltip("isTargeting 옵션이 켜져있다면 타겟을 조준해 verticalAngle을 조정합니다.")]
     [SerializeField] private bool isTargeting;
-    [Tooltip("투사체가 Enemy의 Transform에서 가지는 변위차.")]
+    [Tooltip("투사체 프리팹의 스케일을 수치만큼 곱합니다.")]
+    [SerializeField] private float sizeScale = 1f;
+    [Tooltip("투사체가 PointReference의 Transform에서 가지는 변위차.")]
     [SerializeField] private Vector3 offset;
 
+    private PointReference LaunchPointReference;
     private ObjectPool<Projectile> projectilePool;
     private List<Projectile> settedProjectiles;
-
+    private Transform enemyTransform;
     public LaunchProjectile()
     {
         ActionType = ActionTypes.LaunchProjectile;
@@ -37,6 +40,8 @@ public class LaunchProjectile : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
+        LaunchPointReference = StateMachine.Enemy.PointReferences[PointReferenceTypes.LaunchProjectile];
+        enemyTransform = StateMachine.Enemy.transform;
         PoolInitialize();
     }
     private void PoolInitialize()
@@ -47,8 +52,10 @@ public class LaunchProjectile : AttackAction
     private Projectile ProjectileCreateFunc()
     {
         Projectile projectile = Instantiate(projectilePrefab);
+        projectile.transform.localScale = projectile.transform.localScale * sizeScale;
         projectile.ProjetileColliderEnter += OnProjectileTriggerEnter;
         projectile.TimeExpired += OnDisappearTimeExpired;
+        projectile.gameObject.SetActive(false);
         return projectile;
     }
 
@@ -98,13 +105,8 @@ public class LaunchProjectile : AttackAction
     private void OnProjectileTriggerEnter(Collider other, Projectile projectile)
     {
         GameObject target = other.gameObject;
-        if (target.layer == LayerMask.NameToLayer(TagsAndLayers.GroundLayer))
-        {
-            projectilePool.Release(projectile);
-            return;
-        }
         ApplyAttack(target, true);
-
+        projectilePool.Release(projectile);
     }
     private void OnDisappearTimeExpired(Projectile projectile)
     {
@@ -115,7 +117,7 @@ public class LaunchProjectile : AttackAction
         if (isTargeting)
         {
             IPositionable target = StateMachine.PositionableTarget;
-            Vector3 verticalDirection = target.GetObjectCenterPosition() - StateMachine.Enemy.transform.TransformPoint(offset);
+            Vector3 verticalDirection = target.GetObjectCenterPosition() - (LaunchPointReference.transform.position + offset);
             verticalDirection.Normalize();
             verticalDirection.x = 0;
             verticalDirection.z = 0;
@@ -130,9 +132,10 @@ public class LaunchProjectile : AttackAction
     }
     private void SetProjectileInStraight()
     {
-        Vector3 startPosition = StateMachine.Enemy.transform.TransformPoint(offset + new Vector3((projectileAmount - 1) / 2f * -spacing, 0, 0));
+        Vector3 LaunchPointRelativePosition = enemyTransform.InverseTransformPoint(LaunchPointReference.transform.position + offset);
+        Vector3 startPosition = enemyTransform.TransformPoint(LaunchPointRelativePosition + new Vector3((projectileAmount - 1) / 2f * -spacing, 0, 0));
         Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0, 0);
-        Vector3 direction = StateMachine.Enemy.transform.TransformDirection(verticalRotation * Vector3.forward);
+        Vector3 direction = enemyTransform.TransformDirection(verticalRotation * Vector3.forward);
         Vector3 nextProjectilePosition = startPosition;
 
         for (int i = 0; i < projectileAmount; i++)
@@ -146,6 +149,7 @@ public class LaunchProjectile : AttackAction
     }
     private void SetProjectileInCircle()
     {
+        Vector3 LaunchPointRelativePosition = enemyTransform.InverseTransformPoint(LaunchPointReference.transform.position);
         Quaternion horizontalRotation = Quaternion.Euler(0, -horizontalAngle / projectileAmount, 0);
         Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0, 0);
         Vector3 rotatedOffset;
@@ -155,13 +159,13 @@ public class LaunchProjectile : AttackAction
         {
             startRotation = Quaternion.Euler(0, horizontalAngle / 2, 0) * Quaternion.Euler(0, -(horizontalAngle / projectileAmount) / 2, 0);
             rotatedOffset = startRotation * offset;
-            startPosition = StateMachine.Enemy.transform.TransformPoint(rotatedOffset);
+            startPosition = enemyTransform.TransformPoint(LaunchPointRelativePosition + rotatedOffset);
         }
         else
         {
             startRotation = Quaternion.Euler(0, horizontalAngle / 2, 0);
             rotatedOffset = startRotation * offset;
-            startPosition = StateMachine.Enemy.transform.TransformPoint(rotatedOffset);
+            startPosition = enemyTransform.TransformPoint(LaunchPointRelativePosition + rotatedOffset);
         }
         
         Vector3 nextProjectilePosition = startPosition;
@@ -169,13 +173,13 @@ public class LaunchProjectile : AttackAction
         for (int i = 0; i < projectileAmount; i++)
         {
             Projectile projectile = projectilePool.Get();
-            Vector3 direction = StateMachine.Enemy.transform.TransformDirection(nextProjectileRotation * verticalRotation * Vector3.forward);
+            Vector3 direction = enemyTransform.TransformDirection(nextProjectileRotation * verticalRotation * Vector3.forward);
             projectile.SetProjectileInfo(ProjectileLaunchTypes.Shoot, nextProjectilePosition, direction, projectileSpeed, StateMachine.Enemy);
             projectile.IndicateBoxAOE(yOffset: 1.5f);
             settedProjectiles.Add(projectile);
             nextProjectileRotation = nextProjectileRotation * horizontalRotation;
             rotatedOffset = nextProjectileRotation * offset;
-            nextProjectilePosition = StateMachine.Enemy.transform.TransformPoint(rotatedOffset);
+            nextProjectilePosition = enemyTransform.TransformPoint(LaunchPointRelativePosition + rotatedOffset);
         }
     }
     private void LaunchProjectiles()

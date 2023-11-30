@@ -8,6 +8,7 @@ public class EnemyChaseState : EnemyBaseState
 {
     private bool isLookTarget;
     private bool isChoosed;
+    private bool isMoving;
     public static readonly float ChaseTime = 3f;
     private static readonly float actionCoolDownWaitTime = 1f;
     private static readonly float actionExecutableTime = 3f;
@@ -85,7 +86,6 @@ public class EnemyChaseState : EnemyBaseState
     {
         if (action.Condition.isSatisfyDistanceCondition())
         {
-            StopAnimation(enemy.AnimationData.RunParameterHash);
             LookTarget();
             if (isLookTarget)
             {
@@ -95,7 +95,6 @@ public class EnemyChaseState : EnemyBaseState
         }
         else
         {
-
             float targetDistance = stateMachine.TargetDistance;
             if (targetDistance < action.Condition.MoreThanThisDistance)
             {
@@ -104,7 +103,11 @@ public class EnemyChaseState : EnemyBaseState
             }
             else if (targetDistance > action.Condition.LessThanThisDistance)
             {
-                StartAnimation(enemy.AnimationData.RunParameterHash);
+                if (stateMachine.Enemy.Data.RunSpeed == 0)
+                {
+                    stateMachine.ChangeState(stateMachine.ChaseState);
+                    return;
+                }
                 MoveToTarget();
             }
         }
@@ -125,6 +128,11 @@ public class EnemyChaseState : EnemyBaseState
     }
     private void LookTarget()
     {
+        if (isMoving)
+        {
+            isMoving = false;
+            StopAnimation(enemy.AnimationData.RunParameterHash);
+        }
         Vector3 targetDirection = stateMachine.Player.transform.position - agent.transform.position;
         targetDirection.y = 0;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
@@ -134,6 +142,12 @@ public class EnemyChaseState : EnemyBaseState
     }
     private void MoveToTarget()
     {
+        if (!isMoving)
+        {
+            isMoving = true;
+            StartAnimation(enemy.AnimationData.RunParameterHash);
+            agent.speed = enemyData.RunSpeed;
+        }
         NavMeshHit hit;
         Vector3 currentPosition = agent.transform.position;
         currentPosition.y -= agent.baseOffset;

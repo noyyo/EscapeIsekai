@@ -13,7 +13,7 @@ public class GameManager : CustomSingleton<GameManager>
     [SerializeField] private GameObject _player;
     [SerializeField] private CinemachineVirtualCamera characterCamera;
     [Range(0.0f, 1.0f)]
-    public float time; //ÇÏ·ç »çÀÌÅ¬ ½Ã°£  0.2~0.8 ÇØ¶°ÀÖ´Â ½Ã°£
+    public float time; //í•˜ë£¨ ì‚¬ì´í´ ì‹œê°„  0.2~0.8 í•´ë– ìˆëŠ” ì‹œê°„
     public bool IsDay;
     public GameObject dialogCamera;
     private UI_Manager _ui_Manager;
@@ -23,8 +23,9 @@ public class GameManager : CustomSingleton<GameManager>
     public GameObject timeSlip;
     public UI_Manager Ui_Manager { get { return _ui_Manager; } }
     public GameObject deadNpc;
+    public GameObject endPotal;
     private GameObject panel;
-    //ÃÊ±âÈ­ ¼ø¼­¿¡ µû¸¥ ¹®Á¦ ¶Ç´Â SceneÀÌµ¿, ÀÇµµÄ¡ ¾ÊÀº Player »èÁ¦¸¦ À§ÇÑ ¾ÈÀüÀåÄ¡
+    //ì´ˆê¸°í™” ìˆœì„œì— ë”°ë¥¸ ë¬¸ì œ ë˜ëŠ” Sceneì´ë™, ì˜ë„ì¹˜ ì•Šì€ Player ì‚­ì œë¥¼ ìœ„í•œ ì•ˆì „ì¥ì¹˜
     public GameObject Player 
     { 
         get 
@@ -59,7 +60,16 @@ public class GameManager : CustomSingleton<GameManager>
 
         if (characterCamera == null)
             characterCamera = GameObject.FindGameObjectWithTag("CharacterCamera").GetComponent<CinemachineVirtualCamera>();
-
+            
+        if (deadNpc == null)
+        {
+            deadNpc = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/ì—¬ê´€ì£¼ì¸"));
+        }
+        if (endPotal == null)
+        {
+            endPotal = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/ì°¨ì›ë¬¸"));
+            endPotal.SetActive(false);
+        }
         CursorEnable();
     }
 
@@ -109,7 +119,7 @@ public class GameManager : CustomSingleton<GameManager>
 
     private void PlayerInit()
     {
-        //´Ù¸¥ ¿ÀºêÁ§Æ®¿¡ PlayerÅÂ±×°¡ ¼³Á¤µÇ¾î°¡ ÀÖÀ»°æ¿ì °É·¯³»±â À§ÇÑ foreach¹®
+        //ë‹¤ë¥¸ ì˜¤ë¸Œì íŠ¸ì— Playeríƒœê·¸ê°€ ì„¤ì •ë˜ì–´ê°€ ìˆì„ê²½ìš° ê±¸ëŸ¬ë‚´ê¸° ìœ„í•œ foreachë¬¸
         GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(TagsAndLayers.PlayerTag);
         foreach (GameObject gameObject in gameObjects)
         {
@@ -124,13 +134,13 @@ public class GameManager : CustomSingleton<GameManager>
 
     private void CallOnPauseEvent()
     {
-        Time.timeScale = 0f; //ÀÓ½Ã
+        Time.timeScale = 0f; //ì„ì‹œ
         OnPauseEvent?.Invoke();
     }
 
     private void CallOnUnpauseEvent()
     {
-        Time.timeScale = 1f; //ÀÓ½Ã
+        Time.timeScale = 1f; //ì„ì‹œ
         OnUnpauseEvent?.Invoke();
     }
 

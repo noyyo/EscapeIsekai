@@ -66,6 +66,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
+        if (!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.JumpState);
     }
 
@@ -73,7 +74,6 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.Player.Playerconditions.superJump.curValue < groundData.SuperJumpCost)
             return;
-        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[0])
         stateMachine.ChangeState(stateMachine.SuperJump);
     }
 
@@ -81,7 +81,7 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.Player.Playerconditions.throwskill.curValue < groundData.ThrowCost)
             return;
-        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[1])
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[0])
             stateMachine.ChangeState(stateMachine.ThrowState);
     }
 
@@ -89,7 +89,7 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.Player.Playerconditions.noStamina.curValue < groundData.NoStaminaCost)
             return;
-        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[2])
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[1])
             stateMachine.ChangeState(stateMachine.NoStamina);
     }
 
@@ -97,7 +97,7 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.Player.Playerconditions.shield.curValue < groundData.ShieldCost)
             return;
-        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[3])
+        if (GameManager.Instance.Ui_Manager.questManager.GetComponent<QuestManager>().questCheck[2])
             stateMachine.ChangeState(stateMachine.ShieldState);
     }
 
@@ -142,11 +142,13 @@ public class PlayerGroundState : PlayerBaseState
 
     protected virtual void OnMove()
     {
+        if (!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.WalkState);
     }
 
     protected virtual void OnAttack()
     {
+        if(!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
 

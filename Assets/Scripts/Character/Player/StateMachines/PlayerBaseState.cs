@@ -13,6 +13,7 @@ public class PlayerBaseState : IState
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
     protected bool isMovable = true;
+    protected bool isStateChangeable = true;
 
     public PlayerBaseState(PlayerStateMachine playerstateMachine)
     {
