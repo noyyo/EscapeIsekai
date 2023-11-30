@@ -17,6 +17,7 @@ public class PlayerDeadState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(stateMachine.Player.AnimationData.DeadParameterHash);
     }
 
     private void DisablePlayerCollider()
