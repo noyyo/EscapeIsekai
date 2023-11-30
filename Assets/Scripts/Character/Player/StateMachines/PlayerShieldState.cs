@@ -14,6 +14,7 @@ public class PlayerShieldState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.Player.Playerconditions.UseShield(groundData.ShieldCost);
         StartAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.shield, stateMachine);

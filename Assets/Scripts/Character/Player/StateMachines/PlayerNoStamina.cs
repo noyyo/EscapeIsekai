@@ -14,6 +14,7 @@ public class PlayerNoStamina : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.Player.Playerconditions.UseNoStamina(groundData.NoStaminaCost);
         StartAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.nostamina, stateMachine);
