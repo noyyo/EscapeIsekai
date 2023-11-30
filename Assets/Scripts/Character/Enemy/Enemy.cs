@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour, IPositionable
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
-    private new Collider collider;
+    public Collider Collider;
     [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
     [SerializeField] private AffectedAttackEffectInfo affectedEffectInfo;
@@ -22,13 +22,14 @@ public class Enemy : MonoBehaviour, IPositionable
     public EnemyForceReceiver ForceReceiver { get; private set; }
     public AnimationEventReceiver AnimEventReceiver { get; private set; }
     public Dictionary<PointReferenceTypes, PointReference> PointReferences { get; private set; }
+    public Dictionary<int, Weapon> Weapons;
 
     private void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new EnemyAnimationData();
         Rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        Collider = GetComponent<Collider>();
         Agent = GetComponent<NavMeshAgent>();
         ForceReceiver = GetComponent<EnemyForceReceiver>();
         AnimEventReceiver = GetComponentInChildren<AnimationEventReceiver>();
@@ -36,6 +37,11 @@ public class Enemy : MonoBehaviour, IPositionable
         foreach (PointReference point in GetComponentsInChildren<PointReference>())
         {
             PointReferences.Add(point.PointType, point);
+        }
+        Weapons = new Dictionary<int, Weapon>();
+        foreach (Weapon weapon in GetComponentsInChildren<Weapon>())
+        {
+            Weapons.Add(weapon.ID, weapon);
         }
         StateMachine = new EnemyStateMachine(this);
         Init();
@@ -93,6 +99,6 @@ public class Enemy : MonoBehaviour, IPositionable
 
     public Vector3 GetObjectCenterPosition()
     {
-        return collider.bounds.center;
+        return Collider.bounds.center;
     }
 }
