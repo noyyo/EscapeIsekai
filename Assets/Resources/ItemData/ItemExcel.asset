@@ -266,17 +266,6 @@ MonoBehaviour:
     isStat: 1
     isCrafting: 1
     isSale: 1
-  - id: 10162000
-    type: Craft
-    itemName: "\uD30C\uB780\uD3EC\uC158"
-    itemExplanation: "\uC2A4\uD0DC\uBBF8\uB098\uB97C \uD68C\uBCF5\uD569\uB2C8\uB2E4"
-    price: 500
-    maxCount: 99
-    dropPrefabPath: Prefabs/Entities/Items/Normal/BlueBottle
-    iconPath: Sprite/Icon/Craft_2
-    isStat: 0
-    isCrafting: 1
-    isSale: 1
   - id: 10113002
     type: Nomal
     itemName: "\uC2A4\uD14C\uC774\uD06C \uB808\uC2DC\uD53C"
@@ -425,17 +414,6 @@ MonoBehaviour:
     itemName: "\uBE68\uAC04 \uD3EC\uC158 \uB808\uC2DC\uD53C"
     itemExplanation: "\uBE68\uAC04 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
     price: 0
-    maxCount: 99
-    dropPrefabPath: Prefabs/Entities/Items/Normal/Scroll
-    iconPath: Sprite/Icon/Normal_1
-    isStat: 0
-    isCrafting: 0
-    isSale: 0
-  - id: 10116002
-    type: Nomal
-    itemName: "\uD30C\uB780\uD3EC\uC158 \uB808\uC2DC\uD53C"
-    itemExplanation: "\uD30C\uB780 \uD3EC\uC158\uC744 \uC81C\uC791\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4"
-    price: 1
     maxCount: 99
     dropPrefabPath: Prefabs/Entities/Items/Normal/Scroll
     iconPath: Sprite/Icon/Normal_1
@@ -596,8 +574,8 @@ MonoBehaviour:
     itemExplanation: "\uBAAC\uC2A4\uD130\uB97C \uC815\uC9C0 \uC2DC\uD0AC\uC218 \uC788\uC2B5\uB2C8\uB2E4."
     price: 1
     maxCount: 99
-    dropPrefabPath: 
-    iconPath: 
+    dropPrefabPath: Prefabs/Entities/DropItem/1
+    iconPath: Sprite/Icon/5
     isStat: 0
     isCrafting: 1
     isSale: 0
@@ -708,14 +686,6 @@ MonoBehaviour:
     def: 0
     speed: 0
     stamina: 0
-    hunger: 0
-  - id: 10162000
-    hp: 0
-    temperature: 0
-    atk: 0
-    def: 0
-    speed: 0
-    stamina: 100
     hunger: 0
   - id: 10202005
     hp: 0

@@ -35,7 +35,6 @@ public class ItemCraftingController : MonoBehaviour
 
     private void CreateItemList()
     {
-        Debug.Log(craftingItemListCount);
         string[] str = { "장비", "소모품", "재료", "요리" };
         for(int i = 0;  i < craftingItemListCount; i++)
         {
@@ -44,7 +43,6 @@ public class ItemCraftingController : MonoBehaviour
             itemTypeLists.Add(obj.GetComponent<ItemCraftingItemTypeList>());
             itemTypeLists[i].listName.text = str[i];
         }
-
     }
 
     public void AddRecipe(int id)
@@ -77,7 +75,6 @@ public class ItemCraftingController : MonoBehaviour
                         //장비
                         break;
                 }
-                Debug.Log(craftingItemIndex / 100);
                 itemTypeLists[craftingItemIndex / 100].AddRecipe(newRecipe);
             }
         }
