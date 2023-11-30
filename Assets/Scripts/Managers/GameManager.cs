@@ -21,6 +21,7 @@ public class GameManager : CustomSingleton<GameManager>
     public GameObject timeSlip;
     public UI_Manager Ui_Manager { get { return _ui_Manager; } }
     public GameObject deadNpc;
+    public GameObject endPotal;
     private GameObject panel;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
     public GameObject Player 
@@ -53,6 +54,15 @@ public class GameManager : CustomSingleton<GameManager>
         {
             dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
             dialogCamera.SetActive(false);
+        }
+        if (deadNpc == null)
+        {
+            deadNpc = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/여관주인"));
+        }
+        if (endPotal == null)
+        {
+            endPotal = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/차원문"));
+            endPotal.SetActive(false);
         }
         CursorEnable();
     }

@@ -109,6 +109,14 @@ public class Dialog : MonoBehaviour
                 if (id == 1)
                 {
                     QuestManager.Instance.questId = 10;
+                    if(UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id)==11)
+                    {
+                        ItemCraftingManager.Instance.CallAddRecipe(10116002);
+                    }
+                    if (UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id) == 14)
+                    {
+                        GameManager.Instance.endPotal.SetActive(true);
+                    }
                 }
                 if (id == 100) //대장장이
                 {
@@ -130,6 +138,16 @@ public class Dialog : MonoBehaviour
                 if (id == 500) //검술
                 {
 
+                }
+                if (id == 700) //차원문
+                {
+                    Debug.Log("엔딩씬 로드");
+                }
+                if (id == 800) //유물
+                {
+                    tempnpc.SetActive(false);
+                    UI_Manager.Instance.questManager.GetComponent<QuestManager>().QuestClear();
+                    InventoryManager.Instance.CallAddItem(5000,1);
                 }
                 if (id == 1000) //상자
                 {
@@ -163,14 +181,16 @@ public class Dialog : MonoBehaviour
             if (isNPC)
             {
                 talkText.text = talkData;
-                nameText.text = targetNpc.name;
+                nameText.text = targetNpc.name.Split("(")[0];
 
             }
             else
             {
                 talkText.text = talkData;
                 if (targetNpc != null)
-                    nameText.text = targetNpc.name;
+                {
+                    nameText.text = targetNpc.name.Split("(")[0];
+                }
             }
 
             isAction = true;
@@ -195,7 +215,7 @@ public class Dialog : MonoBehaviour
                 ExitTalk();
                 return;
             }
-            nameText.text = targetNpc.name;
+            nameText.text = targetNpc.name.Split("(")[0];
             talkText.text = ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex);
             isAction = true;
             serveQuestTalkIndex++;
