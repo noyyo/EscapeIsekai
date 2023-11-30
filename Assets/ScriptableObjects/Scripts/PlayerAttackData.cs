@@ -11,8 +11,8 @@ public class AttackInfoData
     [field: SerializeField] public int ComboStateIndex { get; private set; }
     // 콤보가 유지되려면 언제까지 때려야 하는지 = ComboTransitionTime
     // 힘은 언제 적용을 하는지 = ForceTransitionTime
-    [field: SerializeField][field: Range(0f, 1f)] public float ComboTransitionTime { get; private set; }
-    [field: SerializeField][field: Range(0f, 3f)] public float ForceTransitionTime { get; private set; }
+    [field: SerializeField][field: Range(0f, 1f)] public float ComboTransitionTime { get; private set; }    // 콤보가 유지되려면 언제까지 때려야 하는지
+    [field: SerializeField][field: Range(0f, 3f)] public float ForceTransitionTime { get; private set; }    // 얼마나 버튼을 우리고 있어야 하는지..?
     [field: SerializeField][field: Range(-10f, 10f)] public float Force { get; private set; }
     [field: SerializeField] public AttackEffectTypes AttackEffectType { get; private set; }
     [field: SerializeField] public float AttackEffectValue { get; private set; }

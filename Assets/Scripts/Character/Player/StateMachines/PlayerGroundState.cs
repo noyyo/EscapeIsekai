@@ -65,6 +65,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
+        if (!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.JumpState);
     }
 
@@ -131,11 +132,13 @@ public class PlayerGroundState : PlayerBaseState
 
     protected virtual void OnMove()
     {
+        if (!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.WalkState);
     }
 
     protected virtual void OnAttack()
     {
+        if(!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
 

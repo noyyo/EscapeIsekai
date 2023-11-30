@@ -46,6 +46,9 @@ public class Player : MonoBehaviour
 
         StateMachine = new PlayerStateMachine(this);
 
+        // 캐싱하기 
+        //InventoryManager.Instance
+
         playerUI = GameObject.FindObjectOfType<PlayerUI>();
         if(playerUI == null)
         {
@@ -101,10 +104,26 @@ public class Player : MonoBehaviour
 
     public void CreateGrenadeWithDelay(float delayInSeconds)
     {
+        if(InventoryManager.Instance.CallTryAddItem(10010000, -1))
+        {
+            StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
+        }
+
+        
+        // InventoryManager.Instance.CallIsCheckItem(10011000, 1); // 아이템 있는지 없는지 bool값으로 반환해주는 코드
+
+        // InventoryManager.Instance.CallAddItem(10011000, -1);    // 아이템 소비 코드
+
+        /*
         if (hasGrenades == 0)
             return;
 
-        StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
+        if(hasGrenades > 0)
+        {
+            StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
+            hasGrenades--;
+        }
+        */
     }
 
     private IEnumerator CreateGrenadeCoroutine(float delayInSeconds)

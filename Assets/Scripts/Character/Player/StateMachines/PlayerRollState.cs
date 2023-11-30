@@ -12,31 +12,62 @@ public class PlayerRollState : PlayerGroundState
     {
         base.Enter();
         isMovable = true;
+        isStateChangeable = false;
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         TryApplyForce();
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
+        DisablePlayerCollider();
     }
 
     public override void Exit()
     {
         base.Exit();
-        isMovable = false;
+        isMovable = true;
+        isStateChangeable = true;
         StopAnimation(stateMachine.Player.AnimationData.RollParameterHash);
+        EnablePlayerCollider();
     }
 
 
     private void TryApplyForce()
     {
+        stateMachine.Player.ForceReceiver.Reset();
         stateMachine.Player.ForceReceiver.AddForce(stateMachine.Player.transform.forward * groundData.RollForce);
+    }
+
+    private void DisablePlayerCollider()
+    {
+        CapsuleCollider playercollider = stateMachine.Player.GetComponent<CapsuleCollider>();
+        //CharacterController characterController = stateMachine.Player.GetComponent<CharacterController>();
+
+        if (playercollider != null /*&& characterController != null*/)
+        {
+            playercollider.enabled = false;
+            //characterController.enabled = false;
+        }
+    }
+
+    private void EnablePlayerCollider()
+    {
+        CapsuleCollider playercollider = stateMachine.Player.GetComponent<CapsuleCollider>();
+        CharacterController characterController = stateMachine.Player.GetComponent<CharacterController>();
+
+        if (playercollider != null && characterController != null)
+        {
+            playercollider.enabled = true;
+            characterController.enabled = true;
+        }
     }
 
     public override void Update()
     {
         base.Update();
-
-        // 애니메이션 이름이 "Roll"이고 애니메이션이 끝났을 때 상태를 변경
-        if (stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).IsName("Roll") &&
-            stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Roll");
+        if (normalizedTime < 1f)
+        {
+            return;
+        }
+        else
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
