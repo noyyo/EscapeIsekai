@@ -18,12 +18,14 @@ public class Inventory : MonoBehaviour
     private ItemType displayType;
     private int clickSlotIndex;
     private PlayerInputSystem playerInputSystem;
+    private Player player;
 
     public ItemType DisplayType { get { return displayType; } }
 
     public event Action<int,int> AddItem;
     private void Awake()
     {
+        player = GetComponent<Player>();
         ui_Manager = UI_Manager.Instance;
         itemDB = ItemDB.Instance;
         inventoryManager = InventoryManager.Instance;
@@ -65,9 +67,13 @@ public class Inventory : MonoBehaviour
     public void OnInventory(InputAction.CallbackContext context)
     {
         if (!ui_Manager.IsTurnOnInventory)
+        {
             ui_Manager.CallUI_InventoryTurnOn();
+        }
         else
-            ui_Manager.CallUI_InventoryTurnOff();   
+        {
+            ui_Manager.CallUI_InventoryTurnOff();
+        }  
     }
 
     /// <summary>
@@ -203,7 +209,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < idCount; i++)
             TryAddItem(itemRecipe.Materials[i], -(itemRecipe.MaterialsCount[i]));
-        TryAddItem(itemRecipe.CraftingID, 1);
+        TryAddItem(itemRecipe.CraftingID, itemRecipe.AvailableCount);
         return true;
     }
 
@@ -475,9 +481,16 @@ public class Inventory : MonoBehaviour
     {
         clickSlotIndex = inventoryManager.ClickSlotIndex;
         if (displayType == ItemType.Equipment)
+        {
             EquipItem();
+        }
         else
+        {
+            player.Playerconditions.Eat((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHunger);
+            player.Playerconditions.Heal((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHP);
             TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
+        }
+            
     }
 
     private void EquipItem()

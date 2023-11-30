@@ -3,39 +3,35 @@ using UnityEngine;
 public class BreakableWall : BaseEnvironmentObject
 {
     [SerializeField] private int hp = 100;
-    [SerializeField] Collider collider;
-    [SerializeField] string colliderName = "Weapon";
+    [SerializeField] Collider thisCollider;
 
     private int defaultHP;
     private int damage;
-    private bool isTakeDamage;
+    private bool isPlayer;
 
     private void Start()
     {
         defaultHP = hp;
-        if (collider == null)
-            collider = GetComponent<Collider>();
-        if( collider == null )
-            collider = GetComponentInChildren<Collider>();
+        if (thisCollider == null)
+            thisCollider = GetComponent<Collider>();
+        if( thisCollider == null )
+            thisCollider = GetComponentInChildren<Collider>();
         Init();
     }
 
     public override void TakeDamage(int damage)
-    {
-        this.damage = damage;
-        isTakeDamage = true;
-    }
+    { this.damage = damage; }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
-    { }
+    { isPlayer = attacker.CompareTag(TagsAndLayers.PlayerTag); }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == colliderName && isTakeDamage == true)
+        if (isPlayer)
         {
             if (hp > 0)
                 HPControl();
-            isTakeDamage = false;
+            isPlayer = false;
         }
     }
 
@@ -53,7 +49,7 @@ public class BreakableWall : BaseEnvironmentObject
 
     private void OnBreak()
     {
-        collider.enabled = false;
+        thisCollider.enabled = false;
         PlayerBreakAnimation();
 
         //애니메이션이 끝나면 비활성화
@@ -74,11 +70,11 @@ public class BreakableWall : BaseEnvironmentObject
     {
         hp = defaultHP;
         gameObject.SetActive(true);
-        collider.enabled = true;
+        thisCollider.enabled = true;
     }
 
     public override Vector3 GetObjectCenterPosition()
     {
-        return collider.bounds.center;
+        return thisCollider.bounds.center;
     }
 }

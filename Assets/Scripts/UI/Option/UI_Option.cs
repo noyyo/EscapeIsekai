@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 enum MiXType
@@ -13,6 +14,7 @@ public class UI_Option : MonoBehaviour
 {
     private SoundManager soundManager;
     private UI_Manager uiManager;
+    private PlayerInputSystem playerInputSystem;
     private Slider MasterVolume;
     private Slider bgmVolume;
     private Slider sfxVolume;
@@ -21,8 +23,9 @@ public class UI_Option : MonoBehaviour
     private TMP_InputField sfxVolumeInputField;
     private Button back;
     private Button inventory;
-    private string max;
-    private string min;
+    private readonly string max = "100";
+    private readonly string min = "0";
+    public bool IsDisplay { get; private set; }
 
     private void Awake()
     {
@@ -37,13 +40,15 @@ public class UI_Option : MonoBehaviour
         inventory = this.transform.GetChild(0).GetChild(1).GetComponent<Button>();
         uiManager.UI_OptionTurnOnEvent += Activate;
         uiManager.UI_OptionTurnOffEvent += Deactivate;
-        max = "100";
-        min = "0";
+        playerInputSystem = GameManager.Instance.Player.GetComponent<PlayerInputSystem>();
     }
 
     private void Start()
     {
+        playerInputSystem.InputActions.Player.Option.started += OnOption;
+        playerInputSystem.InputActions.UI.Skip.started += OffOption;
         Init();
+        Deactivate();
     }
 
     private void Init()
@@ -94,13 +99,25 @@ public class UI_Option : MonoBehaviour
         }
     }
 
+    private void OnOption(InputAction.CallbackContext context)
+    {
+        uiManager.CallUI_OptionTurnOn();
+    }
+
+    private void OffOption(InputAction.CallbackContext context)
+    {
+        uiManager.CallUI_OptionTurnOff();
+    }
+
     private void Activate()
     {
         this.gameObject.SetActive(true);
+        IsDisplay = true;
     }
 
     private void Deactivate()
     {
         this.gameObject.SetActive(false);
+        IsDisplay = false;
     }
 }
