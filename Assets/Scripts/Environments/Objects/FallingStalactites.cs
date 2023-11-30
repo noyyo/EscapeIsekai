@@ -31,6 +31,7 @@ public class FallingStalactites : BaseEnvironmentObject
         thisTransform = this.transform;
         collider = GetComponent<Collider>();
         colliderSize = collider.bounds.extents * 2;
+        stalactitesManager = FallingStalactitesManager.Instance;
     }
 
     public void SetManagedPool(IObjectPool<FallingStalactites> pool)
@@ -46,9 +47,10 @@ public class FallingStalactites : BaseEnvironmentObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 11)
+        if(other.gameObject.layer == LayerMask.NameToLayer(TagsAndLayers.GroundLayer))
         {
             StopCoroutine(DownPosition());
+            stalactitesManager.OnRelease(aoeIndicator);
             PlayAnimationFadeOut();
             return;
         }
@@ -154,5 +156,10 @@ public class FallingStalactites : BaseEnvironmentObject
     public void SetAOEIndicator(AOEIndicator newAOEIndicator)
     {
         aoeIndicator = newAOEIndicator;
+    }
+
+    public override Vector3 GetObjectCenterPosition()
+    {
+        throw new System.NotImplementedException();
     }
 }

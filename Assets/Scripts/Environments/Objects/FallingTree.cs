@@ -150,4 +150,9 @@ public class FallingTree : BaseEnvironmentObject
         if(isRespawn)
             Invoke("Respawn", respawnTime);
     }
+
+    public override Vector3 GetObjectCenterPosition()
+    {
+        throw new System.NotImplementedException();
+    }
 }

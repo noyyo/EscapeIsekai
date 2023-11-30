@@ -75,6 +75,6 @@ public class BreakableWall : BaseEnvironmentObject
 
     public override Vector3 GetObjectCenterPosition()
     {
-        return collider.bounds.center;
+        return thisCollider.bounds.center;
     }
 }

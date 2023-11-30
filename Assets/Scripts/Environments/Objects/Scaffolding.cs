@@ -153,4 +153,9 @@ public class Scaffolding : BaseEnvironmentObject
     {
         this.gameObject.SetActive(false);
     }
+
+    public override Vector3 GetObjectCenterPosition()
+    {
+        throw new System.NotImplementedException();
+    }
 }

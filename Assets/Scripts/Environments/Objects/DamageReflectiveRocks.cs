@@ -60,8 +60,10 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     }
 
     private void Init()
+    { 
         collider = GetComponent<Collider>();
     }
+
     private void Start()
     {
         damage = (int)(customDamage * magnification);
