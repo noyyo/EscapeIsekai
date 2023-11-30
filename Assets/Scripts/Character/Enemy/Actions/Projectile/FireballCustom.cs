@@ -7,12 +7,17 @@ using UnityEngine.VFX;
 public class FireballCustom : MonoBehaviour
 {
     private VisualEffect fireballTrails;
-    private const string fireballTrailsActiveString = "FireballTrailsActive";
+    private static readonly string fireballTrailsActive = "FireballTrailsActive";
+    private static readonly string fireballTrailsScale = "FireballTrailsScale";
 
     private void Awake()
     {
         fireballTrails = gameObject.GetComponent<VisualEffect>();
         fireballTrails.enabled = true;
-        fireballTrails.SetBool(fireballTrailsActiveString, true);
+        fireballTrails.SetBool(fireballTrailsActive, true);
+    }
+    private void Update()
+    {
+        fireballTrails.SetVector3(fireballTrailsScale, transform.localScale);
     }
 }

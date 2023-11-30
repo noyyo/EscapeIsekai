@@ -5,50 +5,52 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    public GameObject[] grenades;
-    public int hasGrenades;
-    public GameObject grenadeObj;
-    public Rigidbody rigid;
-    public GameObject meshObj;
-    public GameObject effectObj;
-    public float explosionRadius = 5f; // 폭발 반경
+    private new Rigidbody rigidbody;
+    public float ExplosionRadius = 5f; // 폭발 반경
+    public float StunTime = 3f;
 
-    public void Init()
+    private void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
+    }
+    private void Start()
+    {
+        Throw();
+    }
+    private void Throw()
+    {
+        float throwForce = 5f;
+        float throwHeight = 10f;
+        rigidbody.AddForce(Vector3.up * throwHeight + transform.forward * throwForce * rigidbody.mass, ForceMode.Impulse);
 
-        if (rigid != null)
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex)
         {
-            // Vector3.up * (높이값) + transform.forward * 전진 힘 => 포물선
-            float throwForce = 5f; // 던지는 힘 설정
-            float throwHeight = 10f;
-            rigid.AddForce(Vector3.up * throwHeight + transform.forward * throwForce * rigid.mass, ForceMode.Impulse);
+            Explosion();
         }
-        StartCoroutine(Explosion());
     }
 
-
-    IEnumerator Explosion()
+    private void Explosion()
     {
-        yield return new WaitForSeconds(2.5f);    // 나중에 데이터로 빼서 설정했으면 좋겠음 => 불가능. 공중체공시간이 존재해야함
-        rigid.velocity = Vector3.zero;
-        rigid.angularVelocity = Vector3.zero;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, ExplosionRadius);
 
-        // Physics.OverlapSphere
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-
-        foreach (Collider col in colliders)
+        foreach (Collider collider in colliders)
         {
-            //col.gameObject.CompareTag("Enemy");
-            if(col.TryGetComponent(out Rigidbody targetRigidbody))
+            IDamageable target;
+            if (collider.CompareTag(TagsAndLayers.EnemyTag))
             {
-                targetRigidbody.AddExplosionForce(1000f, transform.position, explosionRadius);
+                Enemy enemy;
+                if (!collider.TryGetComponent<Enemy>(out enemy))
+                {
+                    Debug.Log("Enemy를 찾지 못했습니다.");
+                }
+                target = enemy.StateMachine;
+                target.TakeEffect(AttackEffectTypes.Stun, StunTime, gameObject);
             }
         }
-
-        // statemachine 이 idamageable 인터페이스 => takeeffect, takedamage
-        // attacker는 플레이어로, attackeffecttype은 넉백으로, value로 값 지정가능
-        Destroy(gameObject, 0);
+        Destroy(gameObject);
     }
 
 }

@@ -18,7 +18,12 @@ public class MeleeAttack : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
-        InitializeWeapons();
+        weapons = StateMachine.Enemy.Weapons;
+        if (weapons.Count == 0)
+        {
+            Debug.LogError("Weapon이 필요합니다.");
+            return;
+        }
     }
     public override void OnStart()
     {
@@ -90,19 +95,6 @@ public class MeleeAttack : AttackAction
                 Debug.LogError("MeleeAttack의 Indicator가 없습니다.");
             }
             AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
-        }
-    }
-    private void InitializeWeapons()
-    {
-        weapons = new Dictionary<int, Weapon>();
-        foreach(Weapon weapon in StateMachine.Enemy.GetComponentsInChildren<Weapon>())
-        {
-            weapons.Add(weapon.ID, weapon);
-        }
-        if (weapons.Count == 0)
-        {
-            Debug.LogError("Weapon이 필요합니다.");
-            return;
         }
     }
     private void SubscribeWeaponEvent()

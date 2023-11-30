@@ -104,6 +104,10 @@ public class LaunchProjectile : AttackAction
     /// <param name="projectile">투사체 자신의 정보입니다.</param>
     private void OnProjectileTriggerEnter(Collider other, Projectile projectile)
     {
+        if (projectile.Launcher == StateMachine.Enemy)
+        {
+            return;
+        }
         GameObject target = other.gameObject;
         ApplyAttack(target, true);
         projectilePool.Release(projectile);
@@ -117,7 +121,7 @@ public class LaunchProjectile : AttackAction
         if (isTargeting)
         {
             IPositionable target = StateMachine.PositionableTarget;
-            Vector3 verticalDirection = target.GetObjectCenterPosition() - (LaunchPointReference.transform.position + offset);
+            Vector3 verticalDirection = target.GetObjectCenterPosition() - (LaunchPointReference.transform.position + enemyTransform.TransformDirection(offset));
             verticalDirection.Normalize();
             verticalDirection.x = 0;
             verticalDirection.z = 0;
@@ -132,7 +136,7 @@ public class LaunchProjectile : AttackAction
     }
     private void SetProjectileInStraight()
     {
-        Vector3 LaunchPointRelativePosition = enemyTransform.InverseTransformPoint(LaunchPointReference.transform.position + offset);
+        Vector3 LaunchPointRelativePosition = enemyTransform.InverseTransformPoint(LaunchPointReference.transform.position) + offset;
         Vector3 startPosition = enemyTransform.TransformPoint(LaunchPointRelativePosition + new Vector3((projectileAmount - 1) / 2f * -spacing, 0, 0));
         Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0, 0);
         Vector3 direction = enemyTransform.TransformDirection(verticalRotation * Vector3.forward);

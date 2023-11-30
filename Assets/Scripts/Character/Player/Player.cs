@@ -108,35 +108,16 @@ public class Player : MonoBehaviour, IPositionable
         {
             StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
         }
-
-        
-        // InventoryManager.Instance.CallIsCheckItem(10011000, 1); // 아이템 있는지 없는지 bool값으로 반환해주는 코드
-
-        // InventoryManager.Instance.CallAddItem(10011000, -1);    // 아이템 소비 코드
-
-        /*
-        if (hasGrenades == 0)
-            return;
-
-        if(hasGrenades > 0)
+        else
         {
-            StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
-            hasGrenades--;
+            Debug.LogError("스턴볼 스크롤이 없습니다.");
         }
-        */
     }
 
     private IEnumerator CreateGrenadeCoroutine(float delayInSeconds)
     {
         yield return new WaitForSeconds(delayInSeconds);
-
-        GameObject instantGrenade = Instantiate(grenadeObj, throwPoint.position, transform.rotation);
-        Grenade grenade = instantGrenade.GetComponent<Grenade>();
-
-        if (grenade != null)
-        {
-            grenade.Init();
-        }
+        Instantiate(grenadeObj, throwPoint.position, transform.rotation);
     }
 
     public Vector3 GetObjectCenterPosition()
