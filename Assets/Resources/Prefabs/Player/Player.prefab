@@ -370,6 +370,33 @@ MonoBehaviour:
     uiBar: {fileID: 0}
     isShieldActive: 0
     shieldValue: 0
+  throwskill:
+    curValue: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
+    decayRate: 0
+    uiBar: {fileID: 0}
+    isShieldActive: 0
+    shieldValue: 0
+  noStamina:
+    curValue: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
+    decayRate: 0
+    uiBar: {fileID: 0}
+    isShieldActive: 0
+    shieldValue: 0
+  shield:
+    curValue: 0
+    maxValue: 10
+    startValue: 10
+    regenRate: 1
+    decayRate: 0
+    uiBar: {fileID: 0}
+    isShieldActive: 0
+    shieldValue: 0
   noHungerHealthDecay: 1
 --- !u!54 &7402780220865571953
 Rigidbody:
@@ -555,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6429838886098863425
 Transform:
   m_ObjectHideFlags: 0

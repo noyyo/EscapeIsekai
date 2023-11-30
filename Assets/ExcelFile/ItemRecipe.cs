@@ -26,7 +26,7 @@ public class ItemRecipe
         {
             if (isMaterialsReset)
             {
-                materials = materials_string.Split(',').Select(s => int.Parse(s)).ToArray();
+                materials = materials_string.Split(", ", StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
                 isMaterialsReset = false;
             }
             return materials; 

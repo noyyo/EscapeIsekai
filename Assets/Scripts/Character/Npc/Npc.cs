@@ -7,6 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class Npc : MonoBehaviour
 {
@@ -14,15 +15,17 @@ public class Npc : MonoBehaviour
     public bool isNPC;
     public TimelineAsset[] Motion;
     public bool isHit;
+    public Sprite pofile;
     private GameObject target;
     private GameObject player;
     private PlayerStateMachine stateMachine;
     PlayableDirector playableDirector;
     public GameObject[] marks;
-
+    private UI_Manager uI_Manager;
     private void Awake()
     {
         playableDirector = GetComponent<PlayableDirector>();
+        uI_Manager = UI_Manager.Instance;
     }
     private void Update()
     {
@@ -69,8 +72,9 @@ public class Npc : MonoBehaviour
         target = other.gameObject;
         if(other.tag == "Player")
         {
-            UI_Manager.Instance.itemName = "";
-            UI_Manager.Instance.itemExplanation = "대화하기";
+            uI_Manager.itemName = gameObject.name;
+            uI_Manager.itemExplanation = "대화하기";
+            uI_Manager.UI_gathering.Setting();
             UI_Manager.Instance.gathering.SetActive(true);
             isHit = true;
         }
@@ -81,7 +85,7 @@ public class Npc : MonoBehaviour
         if (other.tag == "Player")
         {
             isHit = false;
-                        UI_Manager.Instance.gathering.SetActive(false);
+            UI_Manager.Instance.gathering.SetActive(false);
         }
         target = null;
     }

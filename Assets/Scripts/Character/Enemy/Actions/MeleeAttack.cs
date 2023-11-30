@@ -23,17 +23,19 @@ public class MeleeAttack : AttackAction
             Debug.LogError("Weapon이 필요합니다.");
             return;
         }
-        weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
-        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
     }
     public override void OnStart()
     {
         base.OnStart();
+        weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
         StartAnimation(Config.AnimTriggerHash1);
     }
     public override void OnEnd()
     {
         base.OnEnd();
+        weapon.WeaponColliderEnter -= OnWeaponTriggerEnter;
+        StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= AnimEventDecision;
     }
     public override void OnUpdate()
     {
@@ -64,21 +66,26 @@ public class MeleeAttack : AttackAction
             indicator = AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Get();
             Transform transform = StateMachine.Enemy.transform;
             float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(StateMachine.Enemy.Agent.agentTypeID).agentSlope) * Condition.LessThanThisDistance;
-            Vector3 indicatorPosition = transform.position;
-            indicatorPosition.y += maxSlopeHeight;
+
             if (aoeType == AOETypes.Box)
             {
-                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+                Vector3 indicatorPosition = transform.TransformPoint(new Vector3(0, 0, Condition.LessThanThisDistance));
+                indicatorPosition.y += maxSlopeHeight;
+                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, weapon.ColliderSize.x, Condition.LessThanThisDistance, maxSlopeHeight * 2);
             }
             else
             {
+                Vector3 indicatorPosition = transform.position;
+                indicatorPosition.y += maxSlopeHeight;
                 indicator.IndicateCircleAOE(indicatorPosition, transform.forward, Condition.LessThanThisDistance, maxSlopeHeight * 2);
             }
         }
         else if (animEvent.stringParameter == "AOEIndicatorOff")
         {
             if (indicator == null)
-                return;
+            {
+                Debug.LogError("MeleeAttack의 Indicator가 없습니다.");
+            }
             AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
         }
     }

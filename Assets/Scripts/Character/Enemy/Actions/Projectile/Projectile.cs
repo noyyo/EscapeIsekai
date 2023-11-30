@@ -12,6 +12,8 @@ public enum ProjectileLaunchTypes
     Shoot,
     Drop,
 }
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class Projectile : MonoBehaviour
 {
     public event Action<Collider, Projectile> ProjetileColliderEnter;
@@ -20,6 +22,10 @@ public class Projectile : MonoBehaviour
     public Enemy Launcher { get; private set; }
     [Tooltip("해당 시간이 지날 때까지 부딪히지 않는다면 자동으로 소멸됩니다.")]
     [SerializeField][Range(1f, 20f)] private float disappearTime = 5f;
+    [Tooltip("꼬리 이펙트를 남길 파티클을 지정합니다. 없어도 무관합니다.")]
+    [SerializeField] private ParticleSystem trailParticlePrefab;
+    private ParticleSystem trailParticle;
+    private float initialEmissionRateOverTime;
     private ProjectileLaunchTypes launchType;
     private AOETypes indicatorAOEType;
     private bool isInfoSetted;
@@ -36,6 +42,12 @@ public class Projectile : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
         colliderSize = collider.bounds.extents * 2;
+        if (trailParticlePrefab != null)
+        {
+            trailParticle = Instantiate(trailParticlePrefab, transform);
+            ParticleSystem.EmissionModule emissionModule = trailParticle.emission;
+            initialEmissionRateOverTime = emissionModule.rateOverTime.constant;
+        }
     }
     /// <summary>
     /// 투사체가 발사될 정보를 설정합니다.
@@ -119,6 +131,16 @@ public class Projectile : MonoBehaviour
         }
         rigidbody.AddForce(direction * rigidbody.mass * launchSpeed, ForceMode.Impulse);
         StartCoroutine(WaitDisapperTime());
+        if (trailParticle != null)
+        {
+            ParticleSystem.MainModule mainModule = trailParticle.main;
+            mainModule.emitterVelocity = new Vector3(0, 0, launchSpeed);
+            mainModule.startLifetimeMultiplier = 1 / launchSpeed;
+            ParticleSystem.EmissionModule emissionModule = trailParticle.emission;
+            initialEmissionRateOverTime = emissionModule.rateOverTime.constant;
+            emissionModule.rateOverTime = initialEmissionRateOverTime / (mainModule.startLifetime.constant * mainModule.startLifetimeMultiplier);
+            trailParticle.Play();
+        }
     }
     public void LerpIndicatorScale(float multScale, float lerpTime)
     {
@@ -142,6 +164,8 @@ public class Projectile : MonoBehaviour
     {
         if (indicator != null)
             ReleaseIndicator();
+        if (trailParticle != null)
+            trailParticle.Stop();
         StopAllCoroutines();
         gameObject.SetActive(false);
         rigidbody.velocity = Vector3.zero;
