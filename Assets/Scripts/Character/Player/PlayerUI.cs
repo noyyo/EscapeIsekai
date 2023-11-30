@@ -15,4 +15,5 @@ public class PlayerUI : MonoBehaviour
     public Image NoStamina_Image;
     public Image Shield_Image;
     public Image[] Locks = new Image[3];
+    public Image Roll_Image;
 }

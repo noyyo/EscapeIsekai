@@ -139,6 +139,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Option",
+                    "type": "Button",
+                    "id": "c66284f5-c5ea-482f-8192-509ecdacdbee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -348,6 +357,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TimeSlip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea72aefc-0399-4bf5-9509-067cc1f00fb7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Option",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

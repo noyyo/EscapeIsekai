@@ -11,6 +11,9 @@ public class MaterialsSlot : MonoBehaviour
     private int itemCount;
     private int consumption;
     private ItemCraftingManager craftingManager;
+    private bool isCraftingItem;
+    private readonly string slash = " / ";
+    private readonly string multiplication = "X ";
 
     private void Awake()
     {
@@ -24,31 +27,34 @@ public class MaterialsSlot : MonoBehaviour
         craftingManager.OnCraftingEvent += UpdateItemData;
     }
 
-    public void GetItemData(ItemData_Test newItem, int consumption, int count)
+    public void GetItemData(ItemData_Test newItem, int consumption, int count, bool isCrafting)
     {
         icon.enabled = true;
         icon.sprite = newItem.Icon;
         itemCount = count;
         this.consumption = consumption;
+        isCraftingItem = isCrafting;
         UpdateText();
     }
 
-    public void GetItemData(int id, int consumption, int count)
+    public void GetItemData(int id, int consumption, int count, bool isCrafting)
     {
         icon.enabled = true;
         itemDB.GetItemData(id, out ItemData_Test newItem);
         icon.sprite = newItem.Icon;
         itemCount = count;
         this.consumption = consumption;
+        isCraftingItem = isCrafting;
         UpdateText();
     }
 
-    public void GetItemData(Sprite icon, int consumption, int count)
+    public void GetItemData(Sprite icon, int consumption, int itemCount, bool isCrafting)
     {
         this.icon.enabled = true;
         this.icon.sprite = icon;
-        itemCount = count;
+        this.itemCount = itemCount;
         this.consumption = consumption;
+        isCraftingItem = isCrafting;
         UpdateText();
     }
 
@@ -61,15 +67,22 @@ public class MaterialsSlot : MonoBehaviour
 
     public void UpdateText()
     {
-        text.text = itemCount + " / " + consumption;
-
-        if (consumption == 0)
-            text.text = "";
-
-        if (consumption > itemCount)
-            text.color = Color.red;
+        if (isCraftingItem)
+        {
+            text.text = multiplication + itemCount;
+        }
         else
-            text.color = Color.black;
+        {
+            if (consumption == 0)
+                text.text = "";
+            else
+                text.text = itemCount + slash + consumption;
+
+            if (consumption > itemCount)
+                text.color = Color.red;
+            else
+                text.color = Color.black;
+        }
     }
 
     public void Init()

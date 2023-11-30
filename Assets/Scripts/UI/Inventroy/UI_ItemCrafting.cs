@@ -9,18 +9,21 @@ public class UI_ItemCrafting : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private Button inventoryButton;
     [SerializeField] private TMP_Text craftPriceText;
-    [SerializeField] private TMP_Text[] itemText;
+    [SerializeField] private TMP_Text money;
     private ItemDB itemDB;
     private UI_Manager ui_Manager;
     private ItemCraftingManager craftingManager;
     private InventoryManager inventoryManager;
-    
+    private TradingManager tradingManager;
+    private TMP_Text[] itemText;
+
     private void Awake()
     {
         itemDB = ItemDB.Instance;
         craftingManager = ItemCraftingManager.Instance;
         ui_Manager = UI_Manager.Instance;
         inventoryManager = InventoryManager.Instance;
+        tradingManager = TradingManager.Instance;
     }
 
     public void Start()
@@ -32,6 +35,7 @@ public class UI_ItemCrafting : MonoBehaviour
         craftingManager.OnUpdateUIEvent += UpdatePriceText;
         craftingManager.OnUpdateUIEvent += UpdateItemExplanationText;
         craftingManager.OnUpdateUIEvent += AddMaterialsSlot;
+        tradingManager.moneyTextUpdateEvent += MoneyTextUpdate;
     }
 
     private void Init()
@@ -90,11 +94,11 @@ public class UI_ItemCrafting : MonoBehaviour
     public void AddMaterialsSlot(ItemRecipe clickSlot)
     {
         Sprite[] sprites = inventoryManager.CallIsCheckItems(clickSlot, out int[] sum);
-        craftingManager.MaterialsSlots[0].GetItemData(sprites[0], 0, 0);
+        craftingManager.MaterialsSlots[0].GetItemData(sprites[0], 0, clickSlot.AvailableCount, true);
         int materialsLength = craftingManager.ClickSlot.Materials.Length;
         for (int i = 1; i <= materialsLength; i++)
         {
-            craftingManager.MaterialsSlots[i].GetItemData(sprites[i], craftingManager.ClickSlot.MaterialsCount[i - 1], sum[i - 1]);
+            craftingManager.MaterialsSlots[i].GetItemData(sprites[i], craftingManager.ClickSlot.MaterialsCount[i - 1], sum[i - 1], false);
         }
         if (materialsLength != 7)
         {
@@ -103,5 +107,10 @@ public class UI_ItemCrafting : MonoBehaviour
                 craftingManager.MaterialsSlots[i].Init();
             }
         }
+    }
+
+    private void MoneyTextUpdate()
+    {
+        money.text = tradingManager.PlayerMoney.ToString();
     }
 }

@@ -33,13 +33,6 @@ public class TradingController : MonoBehaviour
         Init();
     }
 
-    private void Start()
-    {
-        tradingManager.addShopItem += AddShopItem;
-        tradingManager.clickSlotButtonEvent += () => ClickSlot(tradingManager.ClickID);
-        tradingManager.clickBuyButtonEvent += ClickActionButton;
-    }
-
     private void Init()
     {
         shopSlotSpawnTransform = ui_Manager.Trading_UI.transform.GetChild(3).GetChild(0).GetChild(0);
@@ -48,6 +41,9 @@ public class TradingController : MonoBehaviour
         playerInventoryDatas = inventoryManager.ItemDics;
         shopItemDatas = tradingManager.ShopItemIDList;
         repurchaseItem = tradingManager.RepurchaseItem;
+        tradingManager.addShopItem += AddShopItem;
+        tradingManager.clickSlotButtonEvent += () => ClickSlot(tradingManager.ClickID);
+        tradingManager.clickBuyButtonEvent += ClickActionButton;
         CreatePlayerSlot();
     }
 
