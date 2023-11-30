@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +21,8 @@ public class Enemy : MonoBehaviour, IPositionable
     public  AttackAction[] Actions;
     public EnemyForceReceiver ForceReceiver { get; private set; }
     public AnimationEventReceiver AnimEventReceiver { get; private set; }
+    public Dictionary<PointReferenceTypes, PointReference> PointReferences { get; private set; }
+
     private void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
@@ -29,6 +32,11 @@ public class Enemy : MonoBehaviour, IPositionable
         Agent = GetComponent<NavMeshAgent>();
         ForceReceiver = GetComponent<EnemyForceReceiver>();
         AnimEventReceiver = GetComponentInChildren<AnimationEventReceiver>();
+        PointReferences = new Dictionary<PointReferenceTypes, PointReference>();
+        foreach (PointReference point in GetComponentsInChildren<PointReference>())
+        {
+            PointReferences.Add(point.PointType, point);
+        }
         StateMachine = new EnemyStateMachine(this);
         Init();
     }
@@ -62,6 +70,10 @@ public class Enemy : MonoBehaviour, IPositionable
             Actions[i].SetStateMachine(StateMachine);
             Actions[i].OnAwake();
         }
+    }
+    private void InitializePointReference()
+    {
+
     }
     public void ResetEnemy()
     {
