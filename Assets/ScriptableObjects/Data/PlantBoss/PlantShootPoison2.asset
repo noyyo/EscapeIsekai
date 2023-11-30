@@ -26,6 +26,7 @@ MonoBehaviour:
     BattleTime: 0
     IsInBattle: 0
     IsDead: 0
+    IsMovable: 0
   ActionType: 2
   Config:
     RestTimeAfterAction: 0
@@ -55,10 +56,11 @@ MonoBehaviour:
   lastUsedTime: 0
   projectilePrefab: {fileID: 5412261450917357438, guid: f27923f2b10443340b1a282a54c5a7fb,
     type: 3}
-  projectileAmount: 18
+  projectileAmount: 9
   projectileSpeed: 6
-  horizontalAngle: 360
+  horizontalAngle: 120
   verticalAngle: 0
   spacing: 1
   isTargeting: 1
-  offset: {x: 0.23, y: 2.35, z: 3.2}
+  sizeScale: 1
+  offset: {x: 0, y: 0, z: 1.5}

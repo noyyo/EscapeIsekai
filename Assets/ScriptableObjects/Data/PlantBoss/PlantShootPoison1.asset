@@ -26,6 +26,7 @@ MonoBehaviour:
     BattleTime: 0
     IsInBattle: 0
     IsDead: 0
+    IsMovable: 0
   ActionType: 2
   Config:
     RestTimeAfterAction: 0
@@ -57,8 +58,9 @@ MonoBehaviour:
     type: 3}
   projectileAmount: 3
   projectileSpeed: 6
-  horizontalAngle: 0
+  horizontalAngle: 30
   verticalAngle: 0
   spacing: 1
   isTargeting: 1
-  offset: {x: 0.23, y: 2.35, z: 3.2}
+  sizeScale: 1
+  offset: {x: 0, y: 0, z: 1.5}

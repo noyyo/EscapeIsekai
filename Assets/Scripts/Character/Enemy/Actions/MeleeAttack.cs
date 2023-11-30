@@ -6,7 +6,8 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "MeleeAttack", menuName = "Characters/Enemy/AttackAction/MeleeAttack")]
 public class MeleeAttack : AttackAction
 {
-    [SerializeField][ReadOnly] private Weapon weapon;
+    private Dictionary<int, Weapon> weapons;
+    private Weapon weapon;
     [SerializeField] private AOETypes aoeType;
     private AOEIndicator indicator;
 
@@ -17,24 +18,19 @@ public class MeleeAttack : AttackAction
     public override void OnAwake()
     {
         base.OnAwake();
-        weapon = StateMachine.Enemy.GetComponentInChildren<Weapon>();
-        if (weapon == null)
-        {
-            Debug.LogError("Weapon이 필요합니다.");
-            return;
-        }
+        InitializeWeapons();
     }
     public override void OnStart()
     {
         base.OnStart();
-        weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
+        SubscribeWeaponEvent();
         StateMachine.Enemy.AnimEventReceiver.AnimEventCalled += AnimEventDecision;
         StartAnimation(Config.AnimTriggerHash1);
     }
     public override void OnEnd()
     {
         base.OnEnd();
-        weapon.WeaponColliderEnter -= OnWeaponTriggerEnter;
+        UnsubscribeWeaponEvent();
         StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= AnimEventDecision;
     }
     public override void OnUpdate()
@@ -61,6 +57,13 @@ public class MeleeAttack : AttackAction
 
         if (animEvent.stringParameter == "AOEIndicatorOn")
         {
+            // ID를 통해 weapon 선택
+            weapon = weapons[animEvent.intParameter];
+            if (weapon == null)
+            {
+                Debug.LogError("해당하는 ID를 가진 웨폰이 없습니다. 이벤트로 넘겨주는 int파라미터를 확인하세요.");
+                return;
+            }
             if (aoeType == AOETypes.None)
                 return;
             indicator = AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Get();
@@ -71,7 +74,7 @@ public class MeleeAttack : AttackAction
             {
                 Vector3 indicatorPosition = transform.TransformPoint(new Vector3(0, 0, Condition.LessThanThisDistance));
                 indicatorPosition.y += maxSlopeHeight;
-                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, weapon.ColliderSize.x, Condition.LessThanThisDistance, maxSlopeHeight * 2);
+                indicator.IndicateBoxAOE(indicatorPosition, transform.forward, weapon.ColliderSize.x, Condition.LessThanThisDistance - Condition.MoreThanThisDistance, maxSlopeHeight * 2);
             }
             else
             {
@@ -87,6 +90,33 @@ public class MeleeAttack : AttackAction
                 Debug.LogError("MeleeAttack의 Indicator가 없습니다.");
             }
             AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+        }
+    }
+    private void InitializeWeapons()
+    {
+        weapons = new Dictionary<int, Weapon>();
+        foreach(Weapon weapon in StateMachine.Enemy.GetComponentsInChildren<Weapon>())
+        {
+            weapons.Add(weapon.ID, weapon);
+        }
+        if (weapons.Count == 0)
+        {
+            Debug.LogError("Weapon이 필요합니다.");
+            return;
+        }
+    }
+    private void SubscribeWeaponEvent()
+    {
+        foreach (Weapon weapon in weapons.Values)
+        {
+            weapon.WeaponColliderEnter += OnWeaponTriggerEnter;
+        }
+    }
+    private void UnsubscribeWeaponEvent()
+    {
+        foreach (Weapon weapon in weapons.Values)
+        {
+            weapon.WeaponColliderEnter -= OnWeaponTriggerEnter;
         }
     }
     private void OnWeaponTriggerEnter(Collider other)

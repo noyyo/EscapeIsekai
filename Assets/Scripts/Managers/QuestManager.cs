@@ -14,7 +14,6 @@ public class QuestManager : MonoBehaviour
     public TextMeshProUGUI header;
     public TextMeshProUGUI content;
     Dictionary<int, QuestData> questList;
-
     public static QuestManager Instance;
 
     private void Awake()
@@ -27,10 +26,10 @@ public class QuestManager : MonoBehaviour
     private void GenerataData()
     {
         //메인 퀘스트
-        questList.Add(10, new QuestData("마법사와 첫만남- 유물을 찾아서", new int[] {1} ,"유물을 찾으러 모험을 떠나보자"));
-        questList.Add(11, new QuestData("두번째 유물을 찾아서", new int[] { 1 },"안가본지역을 가보자"));
-        questList.Add(12, new QuestData("세번째 유물을 찾아서", new int[] { 1 }, "안가본지역을 가보자"));
-        questList.Add(13, new QuestData("마지막 유물을 찾아서", new int[] { 1 }, "안가본지역을 가보자"));
+        questList.Add(10, new QuestData("마법사와 첫만남- 유물을 찾아서", new int[] {1} , "마법사에게 정보를 듣고 유물을 찾아보자."));
+        questList.Add(11, new QuestData("두번째 유물을 찾아서", new int[] { 1 },"유물을 찾아서 마법사에게 전달하자."));
+        questList.Add(12, new QuestData("세번째 유물을 찾아서", new int[] { 1 }, "유물을 찾아서 마법사에게 전달하자."));
+        questList.Add(13, new QuestData("마지막 유물을 찾아서", new int[] { 1 }, "유물을 찾아서 마법사에게 전달하자."));
         questList.Add(14, new QuestData("집으로", new int[] { 1 }, "뒷마당으로"));
 
     }

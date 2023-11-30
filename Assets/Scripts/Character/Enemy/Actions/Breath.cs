@@ -16,7 +16,7 @@ public class Breath : AttackAction
     private ParticleSystem particle;
     private ParticleMediator breathParticle;
     private AOEIndicator indicator;
-    private Vector3 initialPosition;
+    private PointReference breathReference;
     [Header("브레스가 쏘아질 AOE 입니다. 30또는 45가 아니라면 오류가 발생합니다.")]
     [SerializeField] private AOETypes aoeType;
 
@@ -35,8 +35,7 @@ public class Breath : AttackAction
     [SerializeField] private bool isTargeting;
     [Tooltip("브레스 시작점에서 파티클을 쏘아낼 수직방향 각도입니다.")]
     [SerializeField][Range(15f, 45f)] private float particleVerticalAngle = 30f;
-    [Tooltip("파티클이 생성되는 위치 오프셋입니다.")]
-    [SerializeField] private Vector3 offset;
+
     public Breath() : base()
     {
         ActionType = ActionTypes.Breath;
@@ -86,7 +85,8 @@ public class Breath : AttackAction
         else if (animEvent.stringParameter == "AOEIndicatorOn")
         {
             indicator = AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Get();
-            Vector3 indicatorPosition = particle.transform.position;
+            Vector3 indicatorPosition = StateMachine.Enemy.transform.position;
+            indicatorPosition.y += StateMachine.Enemy.transform.InverseTransformPoint(particle.transform.position).y;
             if (isTargeting)
             {
                 AdjustBreathVerticalAngle();
@@ -105,20 +105,19 @@ public class Breath : AttackAction
     }
     private void InitializeParticle()
     {
-        Transform enemyTransform = StateMachine.Enemy.transform;
-        initialPosition = enemyTransform.position + offset;
-        Quaternion particleRotation;
-        if (!isTargeting)
-            particleRotation = Quaternion.Euler(breathVerticalAngle, 0, 0);
-        else
-            particleRotation = Quaternion.Euler(0,0,0);
-        particle = Instantiate(breathParticlePrefab, initialPosition, particleRotation, enemyTransform);
+        breathReference = StateMachine.Enemy.PointReferences[PointReferenceTypes.Breath];
+        if (isTargeting)
+            breathVerticalAngle = 0;
+        particle = Instantiate(breathParticlePrefab, breathReference.transform);
+        particle.transform.localRotation = Quaternion.Euler(breathVerticalAngle, 0, 0);
         ParticleSystem.MainModule main = particle.main;
         ParticleSystem.ShapeModule shape = particle.shape;
 
 
         main.startLifetime = Condition.LessThanThisDistance / startSpeed;
         main.maxParticles = maxParticle;
+        ParticleSystem.EmissionModule emission = particle.emission;
+        emission.rateOverTime = (int)(maxParticle / main.startLifetime.constant);
         main.startSize = startSize;
 
         switch (aoeType)
@@ -151,12 +150,12 @@ public class Breath : AttackAction
         if (!isTargeting)
             return;
         IPositionable target = StateMachine.PositionableTarget;
-        Vector3 direction = target.GetObjectCenterPosition() - StateMachine.Enemy.transform.TransformPoint(offset);
+        Vector3 direction = target.GetObjectCenterPosition() - breathReference.transform.position;
         direction.Normalize();
         breathVerticalAngle = -Mathf.Asin(direction.y) * Mathf.Rad2Deg;
         Mathf.Clamp(breathVerticalAngle, -30f, 30f);
-        Quaternion particleRotation = Quaternion.Euler(breathVerticalAngle, particle.transform.rotation.eulerAngles.y, particle.transform.rotation.eulerAngles.z);
-        particle.transform.rotation = particleRotation;
+        Quaternion particleRotation = Quaternion.Euler(breathVerticalAngle, 0, 0);
+        particle.transform.localRotation = particleRotation;
     }
     private void OnParticleCollision(GameObject other)
     {
@@ -164,10 +163,10 @@ public class Breath : AttackAction
     }
     protected override void OnDrawGizmo(Transform enemyTransform)
     {
-        Gizmos.color = Color.red;
-        Vector3 startPosition = enemyTransform.position + offset;
-        Quaternion verticalRotation = Quaternion.Euler(0, particleVerticalAngle, 0);
-        Vector3 direction = verticalRotation * enemyTransform.forward;
-        Gizmos.DrawRay(startPosition, direction * Condition.LessThanThisDistance);
+        //Gizmos.color = Color.red;
+        //Vector3 startPosition = enemyTransform.position;
+        //Quaternion verticalRotation = Quaternion.Euler(0, particleVerticalAngle, 0);
+        //Vector3 direction = verticalRotation * enemyTransform.forward;
+        //Gizmos.DrawRay(startPosition, direction * Condition.LessThanThisDistance);
     }
 }

@@ -81,7 +81,7 @@ public class Npc : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        stateMachine.ChangeState(stateMachine.IdleState);
+     //   stateMachine.ChangeState(stateMachine.IdleState);
         if (other.tag == "Player")
         {
             isHit = false;
@@ -98,7 +98,7 @@ public class Npc : MonoBehaviour
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
             UI_Manager.Instance.gathering.SetActive(false);
-            stateMachine.ChangeState(stateMachine.NothingState);
+          //  stateMachine.ChangeState(stateMachine.NothingState);
         }
     }
 
