@@ -36,6 +36,9 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public event Action<Item> OnItemExplanationPopUpEvent;
     public event Action<ItemType> OnSetDisplayTypeEvent;
 
+    public event Action<Item> OnEquipItemEvent;
+    public event Action<Item> UnEquipItemEvent;
+
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -180,5 +183,14 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public Sprite[] CallIsCheckItems(in ItemRecipe newRecipe)
     {
         return inventory.IsCheckItems(newRecipe);
+    }
+
+    public void CallOnEquipItemEvent(Item item)
+    {
+        OnEquipItemEvent?.Invoke(item);
+    }
+    public void CallUnEquipItemEvent(Item item)
+    {
+        UnEquipItemEvent?.Invoke(item);
     }
 }

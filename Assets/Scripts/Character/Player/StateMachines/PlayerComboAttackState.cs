@@ -8,6 +8,7 @@ public class PlayerComboAttackState : PlayerAttackState
     private bool alreadyAppliedForce;
 
     AttackInfoData attackInfoData;
+
     protected HashSet<GameObject> alreadyCollided = new HashSet<GameObject>();
     public PlayerComboAttackState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
@@ -127,7 +128,7 @@ public class PlayerComboAttackState : PlayerAttackState
             target = environmentObj;
         }
 
-        target?.TakeDamage(attackInfoData.Damage + attackInfoData.Power);
+        target?.TakeDamage(attackInfoData.Damage + stateMachine.Player.Playerconditions.Power);
         target?.TakeEffect(attackInfoData.AttackEffectType, attackInfoData.AttackEffectValue, stateMachine.Player.gameObject);
     }
 }
