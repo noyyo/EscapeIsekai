@@ -18,7 +18,6 @@ public class ChargingAttack : AttackAction
     private bool isChargingEnd;
     private bool isIndicatorOn;
     private Vector3 targetPosition;
-    private Quaternion targetRotation;
     private AOEIndicator indicator;
     private NavMeshAgent agent;
 

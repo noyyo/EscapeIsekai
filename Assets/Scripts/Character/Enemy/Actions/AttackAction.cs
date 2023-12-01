@@ -13,6 +13,7 @@ public enum ActionTypes
     LaunchProjectile,
     CharingAttack,
     ProjectileRain,
+    HideAndAttack,
 }
 public enum AnimState
 {

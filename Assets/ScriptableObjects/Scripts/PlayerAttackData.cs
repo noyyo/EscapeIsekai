@@ -17,9 +17,6 @@ public class AttackInfoData
     [field: SerializeField] public AttackEffectTypes AttackEffectType { get; private set; }
     [field: SerializeField] public float AttackEffectValue { get; private set; }
     [field: SerializeField] public int Damage { get; private set; }
-    [field: SerializeField] public int Power = 10;
-
-    
 }
 
 

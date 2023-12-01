@@ -14,5 +14,8 @@ public static class TagsAndLayers
 
     #region Layers
     public static readonly string GroundLayer = "Ground";
+    public static readonly int GroundLayerIndex = LayerMask.NameToLayer(GroundLayer);
+    public static readonly string CharacterLayer = "Character";
+    public static readonly int CharacterLayerIndex = LayerMask.NameToLayer(CharacterLayer);
     #endregion
 }

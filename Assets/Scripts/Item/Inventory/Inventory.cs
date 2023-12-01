@@ -499,6 +499,7 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("장비를 장착합니다..");
             itemDics[(int)displayType][clickSlotIndex].IsEquip = true;
+            inventoryManager.CallOnEquipItemEvent(itemDics[(int)displayType][clickSlotIndex]);
             slotList[clickSlotIndex].DisplayEquip();
             //사용 버튼의 텍스트를 장비해제으로 수정
             inventoryManager.CalOnTextChangeUnEquipEvent();
@@ -507,6 +508,7 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("장비를 해제합니다.");
             itemDics[(int)displayType][clickSlotIndex].IsEquip = false;
+            inventoryManager.CallUnEquipItemEvent(itemDics[(int)displayType][clickSlotIndex]);
             slotList[clickSlotIndex].UnDisplayEquip();
             //사용 버튼의 텍스트를 장비착용으로 수정
             inventoryManager.CallOnTextChangeEquipEvent();
