@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 public class CutScene : MonoBehaviour
 {
     private PlayableDirector _pd;
-    [SerializeField] private TimelineAsset _ta;
-    [SerializeField] private GameObject _cylinder; //ºû±âµÕ
+    private TimelineAsset _ta;
+    private GameObject _cylinder; //ºû±âµÕ
     private PlayerInput _playerInput;
     private CylinderLighting timeCylinder; //ºû±âµÕ Active Å¬·¡½º
     private bool isPlaying = false;
@@ -20,7 +20,13 @@ public class CutScene : MonoBehaviour
         _pd = GetComponent<PlayableDirector>();
         _playerInput = GetComponent<PlayerInput>();
         lightCoroutine = LightCylinder();
+        if(_cylinder == null)
+        {
+            _cylinder = Instantiate(Resources.Load("Prefabs/Entities/Environments/LightCylinder", typeof(GameObject))) as GameObject;
+            _cylinder.SetActive(false);
+        }
         timeCylinder = _cylinder.GetComponent<CylinderLighting>();
+        _ta = (TimelineAsset)Resources.Load("Externals/Timeline/PlayerTimeline", typeof(TimelineAsset));
     }
 
     void OnNavigate()
