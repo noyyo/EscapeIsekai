@@ -17,9 +17,6 @@ public class Condition
     public float decayRate;
     public Image uiBar;
 
-    public bool isShieldActive;
-    public float shieldValue;
-
     public void Add(float amount)
     {
         curValue = Mathf.Min(curValue + amount, maxValue);
@@ -36,16 +33,6 @@ public class Condition
         return curValue / maxValue;
     }
 
-    public void ActivateShield(float shieldAmount)
-    {
-        shieldValue = shieldAmount;
-        isShieldActive = true;
-    }
-
-    public void DeActivateShield()
-    {
-        isShieldActive = false;
-    }
 }
 
 
@@ -60,6 +47,7 @@ public class Playerconditions : MonoBehaviour
     public Condition throwskill;
     public Condition noStamina;
     public Condition shield;
+    public Condition rollCoolTime;
     public float noHungerHealthDecay;
 
     private InventoryManager inventoryManager;
@@ -121,6 +109,9 @@ public class Playerconditions : MonoBehaviour
         shield.curValue = shield.startValue;
         shield.uiBar = playerUI.Shield_Image;
 
+        rollCoolTime.curValue = rollCoolTime.startValue;
+        rollCoolTime.uiBar = playerUI.Roll_Image;
+
         inventoryManager = InventoryManager.Instance;
         inventoryManager.OnEquipItemEvent += Equip;
         inventoryManager.UnEquipItemEvent += UnEquip;
@@ -136,16 +127,11 @@ public class Playerconditions : MonoBehaviour
         throwskill.Add(throwskill.regenRate * Time.deltaTime);
         noStamina.Add(noStamina.regenRate * Time.deltaTime);
         shield.Add(shield.regenRate * Time.deltaTime);
+        rollCoolTime.Add(rollCoolTime.regenRate * Time.deltaTime);
 
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
 
-        if (health.isShieldActive)
-        {
-            health.Subtract(health.decayRate * Time.deltaTime);
-            if(health.curValue == 0.0f)
-                health.DeActivateShield();
-        }
 
         health.uiBar.fillAmount = health.GetPercentage();
         hunger.uiBar.fillAmount = hunger.GetPercentage();
@@ -156,6 +142,7 @@ public class Playerconditions : MonoBehaviour
         throwskill.uiBar.fillAmount = throwskill.GetPercentage();
         noStamina.uiBar.fillAmount = noStamina.GetPercentage();
         shield.uiBar.fillAmount = shield.GetPercentage();
+        rollCoolTime.uiBar.fillAmount = rollCoolTime.GetPercentage();
     }
 
     public void Heal(float amount)
@@ -189,6 +176,14 @@ public class Playerconditions : MonoBehaviour
         nostaminaActive = false;
     }
 
+    public bool RollCoolTime(float amount)
+    {
+        if(rollCoolTime.curValue - amount < 0)
+            return false;
+
+        rollCoolTime.Subtract(rollCoolTime.maxValue);
+        return true;
+    }
 
     public bool UseSkill(float amount)
     {
