@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -145,7 +146,7 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 700) //차원문
                 {
-                    Debug.Log("엔딩씬 로드");
+                    SceneManager.LoadScene("EndScene");
                 }
                 if (id == 800) //유물
                 {
