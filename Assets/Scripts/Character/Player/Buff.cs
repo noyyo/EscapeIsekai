@@ -44,7 +44,7 @@ public class Buff : MonoBehaviour
                 break;
             case BuffTypes.shield:
                 Debug.Log("보호막 활성화");
-                playerconditions.ActivateShield(1000);
+                playerStateMachine.ActivateShield();
                 break;
             default:
                 break;
@@ -64,7 +64,7 @@ public class Buff : MonoBehaviour
                 break;
             case BuffTypes.shield:
                 Debug.Log("보호막 사라짐");
-                playerconditions.DeActivateShield();
+                playerStateMachine.DeActivateShield();
                 break;
             default:
                 break;

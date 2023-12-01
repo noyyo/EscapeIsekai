@@ -45,6 +45,10 @@ public class PlayerStateMachine : StateMachine, IDamageable
     private float checkDelay = 0.1f;
     private float lastCheckTime;
 
+    Playerconditions playerconditions = new Playerconditions();
+
+    private bool shieldActive = false;
+
     public event Action OnDie;
 
     public Transform MainCameraTransform { get; set; }
@@ -115,11 +119,29 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
     public void TakeDamage(int damage)
     {
-        Player.Playerconditions.health.Subtract(damage);
+        if (!shieldActive)
+        {
+            Player.Playerconditions.health.Subtract(damage - playerconditions.Guard);
+        }
+        else
+        {
+            return;
+        }
+        
         if (Player.Playerconditions.health.curValue <= 0f)
         {
             OnDie?.Invoke();
         }
+    }
+
+    public void ActivateShield()
+    {
+        shieldActive = true;
+    }
+
+    public void DeActivateShield()
+    {
+        shieldActive = false;
     }
 
     private void Dead()
@@ -153,9 +175,10 @@ public class PlayerStateMachine : StateMachine, IDamageable
     }
     private void OnWeaponColliderEnter(Collider other)
     {
-        if (currentState != ComboAttackState)
+        if (currentState != ComboAttackState && currentState != SkillState)
             return;
 
         ComboAttackState.ApplyAttack(other);
+        SkillState.ApplyAttack(other);
     }
 }
