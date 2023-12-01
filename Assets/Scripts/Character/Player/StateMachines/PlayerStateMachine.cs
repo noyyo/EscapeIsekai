@@ -119,7 +119,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
     public void TakeDamage(int damage)
     {
-        if (!shieldActive)
+        if (!shieldActive && currentState != RollState)
         {
             Player.Playerconditions.health.Subtract(damage - playerconditions.Guard);
         }

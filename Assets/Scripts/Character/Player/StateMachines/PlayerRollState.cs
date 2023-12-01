@@ -13,10 +13,11 @@ public class PlayerRollState : PlayerGroundState
         base.Enter();
         isMovable = true;
         isStateChangeable = false;
+        
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         TryApplyForce();
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
-        DisablePlayerCollider();
+        stateMachine.Player.Playerconditions.RollCoolTime(groundData.RollCoolTime);
     }
 
     public override void Exit()
@@ -25,7 +26,6 @@ public class PlayerRollState : PlayerGroundState
         isMovable = true;
         isStateChangeable = true;
         StopAnimation(stateMachine.Player.AnimationData.RollParameterHash);
-        EnablePlayerCollider();
     }
 
 
@@ -35,35 +35,12 @@ public class PlayerRollState : PlayerGroundState
         stateMachine.Player.ForceReceiver.AddForce(stateMachine.Player.transform.forward * groundData.RollForce);
     }
 
-    private void DisablePlayerCollider()
-    {
-        CapsuleCollider playercollider = stateMachine.Player.GetComponent<CapsuleCollider>();
-        //CharacterController characterController = stateMachine.Player.GetComponent<CharacterController>();
-
-        if (playercollider != null /*&& characterController != null*/)
-        {
-            playercollider.enabled = false;
-            //characterController.enabled = false;
-        }
-    }
-
-    private void EnablePlayerCollider()
-    {
-        CapsuleCollider playercollider = stateMachine.Player.GetComponent<CapsuleCollider>();
-        CharacterController characterController = stateMachine.Player.GetComponent<CharacterController>();
-
-        if (playercollider != null && characterController != null)
-        {
-            playercollider.enabled = true;
-            characterController.enabled = true;
-        }
-    }
 
     public override void Update()
     {
         base.Update();
         float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Roll");
-        if (normalizedTime < 1f)
+        if (normalizedTime <= 1f)
         {
             return;
         }

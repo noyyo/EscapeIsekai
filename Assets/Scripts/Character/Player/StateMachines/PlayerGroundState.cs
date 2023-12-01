@@ -123,6 +123,8 @@ public class PlayerGroundState : PlayerBaseState
     {
         if (stateMachine.Player.Playerconditions.stamina.curValue < groundData.StaminaCost)
             return;
+        if (stateMachine.Player.Playerconditions.rollCoolTime.curValue < groundData.RollCoolTime)
+            return;
         stateMachine.ChangeState(stateMachine.RollState);
     }
 
