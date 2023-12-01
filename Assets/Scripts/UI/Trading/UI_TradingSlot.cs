@@ -55,7 +55,7 @@ public class UI_TradingSlot : MonoBehaviour
 
     public void DisPlayItemData(int id, int count)
     {
-        if(itemDB.GetItemData(id, out ItemData_Test itemData))
+        if(itemDB.GetItemData(id, out ItemData itemData))
         {
             itemID = id;
             icon.sprite = itemData.Icon;
@@ -68,7 +68,7 @@ public class UI_TradingSlot : MonoBehaviour
         }
     }
 
-    public void DisPlayItemData(in ItemData_Test itemData, int count)
+    public void DisPlayItemData(in ItemData itemData, int count)
     {
         itemID = itemData.ID;
         icon.sprite = itemData.Icon;

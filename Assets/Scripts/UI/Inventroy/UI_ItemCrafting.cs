@@ -59,7 +59,7 @@ public class UI_ItemCrafting : MonoBehaviour
 
     public void UpdateItemExplanationText(ItemRecipe clickSlot)
     {
-        itemDB.GetItemData(clickSlot.CraftingID, out ItemData_Test craftingItem);
+        itemDB.GetItemData(clickSlot.CraftingID, out ItemData craftingItem);
         itemText[0].text = craftingItem.ItemName;
         itemText[1].text = craftingItem.ItemExplanation;
 

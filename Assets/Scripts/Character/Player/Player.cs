@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IPositionable
     public PlayerStateMachine StateMachine;
     [field: SerializeField] public AnimationEventReceiver AnimationEventReceiver { get; private set; }
 
-    public PlayerUI playerUI;
+    [HideInInspector] public PlayerUI playerUI;
 
 
     public GameObject[] grenades;

@@ -45,7 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6b7f27b9d575c4d8b5600bf81618aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  characterCamera: {fileID: 0}
   time: 0
+  IsDay: 0
+  dialogCamera: {fileID: 0}
+  timeSlip: {fileID: 0}
+  deadNpc: {fileID: 0}
+  endPotal: {fileID: 0}
 --- !u!1 &5144890067221174421
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +166,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  sunBox: {fileID: 2100000, guid: 32d128f14cc5fa6458e5368bfa853ab6, type: 2}
   moon: {fileID: 6395377570885007618}
   moonColor:
     serializedVersion: 2
@@ -232,6 +240,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  nightBox: {fileID: 2100000, guid: 566cc8e80ca8fe5449dfb0f0dfc4ba37, type: 2}
   lightingIntensityMultiplier:
     serializedVersion: 2
     m_Curve:

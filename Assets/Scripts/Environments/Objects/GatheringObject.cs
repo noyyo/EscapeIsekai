@@ -11,7 +11,7 @@ public class GatheringObject : MonoBehaviour
     public int _itemId;
     [HideInInspector]
     private bool _gathering = false;
-    private ItemData_Test itemData;
+    private ItemData itemData;
     private Player _playerInputSystem;
     private UI_Manager _UI_Manager;
 

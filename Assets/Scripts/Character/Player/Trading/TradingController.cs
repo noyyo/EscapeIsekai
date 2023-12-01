@@ -68,7 +68,7 @@ public class TradingController : MonoBehaviour
     
     private void AddShopItem(int id)
     {
-        if (itemDB.GetItemData(id, out ItemData_Test itemData))
+        if (itemDB.GetItemData(id, out ItemData itemData))
         {
             int category = (id / 100000) % 10;
             if (category > 2)
@@ -85,7 +85,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickSlot(int id)
     {
-        if(itemDB.GetItemData(id, out ItemData_Test itemData))
+        if(itemDB.GetItemData(id, out ItemData itemData))
         {
             if(itemDB.GetStats(id, out ItemStats itemStats))
             {
@@ -157,7 +157,7 @@ public class TradingController : MonoBehaviour
     private int SellItem(int itemID, int itemCount)
     {
         int sum = 0;
-        if (itemDB.GetItemData(itemID, out ItemData_Test itemData))
+        if (itemDB.GetItemData(itemID, out ItemData itemData))
         {
             if (inventoryManager.CallTryAddItem(itemID, -itemCount))
             {
@@ -179,7 +179,7 @@ public class TradingController : MonoBehaviour
     private int BuyItem(int itemID, int itemCount)
     {
         int sum = 0;
-        if (itemDB.GetItemData(itemID, out ItemData_Test itemData))
+        if (itemDB.GetItemData(itemID, out ItemData itemData))
         {
             if (itemCount * itemData.Price <= tradingManager.PlayerMoney)
                 if (inventoryManager.CallTryAddItem(itemID, itemCount))
@@ -199,7 +199,7 @@ public class TradingController : MonoBehaviour
         }
 
         int sum = 0;
-        itemDB.GetItemData(repurchaseItem[index].itemID, out ItemData_Test itemData);
+        itemDB.GetItemData(repurchaseItem[index].itemID, out ItemData itemData);
         if (itemCount * itemData.Price <= tradingManager.PlayerMoney)
         {
             if (inventoryManager.CallTryAddItem(itemData.ID, itemCount))

@@ -27,22 +27,22 @@ public class MinigameManager : CustomSingleton<MinigameManager>
         if (_kamen == null)
         {
             _kamen = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/kamen"));
-            _kamen.GetComponent<kamen>().MiniGameFinished += OnMiniGameFinished;
+            _kamen.GetComponent<TimingMinigame>().MiniGameFinished += OnMiniGameFinished;
         }
         if (_mouseSlider == null)
         {
             _mouseSlider = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/MouseSlider"));
-            _mouseSlider.GetComponent<MouseSlider>().MiniGameFinished += OnMiniGameFinished;
+            _mouseSlider.GetComponent<MouseSlideMinigame>().MiniGameFinished += OnMiniGameFinished;
         }
         if (_instructor == null)
         {
             _instructor = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/instructor"));
-            _instructor.GetComponent<instructor>().MiniGameFinished += OnMiniGameFinished;
+            _instructor.GetComponent<ArrowMinigame>().MiniGameFinished += OnMiniGameFinished;
         }
         if (_blackSmith == null)
         {
             _blackSmith = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/BlackSmith"));
-            _blackSmith.GetComponent<BlackSmith>().MiniGameFinished += OnMiniGameFinished;
+            _blackSmith.GetComponent<GaugeMinigame>().MiniGameFinished += OnMiniGameFinished;
         }
     }
     public void OnMiniGameFinished(bool success)
@@ -63,13 +63,13 @@ public class MinigameManager : CustomSingleton<MinigameManager>
     {
         sucecesOrFail = 0;
         if (index == 1)
-            _kamen.GetComponent<kamen>().StartCoroutine("StartMission");
+            _kamen.GetComponent<TimingMinigame>().StartCoroutine("StartMission");
         else if (index == 2)
-            _mouseSlider.GetComponent<MouseSlider>().StartCoroutine("StartMission");
+            _mouseSlider.GetComponent<MouseSlideMinigame>().StartCoroutine("StartMission");
         else if (index == 3)
-            _instructor.GetComponent<instructor>().StartCoroutine("StartMission");
+            _instructor.GetComponent<ArrowMinigame>().StartCoroutine("StartMission");
         else if (index == 4)
-            _blackSmith.GetComponent<BlackSmith>().StartCoroutine("StartMission");
+            _blackSmith.GetComponent<GaugeMinigame>().StartCoroutine("StartMission");
 
         // 미니게임이 종료될 때까지 대기
         yield return new WaitUntil(() => sucecesOrFail != 0);

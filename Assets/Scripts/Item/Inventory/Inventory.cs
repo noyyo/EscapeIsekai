@@ -87,7 +87,7 @@ public class Inventory : MonoBehaviour
     {
         errorItemCount = count;
         bool isAddItem = false;
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
         {
             int newItemType = (id / 100000) % 10;
             if (count >= 0)
@@ -101,7 +101,7 @@ public class Inventory : MonoBehaviour
     public bool Add(int id, int count)
     {
         bool isAddItem = false;
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
         {
             int newItemType = (id / 100000) % 10;
             if (count >= 0)
@@ -155,7 +155,7 @@ public class Inventory : MonoBehaviour
         if(!isTrue)
             return isTrue;
 
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
         {
             int newItemType = (id / 100000) % 10;
             if (count >= 0)
@@ -213,7 +213,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool AddList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem, out int errorItemCount)
+    private bool AddList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData newItem, out int errorItemCount)
     {
         if (itemDic.Count == slotMaxCount)
         {
@@ -283,7 +283,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool AddList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem)
+    private bool AddList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData newItem)
     {
         if (itemDic.Count == slotMaxCount)
             return false;
@@ -347,7 +347,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem, out int ErrorItemCount)
+    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData newItem, out int ErrorItemCount)
     {
         if (itemDic.Count == 0)
         {
@@ -399,7 +399,7 @@ public class Inventory : MonoBehaviour
             return true;
     }
 
-    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData_Test newItem)
+    private bool SubList(Dictionary<int, Item> itemDic, int count, int slotType, in ItemData newItem)
     {
         if (itemDic.Count == 0)
             return false;
@@ -567,7 +567,7 @@ public class Inventory : MonoBehaviour
     {
         bool isItemCount = false;
         itemSum = 0;
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
             isItemCount = IsCheckItemCount(itemDics[(id / 100000) % 10], id, count, ref itemSum);
         return isItemCount;
     }
@@ -581,7 +581,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < idLenght; i++)
         {
-            if (itemDB.GetItemData(id[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(id[i], out ItemData newItem))
                 isItemCount = IsCheckItemCount(itemDics[(id[i] / 100000) % 10], id[i], count[i], ref itemSum[i]);
             boolArray[i] = isItemCount;
         }
@@ -604,7 +604,7 @@ public class Inventory : MonoBehaviour
         itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
         for (int i = 0; i < idLenght; i++)
         {
-            if (itemDB.GetItemData(materials[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(materials[i], out ItemData newItem))
             {
                 IsCheckItemCount(itemDics[(materials[i] / 100000) % 10], materials[i], materialsCount[i], ref itemSum[i]);
                 icons[i + 1] = newItem.Icon;
@@ -632,7 +632,7 @@ public class Inventory : MonoBehaviour
     public bool IsCheckItem(int id, int count)
     {
         bool isItemCount = false;
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
             isItemCount = IsCheckItemCount(itemDics[(id / 100000) % 10], id, count);
         return isItemCount;
     }
@@ -650,7 +650,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < idLenght; i++)
         {
-            if (itemDB.GetItemData(id[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(id[i], out ItemData newItem))
                 isItemCount = IsCheckItemCount(itemDics[(id[i] / 100000) % 10], id[i], count[i]);
             boolArray[i] = isItemCount;
         }
@@ -666,7 +666,7 @@ public class Inventory : MonoBehaviour
         itemDB.GetImage(newRecipe.CraftingID, out icons[0]);
         for (int i = 0; i < idLenght; i++)
         {
-            if (itemDB.GetItemData(materials[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(materials[i], out ItemData newItem))
             {
                 IsCheckItemCount(itemDics[(materials[i] / 100000) % 10], materials[i], materialsCount[i]);
                 icons[i + 1] = newItem.Icon;
@@ -720,7 +720,7 @@ public class Inventory : MonoBehaviour
             return false;
         }
 
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
         {
             int addSlotCount = count / newItem.MaxCount;
             int remainder = count % newItem.MaxCount;
@@ -745,7 +745,7 @@ public class Inventory : MonoBehaviour
     public int CheckItemCount(int id)
     {
         int itemSum = 0;
-        if (itemDB.GetItemData(id, out ItemData_Test newItem))
+        if (itemDB.GetItemData(id, out ItemData newItem))
             itemSum = ItemCount(itemDics[(id / 100000) % 10], id);
         return itemSum;
     }
@@ -760,7 +760,7 @@ public class Inventory : MonoBehaviour
         int[] itemSum = new int[idLenght];
         for (int i = 0; i < idLenght; i++)
         {
-            if (itemDB.GetItemData(id[i], out ItemData_Test newItem))
+            if (itemDB.GetItemData(id[i], out ItemData newItem))
                 itemSum[i] = ItemCount(itemDics[(id[i] / 100000) % 10], id[i]);
         }
         return itemSum;

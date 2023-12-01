@@ -5,7 +5,7 @@ public class ItemDB : CustomSingleton<ItemDB>
 {
     protected ItemDB() { }
     private ItemExcel itemList;
-    private Dictionary<int, ItemData_Test> itemDataDic;
+    private Dictionary<int, ItemData> itemDataDic;
     private Dictionary<int, ItemRecipe> itemRecipeDic;
     private Dictionary<int, ItemStats> itemStatsDic;
 
@@ -30,7 +30,7 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     private void ItemDataInit()
     {
-        itemDataDic = new Dictionary<int, ItemData_Test>();
+        itemDataDic = new Dictionary<int, ItemData>();
         itemRecipeDic = new Dictionary<int, ItemRecipe>();
         itemStatsDic = new Dictionary<int, ItemStats>();
 
@@ -81,7 +81,7 @@ public class ItemDB : CustomSingleton<ItemDB>
         itemCraftingManager.CallAddRecipe(10116001);
     }
 
-    public bool GetItemData(int id, out ItemData_Test itemData)
+    public bool GetItemData(int id, out ItemData itemData)
     {
         if (itemDataDic.ContainsKey(id))
         {

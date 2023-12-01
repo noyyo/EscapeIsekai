@@ -10,8 +10,8 @@ using static UnityEngine.Rendering.DebugUI;
 public class GameManager : CustomSingleton<GameManager>
 {
     protected GameManager() { }
-    [SerializeField] private GameObject _player;
-    [SerializeField] private CinemachineVirtualCamera characterCamera;
+    [SerializeField][ReadOnly] private GameObject _player;
+    [SerializeField][ReadOnly] private CinemachineVirtualCamera characterCamera;
     [Range(0.0f, 1.0f)]
     public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
     public bool IsDay;
@@ -26,6 +26,7 @@ public class GameManager : CustomSingleton<GameManager>
     public GameObject endPotal;
     private GameObject panel;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
+    
     public GameObject Player 
     { 
         get 
@@ -57,7 +58,7 @@ public class GameManager : CustomSingleton<GameManager>
             dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
             dialogCamera.SetActive(false);
         }
-
+        
         if (characterCamera == null)
             characterCamera = GameObject.FindGameObjectWithTag("CharacterCamera").GetComponent<CinemachineVirtualCamera>();
             

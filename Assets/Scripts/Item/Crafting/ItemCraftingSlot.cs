@@ -12,7 +12,7 @@ public class ItemCraftingSlot : MonoBehaviour
     [SerializeField] private Image icon;
 
     //슬롯 데이터 저장
-    private ItemData_Test itemData;
+    private ItemData itemData;
     private Inventory inventory;
     private int[] materialsCount;
     private bool[] boolArray;
@@ -57,7 +57,7 @@ public class ItemCraftingSlot : MonoBehaviour
     {
         if(itemDB == null)
             Init();
-        itemDB.GetItemData(newRecipe.CraftingID, out ItemData_Test newItemData);
+        itemDB.GetItemData(newRecipe.CraftingID, out ItemData newItemData);
         itemData = newItemData;
         itemRecipe = newRecipe;
         icon.sprite = newItemData.Icon;

@@ -13,7 +13,7 @@ public class ItemManager : CustomSingleton<ItemManager>
 
     public Item InstantiateItemObject(int id, int count)
     {
-        itemDB.GetItemData(id, out ItemData_Test itemData);
+        itemDB.GetItemData(id, out ItemData itemData);
         itemDB.GetStats(id, out ItemStats itemStats);
         return new Item(itemData, itemStats, count);
     }

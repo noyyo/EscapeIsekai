@@ -27,7 +27,7 @@ public class MaterialsSlot : MonoBehaviour
         craftingManager.OnCraftingEvent += UpdateItemData;
     }
 
-    public void GetItemData(ItemData_Test newItem, int consumption, int count, bool isCrafting)
+    public void GetItemData(ItemData newItem, int consumption, int count, bool isCrafting)
     {
         icon.enabled = true;
         icon.sprite = newItem.Icon;
@@ -40,7 +40,7 @@ public class MaterialsSlot : MonoBehaviour
     public void GetItemData(int id, int consumption, int count, bool isCrafting)
     {
         icon.enabled = true;
-        itemDB.GetItemData(id, out ItemData_Test newItem);
+        itemDB.GetItemData(id, out ItemData newItem);
         icon.sprite = newItem.Icon;
         itemCount = count;
         this.consumption = consumption;
