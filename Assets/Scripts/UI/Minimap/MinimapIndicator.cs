@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MinimapIndicator : MonoBehaviour
 {
-    [SerializeField] private Transform _player;  //플레이어
+    private Transform _player;  //플레이어
     [SerializeField] private Transform _target; //가리킬 타겟
     [SerializeField] private GameObject _indicator; //타겟을 바라볼 오브젝트
     [SerializeField] private GameObject _arrow; //눈에 보일 스프라이트
@@ -14,6 +14,10 @@ public class MinimapIndicator : MonoBehaviour
 
     Vector3 targetPosition;
     Vector3 playerPosioton;
+    private void Start()
+    {
+        _player = GameManager.Instance.Player.transform;
+    }
     private void LateUpdate()
     {
         float distance = Vector3.Distance(_player.position, _target.position);

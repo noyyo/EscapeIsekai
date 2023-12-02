@@ -8,16 +8,21 @@ using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
 {
-    public int _itemId;
-    [HideInInspector]
+    private int _itemId;
     private bool _gathering = false;
     private ItemData itemData;
     private Player _playerInputSystem;
     private UI_Manager _UI_Manager;
+    private ItemSpawner itemSpawner;
 
-    
     private void OnTriggerEnter(Collider other)
     {
+        if(other.tag == TagsAndLayers.ItemSpawnerTag)
+        {
+            itemSpawner = other.GetComponent<ItemSpawner>();
+            _itemId = itemSpawner.itemId;
+            ItemDB.Instance.GetItemData(_itemId, out itemData);
+        }
         if(other.tag == TagsAndLayers.PlayerTag)
         {
             _gathering = true;
@@ -43,10 +48,10 @@ public class GatheringObject : MonoBehaviour
             _gathering = false;
         }
     }
+
     private void Start()
     {
         _UI_Manager = UI_Manager.Instance;
-        ItemDB.Instance.GetItemData(_itemId, out itemData);
     }
 
     private void Gathering(InputAction.CallbackContext context)
@@ -56,8 +61,11 @@ public class GatheringObject : MonoBehaviour
             _UI_Manager.gathering.SetActive(false);
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
-            Destroy(gameObject);
             _gathering=false;
+            itemSpawner.EnableItem(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
+
+    
 }
