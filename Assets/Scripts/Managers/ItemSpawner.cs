@@ -4,48 +4,32 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    [HideInInspector]
-    public GameObject _genItem;
+    private GameObject _genItem;
     private ItemData itemData;
     [Tooltip("생성될 아이템의 아이디를 입력")]
     public int itemId;
-    private Vector3 _direction = new Vector3(0, 1f, 0);
     private Vector3 _position;
+
+    private WaitForSecondsRealtime waitForSeconds = new WaitForSecondsRealtime(30f);  //아이템 리젠 텀
     void Start()
     {
         ItemDB.Instance.GetItemData(itemId, out itemData);
         _genItem = itemData.DropPrefab;
         _position = transform.position;
-        _position.y = _position.y + 0.5f;
-        GenItem();
+        _position.y += 0.3f;
+        Instantiate(_genItem, _position, transform.rotation);
     }
 
-    private void GenItem()
+    public void EnableItem(GameObject Item)
     {
-        if (!CheckObject())
-        {
-            Instantiate(_genItem, _position, transform.rotation);
-        }
-        Invoke(nameof(GenItem), 180f);
+        StopAllCoroutines();
+        StartCoroutine(RespawnItem(Item));
     }
-    private bool CheckObject()
-    {
-        Ray ray = new Ray(transform.position, transform.up);
-        RaycastHit hitData;
 
-        if (Physics.Raycast(ray, out hitData))
-        {
-            // The Ray hit something!
-            if (hitData.collider.tag == "Gather")
-            {
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            return false;
-        }
+    IEnumerator RespawnItem(GameObject Item)
+    {
+        yield return waitForSeconds;
+        Item.SetActive(true);
     }
 
 }

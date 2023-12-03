@@ -30,7 +30,7 @@ public class loadingSceneController : MonoBehaviour
     
     private static loadingSceneController Create()
     {
-        return Instantiate(Resources.Load<loadingSceneController>("LoadingUI"));
+        return Instantiate(Resources.Load<loadingSceneController>("Prefabs/UI/LoadingUI"));
     }
 
     private void Awake()
@@ -68,11 +68,17 @@ public class loadingSceneController : MonoBehaviour
         while(!op.isDone)
         {
             yield return null;
-            if(op.progress < 0.9f)
+            if (op.progress < 0.9f)
             {
+                progressBar.fillAmount = op.progress;
+            }
+            else
+            {
+                timer += Time.unscaledDeltaTime;
                 progressBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
                 if(progressBar.fillAmount >= 1f)
                 {
+                    //Debug.Log("asdf");
                     op.allowSceneActivation = true;
                     yield break;
                 }
