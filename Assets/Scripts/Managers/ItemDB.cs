@@ -56,14 +56,6 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     private void DefaultItem()
     {
-        inventory.TryAddItem(10010000, 1);
-        inventory.TryAddItem(10200000, 2);
-        inventory.TryAddItem(10010000, 1);
-        inventory.TryAddItem(10200000, 10);
-
-        itemCraftingManager.CallAddRecipe(10110000);
-        itemCraftingManager.CallAddRecipe(10110001);
-        itemCraftingManager.CallAddRecipe(10110004);
         itemCraftingManager.CallAddRecipe(10113002);
         itemCraftingManager.CallAddRecipe(10113003);
         itemCraftingManager.CallAddRecipe(10113004);
