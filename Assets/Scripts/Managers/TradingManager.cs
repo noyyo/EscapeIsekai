@@ -23,7 +23,6 @@ public class TradingManager : CustomSingleton<TradingManager>
     [SerializeField] private int repurchaseItemMaxCount = 10;
     [Tooltip("마지막 재구매는 제외합니다.")][SerializeField] 
     private int shopCategoryCount = 3;
-    private GameManager gameManager;
     private UI_Manager ui_Manager;
     private List<UI_TradingSlot>[] tradingSlotList;
     private List<int>[] shopItemIDList;
@@ -54,6 +53,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public event Action clickSlotButtonEvent;
     public event Action clickBuyButtonEvent;
     public event Action moneyTextUpdateEvent;
+    public event Action<int> addMoneyEvent;
     public Action<string, string, string> itemExplanationText;
    
     public int displayPlayerItemCategory = 0;
@@ -62,7 +62,6 @@ public class TradingManager : CustomSingleton<TradingManager>
 
     private void Awake()
     {
-        gameManager = GameManager.Instance;
         ui_Manager = UI_Manager.Instance;
         repurchaseItem = new List<ItemsSoldByUser>();
         tradingSlotList = new List<UI_TradingSlot>[2];
@@ -80,6 +79,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         tryRepurchase = (itemID, itemCount) => Repurchase(repurchase(itemID, itemCount));
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayPlayerSlot;
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayShopSlot;
+        addMoneyEvent += AddMoney;
         defaultAddShopItem();
     }
 
@@ -165,5 +165,10 @@ public class TradingManager : CustomSingleton<TradingManager>
     public void CallOnMoneyTextUpdate()
     {
         moneyTextUpdateEvent?.Invoke();
+    }
+
+    private void AddMoney(int moeny)
+    {
+        playerMoney += moeny;
     }
 }
