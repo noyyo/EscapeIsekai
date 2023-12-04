@@ -17,7 +17,7 @@ namespace Ilumisoft.GreenMeadows
         [Tooltip("The radius of the hemisphere the clouds should be spawned on")]
         private float spawnRadius = 100;
 
-        [SerializeField,Range(0, 1)]
+        [SerializeField, Range(0, 1)]
         [Tooltip("The lowest position (normalized) the cloud can be spawned on the hemisphere")]
         private float minLevel = 0.0f;
 

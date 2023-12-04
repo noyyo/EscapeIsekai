@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace AmazingAssets.TerrainToMesh.Example
@@ -34,11 +32,11 @@ namespace AmazingAssets.TerrainToMesh.Example
 
 
             //2. Create materials////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-           
+
             string shaderName = Utilities.GetUnityDefaultShader();            //Default shader based on used render pipeline
             string mainTexturePropName = Utilities.GetMaterailPropMainTex();  //_MainTex property name inside shader. 
 
-          
+
             Material meshMaterial = new Material(Shader.Find(shaderName));      //Material for main mesh 
 
             Material edgeFallMaterial = new Material(Shader.Find(shaderName));  //Material for edge fall (saved in sub-mesh)

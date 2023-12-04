@@ -22,11 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 public class PhysicsSimulation : MonoBehaviour
 {
@@ -98,7 +97,7 @@ public class PhysicsSimulation : MonoBehaviour
 
         int i = 0;
         foreach (Transform child in transforms)
-        {            
+        {
             if (!child.TryGetComponent(out Rigidbody rb))
             {
                 rb = child.gameObject.AddComponent<Rigidbody>();

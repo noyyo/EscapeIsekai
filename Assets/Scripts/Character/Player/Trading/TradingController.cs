@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -10,7 +8,7 @@ public class TradingController : MonoBehaviour
     private InventoryManager inventoryManager;
     private TradingManager tradingManager;
     private UI_Manager ui_Manager;
-    
+
     private Transform shopSlotSpawnTransform;
     private Transform playerSlotSpawnTransform;
     private GameObject slotPrefab;
@@ -65,7 +63,7 @@ public class TradingController : MonoBehaviour
         slot.UniqueIndex = tradingSlotList[1].Count;
         tradingSlotList[1].Add(slot);
     }
-    
+
     private void AddShopItem(int id)
     {
         if (itemDB.GetItemData(id, out ItemData itemData))
@@ -74,7 +72,7 @@ public class TradingController : MonoBehaviour
             if (category > 2)
                 return;
             int index = shopItemDatas[category].IndexOf(id);
-            if(tradingSlotList[1].Count <= shopItemDatas[category].Count)
+            if (tradingSlotList[1].Count <= shopItemDatas[category].Count)
                 CreateShopSlot();
             if (index < 0)
                 shopItemDatas[category].Add(id);
@@ -85,9 +83,9 @@ public class TradingController : MonoBehaviour
 
     private void ClickSlot(int id)
     {
-        if(itemDB.GetItemData(id, out ItemData itemData))
+        if (itemDB.GetItemData(id, out ItemData itemData))
         {
-            if(itemDB.GetStats(id, out ItemStats itemStats))
+            if (itemDB.GetStats(id, out ItemStats itemStats))
             {
                 StringBuilder sb = new StringBuilder();
 
@@ -140,7 +138,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickSellButton()
     {
-        if(!tradingManager.trySellItem(tradingManager.ClickID, 1))
+        if (!tradingManager.trySellItem(tradingManager.ClickID, 1))
             Debug.Log("아이템이 없습니다.");
         else
             tradingManager.CallOnDisplayShopSlot();
@@ -162,13 +160,13 @@ public class TradingController : MonoBehaviour
             if (inventoryManager.CallTryAddItem(itemID, -itemCount))
             {
                 sum = itemCount * itemData.Price;
-                if(repurchaseItem.Count >= tradingManager.RepurchaseItemMaxCount)
+                if (repurchaseItem.Count >= tradingManager.RepurchaseItemMaxCount)
                     repurchaseItem.RemoveAt(0);
 
                 repurchaseItem.Add(new ItemsSoldByUser(itemID, itemCount));
 
                 if (tradingSlotList[1].Count <= repurchaseItem.Count)
-                    CreateShopSlot(); 
+                    CreateShopSlot();
             }
         }
         else

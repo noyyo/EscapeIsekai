@@ -31,5 +31,4 @@ public class ItemSpawner : MonoBehaviour
         yield return waitForSeconds;
         Item.SetActive(true);
     }
-
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -25,7 +24,8 @@ public class EnemySpawnManager : MonoBehaviour
         }
     }
     private Dictionary<int, ObjectPool<Enemy>> enemyPools = new Dictionary<int, ObjectPool<Enemy>>();
-    [SerializeField][ReadOnly]
+    [SerializeField]
+    [ReadOnly]
     private List<EnemySpawner> spawners = new List<EnemySpawner>();
     public ObjectPool<Enemy> GetPool(Enemy enemy)
     {

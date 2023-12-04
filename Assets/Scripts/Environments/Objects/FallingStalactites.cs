@@ -1,12 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
-using static UnityEngine.Rendering.DebugUI;
 
 public class FallingStalactites : BaseEnvironmentObject
-{   
+{
     [SerializeField] private AttackEffectTypes attackEffectType;
     [SerializeField] private float attackEffectValue;
     [Tooltip("해당 시간이 지날 때까지 부딪히지 않는다면 자동으로 소멸됩니다.")]
@@ -47,7 +44,7 @@ public class FallingStalactites : BaseEnvironmentObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer(TagsAndLayers.GroundLayer))
+        if (other.gameObject.layer == LayerMask.NameToLayer(TagsAndLayers.GroundLayer))
         {
             StopCoroutine(DownPosition());
             stalactitesManager.OnRelease(aoeIndicator);
@@ -69,7 +66,7 @@ public class FallingStalactites : BaseEnvironmentObject
                             player = other.GetComponentInParent<Player>();
                         targetObject = player.StateMachine;
                     }
-                    else if(other.CompareTag(TagsAndLayers.EnemyTag))
+                    else if (other.CompareTag(TagsAndLayers.EnemyTag))
                     {
                         isTrue = true;
                         if (!other.TryGetComponent<Enemy>(out enemy))

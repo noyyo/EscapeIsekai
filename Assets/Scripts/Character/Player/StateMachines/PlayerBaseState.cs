@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using UnityEngine.Windows;
 
 public class PlayerBaseState : IState
 {
@@ -37,7 +32,7 @@ public class PlayerBaseState : IState
 
     public virtual void PhysicsUpdate()
     {
-        
+
     }
 
     public virtual void Update()
@@ -110,7 +105,7 @@ public class PlayerBaseState : IState
     }
     protected virtual void OnSuperJumpStarted(InputAction.CallbackContext context)
     {
-        
+
     }
 
     protected virtual void OnThrowStarted(InputAction.CallbackContext context)
@@ -159,18 +154,18 @@ public class PlayerBaseState : IState
         right.Normalize();
 
         // 이동해야 하는 벡터에 입력한 이동방향을 곱해야 이동 처리가 이루어진다.
-        return forward* stateMachine.MovementInput.y + right * stateMachine.MovementInput.x;
+        return forward * stateMachine.MovementInput.y + right * stateMachine.MovementInput.x;
     }
 
     private void Move(Vector3 movementDirection)
     {
-        if(!isMovable) return;
+        if (!isMovable) return;
         // 플레이어 이동처리
         float movementSpeed = GetMovementSpeed();
         stateMachine.Player.Controller.Move(
             ((movementDirection * movementSpeed)
-            + stateMachine.Player.ForceReceiver.Movement) 
-            *Time.deltaTime
+            + stateMachine.Player.ForceReceiver.Movement)
+            * Time.deltaTime
             );
     }
 
@@ -181,7 +176,7 @@ public class PlayerBaseState : IState
 
     private void Rotate(Vector3 movementDirection)
     {
-        if(movementDirection != Vector3.zero)
+        if (movementDirection != Vector3.zero)
         {
             Transform playerTransform = stateMachine.Player.transform;
             // 바라보는 방향으로 회전을 하게끔 구현
@@ -214,11 +209,11 @@ public class PlayerBaseState : IState
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
         AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
 
-        if(animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
         {
             return nextInfo.normalizedTime;
         }
-        else if(!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
         {
             return currentInfo.normalizedTime;
         }

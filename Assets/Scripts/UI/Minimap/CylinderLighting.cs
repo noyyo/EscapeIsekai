@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CylinderLighting : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public class CylinderLighting : MonoBehaviour
     void Update()
     {
         _time -= Time.deltaTime;
-        if(_time <= 0)
+        if (_time <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -18,6 +15,6 @@ public class CylinderLighting : MonoBehaviour
 
     public void PlusTime(float time)
     {
-        _time += time; 
+        _time += time;
     }
 }

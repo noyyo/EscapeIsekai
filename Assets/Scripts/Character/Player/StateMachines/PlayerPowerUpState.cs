@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerPowerUpState : PlayerGroundState
@@ -16,7 +14,7 @@ public class PlayerPowerUpState : PlayerGroundState
         StartAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
         stateMachine.Player.Playerconditions.ActivePowerUp(groundData.PowerUpCost);
         powerUpStartTime = Time.time;
-        buff = new Buff(BuffTypes.speed, stateMachine);  // ¹öÇÁÅ¸ÀÔÀÇ °´Ã¼¸¦ »õ·Î »ı¼ºµÈ ¸Ş¸ğ¸® ÁÖ¼Ò¸¦ °¡Áü.
+        buff = new Buff(BuffTypes.speed, stateMachine);  // ë²„í”„íƒ€ì…ì˜ ê°ì²´ë¥¼ ìƒˆë¡œ ìƒì„±ëœ ë©”ëª¨ë¦¬ ì£¼ì†Œë¥¼ ê°€ì§.
         buff.ApplyBuff(10);
         stateMachine.buffs.Add(buff);
         isMovable = false;
@@ -28,12 +26,14 @@ public class PlayerPowerUpState : PlayerGroundState
         base.Update();
 
 
+
         float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "PowerUp");
         if (normalizedTime <= 0.9f)
         {
             return;
         }
         else
+
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }

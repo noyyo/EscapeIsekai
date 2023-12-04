@@ -11,9 +11,9 @@ namespace InfinityPBR
         public static Color mixed = Color.yellow;
         public static Color red = new Color(1f, 0.25f, 0.25f, 1f);
         public static Color blue = new Color(0.25f, 0.25f, 1f, 1f);
-        
-        
-        
+
+
+
         public static bool ShowFullInspector(string scriptName)
         {
             Space();

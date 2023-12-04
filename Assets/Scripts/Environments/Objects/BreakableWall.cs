@@ -14,7 +14,7 @@ public class BreakableWall : BaseEnvironmentObject
         defaultHP = hp;
         if (thisCollider == null)
             thisCollider = GetComponent<Collider>();
-        if( thisCollider == null )
+        if (thisCollider == null)
             thisCollider = GetComponentInChildren<Collider>();
         Init();
     }
@@ -38,7 +38,7 @@ public class BreakableWall : BaseEnvironmentObject
     private void HPControl()
     {
         hp -= damage;
-        if( hp <= 0 )
+        if (hp <= 0)
         {
             hp = 0;
             OnBreak();

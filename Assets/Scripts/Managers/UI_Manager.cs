@@ -60,7 +60,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
         if (gathering == null)
         {
-            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"),cavas.transform);
+            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"), cavas.transform);
             UI_gathering = gathering.GetComponent<UI_Gathering>();
             gathering.SetActive(false);
         }
@@ -73,31 +73,31 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
         if (itemCraftingUI == null)
             itemCraftingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), cavas.transform);
-        
-        if(questManager == null)
+
+        if (questManager == null)
             questManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/QuestManager"));
-        
+
         if (talkManager == null)
             talkManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/TalkManager"));
-        
+
         if (dialog == null)
         {
             dialog = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/UI_Dialog"));
             dialog.GetComponent<Dialog>().questManager = questManager.GetComponent<QuestManager>();
         }
 
-        if(tradingUI == null)
+        if (tradingUI == null)
         {
             tradingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Trading/UI_Trading"), cavas.transform);
             tradingUI.SetActive(false);
         }
 
-        if(optionUI == null)
+        if (optionUI == null)
         {
             optionUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Option"), cavas.transform);
             option = optionUI.GetComponent<UI_Option>();
         }
-        if(tutorialUI ==null)
+        if (tutorialUI == null)
         {
             tutorialUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TutorialUI"), cavas.transform);
             tutorialUI.SetActive(false);
@@ -162,5 +162,5 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             SetIsNotUIInputPossible();
         }
     }
-    
+
 }

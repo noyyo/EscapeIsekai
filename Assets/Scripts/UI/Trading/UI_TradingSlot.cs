@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,7 +53,7 @@ public class UI_TradingSlot : MonoBehaviour
 
     public void DisPlayItemData(int id, int count)
     {
-        if(itemDB.GetItemData(id, out ItemData itemData))
+        if (itemDB.GetItemData(id, out ItemData itemData))
         {
             itemID = id;
             icon.sprite = itemData.Icon;

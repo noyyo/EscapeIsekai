@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -42,7 +41,7 @@ namespace AmazingAssets.TerrainToMesh.Example
 
             DetailPrototypesData[] detailPrototypesData = terrainData.TerrainToMesh().ExportGrassData(vertexCountHorizontal, vertexCountVertical, 1, 1, 8, 1);
 
-            
+
             Mesh grassMesh = Utilities.CreateGrassMesh(1);     //Create grass quad mesh
 
 
@@ -53,7 +52,7 @@ namespace AmazingAssets.TerrainToMesh.Example
             //Instantiate grass objects
             for (int t = 0; t < detailPrototypesData.Length; t++)
             {
-                
+
                 GameObject grassParent = new GameObject("Grass");   //Used as parent for all current type of grass objects
                 grassParent.transform.SetParent(this.gameObject.transform, false);
 
@@ -61,8 +60,8 @@ namespace AmazingAssets.TerrainToMesh.Example
                 //Each type of grass needs its own material with texture from prototype
                 Material grassMaterial = new Material(grassShader);
                 grassMaterial.SetTexture(mainTexturePropName, detailPrototypesData[t].detailPrototype.prototypeTexture);
-                
-                
+
+
                 for (int p = 0; p < detailPrototypesData[t].position.Count; p++)
                 {
                     GameObject grass = new GameObject("Grass");
@@ -99,7 +98,7 @@ namespace AmazingAssets.TerrainToMesh.Example
                 {
                     BakeHealthyAndDryColorsInsideVertexColor(mesh, detailPrototypesData[t].detailPrototype);
                 }
-            }            
+            }
         }
 
         void BakeHealthyAndDryColorsInsideVertexColor(Mesh mesh, DetailPrototype detailPrototype)

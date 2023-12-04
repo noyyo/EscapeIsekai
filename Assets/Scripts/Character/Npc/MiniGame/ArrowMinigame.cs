@@ -1,18 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 using Random = UnityEngine.Random;
 
 public enum Key
 {
-    LEFT=61,
-    RIGHT=62,
-    UP=63,
-    DOWN=64
+    LEFT = 61,
+    RIGHT = 62,
+    UP = 63,
+    DOWN = 64
 }
 public class ArrowMinigame : MonoBehaviour
 {
@@ -26,7 +23,7 @@ public class ArrowMinigame : MonoBehaviour
     public GameObject targetCanvas;
     public Slider timeGauge;
 
-    private float failTime= 10f; //타임아웃 시간
+    private float failTime = 10f; //타임아웃 시간
     private int failCount;
     private int inputKey = 0;
     private List<Key> comboKey = new List<Key>(); //초기배열
@@ -35,7 +32,7 @@ public class ArrowMinigame : MonoBehaviour
     private void Start()
     {
         fail.gameObject.SetActive(false);
-      // StartCoroutine("StartMission");
+        // StartCoroutine("StartMission");
     }
 
     private void Awake()
@@ -47,7 +44,7 @@ public class ArrowMinigame : MonoBehaviour
 
     private void Update()
     {
-      
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             inputKey = (int)Key.LEFT;
@@ -67,11 +64,11 @@ public class ArrowMinigame : MonoBehaviour
     }
     void MakeCombo() //combokey의 초기화
     {
-        int x =  Random.Range(5, 10); // 몇개 만들껀지
+        int x = Random.Range(5, 10); // 몇개 만들껀지
 
-        for(int i = 0; i < x; i++)
+        for (int i = 0; i < x; i++)
         {
-            Key key = (Key)Random.Range(61,64);
+            Key key = (Key)Random.Range(61, 64);
             if (key == Key.LEFT)
             {
                 combo.sprite = arrows[0];
@@ -99,11 +96,11 @@ public class ArrowMinigame : MonoBehaviour
 
     void ReMake()
     {
-        for(int i = 0; i <parent.transform.childCount; i++)
+        for (int i = 0; i < parent.transform.childCount; i++)
         {
             Destroy(parent.transform.GetChild(i).gameObject);
         }
-        for(int i = 0; i < comboKey.Count; i++)
+        for (int i = 0; i < comboKey.Count; i++)
         {
             combo.GetComponent<ArrowMinigameComboData>().value = (int)comboKey[i];
             if (comboKey[i] == Key.LEFT)
@@ -125,7 +122,7 @@ public class ArrowMinigame : MonoBehaviour
             Instantiate(combo, parent.transform);
         }
     }
-  public  IEnumerator StartMission()
+    public IEnumerator StartMission()
     {
         targetCanvas.gameObject.SetActive(true);
         StartCoroutine("TimeOut");
@@ -151,7 +148,7 @@ public class ArrowMinigame : MonoBehaviour
                         yield return null;
                     }
                     else
-                    StartCoroutine("Fail");
+                        StartCoroutine("Fail");
                 }
             }
             inputKey = 0;
@@ -177,14 +174,14 @@ public class ArrowMinigame : MonoBehaviour
             StopAllCoroutines();
         }
         else
-        parent.transform.GetChild(0).GetComponent<Image>().color = Color.red;
-        yield return null ;
+            parent.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+        yield return null;
     }
 
     IEnumerator Fail()
     {
         failCount++;
-        if(failCount == 5)
+        if (failCount == 5)
         {
             targetCanvas.SetActive(false);
             for (int i = 0; i < parent.transform.childCount; i++)
@@ -194,7 +191,7 @@ public class ArrowMinigame : MonoBehaviour
             comboKey.Clear();
             StopAllCoroutines();
             failCount = 0;
-            isSuccess= false;
+            isSuccess = false;
             MiniGameFinished?.Invoke(isSuccess);
         }
         ReMake();
@@ -208,16 +205,16 @@ public class ArrowMinigame : MonoBehaviour
         failTime = 10f;
         while (true)
         {
-          failTime -= Time.deltaTime; //시간체크
-          timeGauge.value = failTime; //시간체크
-          if (timeGauge.value == 0)
-              {
-            failCount = 4;
-            StartCoroutine("Fail");
-              }
-             yield return null;
+            failTime -= Time.deltaTime; //시간체크
+            timeGauge.value = failTime; //시간체크
+            if (timeGauge.value == 0)
+            {
+                failCount = 4;
+                StartCoroutine("Fail");
+            }
+            yield return null;
 
         }
-      
+
     }
 }

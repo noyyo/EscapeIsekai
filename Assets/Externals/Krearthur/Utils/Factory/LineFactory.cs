@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
 using Krearthur.Utils;
+using UnityEngine;
 
 namespace Krearthur.GOP
 {
@@ -12,7 +12,7 @@ namespace Krearthur.GOP
     {
         [HideInInspector] public ObjectFactory segmentFactory;
 
-        [HideInInspector] [Range(3, 50)] public int numberOfSegments = 3;
+        [HideInInspector][Range(3, 50)] public int numberOfSegments = 3;
         [HideInInspector] public Transform start;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 startPos;
@@ -24,16 +24,16 @@ namespace Krearthur.GOP
         [HideInInspector] public bool alignObjects = false;
         [HideInInspector] public Vector3 startOffset;
         [HideInInspector] public Vector3 targetOffset;
-        [HideInInspector] [Range(0, 0.5f)] public float trimStart = 0.1f;
-        [HideInInspector] [Range(0.5f, 1f)] public float trimEnd = 0.9f;
+        [HideInInspector][Range(0, 0.5f)] public float trimStart = 0.1f;
+        [HideInInspector][Range(0.5f, 1f)] public float trimEnd = 0.9f;
 
         [HideInInspector] public bool calculateNumberByPaddingAndDistance = true;
-        [HideInInspector] [Range(1f, 10f)] public float padding = 2.5f;
+        [HideInInspector][Range(1f, 10f)] public float padding = 2.5f;
 
         [HideInInspector] public bool animate = false;
-        [HideInInspector] [SerializeField] private float animationTimer;
+        [HideInInspector][SerializeField] private float animationTimer;
 
-        [HideInInspector] [Range(0.5f, 10f)] public float animationSpeed = 2;
+        [HideInInspector][Range(0.5f, 10f)] public float animationSpeed = 2;
 
         public bool debugDraw = false;
 
@@ -120,7 +120,8 @@ namespace Krearthur.GOP
             {
                 Vector3 direction = (endPosWithOffset - startWithOffset).normalized;
                 segmentFactory.MassProduceOrUpdate(positions, direction);
-            } else
+            }
+            else
             {
                 segmentFactory.MassProduceOrUpdate(positions);
             }

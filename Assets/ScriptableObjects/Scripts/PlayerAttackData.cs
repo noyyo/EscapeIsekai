@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +26,7 @@ public class AttackInfoData
 public class PlayerAttackData
 {
     // 콤보에 대한 정보를 가지고 옴
-    [field: SerializeField] public List<AttackInfoData> AttackInfoDatas { get; private set;}
+    [field: SerializeField] public List<AttackInfoData> AttackInfoDatas { get; private set; }
     // AttackInfo에서 카운트를 가지고 옴
     public int GetAttackInfoCount() { return AttackInfoDatas.Count; }
     // 현재 사용하고 있는 AttackInfoData의 인덱스값을 가지고 옴

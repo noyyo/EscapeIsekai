@@ -1,13 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace InfinityPBR
 {
     public class GotHitDirection : MonoBehaviour
     {
-        [Header("Required")] 
+        [Header("Required")]
         public Animator animator;
         public string keyTrigger = "GotHit";
         public string keyGotHitX = "GotHitX";
@@ -17,7 +15,7 @@ namespace InfinityPBR
         private GameObject _sphere;
         private Vector3 _fromPosition;
         private Vector3 _direction;
-        
+
         /*
         public void TriggerHit(Vector3 fromPosition)
         {
@@ -28,7 +26,7 @@ namespace InfinityPBR
             animator.SetTrigger(keyTrigger);
         }
         */
-        
+
         public void TriggerHit(Vector3 fromPosition)
         {
             var directionToHitInWorld = Direction(transform.position, fromPosition); // Parameter 1 = Target, Parameter 2 = Thing doing the hitting
@@ -38,7 +36,7 @@ namespace InfinityPBR
             animator.SetTrigger(keyTrigger);
         }
 
-        
+
         /*
          * EVERYTHING BELOW IS FOR THE DEMO SCENE
          */
@@ -84,7 +82,7 @@ namespace InfinityPBR
             Destroy(_sphere, 0.2f);
             _direction = Direction(characterPosition, _sphere.transform.position);
         }
-        
+
         //public Vector3 Direction(Vector3 fromPosition, Vector3 toPosition) => (toPosition - fromPosition) / Distance(toPosition, fromPosition);
         public Vector3 Direction(Vector3 fromPosition, Vector3 toPosition) => (toPosition - fromPosition).normalized;
         public float Distance(Vector3 position1, Vector3 position2) => (position1 - position2).magnitude;

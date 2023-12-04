@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace InfinityPBR
@@ -11,7 +8,7 @@ namespace InfinityPBR
     public abstract class InfinityEditor : Editor
     {
         public static Texture2D UnityTexture(string textureName) => EditorGUIUtility.FindTexture(textureName);
-        
+
         public static string symbolInfo = "ⓘ";
         public static string symbolX = "✘";
         public static string symbolCheck = "✔";
@@ -69,7 +66,7 @@ namespace InfinityPBR
         * BUTTONS, LABELS, ETC
         * ----------------------------------------------------------------------------------------------
         */
-        
+
         // Horizontal Gap
         public static void Gap(int width = 20)
         {
@@ -83,49 +80,49 @@ namespace InfinityPBR
                 return !value;
             return value;
         }
-        
+
         public static bool ButtonToggle(bool value, string label, int width, int height)
         {
             if (GUILayout.Button(label, GUILayout.Width(width), GUILayout.Height(height)))
                 return !value;
             return value;
         }
-        
+
         public static bool ButtonToggle(bool value, string label, string tooltip, int width)
         {
             if (GUILayout.Button(new GUIContent(label, tooltip), GUILayout.Width(width)))
                 return !value;
             return value;
         }
-        
+
         public static bool ButtonToggle(bool value, string label, string tooltip, int width, int height)
         {
             if (GUILayout.Button(new GUIContent(label, tooltip), GUILayout.Width(width), GUILayout.Height(height)))
                 return !value;
             return value;
         }
-        
+
         public static bool Button(string label, string tooltip, int width, int height)
         {
             if (GUILayout.Button(new GUIContent(label, tooltip), GUILayout.Width(width), GUILayout.Height(height)))
                 return true;
             return false;
         }
-        
+
         public static bool Button(string label, string tooltip, int width)
         {
             if (GUILayout.Button(new GUIContent(label, tooltip), GUILayout.Width(width)))
                 return true;
             return false;
         }
-        
+
         public static bool Button(string label, string tooltip)
         {
             if (GUILayout.Button(new GUIContent(label, tooltip)))
                 return true;
             return false;
         }
-        
+
         public static bool Button(string label, int width, int height)
         {
             if (GUILayout.Button(label, GUILayout.Width(width), GUILayout.Height(height)))
@@ -139,13 +136,13 @@ namespace InfinityPBR
                 return true;
             return false;
         }
-        
+
         public static bool ButtonBig(string label, int width, int height = 24, int fontSize = 18, bool bold = false)
         {
             GUIStyle style = new GUIStyle(EditorStyles.miniButton)
             {
-                fontSize = fontSize, 
-                fixedHeight = height, 
+                fontSize = fontSize,
+                fixedHeight = height,
                 fixedWidth = width,
                 fontStyle = bold ? FontStyle.Bold : FontStyle.Normal
             };
@@ -161,7 +158,7 @@ namespace InfinityPBR
                 return true;
             return false;
         }
-        
+
         public static bool OnOffButton(bool isOn, bool colors = true)
         {
             if (colors)
@@ -172,7 +169,7 @@ namespace InfinityPBR
                 ResetColor();
                 return !isOn;
             }
-            
+
             ResetColor();
             return isOn;
         }
@@ -180,19 +177,19 @@ namespace InfinityPBR
         public static bool XButton()
         {
             BackgroundColor(Color.red);
-        
+
             if (Button($"{symbolX}", 25))
             {
                 ResetColor();
                 return true;
             }
-            
+
             ResetColor();
             return false;
         }
 
-        public static int Toolbar(string[] strings, int value, int width = -1) => width < 0 
-            ? GUILayout.Toolbar(value, strings) 
+        public static int Toolbar(string[] strings, int value, int width = -1) => width < 0
+            ? GUILayout.Toolbar(value, strings)
             : GUILayout.Toolbar(value, strings, GUILayout.Width(width));
 
         // Label Fields
@@ -209,21 +206,21 @@ namespace InfinityPBR
             style.fontSize = fontSize;
             EditorGUILayout.LabelField(label, style, GUILayout.Width(width), GUILayout.Height(fontSize));
         }
-        
+
         public static void LabelBig(string label, string tooltip, int width, int fontSize = 18, bool bold = false)
         {
             GUIStyle style = new GUIStyle(bold ? EditorStyles.boldLabel : EditorStyles.label);
             style.fontSize = fontSize;
             EditorGUILayout.LabelField(new GUIContent(label, tooltip), style, GUILayout.Width(width), GUILayout.Height(fontSize));
         }
-        
+
         public static void Label(string label, bool bold = false, bool wordwrap = false)
         {
             GUIStyle style = new GUIStyle(bold ? EditorStyles.boldLabel : EditorStyles.label);
             if (wordwrap) style.wordWrap = true;
             EditorGUILayout.LabelField(label, style);
         }
-        
+
         public static void LabelGrey(string label, bool bold = false, bool wordwrap = false)
         {
             ContentColor(Color.grey);
@@ -232,7 +229,7 @@ namespace InfinityPBR
             EditorGUILayout.LabelField(label, style);
             ContentColor(Color.white);
         }
-        
+
         public static void LabelGrey(string label, int width, bool bold = false, bool wordwrap = false)
         {
             ContentColor(Color.grey);
@@ -241,35 +238,35 @@ namespace InfinityPBR
             EditorGUILayout.LabelField(label, style, GUILayout.Width(width));
             ContentColor(Color.white);
         }
-        
+
         public static void Label(string label, int width, bool bold = false, bool wordwrap = false)
         {
             GUIStyle style = new GUIStyle(bold ? EditorStyles.boldLabel : EditorStyles.label);
             if (wordwrap) style.wordWrap = true;
             EditorGUILayout.LabelField(label, style, GUILayout.Width(width));
         }
-        
+
         public static void Label(string label, string tooltip, bool bold = false, bool wordwrap = false)
         {
             GUIStyle style = new GUIStyle(bold ? EditorStyles.boldLabel : EditorStyles.label);
             if (wordwrap) style.wordWrap = true;
             EditorGUILayout.LabelField(new GUIContent(label, tooltip), style);
         }
-        
+
         public static void Label(string label, string tooltip, int width, bool bold = false, bool wordwrap = false)
         {
             GUIStyle style = new GUIStyle(bold ? EditorStyles.boldLabel : EditorStyles.label);
             if (wordwrap) style.wordWrap = true;
             EditorGUILayout.LabelField(new GUIContent(label, tooltip), style, GUILayout.Width(width));
         }
-        
+
         // Sliders
 
-        public static int SliderInt(int value, int min, int max) => Mathf.RoundToInt(EditorGUILayout.Slider((float) value, (float) min, (float) max));
-        public static int SliderInt(string label, int value, int min, int max) => Mathf.RoundToInt(EditorGUILayout.Slider(label, (float) value, (float) min, (float) max));
-        public static int SliderInt(int value, int min, int max, int width) => Mathf.RoundToInt(EditorGUILayout.Slider((float) value, (float) min, (float) max, GUILayout.Width(width)));
-        public static int SliderInt(string label, int value, int min, int max, int width) => Mathf.RoundToInt(EditorGUILayout.Slider(label, (float) value, (float) min, (float) max, GUILayout.Width(width)));
-        
+        public static int SliderInt(int value, int min, int max) => Mathf.RoundToInt(EditorGUILayout.Slider((float)value, (float)min, (float)max));
+        public static int SliderInt(string label, int value, int min, int max) => Mathf.RoundToInt(EditorGUILayout.Slider(label, (float)value, (float)min, (float)max));
+        public static int SliderInt(int value, int min, int max, int width) => Mathf.RoundToInt(EditorGUILayout.Slider((float)value, (float)min, (float)max, GUILayout.Width(width)));
+        public static int SliderInt(string label, int value, int min, int max, int width) => Mathf.RoundToInt(EditorGUILayout.Slider(label, (float)value, (float)min, (float)max, GUILayout.Width(width)));
+
         public static float SliderFloat(float value, float min, float max) => EditorGUILayout.Slider(value, min, max);
         public static float SliderFloat(string label, float value, float min, float max) => EditorGUILayout.Slider(label, value, min, max);
         public static float SliderFloat(float value, float min, float max, int width) => EditorGUILayout.Slider(value, min, max, GUILayout.Width(width));
@@ -282,14 +279,14 @@ namespace InfinityPBR
             style.wordWrap = true;
             return EditorGUILayout.TextArea(text, style, GUILayout.Width(width), GUILayout.Height(height));
         }
-        
+
         public static string TextArea(string text, int height = 50)
         {
             GUIStyle style = new GUIStyle(EditorStyles.textArea);
             style.wordWrap = true;
             return EditorGUILayout.TextArea(text, style, GUILayout.Height(height));
         }
-        
+
         // Text Fields
         public static string TextField(string text, bool bold = false)
         {
@@ -298,7 +295,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.TextField(text);
         }
-        
+
         public static string TextField(string label, string text, bool bold = false)
         {
             if (bold)
@@ -306,7 +303,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.TextField(label, text);
         }
-        
+
         public static string TextField(string label, string text, int width, bool bold = false)
         {
             if (bold)
@@ -314,7 +311,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.TextField(label, text, GUILayout.Width(width));
         }
-        
+
         public static string TextField(string label, string tooltip, string text, bool bold = false)
         {
             if (bold)
@@ -322,7 +319,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.TextField(new GUIContent(label, tooltip), text);
         }
-        
+
         public static string TextField(string label, string tooltip, string text, int width, bool bold = false)
         {
             if (bold)
@@ -330,7 +327,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.TextField(new GUIContent(label, tooltip), text, GUILayout.Width(width));
         }
-        
+
         public static string TextField(string text, int width, bool bold = false)
         {
             if (bold)
@@ -338,7 +335,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.TextField(text, GUILayout.Width(width));
         }
-        
+
         public static string TextField(string text, int width, int height, bool bold = false)
         {
             if (bold)
@@ -355,7 +352,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.DelayedTextField(text);
         }
-        
+
         public static string DelayedText(string label, string text, bool bold = false)
         {
             if (bold)
@@ -363,7 +360,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.DelayedTextField(label, text);
         }
-        
+
         public static string DelayedText(string label, string text, int width, bool bold = false)
         {
             if (bold)
@@ -371,7 +368,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.DelayedTextField(label, text, GUILayout.Width(width));
         }
-        
+
         public static string DelayedText(string label, string tooltip, string text, bool bold = false)
         {
             if (bold)
@@ -379,7 +376,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.DelayedTextField(new GUIContent(label, tooltip), text);
         }
-        
+
         public static string DelayedText(string label, string tooltip, string text, int width, bool bold = false)
         {
             if (bold)
@@ -387,7 +384,7 @@ namespace InfinityPBR
             else
                 return EditorGUILayout.DelayedTextField(new GUIContent(label, tooltip), text, GUILayout.Width(width));
         }
-        
+
         public static string DelayedText(string text, int width, bool bold = false)
         {
             if (bold)
@@ -401,7 +398,7 @@ namespace InfinityPBR
         public static bool LeftCheck(string label, bool value, int width) => EditorGUILayout.ToggleLeft(label, value, GUILayout.Width(width));
         public static bool LeftCheck(string label, string tooltip, bool value) => EditorGUILayout.ToggleLeft(new GUIContent(label, tooltip), value);
         public static bool LeftCheck(string label, string tooltip, bool value, int width) => EditorGUILayout.ToggleLeft(new GUIContent(label, tooltip), value, GUILayout.Width(width));
-        
+
         public static bool Check(string label, string tooltip, bool value) => EditorGUILayout.Toggle(new GUIContent(label, tooltip), value);
         public static bool Check(string label, string tooltip, bool value, int width) => EditorGUILayout.Toggle(new GUIContent(label, tooltip), value, GUILayout.Width(width));
         public static bool Check(string label, bool value) => EditorGUILayout.Toggle(label, value);
@@ -419,7 +416,7 @@ namespace InfinityPBR
         public static float Float(string label, float value, int width) => EditorGUILayout.FloatField(label, value, GUILayout.Width(width));
         public static float Float(float value) => EditorGUILayout.FloatField(value);
         public static float Float(float value, int width) => EditorGUILayout.FloatField(value, GUILayout.Width(width));
-        
+
         public static float Float(string label, string tooltip, float value) => EditorGUILayout.FloatField(new GUIContent(label, tooltip), value);
         public static float Float(string label, string tooltip, float value, int width) => EditorGUILayout.FloatField(new GUIContent(label, tooltip), value, GUILayout.Width(width));
 
@@ -452,30 +449,30 @@ namespace InfinityPBR
         {
             return EditorGUILayout.Popup(index, options);
         }
-        
+
         public static int Popup(int index, string[] options, int width)
         {
             if (options == null) return default;
             if (options.Length == 0) return default;
             return EditorGUILayout.Popup(index, options, GUILayout.Width(width));
         }
-        
+
         public static int Popup(string label, int index, string[] options)
         {
             return EditorGUILayout.Popup(label, index, options);
         }
-        
+
         public static int Popup(string label, int index, string[] options, int width)
         {
             return EditorGUILayout.Popup(label, index, options, GUILayout.Width(width));
         }
-        
+
         /*
         * ----------------------------------------------------------------------------------------------
         * GUI LAYOUTS
         * ----------------------------------------------------------------------------------------------
         */
-        
+
         // Boxes
         public static void StartVerticalBox() => EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         public static void EndVerticalBox() => EditorGUILayout.EndVertical();
@@ -484,11 +481,11 @@ namespace InfinityPBR
         // Vertical
         public static void StartVertical() => EditorGUILayout.BeginVertical();
         public virtual void EndVertical() => EditorGUILayout.EndVertical();
-        
+
         // Horizontal
         public static void StartRow() => EditorGUILayout.BeginHorizontal();
         public static void EndRow() => EditorGUILayout.EndHorizontal();
-        
+
         // Space
         public static void Space() => EditorGUILayout.Space();
         public static void Space(int height) => EditorGUILayout.Space(height);
@@ -507,19 +504,19 @@ namespace InfinityPBR
         */
 
         public static void ToggleBool(string name) => EditorPrefs.SetBool(name, !EditorPrefs.GetBool(name));
-        
+
         // Set
         public static void SetBool(string name, bool value) => EditorPrefs.SetBool(name, value);
         public static void SetString(string name, string value) => EditorPrefs.SetString(name, value);
         public static void SetFloat(string name, float value) => EditorPrefs.SetFloat(name, value);
         public static void SetInt(string name, int value) => EditorPrefs.SetInt(name, value);
-        
+
         // Get
         public static bool GetBool(string name) => EditorPrefs.GetBool(name);
         public static string GetString(string name) => EditorPrefs.GetString(name);
         public static float GetFloat(string name) => EditorPrefs.GetFloat(name);
         public static int GetInt(string name) => EditorPrefs.GetInt(name);
-        
+
         // Other
         public static bool HasKey(string name) => EditorPrefs.HasKey(name);
 
@@ -529,8 +526,8 @@ namespace InfinityPBR
         * ----------------------------------------------------------------------------------------------
         */
 
-        public static int TimeSinceStartup => (int) EditorApplication.timeSinceStartup;
-        
+        public static int TimeSinceStartup => (int)EditorApplication.timeSinceStartup;
+
         // Dialog
         public static bool Dialog(string title, string message, string ok = "Yes", string cancel = "Cancel")
         {
@@ -546,7 +543,7 @@ namespace InfinityPBR
             var isOn = TimeSinceStartup % 2 == 0;
             Colors(isOn ? background1 : background2, isOn ? content1 : content2);
         }
-        
+
         public static void Colors(Color backgroundColor, Color contentColor)
         {
             BackgroundColor(backgroundColor);
@@ -563,14 +560,14 @@ namespace InfinityPBR
             BackgroundColor(boolean ? trueColor : falseColor);
         public static void BackgroundColor(Color color) => GUI.backgroundColor = color;
         public static void ContentColor(Color color) => GUI.contentColor = color;
-        public static void ContentColorIf(bool boolean, Color trueColor, Color falseColor) => 
+        public static void ContentColorIf(bool boolean, Color trueColor, Color falseColor) =>
             ContentColor(boolean ? trueColor : falseColor);
         public static void ResetColor()
         {
             GUI.backgroundColor = Color.white;
             GUI.contentColor = Color.white;
         }
-        
+
         // Other
         public static void OpenURL(string url) => Application.OpenURL(url);
 
@@ -586,37 +583,37 @@ namespace InfinityPBR
             Debug.Log(text);
 #endif
         }
-        
+
         public static void LogError(string text)
         {
 #if UNITY_EDITOR
             Debug.LogError(text);
 #endif
         }
-        
+
         public static void LogWarning(string text)
         {
 #if UNITY_EDITOR
             Debug.LogWarning(text);
 #endif
         }
-        
+
         // Mask Field
         protected static int MaskField(string label, int labelMask, string[] options)
         {
             return EditorGUILayout.MaskField(label, labelMask, options);
         }
-        
+
         protected static int MaskField(string label, int labelMask, string[] options, int width)
         {
             return EditorGUILayout.MaskField(label, labelMask, options, GUILayout.Width(width));
         }
-        
+
         protected static int MaskField(int labelMask, string[] options, int width)
         {
             return EditorGUILayout.MaskField(labelMask, options, GUILayout.Width(width));
         }
-        
+
         /*
         * ----------------------------------------------------------------------------------------------
         * KEYS PRESSED
@@ -625,7 +622,7 @@ namespace InfinityPBR
 
         public static bool KeyAlt => Event.current.alt;
         public static bool KeyShift => Event.current.shift;
-        
+
         /*
         * ----------------------------------------------------------------------------------------------
         * OTHER METHODS
@@ -638,22 +635,22 @@ namespace InfinityPBR
         protected void ProgressBar(string title, string info, float index, float total)
         {
             if (total <= 0) return; // Can't do this if total is not > 0
-            
+
             if (index >= total)
             {
                 ClearProgressBar();
                 return;
             }
-            
+
             ProgressBar(title, info, index / total);
         }
-        
+
         protected void ClearProgressBar() => EditorUtility.ClearProgressBar();
 
         protected void DrawDefaultInspectorToggle(string key, string label = "Show Default Inspector")
         {
             SetBool(key, LeftCheck(label, GetBool(key)));
-            if (!GetBool(key)) return; 
+            if (!GetBool(key)) return;
             DrawDefaultInspector();
         }
 

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerThrowState : PlayerGroundState
 {
     public PlayerThrowState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -37,5 +33,5 @@ public class PlayerThrowState : PlayerGroundState
         }
     }
 
-    
+
 }

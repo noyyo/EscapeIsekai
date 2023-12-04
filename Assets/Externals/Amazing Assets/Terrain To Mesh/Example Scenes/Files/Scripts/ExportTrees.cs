@@ -27,7 +27,7 @@ namespace AmazingAssets.TerrainToMesh.Example
 
 
             //2. Create material////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-           
+
             string shaderName = Utilities.GetUnityDefaultShader();   //Default shader based on used render pipeline
 
             Material material = new Material(Shader.Find(shaderName));
@@ -41,13 +41,13 @@ namespace AmazingAssets.TerrainToMesh.Example
 
             TreePrototypesData[] treePrototypesData = terrainData.TerrainToMesh().ExportTreeData(vertexCountHorizontal, vertexCountVertical, 1, 1);
 
-                        
+
             for (int t = 0; t < treePrototypesData.Length; t++)
             {
                 for (int p = 0; p < treePrototypesData[t].position.Count; p++)
                 {
                     //Instantiate tree prefab
-                    GameObject tree = Instantiate(treePrototypesData[t].prefab);    
+                    GameObject tree = Instantiate(treePrototypesData[t].prefab);
 
                     //Set position
                     tree.transform.position = treePrototypesData[t].position[p];

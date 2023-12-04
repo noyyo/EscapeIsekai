@@ -4,9 +4,10 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
 {
     [SerializeField] private bool test;
 
-    [Tooltip("대미지 배율 - 기본값 1")][Range(0.5f,3f)][SerializeField] private float magnification = 1;
+    [Tooltip("대미지 배율 - 기본값 1")][Range(0.5f, 3f)][SerializeField] private float magnification = 1;
 
-    [Tooltip("내가 원하는 값으로 커스텀 - 위의 배율도 적용됨")][Header("Csutom")]
+    [Tooltip("내가 원하는 값으로 커스텀 - 위의 배율도 적용됨")]
+    [Header("Csutom")]
     [SerializeField] private bool isCustom;
     [SerializeField] private int customDamage;
     [SerializeField] private float customValue;
@@ -32,8 +33,8 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [SerializeField] private FallingStalactitesTarget attackTarget;
     [Tooltip("최하 높이 설정")][SerializeField] private float limitPosY = 0;
 
-    private new Collider collider;
-    
+    private Collider collider;
+
     private int damage;
     private float value;
     private bool isBoss;
@@ -60,7 +61,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     }
 
     private void Init()
-    { 
+    {
         collider = GetComponent<Collider>();
     }
 
@@ -83,11 +84,11 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             this.value = value;
         if (!lockAttackEffectTypes)
             this.attackEffectTypes = attackEffectTypes;
-        
 
-        if(isIF)
+
+        if (isIF)
         {
-            if(attackEffectTypes == attackerAttackEffectTypes && (attacker.name == attackerName || attacker.CompareTag(TagsAndLayers.EnemyTag)))
+            if (attackEffectTypes == attackerAttackEffectTypes && (attacker.name == attackerName || attacker.CompareTag(TagsAndLayers.EnemyTag)))
                 isBoss = true;
         }
         else
@@ -102,7 +103,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         {
             IDamageable target = null;
             Enemy enemy;
-            if(!other.TryGetComponent<Enemy>(out enemy))
+            if (!other.TryGetComponent<Enemy>(out enemy))
                 enemy = other.GetComponentInParent<Enemy>();
             if (enemy == null)
             {
@@ -140,7 +141,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     {
         if (isFallingRock)
         {
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 randomCircle = Random.insideUnitCircle * radius;
                 initialPosition.x = basePosition.x + randomCircle.x;

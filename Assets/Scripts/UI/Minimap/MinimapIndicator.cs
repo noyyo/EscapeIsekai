@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public class MinimapIndicator : MonoBehaviour
@@ -21,7 +18,7 @@ public class MinimapIndicator : MonoBehaviour
     private void LateUpdate()
     {
         float distance = Vector3.Distance(_player.position, _target.position);
-        if(Mathf.Abs(distance) > appearanceDistance)
+        if (Mathf.Abs(distance) > appearanceDistance)
         {
             _arrow.SetActive(true);
 

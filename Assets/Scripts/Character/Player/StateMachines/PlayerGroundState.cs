@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerGroundState : PlayerBaseState
 {
@@ -15,7 +10,7 @@ public class PlayerGroundState : PlayerBaseState
 
     public override void Enter()
     {
-        // ground¸¦ »ó¼Ó¹Ş´Â ºÎºĞÀº groundÀÇ bool °ªÀÌ ÄÑÁ®ÀÖ´ÂÃ¤·Î ½ÃÀÛÀ» ÇÔ.
+        // groundë¥¼ ìƒì†ë°›ëŠ” ë¶€ë¶„ì€ groundì˜ bool ê°’ì´ ì¼œì ¸ìˆëŠ”ì±„ë¡œ ì‹œì‘ì„ í•¨.
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
     }
@@ -30,7 +25,7 @@ public class PlayerGroundState : PlayerBaseState
     {
         base.Update();
 
-        if(stateMachine.IsAttacking)
+        if (stateMachine.IsAttacking)
         {
             OnAttack();
             return;
@@ -40,8 +35,8 @@ public class PlayerGroundState : PlayerBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        // Player°¡ ¶¥¿¡ ÀÖÁö¾Ê°í ¶³¾îÁö°í ÀÖ´Â »óÅÂ¶ó¸é FallState¸¦ Àû¿ë
-        // Áß·ÂÀ» ÇÑ¹ø¿¡ ¹Ş´Â ¾çÀÌ ´õ Å©´Ù(¶³¾îÁö´Â »óÅÂ¸¦ ÀÇ¹Ì)
+        // Playerê°€ ë•…ì— ìˆì§€ì•Šê³  ë–¨ì–´ì§€ê³  ìˆëŠ” ìƒíƒœë¼ë©´ FallStateë¥¼ ì ìš©
+        // ì¤‘ë ¥ì„ í•œë²ˆì— ë°›ëŠ” ì–‘ì´ ë” í¬ë‹¤(ë–¨ì–´ì§€ëŠ” ìƒíƒœë¥¼ ì˜ë¯¸)
         /*
         if(!stateMachine.Player.Controller.isGrounded 
             && stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
@@ -54,7 +49,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        if(stateMachine.MovementInput == Vector2.zero)
+        if (stateMachine.MovementInput == Vector2.zero)
         {
             return;
         }
@@ -129,14 +124,14 @@ public class PlayerGroundState : PlayerBaseState
 
     protected virtual void OnSkillStarted(InputAction.CallbackContext context)
     {
-        if(stateMachine.Player.Playerconditions.skill.curValue < groundData.SkillCost)
+        if (stateMachine.Player.Playerconditions.skill.curValue < groundData.SkillCost)
             return;
         stateMachine.ChangeState(stateMachine.SkillState);
     }
 
     protected virtual void OnPowerUpStarted(InputAction.CallbackContext context)
     {
-        if(stateMachine.Player.Playerconditions.powerUp.curValue < groundData.PowerUpCost)
+        if (stateMachine.Player.Playerconditions.powerUp.curValue < groundData.PowerUpCost)
             return;
         stateMachine.ChangeState(stateMachine.PowerUpState);
     }

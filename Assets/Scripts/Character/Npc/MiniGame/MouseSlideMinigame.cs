@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -33,7 +32,7 @@ public class MouseSlideMinigame : MonoBehaviour
     }
     private void Update()
     {
-        if(parent.active)
+        if (parent.active)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -53,12 +52,12 @@ public class MouseSlideMinigame : MonoBehaviour
                 }
             }
         }
-       
+
     }
     private int CheckDir()
     {
-       
-        Vector2 direction = (endpos - startpos).normalized;  
+
+        Vector2 direction = (endpos - startpos).normalized;
         float angle = Vector2.Angle(Vector2.right, direction);
 
         if (angle < 20f || angle > 160f)
@@ -77,14 +76,14 @@ public class MouseSlideMinigame : MonoBehaviour
 
     IEnumerator StartMission()
     {
-        parent.SetActive (true);
-        mouseEffect.SetActive (true);
+        parent.SetActive(true);
+        mouseEffect.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         for (int i = 0; i < 4; i++)
         {
             int temp = Random.Range(0, 3);
             sliceList.Add(temp);
-            switch (temp) 
+            switch (temp)
             {
                 case 0:
                     fadeImage.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -104,17 +103,17 @@ public class MouseSlideMinigame : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator Success() 
+    IEnumerator Success()
     {
         sliceList.RemoveAt(0);
-        if(sliceList.Count == 0)
+        if (sliceList.Count == 0)
         {
             Cursor.lockState = CursorLockMode.Locked;
             isSuccess = true;
             MiniGameFinished?.Invoke(isSuccess);
             StopAllCoroutines();
         }
-        return null; 
+        return null;
     }
     IEnumerator Fail() //실패해서 처음부터
     {
@@ -127,11 +126,11 @@ public class MouseSlideMinigame : MonoBehaviour
     IEnumerator Fade()
     {
         isFade = false;
-        for (float i = 0; i <= 1; i+=0.01f)
+        for (float i = 0; i <= 1; i += 0.01f)
         {
             c.a = i;
             fadeImage.color = c;
-            yield return new WaitForSecondsRealtime (0.005f);
+            yield return new WaitForSecondsRealtime(0.005f);
         }
         c.a = 0;
         fadeImage.color = c;

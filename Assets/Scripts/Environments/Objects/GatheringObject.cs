@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using TMPro;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class GatheringObject : MonoBehaviour
@@ -17,16 +12,16 @@ public class GatheringObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == TagsAndLayers.ItemSpawnerTag)
+        if (other.tag == TagsAndLayers.ItemSpawnerTag)
         {
             itemSpawner = other.GetComponent<ItemSpawner>();
             _itemId = itemSpawner.itemId;
             ItemDB.Instance.GetItemData(_itemId, out itemData);
         }
-        if(other.tag == TagsAndLayers.PlayerTag)
+        if (other.tag == TagsAndLayers.PlayerTag)
         {
             _gathering = true;
-            if(_playerInputSystem == null)
+            if (_playerInputSystem == null)
             {
                 _playerInputSystem = other.GetComponent<Player>();
 
@@ -34,7 +29,7 @@ public class GatheringObject : MonoBehaviour
             _playerInputSystem.Input.PlayerActions.Interaction.started += Gathering;
 
             _UI_Manager.itemName = itemData.ItemName;
-            _UI_Manager.itemExplanation = itemData.ItemExplanation; 
+            _UI_Manager.itemExplanation = itemData.ItemExplanation;
             _UI_Manager.gathering.SetActive(true);
             _UI_Manager.UI_gathering.Setting();
         }
@@ -61,11 +56,11 @@ public class GatheringObject : MonoBehaviour
             _UI_Manager.gathering.SetActive(false);
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
-            _gathering=false;
+            _gathering = false;
             itemSpawner.EnableItem(this.gameObject);
             this.gameObject.SetActive(false);
         }
     }
 
-    
+
 }

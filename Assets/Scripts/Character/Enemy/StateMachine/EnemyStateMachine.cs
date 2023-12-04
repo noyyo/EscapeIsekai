@@ -1,11 +1,7 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.XR;
 
 [Serializable]
 public class EnemyStateMachine : StateMachine, IDamageable
@@ -14,7 +10,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public event Action ActivatedActionsChanged;
     public event Action OnDie;
     public event Action<Enemy> OnDieAction;
-    
+
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
     public IPositionable PositionableTarget;
@@ -52,7 +48,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     [ReadOnly] public bool IsDead;
     // 기본적으로 움직일 수 없는 개체만 사용합니다.
     [ReadOnly] public bool IsMovable;
-    
+
 
     public EnemyStateMachine(Enemy enemy)
     {
@@ -247,7 +243,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
             OnDie?.Invoke();
             OnDieAction?.Invoke(Enemy);
         }
-            
+
     }
     private void Dead()
     {

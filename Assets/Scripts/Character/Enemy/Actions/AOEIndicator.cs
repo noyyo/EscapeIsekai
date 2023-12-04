@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -58,7 +57,7 @@ public class AOEIndicator : MonoBehaviour
             forward.y = 0;
             projectorTransform.forward = forward;
             projectorTransform.rotation = projectorTransform.rotation * initialRotation;
-            
+
         }
         else
         {
