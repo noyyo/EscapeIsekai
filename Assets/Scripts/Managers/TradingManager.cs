@@ -53,7 +53,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public event Action clickSlotButtonEvent;
     public event Action clickBuyButtonEvent;
     public event Action moneyTextUpdateEvent;
-    public event Action<int> addMoneyEvent;
+    public Action<int> addMoney;
     public Action<string, string, string> itemExplanationText;
    
     public int displayPlayerItemCategory = 0;
@@ -79,7 +79,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         tryRepurchase = (itemID, itemCount) => Repurchase(repurchase(itemID, itemCount));
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayPlayerSlot;
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayShopSlot;
-        addMoneyEvent += AddMoney;
+        addMoney += AddMoney;
         defaultAddShopItem();
     }
 
