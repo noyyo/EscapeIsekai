@@ -89,6 +89,7 @@ public class EnemyChaseState : EnemyBaseState
             LookTarget();
             if (isLookTarget)
             {
+                agent.velocity = Vector3.zero;
                 stateMachine.ChangeState(stateMachine.AttackState);
                 return;
             }

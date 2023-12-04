@@ -134,10 +134,11 @@ public class ChargingAttack : AttackAction
         targetDirection.y = 0;
         Vector3 forward = agent.transform.forward;
         forward.y = 0;
-        float angle = Vector3.SignedAngle(forward, targetDirection, agent.transform.up);
-        angle %= agent.angularSpeed * Time.deltaTime;
-        Quaternion targetRotation = Quaternion.AngleAxis(angle, agent.transform.up);
+        float angle = Vector3.SignedAngle(forward, targetDirection, Vector3.up);
+        angle = Mathf.Min(angle, agent.angularSpeed * Time.deltaTime);
+        Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.up);
         agent.transform.rotation = agent.transform.rotation * targetRotation;
+
 
         targetDirection = StateMachine.Player.transform.position - agent.transform.position;
         targetDirection.y = 0;

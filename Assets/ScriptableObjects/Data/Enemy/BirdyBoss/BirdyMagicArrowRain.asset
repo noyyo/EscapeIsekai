@@ -29,36 +29,37 @@ MonoBehaviour:
     IsMovable: 0
   ActionType: 4
   Config:
-    RestTimeAfterAction: 0
-    EffectDurationSeconds: 0
-    DamageAmount: 0
+    RestTimeAfterAction: 1
+    EffectDurationSeconds: 0.5
+    DamageAmount: 10
     AttackEffectType: 0
     AttackEffectValue: 0
-    animTrigger1: 
+    animTrigger1: ProjectileRain
     animTrigger2: 
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
   Condition:
-    Priority: 1
+    Priority: 2
     WaitUntilExecute: 0
     MoreThanThisHp: 0
     LessThanThisHp: 1000
-    MoreThanThisDistance: 0
-    LessThanThisDistance: 100
+    MoreThanThisDistance: 5
+    LessThanThisDistance: 25
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 0
+    CoolDown: 10
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  projectilePrefab: {fileID: 0}
-  projectileAmountInBatch: 0
-  batchCount: 0
-  rainRadius: 0
-  effectRadius: 0
-  dropSpeed: 0
-  dropTime: 0
+  projectilePrefab: {fileID: 6475601625858630863, guid: 5cffac50161e76e429ace7850f90d0d2,
+    type: 3}
+  projectileAmountInBatch: 20
+  batchCount: 3
+  rainRadius: 25
+  effectRadius: 3
+  dropSpeed: 6
+  dropTime: 3
   isTargeting: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6136103685691757253}
   - component: {fileID: 6429984401379595566}
   - component: {fileID: 3479776270686077858}
+  - component: {fileID: -1681210364279090045}
   m_Layer: 0
   m_Name: WindCutterBreathParticle
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6878567130202815340}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 116.07873, y: 7.56, z: 104.799545}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -751,7 +752,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 1
     radius:
-      value: 2.5
+      value: 1
       mode: 0
       spread: 0
       speed:
@@ -4888,3 +4889,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-1681210364279090045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6878567130202815340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c129bb91efb03c149b5d1f5f3956a523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
