@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum ActionTypes
@@ -71,7 +67,7 @@ public abstract class AttackAction : ScriptableObject
     [HideInInspector]
     public float lastUsedTime;
     private float restedTime;
-    
+
 
     private HashSet<GameObject> alreadyAttackApplied = new HashSet<GameObject>();
 
@@ -252,7 +248,7 @@ public abstract class AttackAction : ScriptableObject
             Debug.LogError("해당 애니메이션 해쉬가 없습니다.");
             return;
         }
-            
+
         foreach (AnimState state in animState.Values)
         {
             if (state == AnimState.Playing)

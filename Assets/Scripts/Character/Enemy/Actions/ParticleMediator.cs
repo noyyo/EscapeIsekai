@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Recorder.AOV;
 using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))]
 public class ParticleMediator : MonoBehaviour

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 {
     protected ItemCraftingManager() { }
@@ -34,7 +32,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         inventoryManager = InventoryManager.Instance;
         craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
         craftingController = gameManager.Player.GetComponent<ItemCraftingController>();
-        
+
     }
 
     private void Start()

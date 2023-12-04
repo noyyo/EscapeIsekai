@@ -35,7 +35,7 @@ public class ItemDB : CustomSingleton<ItemDB>
         itemStatsDic = new Dictionary<int, ItemStats>();
 
         int count = itemList.ItemDatas.Count;
-        for (int i = 0; i< count; i++)
+        for (int i = 0; i < count; i++)
         {
             itemDataDic.Add(itemList.ItemDatas[i].ID, itemList.ItemDatas[i]);
         }
@@ -105,9 +105,9 @@ public class ItemDB : CustomSingleton<ItemDB>
 
     public bool GetRecipeCraftID(int craftID, out ItemRecipe itemRcipe)
     {
-        foreach(var recipe in itemRecipeDic.Values)
+        foreach (var recipe in itemRecipeDic.Values)
         {
-            if(recipe.CraftingID == craftID)
+            if (recipe.CraftingID == craftID)
             {
                 itemRcipe = recipe;
                 return true;

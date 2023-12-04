@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerRollState : PlayerGroundState
 {
     public PlayerRollState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -13,7 +9,7 @@ public class PlayerRollState : PlayerGroundState
         base.Enter();
         isMovable = true;
         isStateChangeable = false;
-        
+
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         TryApplyForce();
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);

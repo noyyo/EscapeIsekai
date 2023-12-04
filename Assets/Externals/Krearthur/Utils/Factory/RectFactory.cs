@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
 using Krearthur.Utils;
+using UnityEngine;
 
 namespace Krearthur.GOP
 {
@@ -12,8 +12,8 @@ namespace Krearthur.GOP
     {
         [HideInInspector] public ObjectFactory segmentFactory;
 
-        [HideInInspector] [Range(3, 50)] public int rows = 3;
-        [HideInInspector] [Range(3, 50)] public int columns = 3;
+        [HideInInspector][Range(3, 50)] public int rows = 3;
+        [HideInInspector][Range(3, 50)] public int columns = 3;
         [HideInInspector] public Transform start;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 startPos;
@@ -31,7 +31,7 @@ namespace Krearthur.GOP
         [HideInInspector] public GOPainter.CanvasAxis axis;
 
         [HideInInspector] public bool calculateNumberByPaddingAndDistance = true;
-        [HideInInspector] [Range(1f, 10f)] public float padding = 2.5f;
+        [HideInInspector][Range(1f, 10f)] public float padding = 2.5f;
 
         public bool debugDraw = false;
 
@@ -123,7 +123,8 @@ namespace Krearthur.GOP
                 if (rows <= 2 || columns <= 2)
                 {
                     size = rows * columns;
-                } else
+                }
+                else
                 {
                     size = rows * 2 + (columns - 2) * 2;
                 }
@@ -137,9 +138,9 @@ namespace Krearthur.GOP
                 {
                     if (!fill)
                     {
-                        if (row > 0 && row < rows-1) // rows inside
+                        if (row > 0 && row < rows - 1) // rows inside
                         {
-                            if (col > 0 && col < columns-1) // columns inside
+                            if (col > 0 && col < columns - 1) // columns inside
                             {
                                 continue;
                             }
@@ -162,7 +163,7 @@ namespace Krearthur.GOP
                         deltaWidth = Mathf.RoundToInt((signWidth * (width)) / dividerWidth) * col;
                         deltaHeight = Mathf.RoundToInt((signHeight * (height)) / dividerHeight) * row;
                     }
-                    
+
                     if (axis == GOPainter.CanvasAxis.Y)
                     {
                         pos.x += deltaWidth;
@@ -184,23 +185,25 @@ namespace Krearthur.GOP
 
                     if (!fill)
                     {
-                        if (alignObjects && (row == 0 || row == rows-1))
+                        if (alignObjects && (row == 0 || row == rows - 1))
                         {
                             // align with row
-                            directions[processed] = (row == 0)? rowDirection : -rowDirection;
+                            directions[processed] = (row == 0) ? rowDirection : -rowDirection;
 
                             //if (col == 0 && row == 0)
                             //{
                             //    directions[processed] = (rowDirection - columnDirection) / 2;
                             //}
-                            
-                        }else if (alignObjects)
+
+                        }
+                        else if (alignObjects)
                         {
                             // align with column
-                            directions[processed] = (col == 0)? -columnDirection : columnDirection;
+                            directions[processed] = (col == 0) ? -columnDirection : columnDirection;
                         }
                         positions[processed] = pos;
-                    } else
+                    }
+                    else
                     {
                         positions[(row * columns) + col] = pos;
                     }
@@ -213,16 +216,18 @@ namespace Krearthur.GOP
                 if (alignObjects)
                 {
                     segmentFactory.MassProduceOrUpdate(positions, directions);
-                } else
+                }
+                else
                 {
                     segmentFactory.MassProduceOrUpdate(positions);
                 }
-                
-            } else
+
+            }
+            else
             {
                 segmentFactory.MassProduceOrUpdate(positions);
             }
-            
+
             return segmentFactory.GetAt(0);
         }
 

@@ -61,7 +61,7 @@ namespace Krearthur.GOP
                     if (go == null) continue;
 
                     //go.SetActive(false);
-                    GameObject.DestroyImmediate(go); 
+                    GameObject.DestroyImmediate(go);
                 }
             }
             else if (type == ActionType.Removed)

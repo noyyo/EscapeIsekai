@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using UnityEngine.InputSystem;
-using UnityEditor;
 
 public class CutScene : MonoBehaviour
 {
@@ -23,7 +21,7 @@ public class CutScene : MonoBehaviour
         _pd = GetComponent<PlayableDirector>();
         _playerInput = GetComponent<PlayerInput>();
         lightCoroutine = LightCylinder();
-        if(_cylinder == null)
+        if (_cylinder == null)
         {
             _cylinder = Instantiate(Resources.Load("Prefabs/Entities/Environments/LightCylinder", typeof(GameObject))) as GameObject;
             _cylinder.SetActive(false);
@@ -55,7 +53,7 @@ public class CutScene : MonoBehaviour
     }
     void OnSkip()  //타임라인 스킵
     {
-        if(!isPlaying)
+        if (!isPlaying)
         {
             return;
         }

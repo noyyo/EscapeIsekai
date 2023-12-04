@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    private new Rigidbody rigidbody;
+    private Rigidbody rigidbody;
     public float ExplosionRadius = 5f; // Æø¹ß ¹Ý°æ
     public float StunTime = 3f;
 

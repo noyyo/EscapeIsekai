@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerAttackState : PlayerBaseState
 {
     public PlayerAttackState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -15,8 +11,8 @@ public class PlayerAttackState : PlayerBaseState
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
     }
 
-    public override void Exit() 
-    { 
+    public override void Exit()
+    {
         base.Exit();
         isMovable = true;
         StopAnimation(stateMachine.Player.AnimationData.AttackParameterHash);

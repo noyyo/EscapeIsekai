@@ -1,13 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using UnityEngine.UI;
 
 public class Npc : MonoBehaviour
 {
@@ -29,7 +22,7 @@ public class Npc : MonoBehaviour
     }
     private void Update()
     {
-        if(isHit && target != null&& isNPC)
+        if (isHit && target != null && isNPC)
         {
             Vector3 lookDirection = target.transform.position - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
@@ -70,7 +63,7 @@ public class Npc : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         target = other.gameObject;
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             uI_Manager.itemName = gameObject.name;
             uI_Manager.itemExplanation = "대화하기";
@@ -81,7 +74,7 @@ public class Npc : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-     //   stateMachine.ChangeState(stateMachine.IdleState);
+        //   stateMachine.ChangeState(stateMachine.IdleState);
         if (other.tag == "Player")
         {
             isHit = false;
@@ -93,19 +86,19 @@ public class Npc : MonoBehaviour
 
     private void OnInteraction()
     {
-        if(isHit)
+        if (isHit)
         {
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
             UI_Manager.Instance.gathering.SetActive(false);
-          //  stateMachine.ChangeState(stateMachine.NothingState);
+            //  stateMachine.ChangeState(stateMachine.NothingState);
         }
     }
 
 
     private void OnClearMark(int Npcid)
     {
-        if(Npcid == id)
+        if (Npcid == id)
         {
             marks[0].SetActive(false);
             marks[1].SetActive(false);
@@ -115,7 +108,7 @@ public class Npc : MonoBehaviour
 
     private void OnAcceptMark()
     {
-        if(ServeQuestManager.Instance.MarkInit(id))
+        if (ServeQuestManager.Instance.MarkInit(id))
         {
             marks[0].SetActive(true);
             marks[1].SetActive(false);
@@ -125,7 +118,7 @@ public class Npc : MonoBehaviour
 
     private void ShutDownMark(int npcid)
     {
-        if(npcid == id)
+        if (npcid == id)
         {
             marks[0].SetActive(false);
             marks[1].SetActive(false);
@@ -134,7 +127,7 @@ public class Npc : MonoBehaviour
     }
     private void CanAcceptMark(int Npcid)
     {
-        if(Npcid== id)
+        if (Npcid == id)
         {
             marks[0].SetActive(true);
             marks[1].SetActive(false);
@@ -144,10 +137,10 @@ public class Npc : MonoBehaviour
 
     public void CheckeState(int state)
     {
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             marks[i].SetActive(false);
-            if(state == i && i !=2)
+            if (state == i && i != 2)
             {
                 marks[i].SetActive(true);
             }

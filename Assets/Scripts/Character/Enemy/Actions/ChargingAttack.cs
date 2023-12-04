@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
-using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "ChargingAttack", menuName = "Characters/Enemy/AttackAction/ChargingAttack")]
 public class ChargingAttack : AttackAction
 {
     [SerializeField] private float chargingSpeed;
     [Tooltip("돌진을 시행할 횟수입니다.")]
-    [SerializeField][Range(1,3)] private int chargingCount;
-    [SerializeField][Range(0.5f, 2f)]private float waitTimeBetweenCharging;
+    [SerializeField][Range(1, 3)] private int chargingCount;
+    [SerializeField][Range(0.5f, 2f)] private float waitTimeBetweenCharging;
     private float waitedTime;
     private int alreadyChargedCount = 0;
     private bool isCharging;
@@ -153,6 +149,6 @@ public class ChargingAttack : AttackAction
     }
     private void OnCollisionEnter(Collision collision)
     {
-        ApplyAttack(collision.gameObject,isPossibleMultiEffect:true);
+        ApplyAttack(collision.gameObject, isPossibleMultiEffect: true);
     }
 }

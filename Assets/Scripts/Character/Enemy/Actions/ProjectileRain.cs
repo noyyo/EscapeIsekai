@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -65,7 +63,7 @@ public class ProjectileRain : AttackAction
                 {
                     CreateProjectileBatch();
                 }
-                
+
             }
             else
             {
@@ -141,7 +139,7 @@ public class ProjectileRain : AttackAction
             if (Physics.Raycast(ray, out hit, rainRadius * 3, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
                 initialPosition.y = hit.point.y + dropSpeed * dropTime;
             else
-                initialPosition.y = initialPosition.y -(rainRadius * 1.5f) + dropSpeed * dropTime;
+                initialPosition.y = initialPosition.y - (rainRadius * 1.5f) + dropSpeed * dropTime;
 
             projectile.SetProjectileInfo(ProjectileLaunchTypes.Drop, initialPosition, Vector3.down, dropSpeed, enemy);
             projectile.IndicateCircleAOE(radius: 1, depth: dropSpeed * dropTime + Mathf.Max(effectRadius, additionalAOEYOffset));

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,7 +11,8 @@ public class EnemySpawner : MonoBehaviour
     private int currentEnemyCount;
     public float SpawnDelay;
     private float lastSpawnTime;
-    [SerializeField][ReadOnly]
+    [SerializeField]
+    [ReadOnly]
     public List<Enemy> Enemies = new List<Enemy>();
     BoxCollider boxCollider;
     private void Awake()

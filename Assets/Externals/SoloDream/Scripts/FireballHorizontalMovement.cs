@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.VFX;
 
 namespace FireballMovement
-{    public class FireballHorizontalMovement : MonoBehaviour
+{
+    public class FireballHorizontalMovement : MonoBehaviour
     {
         [SerializeField] private Vector3 _startingPos;
         [SerializeField] private float _moveSpeed = 0.1f;
@@ -15,7 +16,7 @@ namespace FireballMovement
         private const string _fireballTrailsActiveString = "FireballTrailsActive";
 
         void Start()
-        {           
+        {
             _fireball = gameObject.GetComponent<Rigidbody>();
             _fireballTrails = gameObject.GetComponent<VisualEffect>();
             _startingPos = _fireball.transform.localPosition;

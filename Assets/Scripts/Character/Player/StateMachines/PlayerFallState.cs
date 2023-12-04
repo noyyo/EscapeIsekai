@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerFallState : PlayerAirState
 {
     public PlayerFallState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -26,7 +22,7 @@ public class PlayerFallState : PlayerAirState
     {
         base.Update();
 
-        if(stateMachine.Player.Controller.isGrounded)
+        if (stateMachine.Player.Controller.isGrounded)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
             return;

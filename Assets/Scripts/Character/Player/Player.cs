@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IPositionable
 {
@@ -50,15 +48,15 @@ public class Player : MonoBehaviour, IPositionable
         //InventoryManager.Instance
 
         playerUI = GameObject.FindObjectOfType<PlayerUI>();
-        if(playerUI == null)
+        if (playerUI == null)
         {
 
             // 씬의 플레이어 UI 오브젝트를 찾아오고 playerUIPrefab 지역변수에 할당
             GameObject playerUIPrefab = Resources.Load<GameObject>("Prefabs/UI/Player UI");
-            
+
 
             // 찾아오지 못했을 경우 출력(예외처리)
-            if(playerUIPrefab == null)
+            if (playerUIPrefab == null)
             {
                 Debug.LogError("플레이어 UI 프리팹을 찾을 수 없습니다");
                 return;
@@ -98,13 +96,13 @@ public class Player : MonoBehaviour, IPositionable
 
     void OnDie()
     {
-        Animator.SetBool("Die",true);
+        Animator.SetBool("Die", true);
         enabled = false;
     }
 
     public void CreateGrenadeWithDelay(float delayInSeconds)
     {
-        if(InventoryManager.Instance.CallTryAddItem(10010000, -1))
+        if (InventoryManager.Instance.CallTryAddItem(10010000, -1))
         {
             StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
         }

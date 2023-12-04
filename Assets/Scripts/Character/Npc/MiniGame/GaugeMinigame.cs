@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -31,7 +30,7 @@ public class GaugeMinigame : MonoBehaviour
     }
     private void Start()
     {
-     //   StartCoroutine("StarMission");
+        //   StartCoroutine("StarMission");
     }
     private void Update()
     {
@@ -43,7 +42,7 @@ public class GaugeMinigame : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (isRunning) 
+        if (isRunning)
         {
             rb.AddForce(Vector2.down * 50f);
 
@@ -58,24 +57,24 @@ public class GaugeMinigame : MonoBehaviour
 
             if (Physics.Raycast(point.transform.position, transform.right, out hit, 300))
             {
-                if (timeGauge.value == 0&& hit.transform.name == target.name)
+                if (timeGauge.value == 0 && hit.transform.name == target.name)
                 {
 
                     isSuccess = true;
                     MiniGameFinished?.Invoke(isSuccess);
-                        isRunning = false;
-                        parent.SetActive(isRunning);
+                    isRunning = false;
+                    parent.SetActive(isRunning);
                 }
             }
             else
             {
-                if(timeGauge.value == 0)
+                if (timeGauge.value == 0)
                 {
                     isRunning = false;
                     MiniGameFinished?.Invoke(isSuccess);
                     parent.SetActive(isRunning);
                 }
-              
+
             }
         }
     }

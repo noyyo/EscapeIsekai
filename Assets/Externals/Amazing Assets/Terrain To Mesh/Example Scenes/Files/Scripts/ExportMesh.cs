@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace AmazingAssets.TerrainToMesh.Example
@@ -20,7 +18,7 @@ namespace AmazingAssets.TerrainToMesh.Example
 
 
             //1. Export mesh from terrain////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-           
+
             Mesh terrainMesh = terrainData.TerrainToMesh().ExportMesh(vertexCountHorizontal, vertexCountVertical, TerrainToMesh.Normal.CalculateFromMesh);
 
             GetComponent<MeshFilter>().sharedMesh = terrainMesh;

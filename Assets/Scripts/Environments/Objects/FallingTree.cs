@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FallingTree : BaseEnvironmentObject
 {
     [SerializeField] private int maxHP = 1;
     [SerializeField] private float objSpeed = 1f;
-    
-    [Range(0f,8f)][SerializeField] private float playFadeOutTime = 2f;
+
+    [Range(0f, 8f)][SerializeField] private float playFadeOutTime = 2f;
     [SerializeField] private AttackEffectTypes attackType;
     [Range(0f, 30f)][SerializeField] private float effectValue = 2f;
 
@@ -44,9 +43,9 @@ public class FallingTree : BaseEnvironmentObject
     { playerDamage = damage; }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
-    { 
+    {
         isPlayer = attacker.CompareTag(TagsAndLayers.PlayerTag);
-        if(isPlayer)
+        if (isPlayer)
             playerPos = attacker.transform.position;
     }
 
@@ -69,7 +68,7 @@ public class FallingTree : BaseEnvironmentObject
                 }
             }
         }
-        else if(isPlayer)
+        else if (isPlayer)
         {
             isPlayer = false;
             ChangeHP();
@@ -123,7 +122,7 @@ public class FallingTree : BaseEnvironmentObject
 
     private void PlayAnimationTakeDamage()
     {
-        
+
     }
 
     private void PlayAnimationFadeOut()
@@ -147,7 +146,7 @@ public class FallingTree : BaseEnvironmentObject
     private void Deactivate()
     {
         this.gameObject.SetActive(false);
-        if(isRespawn)
+        if (isRespawn)
             Invoke("Respawn", respawnTime);
     }
 

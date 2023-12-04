@@ -1,11 +1,8 @@
 using Cinemachine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GameManager : CustomSingleton<GameManager>
 {
@@ -30,15 +27,15 @@ public class GameManager : CustomSingleton<GameManager>
     public GameObject endPotal;
     private GameObject panel;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
-    
-    public GameObject Player 
-    { 
-        get 
+
+    public GameObject Player
+    {
+        get
         {
             if (_player == null)
                 PlayerInit();
-            return _player; 
-        } 
+            return _player;
+        }
     }
 
     public event Action OnPauseEvent;
@@ -54,18 +51,18 @@ public class GameManager : CustomSingleton<GameManager>
         if (timeSlip == null)
         {
             timeSlip = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TimeSlip"));
-             panel = timeSlip.GetComponent<TimeSlip>().panel;
+            panel = timeSlip.GetComponent<TimeSlip>().panel;
         }
 
-        if(dialogCamera ==null)
+        if (dialogCamera == null)
         {
             dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
             dialogCamera.SetActive(false);
         }
-        
+
         if (characterCamera == null)
             characterCamera = GameObject.FindGameObjectWithTag("CharacterCamera").GetComponent<CinemachineVirtualCamera>();
-            
+
         if (deadNpc == null)
         {
             deadNpc = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/여관주인"));
@@ -184,12 +181,12 @@ public class GameManager : CustomSingleton<GameManager>
     public void DieEvent()
     {
         deadNpc.SetActive(true);
-        deadNpc.transform.position = Player.transform.position+ Player.transform.forward*2;
+        deadNpc.transform.position = Player.transform.position + Player.transform.forward * 2;
         Dialog.Instance.Action(deadNpc);
     }
-   public IEnumerator Revive()
+    public IEnumerator Revive()
     {
-       
+
         Color c = panel.GetComponent<Image>().color;
         c.a = 0.0f;
         panel.SetActive(true);
@@ -201,7 +198,7 @@ public class GameManager : CustomSingleton<GameManager>
         }
         yield return new WaitForSecondsRealtime(2f);
         GameObject[] pub = GameObject.FindGameObjectsWithTag("Npc");
-        for(int i = 0; i < pub.Length;i++)
+        for (int i = 0; i < pub.Length; i++)
         {
             if (pub[i].GetComponent<Npc>().id == 400)
             {

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,7 +25,7 @@ public class HideAndAttack : AttackAction
     private bool isDestinationSetted;
     private bool isAttackStarted;
     private AOEIndicator indicator;
-    
+
     public override void OnAwake()
     {
         base.OnAwake();

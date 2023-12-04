@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemCraftingController : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public class ItemCraftingController : MonoBehaviour
     private GameObject craftingItemTypeListPrefab;
     private Transform craftingItemListSpawn;
     private ItemDB itemDB;
-    private Dictionary<int,int> itemEquipmentID;
+    private Dictionary<int, int> itemEquipmentID;
     private Dictionary<int, int> itemConsumableID;
     private Dictionary<int, int> itemMaterialID;
     private Dictionary<int, int> itemFoodID;
@@ -36,7 +33,7 @@ public class ItemCraftingController : MonoBehaviour
     private void CreateItemList()
     {
         string[] str = { "장비", "소모품", "재료", "요리" };
-        for(int i = 0;  i < craftingItemListCount; i++)
+        for (int i = 0; i < craftingItemListCount; i++)
         {
             GameObject obj = Instantiate(craftingItemTypeListPrefab);
             obj.transform.SetParent(craftingItemListSpawn, false);
@@ -51,7 +48,7 @@ public class ItemCraftingController : MonoBehaviour
         {
             if (itemDB.GetRecipe(id, out ItemRecipe newRecipe))
             {
-                int craftingItemIndex= (newRecipe.CraftingID / 1000) % 1000; 
+                int craftingItemIndex = (newRecipe.CraftingID / 1000) % 1000;
                 switch (craftingItemIndex)
                 {
                     case >= 300:

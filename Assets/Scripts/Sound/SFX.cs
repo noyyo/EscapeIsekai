@@ -29,7 +29,7 @@ public class SFX : MonoBehaviour
         audioSource.clip = audioClip;
         SFXName = audioClip.name;
         audioSource.Play();
-        if(isLoop)
+        if (isLoop)
         {
             audioSource.loop = true;
         }
@@ -38,7 +38,7 @@ public class SFX : MonoBehaviour
             Invoke("DestroyAudioSource", playTime);
             audioSource.loop = false;
         }
-        
+
     }
 
     public void DestroyAudioSource()

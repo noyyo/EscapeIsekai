@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
 using Krearthur.Utils;
+using UnityEngine;
 
 namespace Krearthur.GOP
 {
@@ -38,7 +38,7 @@ namespace Krearthur.GOP
         [HideInInspector] public float correctionRatio = 1;
 
         [HideInInspector] public bool calculateNumberByPaddingAndDistance = true;
-        [HideInInspector] [Range(1f, 10f)] public float padding = 2.5f;
+        [HideInInspector][Range(1f, 10f)] public float padding = 2.5f;
 
         public bool drawEllipses = false;
         public bool drawNormals = false;
@@ -125,13 +125,13 @@ namespace Krearthur.GOP
             if (Mathf.Abs(radiusA) < 0.05f || Mathf.Abs(radiusB) < 0.05f) return null;
 
             Vector3 center = startWithOffset + diagonal * 0.5f;
- 
+
             float totalPolyLineLength = CalculateEllipsesAndCircumference(center, radiusA, radiusB);
 
             // -- Calculate steps based on total arc length divided by object dimension
             steps = Mathf.CeilToInt((totalPolyLineLength + 0.0001f) / (padding * segmentFactory.GetAvgDimension()));
             // ---- Then place the objects at equal distance on polyline points
-            float arcLength = totalPolyLineLength / (steps-1);
+            float arcLength = totalPolyLineLength / (steps - 1);
             if (degrees == 360) arcLength = totalPolyLineLength / steps;
             positions = new Vector3[steps];
             normals = new Vector3[steps];
@@ -159,7 +159,7 @@ namespace Krearthur.GOP
                         prevDelta = Mathf.Abs(searchLength - polyLineLengths[i - 1]);
                     }
                     float nextDelta = 999;
-                    if (i+1 < ellipsesPoints.Length)
+                    if (i + 1 < ellipsesPoints.Length)
                     {
                         nextDelta = Mathf.Abs(searchLength - polyLineLengths[i + 1]);
                     }
@@ -180,11 +180,12 @@ namespace Krearthur.GOP
             if (alignWithNormal)
             {
                 segmentFactory.MassProduceOrUpdate(positions, normals);
-            } else
+            }
+            else
             {
                 segmentFactory.MassProduceOrUpdate(positions);
             }
-            
+
             return segmentFactory.GetAt(0);
         }
 
@@ -250,10 +251,11 @@ namespace Krearthur.GOP
             {
                 return center + new Vector3(0, coord2, coord1);
             }
-            else if(axis == GOPainter.CanvasAxis.Y)
+            else if (axis == GOPainter.CanvasAxis.Y)
             {
                 return center + new Vector3(coord1, 0, coord2);
-            }else 
+            }
+            else
             {
                 return center + new Vector3(coord1, coord2, 0);
             }
@@ -271,7 +273,7 @@ namespace Krearthur.GOP
         {
             if (drawEllipses)
             {
-                Vector3 center = startPos + (endPos- startPos) * 0.5f;
+                Vector3 center = startPos + (endPos - startPos) * 0.5f;
 
                 if (drawCenter)
                 {
@@ -299,7 +301,7 @@ namespace Krearthur.GOP
                         Gizmos.color = Color.blue;
                         Gizmos.DrawLine(ellipsesPoints[i], ellipsesPoints[i] + ellipsesNormals[i]);
                     }
-                    
+
                 }
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawLine(ellipsesPoints[polyLineApproximation - 1], ellipsesPoints[0]);

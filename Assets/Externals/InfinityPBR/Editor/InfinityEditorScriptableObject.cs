@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace InfinityPBR
 {
-    
+
     public abstract class InfinityEditorScriptableObject<T> : InfinityEditor where T : ScriptableObject
     {
         protected T Script;
 
         protected virtual void OnEnable()
         {
-            Script = (T) target;
+            Script = (T)target;
             Setup();
         }
-        
+
         protected abstract void Setup();
         protected abstract void Cache();
 
@@ -29,7 +29,7 @@ namespace InfinityPBR
             Draw();
             serializedObject.ApplyModifiedProperties();
         }
-        
+
         protected virtual void SetDirty(Object obj = null)
         {
             if (obj == null)

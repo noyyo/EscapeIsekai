@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -41,7 +38,7 @@ public class EnemyBaseState : IState
     {
         if (stateMachine.GetIsPause())
             return;
-            
+
     }
     public virtual void PhysicsUpdate()
     {

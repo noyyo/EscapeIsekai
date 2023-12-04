@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +14,11 @@ public class TimingMinigameMark : MonoBehaviour
     private void Awake()
     {
         reSize = new Vector2(200, 200);
-        rect= gameObject.GetComponent<RectTransform>();
+        rect = gameObject.GetComponent<RectTransform>();
     }
     private void Update()
     {
-        if(rect.sizeDelta.x < 30)
+        if (rect.sizeDelta.x < 30)
         {
             StartCoroutine("Fail"); //실패
         }
@@ -32,7 +30,7 @@ public class TimingMinigameMark : MonoBehaviour
     {
         while (true)
         {
-            if(Input.anyKeyDown)
+            if (Input.anyKeyDown)
             {
                 if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 체크
                 {
@@ -60,13 +58,13 @@ public class TimingMinigameMark : MonoBehaviour
                         StartCoroutine("Fail");
                     }
                 }
-                if(TimingMinigame.Instance.inputKey != inputkey&& TimingMinigame.Instance.inputKey != 0) //버튼 실패
+                if (TimingMinigame.Instance.inputKey != inputkey && TimingMinigame.Instance.inputKey != 0) //버튼 실패
                 {
                     TimingMinigame.Instance.MarkFail();
                     StartCoroutine("Fail");
                 }
             }
-          
+
             TimingMinigame.Instance.inputKey = 0;
             yield return null;
         }
@@ -83,7 +81,7 @@ public class TimingMinigameMark : MonoBehaviour
     {
         StartCoroutine("RemoveMark");
 
-        inputkey=Random.Range(61, 64);
-        arrowIcon.sprite = arrows[inputkey-61];
+        inputkey = Random.Range(61, 64);
+        arrowIcon.sprite = arrows[inputkey - 61];
     }
 }

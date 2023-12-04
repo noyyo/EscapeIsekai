@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 
 public enum BuffTypes
@@ -18,8 +15,8 @@ public class Buff : MonoBehaviour
     private PlayerStateMachine playerStateMachine;
     private Playerconditions playerconditions;
     public BuffTypes buffType;
-   
-    
+
+
     public Buff(BuffTypes type, PlayerStateMachine stateMachine)   // 생성자
     {
         buffType = type;
@@ -39,7 +36,7 @@ public class Buff : MonoBehaviour
                 playerStateMachine.MovementSpeedModifier = 2.0f;
                 break;
             case BuffTypes.nostamina:
-                Debug.Log("스태미나 버프!"); 
+                Debug.Log("스태미나 버프!");
                 playerconditions.ActiveNoStaminaBuff();
                 break;
             case BuffTypes.shield:

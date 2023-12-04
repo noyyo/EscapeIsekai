@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -14,7 +10,7 @@ public enum FallingStalactitesTarget
 
 
 public class FallingStalactitesManager : CustomSingleton<FallingStalactitesManager>
-{ 
+{
     protected FallingStalactitesManager() { }
 
     [SerializeField] private int poolMaxCount = 10;

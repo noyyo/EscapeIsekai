@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerGroundState : PlayerBaseState
 {
@@ -30,7 +25,7 @@ public class PlayerGroundState : PlayerBaseState
     {
         base.Update();
 
-        if(stateMachine.IsAttacking)
+        if (stateMachine.IsAttacking)
         {
             OnAttack();
             return;
@@ -54,7 +49,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        if(stateMachine.MovementInput == Vector2.zero)
+        if (stateMachine.MovementInput == Vector2.zero)
         {
             return;
         }
@@ -130,14 +125,14 @@ public class PlayerGroundState : PlayerBaseState
 
     protected virtual void OnSkillStarted(InputAction.CallbackContext context)
     {
-        if(stateMachine.Player.Playerconditions.skill.curValue < groundData.SkillCost)
+        if (stateMachine.Player.Playerconditions.skill.curValue < groundData.SkillCost)
             return;
         stateMachine.ChangeState(stateMachine.SkillState);
     }
 
     protected virtual void OnPowerUpStarted(InputAction.CallbackContext context)
     {
-        if(stateMachine.Player.Playerconditions.powerUp.curValue < groundData.PowerUpCost)
+        if (stateMachine.Player.Playerconditions.powerUp.curValue < groundData.PowerUpCost)
             return;
         stateMachine.ChangeState(stateMachine.PowerUpState);
     }
@@ -150,7 +145,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected virtual void OnAttack()
     {
-        if(!isStateChangeable) return;
+        if (!isStateChangeable) return;
         stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
 

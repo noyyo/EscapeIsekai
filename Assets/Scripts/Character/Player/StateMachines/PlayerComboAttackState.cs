@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,7 +49,7 @@ public class PlayerComboAttackState : PlayerAttackState
         // -1은 마지막3타이므로 마지막 공격을 했다면 리턴
         if (attackInfoData.ComboStateIndex == -1) return;
         // 공격이 끊겼다면 리턴
-        if(!stateMachine.IsAttacking) return;
+        if (!stateMachine.IsAttacking) return;
         // 위의 모든 조건이 아니라면 true로 적용
         alreadyApplyCombo = true;
     }

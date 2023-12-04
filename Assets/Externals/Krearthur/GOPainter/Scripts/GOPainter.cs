@@ -349,7 +349,7 @@ namespace Krearthur.GOP
                         mouseWorldPos.y,
                         mouseWorldPos.z);
             }
-            else if(canvasAxis == CanvasAxis.Y)
+            else if (canvasAxis == CanvasAxis.Y)
             {
                 paintCanvas.transform.position = new Vector3(
                         mouseWorldPos.x,
@@ -475,7 +475,7 @@ namespace Krearthur.GOP
                 paintCanvas.hideFlags = HideFlags.HideInHierarchy;
                 paintCanvas.name = paintCanvasName;
                 paintCanvas.layer = LayerMask.NameToLayer(canvasLayer);
-                paintCanvas.transform.SetParent(groupRoot.transform, true);    
+                paintCanvas.transform.SetParent(groupRoot.transform, true);
             }
             UpdatePaintCanvasSize();
 
@@ -505,7 +505,7 @@ namespace Krearthur.GOP
         protected void CheckForTerrains()
         {
             // Adjust level size according to found terrins
-            foreach(Terrain t in FindObjectsOfType<Terrain>())
+            foreach (Terrain t in FindObjectsOfType<Terrain>())
             {
                 lastFoundTerrain = t;
 
@@ -1108,7 +1108,7 @@ namespace Krearthur.GOP
                     e.Use();
                 }
             }
-            
+
             // Left Mouse UP 
             else if (e.type == EventType.MouseUp && e.button == 0 && !cursorHasNoSurface)
             {

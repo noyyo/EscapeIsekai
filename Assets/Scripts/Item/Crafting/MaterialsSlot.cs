@@ -60,7 +60,7 @@ public class MaterialsSlot : MonoBehaviour
 
     public void UpdateItemData()
     {
-        if(itemCount >= consumption)
+        if (itemCount >= consumption)
             itemCount -= consumption;
         UpdateText();
     }

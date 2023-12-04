@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -50,7 +48,7 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             confirmBtn = confirmGO.GetComponentInChildren<Button>();
         if (confirmText == null)
             Debug.LogError("confirmGO을 넣어주세요");
-        
+
         if (!cancelGO.TryGetComponent<TMP_Text>(out cancelText))
             cancelText = cancelGO.GetComponentInChildren<TMP_Text>();
         if (!cancelGO.TryGetComponent<Button>(out cancelBtn))
@@ -171,7 +169,7 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void InputFieldGOTurnOn()
     {
-        if(isInputField)
+        if (isInputField)
             inputFieldGO.SetActive(true);
     }
 
@@ -221,7 +219,7 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        defaultPos = new Vector2 (this.transform.position.x - eventData.position.x, this.transform.position.y - eventData.position.y);
+        defaultPos = new Vector2(this.transform.position.x - eventData.position.x, this.transform.position.y - eventData.position.y);
     }
 
     public void OnDrag(PointerEventData eventData)

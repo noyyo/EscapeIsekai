@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AmazingAssets.TerrainToMesh.Example
 {
@@ -74,7 +72,7 @@ namespace AmazingAssets.TerrainToMesh.Example
             }
 
 
-            if(exportHoles)
+            if (exportHoles)
             {
                 SetupAlphaTest(material);
             }

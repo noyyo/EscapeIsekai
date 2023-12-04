@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -32,6 +30,6 @@ public class PlayerGroundData
     [field: SerializeField][field: Range(0f, 10f)] public float NoStaminaCost { get; private set; } = 10f;
     [field: SerializeField][field: Range(0f, 10f)] public float ShieldCost { get; private set; } = 10f;
     [field: SerializeField][field: Range(0f, 2f)] public float RollCoolTime { get; private set; } = 2f;
-    
+
 
 }

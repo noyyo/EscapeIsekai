@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Pool;
-using Random = UnityEngine.Random;
 
 
 [CreateAssetMenu(fileName = "LaunchProjectile", menuName = "Characters/Enemy/AttackAction/LaunchProjectile")]
@@ -171,7 +167,7 @@ public class LaunchProjectile : AttackAction
             rotatedOffset = startRotation * offset;
             startPosition = enemyTransform.TransformPoint(LaunchPointRelativePosition + rotatedOffset);
         }
-        
+
         Vector3 nextProjectilePosition = startPosition;
         Quaternion nextProjectileRotation = startRotation;
         for (int i = 0; i < projectileAmount; i++)
@@ -195,5 +191,5 @@ public class LaunchProjectile : AttackAction
             settedProjectiles.RemoveAt(i);
         }
     }
-    
+
 }

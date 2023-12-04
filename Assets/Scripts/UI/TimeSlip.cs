@@ -1,14 +1,10 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 using Image = UnityEngine.UI.Image;
 
 public class TimeSlip : MonoBehaviour
@@ -54,8 +50,8 @@ public class TimeSlip : MonoBehaviour
     {
         for (int i = 0; i < btns.Length; i++)
         {
-            if (btns[i].gameObject.activeSelf==true)
-            btns[i].gameObject.SetActive(false);
+            if (btns[i].gameObject.activeSelf == true)
+                btns[i].gameObject.SetActive(false);
             else
                 btns[i].gameObject.SetActive(true);
         }
@@ -104,7 +100,7 @@ public class TimeSlip : MonoBehaviour
         panel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.Player.GetComponent<PlayerInputSystem>().InputActions.Enable();
-        if(obj!=null)
+        if (obj != null)
         {
             Destroy(obj);
         }
@@ -114,7 +110,7 @@ public class TimeSlip : MonoBehaviour
     void OnTimeSlip(InputAction.CallbackContext context)
     {
         StartCoroutine("ShowString");
-        obj= Instantiate(tent,GameManager.Instance.Player.transform.position,Quaternion.identity);
+        obj = Instantiate(tent, GameManager.Instance.Player.transform.position, Quaternion.identity);
     }
     public void NpcAction()
     {
@@ -123,11 +119,11 @@ public class TimeSlip : MonoBehaviour
 
     void MoveNpc()
     {
-        if(GameManager.Instance.IsDay)
+        if (GameManager.Instance.IsDay)
         {
-            foreach(GameObject npc in npcs)
+            foreach (GameObject npc in npcs)
             {
-                if(npc.GetComponent<NpcAi>().dayPosition != null)
+                if (npc.GetComponent<NpcAi>().dayPosition != null)
                 {
                     npc.GetComponent<NavMeshAgent>().SetDestination(npc.gameObject.transform.position);
                     npc.transform.position = npc.GetComponent<NpcAi>().dayPosition.transform.position;
