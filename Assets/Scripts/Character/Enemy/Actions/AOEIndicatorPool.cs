@@ -9,7 +9,7 @@ using UnityEngine.Rendering.Universal;
 public class AOEIndicatorPool : CustomSingleton<AOEIndicatorPool>
 {
     [SerializeField][ReadOnly] private AOEIndicator[] IndicatorPrefabs;
-    private const string PrefabPath = "Prefabs/Entities/AOEIndicator";
+    private const string PrefabPath = "Prefabs/Utils/AOEIndicator";
 
     private Dictionary<AOETypes, ObjectPool<AOEIndicator>> indicators;
     private void Awake()

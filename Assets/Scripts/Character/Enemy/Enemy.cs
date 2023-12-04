@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour, IPositionable
     [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
     public Animator Animator { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
-    public Collider Collider;
+    [HideInInspector] public Collider Collider;
     [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
     [SerializeField] private AffectedAttackEffectInfo affectedEffectInfo;

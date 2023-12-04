@@ -8,9 +8,9 @@ public class ProjectileRain : AttackAction
 {
     [SerializeField] Projectile projectilePrefab;
     [Tooltip("한 번에 생성될 투사체의 개수입니다. 생성되는 주기는 EffectDuration에 따라 자동결정됩니다. EffectDuration이 0이라면 batchCount를 곱한만큼 즉시 생성됩니다.")]
-    [SerializeField][Range(1, 20)] private int projectileAmountInBatch;
+    [SerializeField][Range(1, 20)] private int projectileAmountInBatch = 1;
     [Tooltip("투사체가 생성될 횟수입니다.")]
-    [SerializeField][Range(1, 20)] private int batchCount;
+    [SerializeField][Range(1, 20)] private int batchCount = 1;
     [Tooltip("Enemy의 위치를 중심으로 투사체가 떨어질 반경입니다.")]
     [SerializeField] private float rainRadius;
     [Tooltip("투사체가 충돌했을 때 효과 반경입니다.")]
@@ -69,7 +69,7 @@ public class ProjectileRain : AttackAction
             }
             else
             {
-                if (currentCreatedBatch < Mathf.FloorToInt((Time.time - EffectStartTime) / createBatchDelay) + 1)
+                if (currentCreatedBatch < batchCount && currentCreatedBatch < Mathf.FloorToInt((Time.time - EffectStartTime) / createBatchDelay) + 1)
                 {
                     CreateProjectileBatch();
                 }
@@ -125,7 +125,7 @@ public class ProjectileRain : AttackAction
             basePosition = StateMachine.Player.transform.position;
         else
             basePosition = enemy.transform.position;
-        basePosition.y += dropSpeed * dropTime;
+        basePosition.y += rainRadius * 1.5f;
         Vector2 randomCircle;
         Projectile projectile;
         Vector3 initialPosition;
@@ -138,10 +138,10 @@ public class ProjectileRain : AttackAction
             initialPosition.z = basePosition.z + randomCircle.y;
             Ray ray = new Ray(initialPosition, Vector3.down);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, initialPosition.y + rainRadius, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
-                initialPosition.y = hit.transform.position.y + dropSpeed * dropTime;
+            if (Physics.Raycast(ray, out hit, rainRadius * 3, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+                initialPosition.y = hit.point.y + dropSpeed * dropTime;
             else
-                initialPosition.y = initialPosition.y -rainRadius + dropSpeed * dropTime;
+                initialPosition.y = initialPosition.y -(rainRadius * 1.5f) + dropSpeed * dropTime;
 
             projectile.SetProjectileInfo(ProjectileLaunchTypes.Drop, initialPosition, Vector3.down, dropSpeed, enemy);
             projectile.IndicateCircleAOE(radius: 1, depth: dropSpeed * dropTime + Mathf.Max(effectRadius, additionalAOEYOffset));
