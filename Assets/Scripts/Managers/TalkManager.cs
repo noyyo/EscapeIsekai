@@ -33,7 +33,7 @@ public class TalkManager : CustomSingleton<TalkManager>
         //여관
         talkData.Add(400 + 0, new string[] { "오랜만에 보는구나", "많이 지쳤으면 쉬고 가는건 어때??" });
         //검술
-        talkData.Add(500 + 0, new string[] { "하이", "검좀배울래?" });
+        talkData.Add(500 + 0, new string[] { "모든것은 기초가 중요해", "보아하니 훈련이 필요하겠군","훈련을 통과하면 강해지는것을 느낄걸세" });
         //경비병
         talkData.Add(600 + 0, new string[] { "마을 밖은 몬스터가 많아","항간에 듣기로 마을 동서남북에","특별한 무언가를 지닌 괴물이 살고있다고해" });
         //차원문

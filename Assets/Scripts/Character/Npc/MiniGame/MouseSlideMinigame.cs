@@ -119,7 +119,6 @@ public class MouseSlideMinigame : MonoBehaviour
     IEnumerator Fail() //실패해서 처음부터
     {
         isSuccess = false;
-        MiniGameFinished?.Invoke(isSuccess);
         sliceList.Clear();
         StartCoroutine("StartMission");
         return null;
