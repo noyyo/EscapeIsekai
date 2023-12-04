@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MinigameManager : CustomSingleton<MinigameManager>
 {
@@ -15,7 +11,7 @@ public class MinigameManager : CustomSingleton<MinigameManager>
     private GameObject _blackSmith;
 
     public event Action<bool> MiniGameSuccess; //신경안써도됨
-     int sucecesOrFail;
+    int sucecesOrFail;
     public event Action<int> ChangeSuccess; //미니게임 성공여부 확인 이벤트 구문 맨아래쪽 예시 구문 적어둠
     public GameObject kamen { get { return _kamen; } }
     public GameObject MouseSlider { get { return _mouseSlider; } }
@@ -74,7 +70,7 @@ public class MinigameManager : CustomSingleton<MinigameManager>
         // 미니게임이 종료될 때까지 대기
         yield return new WaitUntil(() => sucecesOrFail != 0);
         ChangeSuccess?.Invoke(sucecesOrFail);
-      
+
     }
 
 

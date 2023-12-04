@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
@@ -61,21 +60,21 @@ public class UI_Inventory : MonoBehaviour
 
         //버튼 설정
         // 장비 : 0, 소비 : 1, 재료 : 2, 기타 : 3
-        if(inventoryTypeButtons.Length == 0)
+        if (inventoryTypeButtons.Length == 0)
             inventoryTypeButtons = this.transform.GetChild(2).GetComponentsInChildren<Button>();
 
         //정렬 : 0, 버리기 : 1, 사용 : 2
-        if( inventoryTypeButtons.Length == 0)
+        if (inventoryTypeButtons.Length == 0)
             inventoryTailButtons = inventoryTailButtonArea.GetComponentsInChildren<Button>();
 
         //뒤로가기
-        if(backButton == null)
+        if (backButton == null)
             backButton = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
 
-        if(tailUseButton == null)
+        if (tailUseButton == null)
             tailUseButton = inventoryTailButtons[2].gameObject;
 
-        if(tailUseButtonText == null)
+        if (tailUseButtonText == null)
             tailUseButtonText = tailUseButton.GetComponentInChildren<TMP_Text>();
 
         itemExplanationTexts = itemExplanationPopup.transform.GetComponentsInChildren<TMP_Text>();
@@ -151,7 +150,7 @@ public class UI_Inventory : MonoBehaviour
                 break;
         }
     }
-    
+
     // 밑쪽 버튼 모두 OFF
     public void TurnOffInventoryTailUI()
     {
@@ -172,7 +171,7 @@ public class UI_Inventory : MonoBehaviour
         TurnOffInventoryTailUI(); // 인벤토리 UI 오프
         inventoryManager.CallTurnOffItemClick(); //클릭시 뜨는 UI 오프
     }
-    
+
     public void ButtonTextChange_Equip()
     {
         tailUseButtonText.text = "장착";

@@ -63,7 +63,7 @@ public class UI_ItemCrafting : MonoBehaviour
         itemText[0].text = craftingItem.ItemName;
         itemText[1].text = craftingItem.ItemExplanation;
 
-        if(itemDB.GetStats(craftingItem.ID, out ItemStats itemStats))
+        if (itemDB.GetStats(craftingItem.ID, out ItemStats itemStats))
         {
             StringBuilder sb = new StringBuilder();
 

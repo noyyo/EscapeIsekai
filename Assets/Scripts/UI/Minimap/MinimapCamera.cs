@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MinimapCamera : MonoBehaviour
@@ -23,9 +19,9 @@ public class MinimapCamera : MonoBehaviour
         targetForward.y = 0;
         targetForward.Normalize();
 
-        Vector3 position = new Vector3(_target.transform.position.x, _target.transform.position.y + height, _target.transform.position.z); 
+        Vector3 position = new Vector3(_target.transform.position.x, _target.transform.position.y + height, _target.transform.position.z);
         transform.position = position;
-        transform.eulerAngles = new Vector3( 90, 0, -_target.eulerAngles.y );
+        transform.eulerAngles = new Vector3(90, 0, -_target.eulerAngles.y);
 
     }
 }

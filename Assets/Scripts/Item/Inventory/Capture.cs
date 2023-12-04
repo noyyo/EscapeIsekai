@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 //using UnityEngine.Windows;
 using System.IO;
+using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum Grade
@@ -62,7 +61,7 @@ public class Capture : MonoBehaviour
         Debug.Log(path);
         num += 100;
 
-        if(!Directory.Exists(path)) Directory.CreateDirectory(path);
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
         File.WriteAllBytes(path + name + extention, data);
 
@@ -110,7 +109,7 @@ public class Capture : MonoBehaviour
 
     void SettingColor()
     {
-        switch(grade)
+        switch (grade)
         {
             case Grade.Normal:
                 cam.backgroundColor = Color.white;
@@ -121,7 +120,7 @@ public class Capture : MonoBehaviour
                 bg.color = Color.white;
                 break;
             case Grade.Gather:
-                cam.backgroundColor = new Color(219f/255f, 248f / 255f, 170f / 255f);
+                cam.backgroundColor = new Color(219f / 255f, 248f / 255f, 170f / 255f);
                 bg.color = new Color(219f / 255f, 248f / 255f, 170f / 255f);
                 break;
             case Grade.Craft:

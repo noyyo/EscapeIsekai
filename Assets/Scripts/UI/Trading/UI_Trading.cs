@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -86,7 +84,7 @@ public class UI_Trading : MonoBehaviour
     {
         int i = 0;
         int count = tradingManager.TradingSlotList[0].Count;
-        if(count != 0)
+        if (count != 0)
         {
             for (; i < count; i++)
                 tradingManager.TradingSlotList[0][i].CallOnResetEvent();
@@ -107,7 +105,7 @@ public class UI_Trading : MonoBehaviour
         int i = 0;
 
         int count = tradingManager.TradingSlotList[1].Count;
-        if( count > 0)
+        if (count > 0)
         {
             for (; i < count; i++)
                 tradingManager.TradingSlotList[1][i].CallOnResetEvent();
@@ -133,18 +131,18 @@ public class UI_Trading : MonoBehaviour
 
     private void PlayerItemCategoryButton(int category)
     {
-        if(tradingManager.displayPlayerItemCategory != category)
+        if (tradingManager.displayPlayerItemCategory != category)
         {
             DisplayPlayerSlot(category);
             tradingManager.displayPlayerItemCategory = category;
             ClickCategoryButtonEvnet?.Invoke();
 
-        }        
+        }
     }
 
     private void ShopItemCategoryButton(int category)
     {
-        if(tradingManager.displayShopItemCategory != category)
+        if (tradingManager.displayShopItemCategory != category)
         {
             DisplayShopSlot(category);
             tradingManager.displayShopItemCategory = category;
@@ -161,7 +159,7 @@ public class UI_Trading : MonoBehaviour
     {
         BuyButton.SetActive(false);
     }
-    
+
     private void MoneyTextUpdate()
     {
         money.text = tradingManager.PlayerMoney.ToString();

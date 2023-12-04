@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace Krearthur.GOP
 {
@@ -17,7 +17,7 @@ namespace Krearthur.GOP
         [Tooltip("Goes x meters above the painted object, then casts down")]
         public float maxHeightToCastDownFrom = 30;
 
-        private void Start(){}
+        private void Start() { }
 
         public void Register()
         {
@@ -25,10 +25,10 @@ namespace Krearthur.GOP
             {
                 goPainter = GetComponent<GOPainter>();
             }
-            
+
             goPainter.OnObjectMassPaintedLate += CastObjectsDown;
             goPainter.OnObjectPainted += CastObjectDownGOP;
-            
+
 
             if (factory == null)
             {
@@ -46,10 +46,10 @@ namespace Krearthur.GOP
             {
                 goPainter = GetComponent<GOPainter>();
             }
-            
+
             goPainter.OnObjectMassPaintedLate -= CastObjectsDown;
             goPainter.OnObjectPainted -= CastObjectDownGOP;
-            
+
             if (factory == null)
             {
                 factory = GetComponent<ObjectFactory>();

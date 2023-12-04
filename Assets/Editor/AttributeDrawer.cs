@@ -17,7 +17,7 @@ public class ReadOnlyDrawer : UnityEditor.PropertyDrawer
                 disabled = UnityEngine.Application.isPlaying;
                 break;
         }
-            
+
         using (var scope = new UnityEditor.EditorGUI.DisabledGroupScope(disabled))
         {
             UnityEditor.EditorGUI.PropertyField(position, property, label, true);

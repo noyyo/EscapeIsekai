@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public enum ScaffoldingType
 {
@@ -31,7 +30,7 @@ public class Scaffolding : BaseEnvironmentObject
     private void Awake()
     {
         TryGetComponent<Collider>(out thisCollider);
-        if(thisCollider == null)
+        if (thisCollider == null)
             thisCollider = GetComponentInChildren<Collider>();
         breakWaitForSeconds = new WaitForSeconds(limitTime);
         respawnWaitForSeconds = new WaitForSeconds(respawnTime);
@@ -57,7 +56,7 @@ public class Scaffolding : BaseEnvironmentObject
     {
         if (attackerNumber == 1)
         {
-            switch(type)
+            switch (type)
             {
                 case ScaffoldingType.TakeDamage:
                     break;
@@ -70,7 +69,7 @@ public class Scaffolding : BaseEnvironmentObject
                     break;
             }
         }
-        else if(attackerNumber == -1)
+        else if (attackerNumber == -1)
         {
             switch (type)
             {

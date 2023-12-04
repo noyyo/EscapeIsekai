@@ -9,7 +9,7 @@ namespace InfinityPBR
     [System.Serializable]
     public class ColorShifterObject : ScriptableObject
     {
-        
+
         public int activeColorSetIndex = 0;
         public int activeColors = 49;
         public List<ColorShifterColorSet> colorSets = new List<ColorShifterColorSet>();
@@ -33,7 +33,7 @@ namespace InfinityPBR
         }
 
         public void OnValidate()
-        { 
+        {
             activeColors = Mathf.Clamp(activeColors, 0, 49);
         }
 
@@ -51,34 +51,34 @@ namespace InfinityPBR
         {
             if (index >= colorSets.Count)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Debug.LogWarning("Warning: index was greater than the available color sets.");
-                #endif
+#endif
                 return;
             }
 
             if (updateActiveIndex)
                 activeColorSetIndex = index;
-            
+
             for (int i = 0; i < colorSets[index].colorShifterItems.Count; i++)
             {
                 var colorItem = colorSets[index].colorShifterItems[i];
                 var testView = colorSets[index].colorShifterItems[i].testView;
-                #if !UNITY_EDITOR
+#if !UNITY_EDITOR
                 testView = false;
-                #endif
+#endif
 
                 var parent = colorItem.isChild ? colorSets[index].colorShifterItems.FirstOrDefault(x => x.name == colorItem.parentName) : null;
                 if (colorItem.isChild && parent == null)
                     colorItem.isChild = false;
                 if (colorItem.skipped || colorItem.hidden) continue;
                 if (parent != null && colorItem.isChild && parent.skipped) continue;
-                
+
                 float testH;
                 float testS;
                 float testV;
                 Color.RGBToHSV(Color.magenta, out testH, out testS, out testV);
-                
+
                 float hue = colorItem.isChild && parent != null ? parent.hue + colorItem.childHueShift : colorItem.hue;
                 float saturation = colorItem.isChild ? parent.saturation + colorItem.childSaturationShift : colorItem.saturation;
                 saturation = Mathf.Max(0, saturation);
@@ -97,16 +97,16 @@ namespace InfinityPBR
             for (var i = 0; i < colorSets.Count; i++)
             {
                 if (colorSets[i].name != searchName) continue;
-                
+
                 SetColorSet(i, updateActiveIndex);
                 return;
             }
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.LogWarning("Warning: No color set named \"" + searchName + "\" was found.");
-            #endif
+#endif
         }
-        
-        public bool HasUnnamedColors() 
+
+        public bool HasUnnamedColors()
             => colorSets
                 .Any(colorSet => colorSet.colorShifterItems.
                     Any(item => item.name.StartsWith("Unnamed Color") && item.hidden == false));
@@ -126,7 +126,7 @@ namespace InfinityPBR
     {
         public string name;
         public List<ColorShifterColorItem> colorShifterItems = new List<ColorShifterColorItem>();
-        
+
         // Color values
         [HideInInspector] public float v255 = 1f;
         [HideInInspector] public float v128 = 128f / 255f;
@@ -135,7 +135,7 @@ namespace InfinityPBR
         [HideInInspector] public float v0 = 0f;
         [HideInInspector] public float v196 = 196f / 255f;
         [HideInInspector] public float v96 = 96f / 255f;
-        
+
         public void SetDefaultValues()
         {
             colorShifterItems.Clear();
@@ -244,7 +244,7 @@ namespace InfinityPBR
 
         [HideInInspector] public bool hidden = false;
         [HideInInspector] public bool skipped = false;
-        
+
         // For the update to remove the int list and replace with ColorShifterColorItem list
         [HideInInspector] public bool isUpdated = false;
 
@@ -270,13 +270,15 @@ namespace InfinityPBR
 
             isUpdated = true;
         }
-        
+
         public int CompareTo(ColorShifterColorItem colorItem)
         {       // A null value means that this object is greater.
-            if (name == null){
-                return 1;  
+            if (name == null)
+            {
+                return 1;
             }
-            else {
+            else
+            {
                 return this.name.CompareTo(colorItem.name);
             }
         }

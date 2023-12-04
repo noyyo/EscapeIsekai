@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -57,7 +52,7 @@ public class Playerconditions : MonoBehaviour
 
     private bool nostaminaActive = false;
 
-    
+
     private void Equip(Item item)
     {
         if (item.IsEquip)
@@ -78,7 +73,7 @@ public class Playerconditions : MonoBehaviour
         }
     }
 
-    
+
 
     public void Initialize(PlayerUI playerUI)
     {
@@ -157,7 +152,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool UseStamina(float amount)
     {
-        if(!nostaminaActive && stamina.curValue - amount < 0)
+        if (!nostaminaActive && stamina.curValue - amount < 0)
             return false;
 
         if (!nostaminaActive)
@@ -178,7 +173,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool RollCoolTime(float amount)
     {
-        if(rollCoolTime.curValue - amount < 0)
+        if (rollCoolTime.curValue - amount < 0)
             return false;
 
         rollCoolTime.Subtract(rollCoolTime.maxValue);
@@ -187,7 +182,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool UseSkill(float amount)
     {
-        if(skill.curValue - amount < 0)
+        if (skill.curValue - amount < 0)
             return false;
 
         skill.Subtract(amount);
@@ -196,7 +191,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool ActivePowerUp(float amount)
     {
-        if(powerUp.curValue - amount < 0)
+        if (powerUp.curValue - amount < 0)
             return false;
 
         powerUp.Subtract(powerUp.maxValue);
@@ -205,7 +200,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool UseSuperJump(float amount)
     {
-        if(superJump.curValue - amount <0)
+        if (superJump.curValue - amount < 0)
             return false;
 
         superJump.Subtract(amount);

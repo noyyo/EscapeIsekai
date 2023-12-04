@@ -19,14 +19,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     //클릭을 위한 버튼
     private Button button;
-    
+
     //드래그 앤 드롭 구현을 위해 필요한 변수들
     private Transform itemImageTransform;
-    
+
     private Vector3 defaultPos; // 복귀를 위한 위치 저장
     private GameObject inventory_UI; // UI맨앞으로 바꾸기 위해 인벤토리 저장
     private Transform startParent; // 복귀를 위한 transform값 저장
-    
+
     //드래그가 유효한지 저장하기위한 bool값
     private bool isData;
 
@@ -39,14 +39,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     //슬롯의 위치 한번 설정한 후 절대 바뀌지 않을 값
     private int uniqueIndex = -1;
-    public int UniqueIndex 
+    public int UniqueIndex
     {
         get { return uniqueIndex; }
-        set 
-        { 
-           if(uniqueIndex == -1)
+        set
+        {
+            if (uniqueIndex == -1)
                 uniqueIndex = value;
-        } 
+        }
     }
 
     private void Awake()
@@ -140,7 +140,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (count > 0) 
+        if (count > 0)
         {
             isData = true;
             defaultPos = itemImageTransform.position;
@@ -150,7 +150,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         else
         {
             defaultContentPos = content.transform.position;
-            mousePosY = eventData.position.y;  
+            mousePosY = eventData.position.y;
         }
     }
 

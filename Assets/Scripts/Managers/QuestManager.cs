@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.Rendering.Universal;
 
 public class QuestManager : MonoBehaviour
 {
@@ -26,8 +22,8 @@ public class QuestManager : MonoBehaviour
     private void GenerataData()
     {
         //메인 퀘스트
-        questList.Add(10, new QuestData("마법사와 첫만남- 유물을 찾아서", new int[] {1} , "마법사에게 정보를 듣고 유물을 찾아보자."));
-        questList.Add(11, new QuestData("두번째 유물을 찾아서", new int[] { 1 },"유물을 찾아서 마법사에게 전달하자."));
+        questList.Add(10, new QuestData("마법사와 첫만남- 유물을 찾아서", new int[] { 1 }, "마법사에게 정보를 듣고 유물을 찾아보자."));
+        questList.Add(11, new QuestData("두번째 유물을 찾아서", new int[] { 1 }, "유물을 찾아서 마법사에게 전달하자."));
         questList.Add(12, new QuestData("세번째 유물을 찾아서", new int[] { 1 }, "유물을 찾아서 마법사에게 전달하자."));
         questList.Add(13, new QuestData("마지막 유물을 찾아서", new int[] { 1 }, "유물을 찾아서 마법사에게 전달하자."));
         questList.Add(14, new QuestData("집으로", new int[] { 1 }, "뒷마당으로"));
@@ -45,22 +41,22 @@ public class QuestManager : MonoBehaviour
             }
             else break;
         }
-        if(questId != 0 )
+        if (questId != 0)
         {
-        header.text = questList[questId + index].questName;
-        content.text = questList[questId + index].questDescription;
+            header.text = questList[questId + index].questName;
+            content.text = questList[questId + index].questDescription;
         }
 
-        return questId+ index;
+        return questId + index;
     }
 
     public void QuestClear() //메인퀘 클리어
     {
-        for(int i = 0; i < 4; i++ )
+        for (int i = 0; i < 4; i++)
         {
-            if(!questCheck[i])
+            if (!questCheck[i])
             {
-                if(i<3)
+                if (i < 3)
                 {
                     GameManager.Instance.Player.GetComponent<Player>().playerUI.Locks[i].gameObject.SetActive(false);
                 }

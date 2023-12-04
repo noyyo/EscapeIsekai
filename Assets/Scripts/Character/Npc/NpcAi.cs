@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 public class NpcAi : MonoBehaviour
 {
@@ -33,7 +29,7 @@ public class NpcAi : MonoBehaviour
     {
         while (true)
         {
-            if(agent.velocity != Vector3.zero)
+            if (agent.velocity != Vector3.zero)
             {
                 if (animator != null)
                 {
@@ -58,7 +54,7 @@ public class NpcAi : MonoBehaviour
                 isRunning = true;
                 StartCoroutine(StartMoving());
             }
-            yield return null ;
+            yield return null;
         }
     }
     IEnumerator StartMoving()
@@ -68,14 +64,14 @@ public class NpcAi : MonoBehaviour
             if (!GameManager.Instance.IsDay) //นใ
                 break;
 
-            if(dayPosition ==null)
+            if (dayPosition == null)
             {
                 RandomPoint(selfPoint, range, out point);
                 agent.SetDestination(point);
                 float tmptime = Random.Range(1, 5);
                 yield return new WaitForSecondsRealtime(tmptime);
             }
-            else if (RandomPoint(dayPosition.transform.position, range, out point)&& dayPosition !=null)
+            else if (RandomPoint(dayPosition.transform.position, range, out point) && dayPosition != null)
             {
                 dayPosition.transform.position = point;
                 agent.SetDestination(dayPosition.transform.position);

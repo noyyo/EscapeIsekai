@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 public class MouseTrailParticle : MonoBehaviour
 {
@@ -16,7 +13,7 @@ public class MouseTrailParticle : MonoBehaviour
 
     private void OnValidate()
     {
-        if(_distanceFromCamera < 0f)
+        if (_distanceFromCamera < 0f)
             _distanceFromCamera = 0f;
     }
 
@@ -40,7 +37,7 @@ public class MouseTrailParticle : MonoBehaviour
         }
         if (MouseSlideMinigame.Instance.isClick)
         {
-         transform.position = Camera.main.ScreenToWorldPoint(_mousePos);
+            transform.position = Camera.main.ScreenToWorldPoint(_mousePos);
         }
 
     }

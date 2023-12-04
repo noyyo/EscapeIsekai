@@ -29,7 +29,7 @@ namespace Krearthur.Utils
                 prefab = go;
             }
             return prefab;
-        } 
+        }
 
         public static GameObject GetPrefabAsset(this GameObject go)
         {

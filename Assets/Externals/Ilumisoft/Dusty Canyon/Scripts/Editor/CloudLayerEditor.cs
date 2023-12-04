@@ -74,14 +74,14 @@ namespace Ilumisoft.GreenMeadows
         {
             var children = new List<GameObject>();
 
-            for(int i=0; i< CloudLayer.transform.childCount; i++)
+            for (int i = 0; i < CloudLayer.transform.childCount; i++)
             {
                 var child = CloudLayer.transform.GetChild(i);
 
                 children.Add(child.gameObject);
             }
 
-            foreach(var child in children)
+            foreach (var child in children)
             {
                 Undo.DestroyObjectImmediate(child);
             }

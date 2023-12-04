@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +11,8 @@ namespace InfinityPBR.Demo
         public bool negativeOne = false;
 
         //public void UpdateValue(float value) => animator.SetFloat(floatKey, value);
-        
-        public void UpdateValue(float value) => animator.SetFloat(floatKey,  negativeOne ? (value * 2) - 1 : value);
+
+        public void UpdateValue(float value) => animator.SetFloat(floatKey, negativeOne ? (value * 2) - 1 : value);
 
         public void Setup(string key, Animator newAnimator)
         {
@@ -23,5 +21,5 @@ namespace InfinityPBR.Demo
             animator = newAnimator;
         }
     }
-    
+
 }

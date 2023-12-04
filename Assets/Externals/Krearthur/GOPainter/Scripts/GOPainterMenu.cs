@@ -9,7 +9,7 @@ namespace Krearthur.GOP
     /// </summary>
     public class GOPainterMenu : MonoBehaviour
     {
-    
+
         [MenuItem("GameObject/GO Painter/Run Physics On Selected", false, 49)]
         static void RunPhysicsOnSelected()
         {
@@ -17,7 +17,7 @@ namespace Krearthur.GOP
             {
                 PhysicsSimulation.RunSimulation(Selection.gameObjects);
             }
-        
+
             Selection.activeGameObject = null;
             Selection.activeObject = null;
         }
@@ -26,8 +26,8 @@ namespace Krearthur.GOP
         static bool ValidateRunPhysicsOnSelected()
         {
             return Selection.gameObjects != null && Selection.activeGameObject != null;
-        }    
-    
+        }
+
         [MenuItem("GameObject/GO Painter/Undo Physics Sim", false, 50)]
         static void ResetPhysicsOnSelected()
         {

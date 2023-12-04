@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
@@ -27,7 +25,7 @@ public class PlayerIdleState : PlayerGroundState
         // walk에서 키 입력이 되면 run이 되는 등
         // 이동처리가 되면 state에서 onmove로 전환을 시킨다
         // 즉, 키입력이 되면 각각의 스테이트로 전환을 시킨다.
-        if(stateMachine.MovementInput != Vector2.zero)
+        if (stateMachine.MovementInput != Vector2.zero)
         {
             OnMove();
             return;

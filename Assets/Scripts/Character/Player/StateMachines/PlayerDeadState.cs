@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerDeadState : PlayerBaseState
@@ -25,7 +23,7 @@ public class PlayerDeadState : PlayerBaseState
         CapsuleCollider playercollider = stateMachine.Player.GetComponent<CapsuleCollider>();
         CharacterController characterController = stateMachine.Player.GetComponent<CharacterController>();
 
-        if(playercollider != null && characterController != null)
+        if (playercollider != null && characterController != null)
         {
             playercollider.enabled = false;
             characterController.enabled = false;

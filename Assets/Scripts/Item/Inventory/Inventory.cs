@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
 
     public ItemType DisplayType { get { return displayType; } }
 
-    public event Action<int,int> AddItem;
+    public event Action<int, int> AddItem;
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -73,7 +73,7 @@ public class Inventory : MonoBehaviour
         else
         {
             ui_Manager.CallUI_InventoryTurnOff();
-        }  
+        }
     }
 
     /// <summary>
@@ -148,11 +148,11 @@ public class Inventory : MonoBehaviour
     {
         bool isTrue;
         if (count > 0)
-            isTrue =  IsCheckSpace(id, count);
+            isTrue = IsCheckSpace(id, count);
         else
             isTrue = IsCheckItem(id, count);
 
-        if(!isTrue)
+        if (!isTrue)
             return isTrue;
 
         if (itemDB.GetItemData(id, out ItemData newItem))
@@ -230,7 +230,7 @@ public class Inventory : MonoBehaviour
             isDisplay = true;
 
         //아이템 리스트에서 확인 후 값을 수정하는 부분
-        if(itemDic.Count > 0)
+        if (itemDic.Count > 0)
         {
             foreach (KeyValuePair<int, Item> i in itemDic)
             {
@@ -244,7 +244,7 @@ public class Inventory : MonoBehaviour
                             slotList[i.Key].SetSlotCount(i.Value.Count);
                         return true;
                     }
-                        
+
                     if (isDisplay)
                         slotList[i.Key].SetSlotCount(i.Value.Count);
                 }
@@ -260,7 +260,7 @@ public class Inventory : MonoBehaviour
                 addCount = newItemMaxCount;
                 count -= newItemMaxCount;
             }
-            else if(count == 0)
+            else if (count == 0)
                 return true;
             else
             {
@@ -366,13 +366,13 @@ public class Inventory : MonoBehaviour
         //인벤토리에 있는 값 확인후 뺴기
         foreach (KeyValuePair<int, Item> i in itemDic)
         {
-            if (i.Value.ID == ID && !(i.Value.IsEquip) )
+            if (i.Value.ID == ID && !(i.Value.IsEquip))
             {
                 if (!(i.Value.TryAddItem(count, out ErrorItemCount)))
                 {
                     count = ErrorItemCount;
                     stack.Push(i.Key);
-                }   
+                }
                 else
                 {
                     if (i.Value.Count == 0)
@@ -385,7 +385,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < stack.Count;)
+        for (int i = 0; i < stack.Count;)
         {
             int n = (int)stack.Pop();
             if (isDisplay)
@@ -393,7 +393,7 @@ public class Inventory : MonoBehaviour
             itemDic.Remove(n);
         }
 
-        if(ErrorItemCount > 0)
+        if (ErrorItemCount > 0)
             return false;
         else
             return true;
@@ -450,7 +450,7 @@ public class Inventory : MonoBehaviour
 
     private int CheckSlotIndex(int itemType)
     {
-        for(int i = 0; i < slotMaxCount; i++)
+        for (int i = 0; i < slotMaxCount; i++)
         {
             if (!(itemDics[itemType].ContainsKey(i)))
                 return i;
@@ -462,7 +462,7 @@ public class Inventory : MonoBehaviour
     {
         DisplaySlotAllClear();
         Queue<int> queue = new Queue<int>();
-        foreach(KeyValuePair<int,Item> i in itemDics[(int)displayType])
+        foreach (KeyValuePair<int, Item> i in itemDics[(int)displayType])
             queue.Enqueue(i.Key);
         int queueCount = queue.Count;
         for (int i = 0; i < queueCount; i++)
@@ -490,7 +490,7 @@ public class Inventory : MonoBehaviour
             player.Playerconditions.Heal((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHP);
             TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
         }
-            
+
     }
 
     private void EquipItem()
@@ -622,7 +622,7 @@ public class Inventory : MonoBehaviour
         }
         return sum >= count ? true : false;
     }
-    
+
     /// <summary>
     /// 갯수만큼 있는지 확인
     /// </summary>
@@ -701,7 +701,7 @@ public class Inventory : MonoBehaviour
         bool isTrue = true;
         for (int i = 0; i < idLength; i++)
         {
-            if(!IsCheckSpace(id[i], count[i]))
+            if (!IsCheckSpace(id[i], count[i]))
                 isTrue = false;
         }
         return isTrue;
@@ -714,7 +714,7 @@ public class Inventory : MonoBehaviour
     /// <returns></returns>
     public bool IsCheckSpace(int id, int count)
     {
-        if(count <= 0)
+        if (count <= 0)
         {
             Debug.LogError("양수만 입력해주세요");
             return false;
@@ -724,7 +724,7 @@ public class Inventory : MonoBehaviour
         {
             int addSlotCount = count / newItem.MaxCount;
             int remainder = count % newItem.MaxCount;
-            if(remainder > 0)
+            if (remainder > 0)
             {
                 addSlotCount++;
                 int nowItemCount = CheckItemCount(id);
@@ -733,7 +733,7 @@ public class Inventory : MonoBehaviour
                         addSlotCount--;
             }
             if (itemDics[(id / 100000) % 10].Count + addSlotCount > slotMaxCount)
-                    return false;
+                return false;
         }
         return true;
     }

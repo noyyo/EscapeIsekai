@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerJumpState : PlayerAirState
 {
     public PlayerJumpState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -30,7 +26,7 @@ public class PlayerJumpState : PlayerAirState
         // jump상태일 때는 velocity.y가 0보다 큰 값으로 적용중인 상태이므로,
         // 땅에 떨어질 때에는 velocity.y값이 0보다 작게 되어야 함.
         // 따라서 y값이 떨어질때 FallState를 적용하는 구조이어야 함.
-        if(stateMachine.Player.Controller.velocity.y <= 0)
+        if (stateMachine.Player.Controller.velocity.y <= 0)
         {
             stateMachine.ChangeState(stateMachine.FallState);
             return;

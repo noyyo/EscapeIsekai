@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -91,8 +90,8 @@ public class PlayerStateMachine : StateMachine, IDamageable
     public override void Update()
     {
         base.Update();
-        
-        if(Time.time - lastCheckTime >= checkDelay)
+
+        if (Time.time - lastCheckTime >= checkDelay)
         {
             CheckBuff();
             lastCheckTime = Time.time;
@@ -106,7 +105,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
         for (int i = 0; i < buffs.Count; i++)
         {
             buff = buffs[i];
-            if(Time.time - buff.buffStartTime >= buff.duration)
+            if (Time.time - buff.buffStartTime >= buff.duration)
             {
                 buff.EndBuff();
                 buffs.Remove(buff);
@@ -125,7 +124,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
         {
             return;
         }
-        
+
         if (Player.Playerconditions.health.curValue <= 0f)
         {
             OnDie?.Invoke();

@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 [System.Serializable]
-public class ServeQuestData 
+public class ServeQuestData
 {
     public int id;
     public int Npc;

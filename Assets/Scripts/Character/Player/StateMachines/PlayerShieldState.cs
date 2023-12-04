@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShieldState : PlayerGroundState
@@ -23,8 +21,8 @@ public class PlayerShieldState : PlayerGroundState
         isMovable = false;
     }
 
-    public override void Exit() 
-    { 
+    public override void Exit()
+    {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
 

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerSuperJump : PlayerAirState
 {
     public PlayerSuperJump(PlayerStateMachine playerstateMachine) : base(playerstateMachine)

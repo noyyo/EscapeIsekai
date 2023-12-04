@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NpcQuestManager : CustomSingleton<NpcQuestManager>
@@ -14,7 +12,7 @@ public class NpcQuestManager : CustomSingleton<NpcQuestManager>
     public GameObject TalkManager { get { return TalkManager; } }
     private void Awake()
     {
-        if(dialog == null)
+        if (dialog == null)
         {
             dialog = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/UI_Dialog"));
         }

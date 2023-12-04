@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class ItemsSoldByUser
@@ -21,7 +20,8 @@ public class TradingManager : CustomSingleton<TradingManager>
     //[Tooltip("상한값 설정")][Range(1f,5f)][SerializeField] private float supremum = 1.5f;
     //[Tooltip("하한값 설정")][Range(0f, 1f)][SerializeField] private float infimum = 0.5f;
     [SerializeField] private int repurchaseItemMaxCount = 10;
-    [Tooltip("마지막 재구매는 제외합니다.")][SerializeField] 
+    [Tooltip("마지막 재구매는 제외합니다.")]
+    [SerializeField]
     private int shopCategoryCount = 3;
     private UI_Manager ui_Manager;
     private List<UI_TradingSlot>[] tradingSlotList;
@@ -55,7 +55,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public event Action moneyTextUpdateEvent;
     public Action<int> addMoney;
     public Action<string, string, string> itemExplanationText;
-   
+
     public int displayPlayerItemCategory = 0;
     public int displayShopItemCategory = 0;
     public bool isPlayerSlotClick;
@@ -107,7 +107,7 @@ public class TradingManager : CustomSingleton<TradingManager>
             CallOnMoneyTextUpdate();
             return true;
         }
-        return false;  
+        return false;
     }
 
     private bool Byitem(int addMoney)
@@ -118,7 +118,7 @@ public class TradingManager : CustomSingleton<TradingManager>
             CallOnMoneyTextUpdate();
             return true;
         }
-        return false; 
+        return false;
     }
 
     private bool Repurchase(int addMoney)

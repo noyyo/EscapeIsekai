@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace InfinityPBR.Demo
@@ -12,5 +10,5 @@ namespace InfinityPBR.Demo
 
         public void ToggleAutomated(bool value) => character.automateStyles = value;
     }
-    
+
 }

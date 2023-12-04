@@ -1,11 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public enum ProjectileLaunchTypes
 {
@@ -30,8 +25,8 @@ public class Projectile : MonoBehaviour
     private AOETypes indicatorAOEType;
     private bool isInfoSetted;
     private float timeSinceLaunced;
-    private new Rigidbody rigidbody;
-    private new Collider collider;
+    private Rigidbody rigidbody;
+    private Collider collider;
     private Vector3 colliderSize;
     private Vector3 direction;
     private float launchSpeed;
@@ -174,10 +169,10 @@ public class Projectile : MonoBehaviour
         else if (indicator != null && indicator.AOEType != indicatorAOEType)
         {
             ReleaseIndicator();
-            indicator =  AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Get();
+            indicator = AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Get();
         }
         else
-            indicator =  AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Get();
+            indicator = AOEIndicatorPool.Instance.GetIndicatorPool(indicatorAOEType).Get();
     }
     public void ReleaseIndicator()
     {

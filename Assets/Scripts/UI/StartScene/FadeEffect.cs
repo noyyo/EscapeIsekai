@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FadeEffect : MonoBehaviour
 {
@@ -34,7 +32,7 @@ public class FadeEffect : MonoBehaviour
             yield return null;
         }
         ++txtNum;
-        if(txtNum < credits.Length)
+        if (txtNum < credits.Length)
         {
             StartCoroutine(FadeTextToFullAlpha(credits[txtNum]));
         }
@@ -47,10 +45,10 @@ public class FadeEffect : MonoBehaviour
 
     private void QuitGame()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
 }

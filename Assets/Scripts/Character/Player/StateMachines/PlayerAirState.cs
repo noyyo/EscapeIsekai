@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerAirState : PlayerBaseState
 {
     public PlayerAirState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -14,8 +10,8 @@ public class PlayerAirState : PlayerBaseState
         StartAnimation(stateMachine.Player.AnimationData.AirParameterHash);
     }
 
-    public override void Exit() 
-    { 
+    public override void Exit()
+    {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.AirParameterHash);
     }

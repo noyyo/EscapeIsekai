@@ -57,7 +57,7 @@ public class UI_Option : MonoBehaviour
         MasterVolume.onValueChanged.AddListener((n) => SliderValueChange(MasterVolumeInputField, n, MiXType.MasterVolume));
         bgmVolume.onValueChanged.AddListener((n) => SliderValueChange(bgmVolumeInputField, n, MiXType.BgmVolume));
         sfxVolume.onValueChanged.AddListener((n) => SliderValueChange(sfxVolumeInputField, n, MiXType.SfxVolume));
-        MasterVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, MasterVolume , MiXType.MasterVolume));
+        MasterVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, MasterVolume, MiXType.MasterVolume));
         bgmVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, bgmVolume, MiXType.BgmVolume));
         sfxVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, sfxVolume, MiXType.SfxVolume));
         back.onClick.AddListener(uiManager.CallUI_OptionTurnOff);

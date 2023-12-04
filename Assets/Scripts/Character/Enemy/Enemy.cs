@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,7 +15,7 @@ public class Enemy : MonoBehaviour, IPositionable
     public NavMeshAgent Agent { get; private set; }
     [SerializeField] private AffectedAttackEffectInfo affectedEffectInfo;
 
-    public  AttackAction[] Actions;
+    public AttackAction[] Actions;
     public EnemyForceReceiver ForceReceiver { get; private set; }
     public AnimationEventReceiver AnimEventReceiver { get; private set; }
     public Dictionary<PointReferenceTypes, PointReference> PointReferences { get; private set; }

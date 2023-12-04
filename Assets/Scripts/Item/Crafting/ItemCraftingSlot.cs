@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,7 +53,7 @@ public class ItemCraftingSlot : MonoBehaviour
     //슬롯의 정보를 저장하기 위한 메서드
     public void SetSlot(in ItemRecipe newRecipe)
     {
-        if(itemDB == null)
+        if (itemDB == null)
             Init();
         itemDB.GetItemData(newRecipe.CraftingID, out ItemData newItemData);
         itemData = newItemData;
@@ -87,7 +85,7 @@ public class ItemCraftingSlot : MonoBehaviour
         isMake = true;
         foreach (bool i in boolArray)
         {
-            if(i == false)
+            if (i == false)
                 isMake = false;
         }
         UpdateIsMakeTextUI();

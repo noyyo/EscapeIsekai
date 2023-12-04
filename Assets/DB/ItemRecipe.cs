@@ -16,20 +16,20 @@ public class ItemRecipe
     private bool isMaterialsReset = true;
     private bool isMaterialCountReset = true;
 
-    public int ID { get {  return id; } }
+    public int ID { get { return id; } }
     public int CraftingID { get { return craftingID; } }
     public int CraftingPrice { get { return craftingPrice; } }
     public int AvailableCount { get { return availableCount; } }
-    public int[] Materials 
-    { 
-        get 
+    public int[] Materials
+    {
+        get
         {
             if (isMaterialsReset)
             {
                 materials = materials_string.Split(", ", StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
                 isMaterialsReset = false;
             }
-            return materials; 
+            return materials;
         }
     }
 

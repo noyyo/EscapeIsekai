@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
 {
@@ -25,11 +23,11 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private bool isDrop;
     private ItemType displayType;
 
-    public Inventory Inventory { get { return inventory; }}
-    public List<Slot> SlotList { get { return slotList; }}
-    public Dictionary<int, Item>[] ItemDics { get { return itemDics; }}
-    public int InventroySlotCount { get { return inventroySlotCount; }}
-    public int ClickSlotIndex { get { return clickSlotIndex; }}
+    public Inventory Inventory { get { return inventory; } }
+    public List<Slot> SlotList { get { return slotList; } }
+    public Dictionary<int, Item>[] ItemDics { get { return itemDics; } }
+    public int InventroySlotCount { get { return inventroySlotCount; } }
+    public int ClickSlotIndex { get { return clickSlotIndex; } }
 
     public event Action OnTextChangeEquipEvent;
     public event Action OnTextChangeUnEquipEvent;
@@ -64,7 +62,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     //버튼을 클릭했을 호출
     public void SetClickItem(int index)
     {
-        if(clickSlotIndex != index)
+        if (clickSlotIndex != index)
             CallTurnOffItemClick();
         clickSlotIndex = index;
 

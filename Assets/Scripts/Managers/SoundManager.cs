@@ -1,9 +1,8 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
-using System;
 
 public enum ClipType
 {
@@ -67,7 +66,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     //Objectpool
     private SFX CreateSFX()
     {
-        SFX sfx = Instantiate(sfxPrefab,this.transform).GetComponent<SFX>();
+        SFX sfx = Instantiate(sfxPrefab, this.transform).GetComponent<SFX>();
         sfx.SetManagedPool(objectPool_AudioSources);
         return sfx;
     }
@@ -126,9 +125,9 @@ public class SoundManager : CustomSingleton<SoundManager>
     public bool CallStopLoopSFX(ClipType clipType, string sfxName)
     {
         int _playLoopSFXListCount = playLoopSFXList.Count;
-        for (int i = _playLoopSFXListCount - 1;  i >= 0; i--)
+        for (int i = _playLoopSFXListCount - 1; i >= 0; i--)
         {
-            if(playLoopSFXList[i].SFXName == sfxName)
+            if (playLoopSFXList[i].SFXName == sfxName)
             {
                 playLoopSFXList[i].DestroyAudioSource();
                 playLoopSFXList.RemoveAt(i);
@@ -184,7 +183,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         OnSoundAllStopEvent?.Invoke();
     }
 
-    public void SFXAllStop() 
+    public void SFXAllStop()
     {
         OnSFXAllStopEvent?.Invoke();
     }

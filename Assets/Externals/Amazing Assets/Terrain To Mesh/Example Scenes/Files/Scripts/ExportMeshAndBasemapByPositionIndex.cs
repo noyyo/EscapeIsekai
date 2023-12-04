@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AmazingAssets.TerrainToMesh.Example
 {
@@ -15,7 +13,7 @@ namespace AmazingAssets.TerrainToMesh.Example
         public int mapsResolution = 512;
         public bool exportHoles = false;
 
-        
+
         int chunkCountHorizontal = 4;
         int chunkCountVertical = 4;
 
@@ -24,7 +22,7 @@ namespace AmazingAssets.TerrainToMesh.Example
         [Range(0, 3)]
         public int positionX;
 
-        [Range(0, 3)] 
+        [Range(0, 3)]
         public int positionY;
 
 
@@ -36,7 +34,7 @@ namespace AmazingAssets.TerrainToMesh.Example
 
 
             //1. Export mesh from terrain by position///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-           
+
             Mesh terrainMesh = terrainData.TerrainToMesh().ExportMesh(vertexCountHorizontal, vertexCountVertical, chunkCountHorizontal, chunkCountVertical, positionX, positionY, true, TerrainToMesh.Normal.CalculateFromMesh);
 
             GetComponent<MeshFilter>().sharedMesh = terrainMesh;
@@ -48,9 +46,9 @@ namespace AmazingAssets.TerrainToMesh.Example
 
             Texture2D diffuseTexture = terrainData.TerrainToMesh().ExportBasemapDiffuseTexture(mapsResolution, chunkCountHorizontal, chunkCountVertical, positionX, positionY, exportHoles, false);  //alpha channel will contain holesmap
             Texture2D normalTexture = terrainData.TerrainToMesh().ExportBasemapNormalTexture(mapsResolution, chunkCountHorizontal, chunkCountVertical, positionX, positionY, false);
-            
+
             Texture2D maskTexture = null;   //Built-in RP terain does not use Maskmaps
-            if(Utilities.GetCurrentRenderPipeline() != Utilities.RenderPipeline.Builtin)
+            if (Utilities.GetCurrentRenderPipeline() != Utilities.RenderPipeline.Builtin)
                 maskTexture = terrainData.TerrainToMesh().ExportBasemapMaskTexture(mapsResolution, chunkCountHorizontal, chunkCountVertical, positionX, positionY, false);       //contains metallic(R), occlusion(G) and smoothness(A)
 
 

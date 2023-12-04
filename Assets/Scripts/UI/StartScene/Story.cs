@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Story : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class Story : MonoBehaviour
     [HideInInspector] public bool isEnd = false;
 
     private StringBuilder sb = new StringBuilder();
-    
+
     public void StartTalk(string[] talks)
     {
         dialogues = talks;
@@ -23,7 +21,7 @@ public class Story : MonoBehaviour
 
     public virtual void NextTalk()
     {
-        
+
     }
 
     public void EndTalk()

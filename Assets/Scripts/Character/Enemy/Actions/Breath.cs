@@ -1,13 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Recorder.AOV;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
-using static UnityEngine.Rendering.DebugUI;
 
 [CreateAssetMenu(fileName = "Breath", menuName = "Characters/Enemy/AttackAction/Breath")]
 
@@ -24,9 +16,9 @@ public class Breath : AttackAction
     [Tooltip("브레스에 쓰일 파티클입니다.")]
     [SerializeField] private ParticleSystem breathParticlePrefab;
     [Tooltip("브레스 파티클의 속력입니다. 높을수록 입자가 빠르게 날아갑니다.")]
-    [SerializeField][Range(1f, 10f)] private float startSpeed = 5f; 
+    [SerializeField][Range(1f, 10f)] private float startSpeed = 5f;
     [Tooltip("브레스 파티클의 크기입니다")]
-    [SerializeField][Range(0.1f, 5f)] private float startSize = 5f; 
+    [SerializeField][Range(0.1f, 5f)] private float startSize = 5f;
     [Tooltip("쏘아낼 파티클 수입니다. 너무 적으면 비어보일 수 있습니다. Particle이 Burst라면 0으로 세팅합니다.")]
     [SerializeField][Range(0, 1000)] private int maxParticle = 300;
     [Tooltip("브레스를 쏘아낼 수직방향 각도입니다.")]

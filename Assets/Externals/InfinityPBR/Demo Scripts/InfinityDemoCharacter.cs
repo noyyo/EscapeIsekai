@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,7 @@ namespace InfinityPBR.Demo
 {
     public class InfinityDemoCharacter : MonoBehaviour
     {
-        
+
         [Header("Components")]
         public Animator animator;
         public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -19,15 +18,15 @@ namespace InfinityPBR.Demo
         public KeyCode superRandomKey = KeyCode.R;
         public Button superRandomButton;
         public Button resetButton;
-        
+
         [Header("Randomization")]
         public bool automateStyles = true;
         public float randomSeedChangeSpeedMin = 1f; // How fast the random seed changes
         public float randomSeedChangeSpeedMax = 3f; // How fast the random seed changes
         public float randomSeedChangePeriodMin = 1.5f; // Period between changes
         public float randomSeedChangePeriodMax = 4f; // Period between changes
-        
-        [Header("Demo Stuff")] 
+
+        [Header("Demo Stuff")]
         public string[] animationTriggers;
         public GameObject animationFloatPrefab;
         public GameObject animationButtonPrefab;
@@ -37,11 +36,11 @@ namespace InfinityPBR.Demo
         public string[] keysToExclude; // These keys will not load in the demo scene.
         public bool usingAutomatedStyles = true;
         public Collider playArea;
-        
+
         // Privates
         private static readonly int Locomotion = Animator.StringToHash("Locomotion");
         private int _animationTriggerIndex;
-        
+
         private float _randomValue;
         private float _randomFrom;
         private float _randomSeed;
@@ -52,17 +51,17 @@ namespace InfinityPBR.Demo
         protected Vector3 _startPosition;
         protected Quaternion _startRotation;
         protected Transform _transform;
-        
+
         // Start is called before the first frame update
         public virtual void Start()
         {
             _transform = GetComponent<Transform>();
             _startPosition = _transform.localPosition;
             _startRotation = _transform.localRotation;
-            
+
             if (automateStyles) CreateStyleToggle();
             PopulateAnimationButtons();
-            
+
             if (automateStyles) StartCoroutine(nameof(Randomize));
         }
 
@@ -82,7 +81,7 @@ namespace InfinityPBR.Demo
             if (playArea == null) return;
 
             if (playArea.bounds.Contains(_transform.position)) return;
-            
+
             ResetPositionAndRotation();
         }
 
@@ -105,35 +104,35 @@ namespace InfinityPBR.Demo
                 while (_randomLerp < 1f)
                 {
                     if (_randomLerp <= 0) _randomSeed = Random.Range(_randomSeed < 0.5 ? 0.5f : 0f, _randomSeed >= 0.5 ? 0.5f : 1f); // Set new random value
-                    
+
                     _randomLerp += Time.deltaTime / Random.Range(randomSeedChangeSpeedMin, randomSeedChangeSpeedMax);
                     _randomValue = Mathf.Lerp(_randomFrom, _randomSeed, _randomLerp);
                     SetStyleValue(_randomValue);
                     yield return null;
                 }
-                
+
                 _randomLerp = 0f; // Reset
                 _randomFrom = _randomSeed; // Cache the value
                 yield return new WaitForSeconds(Random.Range(randomSeedChangePeriodMin, randomSeedChangePeriodMax)); // Wait for the next period
             }
         }
 
-        
+
         private void SetStyleValue(float randomValue)
         {
             foreach (var key in styleKeys)
                 animator.SetFloat(key, randomValue);
         }
-        
+
         private void SetAnimation(int newIndex, bool trigger = true)
         {
             if (TriggerParameters().Length == 0) return;
             if (newIndex < 0) newIndex = 0;
             if (newIndex >= TriggerParameters().Length) newIndex = TriggerParameters().Length - 1;
             _animationTriggerIndex = newIndex;
-            
+
             Debug.Log($"Animation trigger is <color=#ff00ff>{TriggerParameters()[newIndex].name}</color>");
-            
+
             if (!trigger || ShiftIsDown()) return;
             TriggerAnimation();
         }
@@ -145,7 +144,7 @@ namespace InfinityPBR.Demo
             if (animator == null) return;
             animator.SetTrigger(TriggerParameters()[_animationTriggerIndex].name);
         }
-        
+
         // Animator Component Stuff
         public virtual void SetLocomotion(float value) => animator.SetFloat(Locomotion, value);
 
@@ -162,7 +161,7 @@ namespace InfinityPBR.Demo
             .Where(x => !keysToExclude.Contains(x.name))
             .Where(x => x.type == AnimatorControllerParameterType.Trigger)
             .ToArray();
-        
+
         private AnimatorControllerParameter[] FloatParameters() => animator.parameters
             .Where(x => !keysToExclude.Contains(x.name))
             .Where(x => x.type == AnimatorControllerParameterType.Float)
@@ -176,7 +175,7 @@ namespace InfinityPBR.Demo
             newToggle.GetComponent<InfinityDemoAutomateStyles>().Setup(this);
         }
 
-        
+
         // Adds a single button
         private void CreateTriggerButton(string trigger)
         {
@@ -185,7 +184,7 @@ namespace InfinityPBR.Demo
             newTrigger.name = trigger;
             newTrigger.GetComponent<InfinityDemoAnimationButton>().Setup(trigger, animator);
         }
-        
+
         // Adds a single float slider
         private void CreateFloatSlider(string key)
         {
@@ -194,7 +193,7 @@ namespace InfinityPBR.Demo
             newSlider.name = key;
             newSlider.GetComponent<InfinityDemoFloatSlider>().Setup(key, animator);
         }
-        
+
         public void InvokeRandomButton(Button[] array) => array[Random.Range(0, array.Length)].onClick.Invoke();
     }
 }

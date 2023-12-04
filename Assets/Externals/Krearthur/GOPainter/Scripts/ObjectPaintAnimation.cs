@@ -11,7 +11,7 @@ namespace Krearthur.GOP
     {
         protected GOPainter goPainter;
 
-        private void Start(){}
+        private void Start() { }
 
         public void Register()
         {

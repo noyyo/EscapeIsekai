@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,8 +18,8 @@ public class PlayerSkillState : PlayerGroundState
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
     }
 
-    public override void Exit() 
-    { 
+    public override void Exit()
+    {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
     }

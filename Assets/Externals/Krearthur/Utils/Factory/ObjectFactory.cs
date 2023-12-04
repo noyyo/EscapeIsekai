@@ -1,9 +1,9 @@
 ﻿#if UNITY_EDITOR
+using Krearthur.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Krearthur.Utils;
 
 namespace Krearthur.GOP
 {
@@ -218,13 +218,14 @@ namespace Krearthur.GOP
                     OnObjectProduced?.Invoke(product, i, positions.Length);
                     product = products[i];
                     OnObjectProducedLate?.Invoke(product, i, positions.Length);
-                } else
+                }
+                else
                 {
                     OnObjectUpdated?.Invoke(product, i, positions.Length);
                     product = products[i];
                     OnObjectUpdatedLate?.Invoke(product, i, positions.Length);
                 }
-                
+
             }
 
             // Deactivate overlapping products
@@ -398,7 +399,7 @@ namespace Krearthur.GOP
                 Collider col = objectToCreate.GetComponentInChildren<Collider>();
                 if (col != null)
                 {
-    
+
                     size = GetOrCreateTemp().GetComponentInChildren<Collider>().bounds.size.x;
                 }
                 else
@@ -408,7 +409,7 @@ namespace Krearthur.GOP
                     {
                         size = mf.sharedMesh.bounds.size.x;
                     }
-                    
+
                 }
                 if (size <= 0) size = 1;
                 return size;
@@ -457,7 +458,7 @@ namespace Krearthur.GOP
             }
             products = null;
             Marker[] temps = FindObjectsOfType<Marker>();
-            foreach(Marker temp in temps)
+            foreach (Marker temp in temps)
             {
                 if (temp.typeCode == MarkerCode.MarkForDestruction) DestroyImmediate(temp.gameObject);
             }

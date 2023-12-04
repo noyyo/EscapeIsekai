@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DayNightCycle : MonoBehaviour
 {
-    
+
     [SerializeField] private float _fulldayLength; //게임상 하루의 현실 시간(초)
     [SerializeField] private float _startTime = 0.4f;
     private float timeRate;
@@ -53,15 +51,15 @@ public class DayNightCycle : MonoBehaviour
         lightSource.intensity = intensity;
 
         GameObject go = lightSource.gameObject;
-        if(lightSource.intensity == 0 && go.activeInHierarchy)
+        if (lightSource.intensity == 0 && go.activeInHierarchy)
             go.SetActive(false);
-        else if( lightSource.intensity > 0 && !go.activeInHierarchy)
+        else if (lightSource.intensity > 0 && !go.activeInHierarchy)
             go.SetActive(true);
     }
 
     void UpdateSkyBox()
     {
-        if(sun.gameObject.activeSelf)
+        if (sun.gameObject.activeSelf)
         {
             RenderSettings.skybox = sunBox;
             RenderSettings.sun = sun;
