@@ -40,7 +40,7 @@ public class PlayerRollState : PlayerGroundState
     {
         base.Update();
         float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Roll");
-        if (normalizedTime <= 1f)
+        if (normalizedTime <= 0.9f)
         {
             return;
         }

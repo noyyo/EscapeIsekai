@@ -45,8 +45,6 @@ public class PlayerStateMachine : StateMachine, IDamageable
     private float checkDelay = 0.1f;
     private float lastCheckTime;
 
-    Playerconditions playerconditions = new Playerconditions();
-
     private bool shieldActive = false;
 
     public event Action OnDie;
@@ -121,7 +119,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
     {
         if (!shieldActive && currentState != RollState)
         {
-            Player.Playerconditions.health.Subtract(damage - playerconditions.Guard);
+            Player.Playerconditions.health.Subtract(damage - Player.Playerconditions.Guard);
         }
         else
         {
