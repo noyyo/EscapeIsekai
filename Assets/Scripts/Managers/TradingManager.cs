@@ -18,10 +18,10 @@ public class TradingManager : CustomSingleton<TradingManager>
 {
     protected TradingManager() { }
 
-    //[Tooltip("»óÇÑ°ª ¼³Á¤")][Range(1f,5f)][SerializeField] private float supremum = 1.5f;
-    //[Tooltip("ÇÏÇÑ°ª ¼³Á¤")][Range(0f, 1f)][SerializeField] private float infimum = 0.5f;
+    //[Tooltip("ìƒí•œê°’ ì„¤ì •")][Range(1f,5f)][SerializeField] private float supremum = 1.5f;
+    //[Tooltip("í•˜í•œê°’ ì„¤ì •")][Range(0f, 1f)][SerializeField] private float infimum = 0.5f;
     [SerializeField] private int repurchaseItemMaxCount = 10;
-    [Tooltip("¸¶Áö¸· Àç±¸¸Å´Â Á¦¿ÜÇÕ´Ï´Ù.")][SerializeField] 
+    [Tooltip("ë§ˆì§€ë§‰ ì¬êµ¬ë§¤ëŠ” ì œì™¸í•©ë‹ˆë‹¤.")][SerializeField] 
     private int shopCategoryCount = 3;
     private UI_Manager ui_Manager;
     private List<UI_TradingSlot>[] tradingSlotList;
@@ -53,7 +53,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public event Action clickSlotButtonEvent;
     public event Action clickBuyButtonEvent;
     public event Action moneyTextUpdateEvent;
-    public event Action<int> addMoneyEvent;
+    public Action<int> addMoney;
     public Action<string, string, string> itemExplanationText;
    
     public int displayPlayerItemCategory = 0;
@@ -79,7 +79,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         tryRepurchase = (itemID, itemCount) => Repurchase(repurchase(itemID, itemCount));
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayPlayerSlot;
         ui_Manager.UI_TradingTurnOnEvent += CallOnDisplayShopSlot;
-        addMoneyEvent += AddMoney;
+        addMoney += AddMoney;
         defaultAddShopItem();
     }
 
@@ -166,13 +166,8 @@ public class TradingManager : CustomSingleton<TradingManager>
     {
         moneyTextUpdateEvent?.Invoke();
     }
-
-    private void AddMoneyEvent(int moeny)
-    {
-        playerMoney += moeny;
-    }
-
-    public void AddMoney(int moeny)
+    
+    private void AddMoney(int moeny)
     {
         playerMoney += moeny;
     }
