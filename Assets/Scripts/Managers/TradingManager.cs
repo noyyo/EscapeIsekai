@@ -170,5 +170,6 @@ public class TradingManager : CustomSingleton<TradingManager>
     private void AddMoney(int moeny)
     {
         playerMoney += moeny;
+        CallOnMoneyTextUpdate();
     }
 }
