@@ -15,14 +15,18 @@ public class GameManager : CustomSingleton<GameManager>
     [Range(0.0f, 1.0f)]
     public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
     public bool IsDay;
+    [HideInInspector]
     public GameObject dialogCamera;
     private UI_Manager _ui_Manager;
     private SoundManager _soundManager;
     private PlayerInputSystem _playerInputSystem;
     private GameObject _soundManagerObject;
+    [HideInInspector]
     public GameObject timeSlip;
     public UI_Manager Ui_Manager { get { return _ui_Manager; } }
+    [HideInInspector]
     public GameObject deadNpc;
+    [HideInInspector]
     public GameObject endPotal;
     private GameObject panel;
     //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치

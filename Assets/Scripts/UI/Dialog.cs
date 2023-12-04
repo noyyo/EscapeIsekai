@@ -142,7 +142,7 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 500) //검술
                 {
-
+                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
                 }
                 if (id == 700) //차원문
                 {
