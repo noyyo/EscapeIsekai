@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class PlayerGroundData
 {
-    // ±âº»ÀûÀÎ ÀÌµ¿¼Óµµ¿Í È¸Àü¼Óµµ ¼³Á¤
+    // ê¸°ë³¸ì ì¸ ì´ë™ì†ë„ì™€ íšŒì „ì†ë„ ì„¤ì •
     [field: SerializeField][field: Range(0f, 25f)] public float WalkSpeed { get; private set; } = 1f;
     [field: SerializeField][field: Range(0f, 25f)] public float RunSpeed { get; private set; } = 5f;
     [field: SerializeField][field: Range(0f, 25f)] public float BaseRotatingDamping { get; private set; } = 1f;
 
-    // ±âº» »óÅÂ¿Í °È±â, ´Ş¸®±â, ±¸¸£±âÀÇ ¼³Á¤
+    // ê¸°ë³¸ ìƒíƒœì™€ ê±·ê¸°, ë‹¬ë¦¬ê¸°, êµ¬ë¥´ê¸°ì˜ ì„¤ì •
     [field: Header("IdleData")]
     [field: Header("WalkData")]
     [field: SerializeField][field: Range(0f, 2f)] public float WalkSpeedModifier { get; private set; } = 0.22f;
@@ -29,7 +29,8 @@ public class PlayerGroundData
     [field: SerializeField][field: Range(0f, 10f)] public float ThrowCost { get; private set; } = 10f;
     [field: SerializeField][field: Range(0f, 10f)] public float NoStaminaCost { get; private set; } = 10f;
     [field: SerializeField][field: Range(0f, 10f)] public float ShieldCost { get; private set; } = 10f;
-    [field: SerializeField][field: Range(0f, 2f)] public float RollCoolTime { get; private set; } = 2f;
+    [field: SerializeField][field: Range(0f, 3f)] public float RollCoolTime { get; private set; } = 3f;
+    
 
 
 }
