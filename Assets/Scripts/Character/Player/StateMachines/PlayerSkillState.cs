@@ -14,6 +14,7 @@ public class PlayerSkillState : PlayerGroundState
     {
         base.Enter();
         isMovable = false;
+        isStateChangeable = false;
         StartAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
     }
@@ -21,6 +22,8 @@ public class PlayerSkillState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
+        isStateChangeable = true;
+
         StopAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
     }
 

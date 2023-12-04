@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 public class loadingSceneController : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class loadingSceneController : MonoBehaviour
     {
         get
         {
-            if (instance == null)
+            if(instance == null)
             {
                 var obj = FindObjectOfType<loadingSceneController>();
                 if (obj != null)
@@ -25,7 +27,7 @@ public class loadingSceneController : MonoBehaviour
             return instance;
         }
     }
-
+    
     private static loadingSceneController Create()
     {
         return Instantiate(Resources.Load<loadingSceneController>("Prefabs/UI/LoadingUI"));
@@ -33,7 +35,7 @@ public class loadingSceneController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != this)
+        if(Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -63,7 +65,7 @@ public class loadingSceneController : MonoBehaviour
         op.allowSceneActivation = false;
 
         float timer = 0f;
-        while (!op.isDone)
+        while(!op.isDone)
         {
             yield return null;
             if (op.progress < 0.9f)
@@ -74,7 +76,7 @@ public class loadingSceneController : MonoBehaviour
             {
                 timer += Time.unscaledDeltaTime;
                 progressBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
-                if (progressBar.fillAmount >= 1f)
+                if(progressBar.fillAmount >= 1f)
                 {
                     //Debug.Log("asdf");
                     op.allowSceneActivation = true;
@@ -86,7 +88,7 @@ public class loadingSceneController : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        if (arg0.name == loadSceneName)
+        if(arg0.name == loadSceneName)
         {
             StartCoroutine(Fade(false));
             SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -96,7 +98,7 @@ public class loadingSceneController : MonoBehaviour
     private IEnumerator Fade(bool isFadeIn)
     {
         float timer = 0f;
-        while (timer <= 1f)
+        while(timer <= 1f)
         {
             yield return null;
             timer += Time.unscaledDeltaTime * 3f;

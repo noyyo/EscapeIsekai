@@ -19,12 +19,16 @@ public class PlayerNoStamina : PlayerGroundState
         buff.ApplyBuff(10);
         stateMachine.buffs.Add(buff);
         isMovable = false;
+        isStateChangeable = false;
+
     }
 
     public override void Exit()
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
+        isStateChangeable = true;
+
 
     }
 

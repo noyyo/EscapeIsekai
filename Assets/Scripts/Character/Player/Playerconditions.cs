@@ -47,7 +47,7 @@ public class Playerconditions : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
-    public int Power { get; private set; } = 10;
+    public int Power { get; set; } = 10;
     public int Guard { get; private set; } = 300;
 
     private bool nostaminaActive = false;

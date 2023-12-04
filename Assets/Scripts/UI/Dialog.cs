@@ -1,10 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Dialog : MonoBehaviour
 {
@@ -44,35 +49,35 @@ public class Dialog : MonoBehaviour
         {
             isAction = false;
         }
-        else
+        else  
         {
             isAction = true;
             targetNpc = scanObj;
             if (targetNpc.GetComponent<NavMeshAgent>() != null)
             {
-                targetNpc.GetComponent<NavMeshAgent>().speed = 0;
+                targetNpc.GetComponent<NavMeshAgent>().speed = 0 ;
             }
-
+           
             Npc npcData = targetNpc.GetComponent<Npc>();
-            if (targetNpc != null)
+            if(targetNpc != null)
             {
                 TalkMotion();
             }
-            if (npcData.pofile != null)
+            if(npcData.pofile != null)
             {
                 profile.sprite = npcData.pofile;
             }
-
+          
             Talk(npcData.id, npcData.isNPC);
         }
-        panel.SetActive(isAction);
+          panel.SetActive(isAction); 
     }
 
     public void BtnAction()
     {
-        if (targetNpc != null)
+        if(targetNpc != null)
         {
-            Npc npcData = targetNpc.GetComponent<Npc>();
+             Npc npcData = targetNpc.GetComponent<Npc>();
             Talk(npcData.id, npcData.isNPC);
 
         }
@@ -83,23 +88,23 @@ public class Dialog : MonoBehaviour
             serveQuestTalkIndex = 0;
             panel.SetActive(isAction);
         }
-
-
+         
+            
     }
     public void Talk(int id, bool isNPC)
     {
         int questTalkIndex = UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id);
         string talkData = TalkManager.Instance.GetTalk(id + questTalkIndex, talkIndex);
         int key = ServeQuestManager.Instance.GetQuest(id);
-        if (tmp != 0 && ServeQuestManager.Instance.playerQuest[key] != 2 && ServeQuestManager.Instance.playerQuest[tmp] == 2)
+        if (tmp != 0&&ServeQuestManager.Instance.playerQuest[key]!=2 && ServeQuestManager.Instance.playerQuest[tmp] ==2)
         {
             key = tmp;
         }
-        if (key != tmp && tmp != 0 && ServeQuestManager.Instance.GetTalk(tmp, serveQuestTalkIndex) != ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex))
+        if(key != tmp && tmp !=0&& ServeQuestManager.Instance.GetTalk(tmp, serveQuestTalkIndex)!= ServeQuestManager.Instance.GetTalk(key, serveQuestTalkIndex))
         {
             key = tmp;
         }
-        if ((ServeQuestManager.Instance.playerQuest.ContainsKey(key) && ServeQuestManager.Instance.playerQuest[key] == 2 && serveQuestTalkIndex <= talkIndex) || key == 0)
+        if ((ServeQuestManager.Instance.playerQuest.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] == 2 &&  serveQuestTalkIndex <= talkIndex) || key ==0)
         {
             if (talkData == null)
 
@@ -109,7 +114,7 @@ public class Dialog : MonoBehaviour
                 if (id == 1)
                 {
                     QuestManager.Instance.questId = 10;
-                    if (UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id) == 11)
+                    if(UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id)==11)
                     {
                         ItemCraftingManager.Instance.CallAddRecipe(10116002);
                     }
@@ -137,7 +142,8 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 500) //검술
                 {
-                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
+                    MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
+                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(Random.Range(1,5)));
                 }
                 if (id == 700) //차원문
                 {
@@ -147,27 +153,27 @@ public class Dialog : MonoBehaviour
                 {
                     tempnpc.SetActive(false);
                     UI_Manager.Instance.questManager.GetComponent<QuestManager>().QuestClear();
-                    InventoryManager.Instance.CallAddItem(5000, 1);
+                    InventoryManager.Instance.CallAddItem(5000,1);
                 }
                 if (id == 1000) //상자
                 {
-                    if (tempnpc.GetComponentInChildren<Animator>() != null)
+                    if(tempnpc.GetComponentInChildren<Animator>() != null)
                     {
                         animator = tempnpc.GetComponentInChildren<Animator>();
-                        if (animator.GetBool("Open") == false)
+                        if(animator.GetBool("Open")==false)
                         {
-                            MinigameManager.Instance.ChangeSuccess += ChestOpen;
-                            StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(1));
+                             MinigameManager.Instance.ChangeSuccess += ChestOpen;
+                             StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(1));
                         }
                     }
-
+                  
                 }
-                if (id == 2200)
+                if(id == 2200)
                 {
                     tempnpc.SetActive(false);
                     StartCoroutine(GameManager.Instance.Revive());
                 }
-                if (id == 9900)//튜토리얼
+                if(id==9900)//튜토리얼
                 {
                     tempnpc.SetActive(false);
                     Cursor.visible = true;
@@ -196,7 +202,7 @@ public class Dialog : MonoBehaviour
             isAction = true;
             talkIndex++;
         }
-        else if (ServeQuestManager.Instance.questDBDic.ContainsKey(key) && ServeQuestManager.Instance.playerQuest[key] <= 2)
+        else if (ServeQuestManager.Instance.questDBDic.ContainsKey(key)&& ServeQuestManager.Instance.playerQuest[key] <=2)
         {
             tmp = key;
             ServeQuestManager.Instance.QuestItemCheck(key);
@@ -220,8 +226,8 @@ public class Dialog : MonoBehaviour
             isAction = true;
             serveQuestTalkIndex++;
         }
-    }
-    public void ExitTalk()
+}
+        public void ExitTalk()
     {
         StopTalkMotion();
         if (targetNpc.GetComponent<NavMeshAgent>() != null)
@@ -251,7 +257,7 @@ public class Dialog : MonoBehaviour
         targetNpc.GetComponent<PlayableDirector>().playableAsset = timelineAsset;
         targetNpc.GetComponent<PlayableDirector>().Play();
         targetNpc.GetComponent<Npc>().ResetTarget();
-        targetNpc.GetComponent<Npc>().isHit = false;
+        targetNpc.GetComponent<Npc>().isHit= false;
     }
 
     private void ChestOpenFail()
@@ -260,10 +266,11 @@ public class Dialog : MonoBehaviour
     }
     private void ChestOpenSuccess()
     {
-        animator.SetBool("Open", true);
+        animator.SetBool("Open",true);
+        TradingManager.Instance.addMoney(Random.Range(500,1500));
         MinigameManager.Instance.ChangeSuccess -= ChestOpen;
     }
-    private void ChestOpen(int val)
+   private void ChestOpen(int val) 
     {
         if (val == 1)
             ChestOpenSuccess();

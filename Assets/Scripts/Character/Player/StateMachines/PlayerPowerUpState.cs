@@ -18,6 +18,8 @@ public class PlayerPowerUpState : PlayerGroundState
         buff.ApplyBuff(10);
         stateMachine.buffs.Add(buff);
         isMovable = false;
+        isStateChangeable = false;
+
     }
 
 
@@ -39,6 +41,8 @@ public class PlayerPowerUpState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
+        isStateChangeable = true;
+
     }
 
 
