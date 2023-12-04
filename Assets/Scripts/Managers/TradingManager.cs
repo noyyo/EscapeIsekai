@@ -167,7 +167,12 @@ public class TradingManager : CustomSingleton<TradingManager>
         moneyTextUpdateEvent?.Invoke();
     }
 
-    private void AddMoney(int moeny)
+    private void AddMoneyEvent(int moeny)
+    {
+        playerMoney += moeny;
+    }
+
+    public void AddMoney(int moeny)
     {
         playerMoney += moeny;
     }
