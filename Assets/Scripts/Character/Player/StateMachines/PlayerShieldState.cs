@@ -21,25 +21,24 @@ public class PlayerShieldState : PlayerGroundState
         buff.ApplyBuff(10);
         stateMachine.buffs.Add(buff);
         isMovable = false;
-        isStateChangeable = false;
-
     }
 
     public override void Exit() 
     { 
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
-        isStateChangeable = true;
-
-
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).IsName("Shield") &&
-            stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Shield");
+        if (normalizedTime <= 0.9f)
+        {
+            return;
+        }
+        else
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }

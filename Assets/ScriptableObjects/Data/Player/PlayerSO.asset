@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
   <GroundedData>k__BackingField:
-    <WalkSpeed>k__BackingField: 1
-    <RunSpeed>k__BackingField: 5
+    <WalkSpeed>k__BackingField: 3
+    <RunSpeed>k__BackingField: 8
     <BaseRotatingDamping>k__BackingField: 8
     <WalkSpeedModifier>k__BackingField: 0.22
     <RunSpeedModifier>k__BackingField: 1
@@ -26,6 +26,7 @@ MonoBehaviour:
     <ThrowCost>k__BackingField: 10
     <NoStaminaCost>k__BackingField: 10
     <ShieldCost>k__BackingField: 10
+    <RollCoolTime>k__BackingField: 3
   <AirData>k__BackingField:
     <JumpForce>k__BackingField: 5
   <AttackData>k__BackingField:
@@ -38,7 +39,6 @@ MonoBehaviour:
       <AttackEffectType>k__BackingField: 1
       <AttackEffectValue>k__BackingField: 5
       <Damage>k__BackingField: 5
-      Power: 10
     - <AttackName>k__BackingField: "\uAE30\uBCF8 2\uD0C0"
       <ComboStateIndex>k__BackingField: 2
       <ComboTransitionTime>k__BackingField: 0.8
@@ -47,7 +47,6 @@ MonoBehaviour:
       <AttackEffectType>k__BackingField: 0
       <AttackEffectValue>k__BackingField: 0
       <Damage>k__BackingField: 5
-      Power: 10
     - <AttackName>k__BackingField: "\uAE30\uBCF8 3\uD0C0"
       <ComboStateIndex>k__BackingField: -1
       <ComboTransitionTime>k__BackingField: 0.8
@@ -56,4 +55,3 @@ MonoBehaviour:
       <AttackEffectType>k__BackingField: 0
       <AttackEffectValue>k__BackingField: 0
       <Damage>k__BackingField: 5
-      Power: 10

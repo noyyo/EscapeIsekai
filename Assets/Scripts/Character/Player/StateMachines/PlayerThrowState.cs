@@ -12,8 +12,6 @@ public class PlayerThrowState : PlayerGroundState
     {
         base.Enter();
         isMovable = false;
-        isStateChangeable = false;
-
         StartAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
         stateMachine.Player.CreateGrenadeWithDelay(0.8f);
         stateMachine.Player.Playerconditions.UseThrow(groundData.ThrowCost);
@@ -23,15 +21,17 @@ public class PlayerThrowState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
-        isStateChangeable = true;
-
     }
 
     public override void Update()
     {
         base.Update();
-        if (stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).IsName("Throw") &&
-            stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Throw");
+        if (normalizedTime <= 0.9f)
+        {
+            return;
+        }
+        else
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
