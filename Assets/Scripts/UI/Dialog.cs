@@ -142,7 +142,8 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 500) //검술
                 {
-                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
+                    MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
+                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(Random.Range(1,5)));
                 }
                 if (id == 700) //차원문
                 {
@@ -266,6 +267,7 @@ public class Dialog : MonoBehaviour
     private void ChestOpenSuccess()
     {
         animator.SetBool("Open",true);
+        TradingManager.Instance.addMoney(Random.Range(500,1500));
         MinigameManager.Instance.ChangeSuccess -= ChestOpen;
     }
    private void ChestOpen(int val) 
