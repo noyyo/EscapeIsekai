@@ -29,36 +29,37 @@ MonoBehaviour:
     IsMovable: 0
   ActionType: 1
   Config:
-    RestTimeAfterAction: 0
+    RestTimeAfterAction: 1
     EffectDurationSeconds: 0
-    DamageAmount: 0
+    DamageAmount: 15
     AttackEffectType: 0
     AttackEffectValue: 0
-    animTrigger1: 
+    animTrigger1: Breath1
     animTrigger2: 
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
     ChainedAction: {fileID: 0}
   Condition:
-    Priority: 1
+    Priority: 2
     WaitUntilExecute: 0
     MoreThanThisHp: 0
     LessThanThisHp: 1000
-    MoreThanThisDistance: 0
-    LessThanThisDistance: 100
+    MoreThanThisDistance: 8
+    LessThanThisDistance: 40
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 0
+    CoolDown: 15
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  aoeType: 0
-  breathParticlePrefab: {fileID: 0}
-  startSpeed: 5
-  startSize: 5
-  maxParticle: 300
+  aoeType: 2
+  breathParticlePrefab: {fileID: 6461473524874043410, guid: 91403cd7b45332141a8ea7a38040660e,
+    type: 3}
+  startSpeed: 10
+  startSize: 2
+  maxParticle: 400
   breathVerticalAngle: 0
-  isTargeting: 0
+  isTargeting: 1
   particleVerticalAngle: 30

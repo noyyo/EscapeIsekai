@@ -27,8 +27,8 @@ public class Breath : AttackAction
     [SerializeField][Range(1f, 10f)] private float startSpeed = 5f; 
     [Tooltip("브레스 파티클의 크기입니다")]
     [SerializeField][Range(0.1f, 5f)] private float startSize = 5f; 
-    [Tooltip("쏘아낼 파티클 수입니다. 너무 적으면 비어보일 수 있습니다.")]
-    [SerializeField][Range(300, 1000)] private int maxParticle = 300;
+    [Tooltip("쏘아낼 파티클 수입니다. 너무 적으면 비어보일 수 있습니다. Particle이 Burst라면 0으로 세팅합니다.")]
+    [SerializeField][Range(0, 1000)] private int maxParticle = 300;
     [Tooltip("브레스를 쏘아낼 수직방향 각도입니다.")]
     [SerializeField][Range(-30f, 30f)] private float breathVerticalAngle = 0;
     [Tooltip("브레스의 수직방향을 타겟에 따라 조정할지 여부입니다. true라면 breathVerticalAngle은 무시됩니다.")]
@@ -115,9 +115,11 @@ public class Breath : AttackAction
 
 
         main.startLifetime = Condition.LessThanThisDistance / startSpeed;
-        main.maxParticles = maxParticle;
+        if (maxParticle != 0)
+            main.maxParticles = maxParticle;
         ParticleSystem.EmissionModule emission = particle.emission;
-        emission.rateOverTime = (int)(maxParticle / main.startLifetime.constant);
+        if (maxParticle != 0)
+            emission.rateOverTime = (int)(maxParticle / main.startLifetime.constant);
         main.startSize = startSize;
 
         switch (aoeType)
@@ -140,7 +142,7 @@ public class Breath : AttackAction
     {
         if (!particle.TryGetComponent(out breathParticle))
         {
-            Debug.LogError("파티클 프리팹에 BreathParticle 컴포넌트가 없습니다.");
+            Debug.LogError("파티클 프리팹에 ParticleMediator 컴포넌트가 없습니다.");
             return;
         }
         breathParticle.OnCollisionOccured += OnParticleCollision;

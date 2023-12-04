@@ -29,12 +29,12 @@ MonoBehaviour:
     IsMovable: 0
   ActionType: 0
   Config:
-    RestTimeAfterAction: 0
+    RestTimeAfterAction: 1
     EffectDurationSeconds: 0
-    DamageAmount: 0
-    AttackEffectType: 0
-    AttackEffectValue: 0
-    animTrigger1: 
+    DamageAmount: 8
+    AttackEffectType: 1
+    AttackEffectValue: 8
+    animTrigger1: MeleeAttack2
     animTrigger2: 
     AnimTriggerHash1: 0
     AnimTriggerHash2: 0
@@ -45,13 +45,13 @@ MonoBehaviour:
     MoreThanThisHp: 0
     LessThanThisHp: 1000
     MoreThanThisDistance: 0
-    LessThanThisDistance: 100
+    LessThanThisDistance: 5
     WhenThisTypeIsActivated: -1
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 0
+    CoolDown: 10
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  aoeType: 0
+  aoeType: 5
