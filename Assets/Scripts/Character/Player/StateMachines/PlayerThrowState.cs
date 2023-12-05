@@ -1,11 +1,17 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+
 public class PlayerThrowState : PlayerGroundState
 {
+    private float normalizedTime;
     public PlayerThrowState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
 
     public override void Enter()
     {
+        Debug.Log("´øÁö±â");
         base.Enter();
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
@@ -17,19 +23,18 @@ public class PlayerThrowState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
+        isMovable = true;
     }
 
     public override void Update()
     {
         base.Update();
-        float normalizedTime = GetNormalizedTime("Throw");
-        if (normalizedTime <= 0.9f)
-        {
-            return;
-        }
-        else
+        
+        normalizedTime = GetNormalizedTime("Throw");
+        if (normalizedTime >= 1f)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
     }
 

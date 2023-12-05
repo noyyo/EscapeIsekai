@@ -4,6 +4,8 @@ public class PlayerPowerUpState : PlayerGroundState
 {
     private float powerUpStartTime;
     private Buff buff;
+    private float normalizedTime;
+
     public PlayerPowerUpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -24,20 +26,12 @@ public class PlayerPowerUpState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-
-
-
-        float normalizedTime = GetNormalizedTime("PowerUp");
-        if (normalizedTime <= 0.9f)
-        {
-            return;
-        }
-        else
-
+        normalizedTime = GetNormalizedTime("PowerUp");
+        if (normalizedTime >= 1f)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
-
     }
 
     public override void Exit()

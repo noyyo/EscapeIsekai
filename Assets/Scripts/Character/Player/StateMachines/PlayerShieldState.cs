@@ -4,6 +4,8 @@ public class PlayerShieldState : PlayerGroundState
 {
     private float powerUpStartTime;
     private Buff buff;
+    private float normalizedTime;
+
 
     public PlayerShieldState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
@@ -25,20 +27,17 @@ public class PlayerShieldState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
+        isMovable = true;
     }
 
     public override void Update()
     {
         base.Update();
-
-        float normalizedTime = GetNormalizedTime("Shield");
-        if (normalizedTime <= 0.9f)
-        {
-            return;
-        }
-        else
+        normalizedTime = GetNormalizedTime("Shield");
+        if (normalizedTime >= 1f)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
     }
 }

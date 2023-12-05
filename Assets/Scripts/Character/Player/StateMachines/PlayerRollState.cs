@@ -24,7 +24,7 @@ public class PlayerRollState : PlayerGroundState
             StartAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
         else if (beforeState == stateMachine.RunState)
             StartAnimation(stateMachine.Player.AnimationData.RunParameterHash);
-
+        
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
         stateMachine.Player.Playerconditions.RollCoolTime(groundData.RollCoolTime);
     }
@@ -49,7 +49,6 @@ public class PlayerRollState : PlayerGroundState
     {
         base.Update();
         normalizedTime = GetNormalizedTime("Roll");
-        Debug.Log(normalizedTime);
         if (normalizedTime >= 1f)
         {
             if (beforeState == stateMachine.RunState)

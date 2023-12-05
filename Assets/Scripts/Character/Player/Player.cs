@@ -25,7 +25,7 @@ public class Player : MonoBehaviour, IPositionable
 
 
     public GameObject[] grenades;
-    public int hasGrenades;
+    [HideInInspector] public int hasGrenades;
     public GameObject grenadeObj;
     public Transform throwPoint;
 
@@ -44,8 +44,6 @@ public class Player : MonoBehaviour, IPositionable
 
         StateMachine = new PlayerStateMachine(this);
 
-        // дЁ╫лго╠Б 
-        //InventoryManager.Instance
 
         playerUI = GameObject.FindObjectOfType<PlayerUI>();
         if (playerUI == null)
