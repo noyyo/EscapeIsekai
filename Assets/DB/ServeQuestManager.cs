@@ -102,8 +102,25 @@ public class ServeQuestManager : MonoBehaviour
                     tempheader.text = questDBDic[key].QuestName;
                     TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
                     string contentText = null;
-                    contentText = $"{questDBDic[key].QuestMonster}을(를) {questDBDic[key].QuestMonsterCount}마리 처치하자\n" +
-                                  $"{questDBDic[key].QuestMonster2}을(를) {questDBDic[key].QuestMonster2Count}마리 처치하자";
+                    string monster1 = null;
+                    string monster2 = null;
+                    GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.EnemySpawnerTag);
+                    for (int i = 0; i < arry.Length; i++)
+                    {
+                        for (int j = 0; j < arry[i].GetComponent<EnemySpawner>().EnemyPrefabs.Length; j++)
+                        {
+                            if(questDBDic[key].QuestMonster == arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID)
+                            {
+                                monster1 = arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.Name;
+                            }
+                            if (questDBDic[key].QuestMonster2 == arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID)
+                            {
+                                monster2 = arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.Name;
+                            }
+                        }
+                    }
+                    contentText = $"{monster1}을(를) {questDBDic[key].QuestMonsterCount}마리 처치하자\n" +
+                                  $"{monster2}을(를) {questDBDic[key].QuestMonster2Count}마리 처치하자";
                     tempcontent.text = contentText;
                     questList.Add(tempheader.gameObject, key);
                     questList.Add(tempcontent.gameObject, key);
@@ -114,7 +131,19 @@ public class ServeQuestManager : MonoBehaviour
                     tempheader.text = questDBDic[key].QuestName;
                     TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
                     string contentText = null;
-                    contentText = $"{questDBDic[key].QuestMonster}을(를) {questDBDic[key].QuestMonsterCount}마리 처치하자";
+                    string monster1=null;
+                    GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.EnemySpawnerTag);
+                    for (int i = 0; i < arry.Length; i++)
+                    {
+                        for (int j = 0; j < arry[i].GetComponent<EnemySpawner>().EnemyPrefabs.Length; j++)
+                        {
+                            if (questDBDic[key].QuestMonster == arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID)
+                            {
+                                monster1 = arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.Name;
+                            }
+                        }
+                    }
+                    contentText = $"{monster1}을(를) {questDBDic[key].QuestMonsterCount}마리 처치하자";
                     tempcontent.text = contentText;
                     questList.Add(tempheader.gameObject, key);
                     questList.Add(tempcontent.gameObject, key);

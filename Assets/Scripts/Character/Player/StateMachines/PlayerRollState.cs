@@ -8,8 +8,6 @@ public class PlayerRollState : PlayerGroundState
     {
         base.Enter();
         isMovable = true;
-        isStateChangeable = false;
-
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         TryApplyForce();
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
@@ -20,7 +18,6 @@ public class PlayerRollState : PlayerGroundState
     {
         base.Exit();
         isMovable = true;
-        isStateChangeable = true;
         StopAnimation(stateMachine.Player.AnimationData.RollParameterHash);
     }
 

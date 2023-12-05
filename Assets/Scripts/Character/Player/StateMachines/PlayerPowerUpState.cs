@@ -14,12 +14,10 @@ public class PlayerPowerUpState : PlayerGroundState
         StartAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
         stateMachine.Player.Playerconditions.ActivePowerUp(groundData.PowerUpCost);
         powerUpStartTime = Time.time;
-        buff = new Buff(BuffTypes.speed, stateMachine);  // ¹öÇÁÅ¸ÀÔÀÇ °´Ã¼¸¦ »õ·Î »ý¼ºµÈ ¸Þ¸ð¸® ÁÖ¼Ò¸¦ °¡Áü.
+        buff = new Buff(BuffTypes.speed, stateMachine);  // ë²„í”„íƒ€ìž…ì˜ ê°ì²´ë¥¼ ìƒˆë¡œ ìƒì„±ëœ ë©”ëª¨ë¦¬ ì£¼ì†Œë¥¼ ê°€ì§.
         buff.ApplyBuff(10);
         stateMachine.buffs.Add(buff);
         isMovable = false;
-        isStateChangeable = false;
-
     }
 
 
@@ -28,9 +26,14 @@ public class PlayerPowerUpState : PlayerGroundState
         base.Update();
 
 
-        // ¾Ö´Ï¸ÞÀÌ¼Ç ÀÌ¸§ÀÌ "PowerUp"ÀÌ°í ¾Ö´Ï¸ÞÀÌ¼ÇÀÌ ³¡³µÀ» ¶§ »óÅÂ¸¦ º¯°æ
-        if (stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).IsName("PowerUp") &&
-            stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "PowerUp");
+        if (normalizedTime <= 0.9f)
+        {
+            return;
+        }
+        else
+
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
@@ -41,8 +44,6 @@ public class PlayerPowerUpState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
-        isStateChangeable = true;
-
     }
 
 
