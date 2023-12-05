@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerSkillState : PlayerGroundState
 {
+    private float normalizedTime;
 
     protected HashSet<GameObject> alreadyCollided = new HashSet<GameObject>();
 
@@ -28,14 +29,11 @@ public class PlayerSkillState : PlayerGroundState
     {
         base.Update();
 
-        float normalizedTime = GetNormalizedTime("Skill");
-        if (normalizedTime <= 0.9f)
-        {
-            return;
-        }
-        else
+        normalizedTime = GetNormalizedTime("Skill");
+        if (normalizedTime >= 1f)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
     }
 

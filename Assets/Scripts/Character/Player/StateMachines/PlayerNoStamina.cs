@@ -4,6 +4,7 @@ public class PlayerNoStamina : PlayerGroundState
 {
     private float powerUpStartTime;
     private Buff buff;
+    private float normalizedTime;
 
     public PlayerNoStamina(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
@@ -25,20 +26,18 @@ public class PlayerNoStamina : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
+        isMovable = true;
     }
 
     public override void Update()
     {
         base.Update();
 
-        float normalizedTime = GetNormalizedTime("NoStamina");
-        if (normalizedTime <= 0.9f)
-        {
-            return;
-        }
-        else
+        normalizedTime = GetNormalizedTime("NoStamina");
+        if (normalizedTime >= 1f)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
     }
 }
