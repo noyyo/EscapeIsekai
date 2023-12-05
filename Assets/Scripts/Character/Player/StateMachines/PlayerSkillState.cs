@@ -14,7 +14,6 @@ public class PlayerSkillState : PlayerGroundState
     {
         base.Enter();
         isMovable = false;
-        isStateChangeable = false;
         StartAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
     }
@@ -22,8 +21,6 @@ public class PlayerSkillState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
-        isStateChangeable = true;
-
         StopAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
     }
 
@@ -31,9 +28,12 @@ public class PlayerSkillState : PlayerGroundState
     {
         base.Update();
 
-        // 애니메이션 이름이 "Skill"이고 애니메이션이 끝났을 때 상태를 변경
-        if (stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).IsName("Skill") &&
-            stateMachine.Player.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Skill");
+        if (normalizedTime <= 0.9f)
+        {
+            return;
+        }
+        else
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }

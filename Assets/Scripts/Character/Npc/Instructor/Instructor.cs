@@ -5,6 +5,11 @@ using UnityEngine;
 public class Instructor : CustomSingleton<Instructor>
 {
     int rank = 0;
+    GameObject effect;
+    private void Awake()
+    {
+        effect = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/RankUpEffect"));
+    }
     private void GameFail()
     {
         MinigameManager.Instance.ChangeSuccess -= GameFailorSuc;
@@ -13,9 +18,11 @@ public class Instructor : CustomSingleton<Instructor>
     {
         if(rank <= 5 )
         {
+            effect.transform.position = GameManager.Instance.Player.transform.position;
+            effect.GetComponent<ParticleSystem>().Play();
             GameManager.Instance.Player.GetComponent<Player>().Playerconditions.Power += 2;
+            rank++;
         }
-        rank++;
         MinigameManager.Instance.ChangeSuccess -= GameFailorSuc;
     }
     public void GameFailorSuc(int val)
