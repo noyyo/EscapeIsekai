@@ -31,7 +31,7 @@ public class PlayerShieldState : PlayerGroundState
     {
         base.Update();
 
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Shield");
+        float normalizedTime = GetNormalizedTime("Shield");
         if (normalizedTime <= 0.9f)
         {
             return;

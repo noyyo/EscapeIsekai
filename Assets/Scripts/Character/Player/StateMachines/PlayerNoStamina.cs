@@ -31,7 +31,7 @@ public class PlayerNoStamina : PlayerGroundState
     {
         base.Update();
 
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "NoStamina");
+        float normalizedTime = GetNormalizedTime("NoStamina");
         if (normalizedTime <= 0.9f)
         {
             return;

@@ -46,17 +46,16 @@ public class PlayerGroundState : PlayerBaseState
         }
         */
     }
-
-    protected override void OnMoveCanceled(InputAction.CallbackContext context)
+    protected void OnIdle()
     {
-        if (stateMachine.MovementInput == Vector2.zero)
+        if (!isMovable)
         {
             return;
         }
-
-        stateMachine.ChangeState(stateMachine.IdleState);
-
-        base.OnMoveCanceled(context);
+        if (stateMachine.MovementInput == Vector2.zero)
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
@@ -119,6 +118,7 @@ public class PlayerGroundState : PlayerBaseState
             return;
         if (stateMachine.Player.Playerconditions.rollCoolTime.curValue < groundData.RollCoolTime)
             return;
+        stateMachine.RollState.beforeState = stateMachine.currentState;
         stateMachine.ChangeState(stateMachine.RollState);
     }
 

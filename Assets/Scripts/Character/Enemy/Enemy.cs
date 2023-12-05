@@ -6,22 +6,22 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IPositionable
 {
     public event Action<Collision> OnCollisionOcurred;
-    [field: SerializeField] public EnemySO Data { get; private set; }
-    [field: SerializeField] public EnemyAnimationData AnimationData { get; private set; }
-    public Animator Animator { get; private set; }
-    public Rigidbody Rigidbody { get; private set; }
+    [field: SerializeField] public EnemySO Data { get; protected set; }
+    [field: SerializeField] public EnemyAnimationData AnimationData { get; protected set; }
+    public Animator Animator { get; protected set; }
+    public Rigidbody Rigidbody { get; protected set; }
     [HideInInspector] public Collider Collider;
-    [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
-    public NavMeshAgent Agent { get; private set; }
-    [SerializeField] private AffectedAttackEffectInfo affectedEffectInfo;
+    [field: SerializeField] public EnemyStateMachine StateMachine { get; protected set; }
+    public NavMeshAgent Agent { get; protected set; }
+    [SerializeField] protected AffectedAttackEffectInfo affectedEffectInfo;
 
     public AttackAction[] Actions;
-    public EnemyForceReceiver ForceReceiver { get; private set; }
-    public AnimationEventReceiver AnimEventReceiver { get; private set; }
-    public Dictionary<PointReferenceTypes, PointReference> PointReferences { get; private set; }
+    public EnemyForceReceiver ForceReceiver { get; protected set; }
+    public AnimationEventReceiver AnimEventReceiver { get; protected set; }
+    public Dictionary<PointReferenceTypes, PointReference> PointReferences { get; protected set; }
     public Dictionary<int, Weapon> Weapons;
 
-    private void Awake()
+    protected void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new EnemyAnimationData();
@@ -44,22 +44,22 @@ public class Enemy : MonoBehaviour, IPositionable
         Init();
     }
 
-    private void Start()
+    protected void Start()
     {
         StateMachine.ChangeState(StateMachine.IdleState);
     }
 
-    private void Update()
+    protected void Update()
     {
         StateMachine.Update();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         StateMachine.PhysicsUpdate();
     }
 
-    private void Init()
+    protected void Init()
     {
         AnimationData.Initialize();
         Agent.speed = Data.WalkSpeed;
@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviour, IPositionable
             Actions[i].OnAwake();
         }
     }
-    private void InitializePointReference()
+    protected void InitializePointReference()
     {
 
     }
@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour, IPositionable
         transform.position = Vector3.zero;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected void OnCollisionEnter(Collision collision)
     {
         OnCollisionOcurred?.Invoke(collision);
     }

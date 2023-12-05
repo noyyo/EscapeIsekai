@@ -28,7 +28,7 @@ public class PlayerSkillState : PlayerGroundState
     {
         base.Update();
 
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Skill");
+        float normalizedTime = GetNormalizedTime("Skill");
         if (normalizedTime <= 0.9f)
         {
             return;

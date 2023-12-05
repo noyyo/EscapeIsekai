@@ -8,11 +8,17 @@ public class PlayerBaseState : IState
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
     protected bool isMovable = true;
+    protected bool forceMove = false;
+    protected CharacterController controller;
+    protected Animator animator;
+    private bool isAnimStarted;
 
     public PlayerBaseState(PlayerStateMachine playerstateMachine)
     {
         stateMachine = playerstateMachine;
         groundData = stateMachine.Player.Data.GroundedData;
+        controller = playerstateMachine.Player.Controller;
+        animator = playerstateMachine.Player.Animator;
     }
 
     public virtual void Enter()
@@ -162,7 +168,7 @@ public class PlayerBaseState : IState
         if (!isMovable) return;
         // 플레이어 이동처리
         float movementSpeed = GetMovementSpeed();
-        stateMachine.Player.Controller.Move(
+        controller.Move(
             ((movementDirection * movementSpeed)
             + stateMachine.Player.ForceReceiver.Movement)
             * Time.deltaTime
@@ -176,6 +182,7 @@ public class PlayerBaseState : IState
 
     private void Rotate(Vector3 movementDirection)
     {
+        if (!isMovable) return;
         if (movementDirection != Vector3.zero)
         {
             Transform playerTransform = stateMachine.Player.transform;
@@ -204,18 +211,19 @@ public class PlayerBaseState : IState
         stateMachine.Player.Animator.SetBool(animationHash, false);
     }
 
-    protected float GetNormalizedTime(Animator animator, string tag)
+    protected float GetNormalizedTime(string tag)
     {
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
-        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
 
-        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        if (currentInfo.IsTag(tag))
         {
-            return nextInfo.normalizedTime;
-        }
-        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
-        {
+            isAnimStarted = true;
             return currentInfo.normalizedTime;
+        }
+        else if (isAnimStarted && !currentInfo.IsTag(tag))
+        {
+            isAnimStarted = false;
+            return 1f;
         }
         else
         {

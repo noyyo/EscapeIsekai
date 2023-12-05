@@ -287,7 +287,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.13333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 1cede7e5132f4e54889ef6dc8cae07dd, type: 2}
   m_BuildHeightMesh: 0
@@ -546,6 +546,11 @@ PrefabInstance:
       propertyPath: health.startValue
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 7752083025435233473, guid: aa52af8bdcff5634f9af7cce541ea253,
+        type: 3}
+      propertyPath: drag
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -679,7 +684,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1500350128}
   - component: {fileID: 1500350127}
-  - component: {fileID: 1500350126}
   - component: {fileID: 1500350129}
   - component: {fileID: 1500350130}
   m_Layer: 0
@@ -689,14 +693,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1500350126
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500350125}
-  m_Enabled: 1
 --- !u!20 &1500350127
 Camera:
   m_ObjectHideFlags: 0
@@ -859,6 +855,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BirdyBoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 2404538161784051182, guid: e2dcb6f6ad35a764baccfe8e15bc4c99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6062478447211748373, guid: e2dcb6f6ad35a764baccfe8e15bc4c99,
         type: 3}

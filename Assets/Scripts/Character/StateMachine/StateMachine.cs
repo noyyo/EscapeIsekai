@@ -1,7 +1,11 @@
+using System;
+using UnityEngine;
+
+[Serializable]
 public abstract class StateMachine
 {
-    protected IState currentState;
-
+    public IState currentState { get; protected set; }
+    [SerializeField][ReadOnly] private string currentStateName;
     public void ChangeState(IState newState)
     {
         currentState?.Exit();
@@ -9,6 +13,8 @@ public abstract class StateMachine
         currentState = newState;
 
         currentState?.Enter();
+
+        currentStateName = currentState.GetType().Name;
     }
 
     public virtual void HandleInput()

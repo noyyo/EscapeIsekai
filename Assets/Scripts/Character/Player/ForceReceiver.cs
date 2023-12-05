@@ -36,6 +36,15 @@ public class ForceReceiver : MonoBehaviour
         impact += force;
     }
 
+    public void AddForceClamped(Vector3 force, float maginitudeMax)
+    {
+        impact += force;
+        if (impact.sqrMagnitude > maginitudeMax * maginitudeMax)
+        {
+            impact.Normalize();
+            impact *= maginitudeMax;
+        }
+    }
 
     public void Jump(float jumpForce)
     {
