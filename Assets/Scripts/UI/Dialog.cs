@@ -114,7 +114,9 @@ public class Dialog : MonoBehaviour
                 if (id == 1)
                 {
                     QuestManager.Instance.questId = 10;
-                    if(UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id)==11)
+                    tempnpc.GetComponent<Npc>().marks[0].SetActive(false);
+                    tempnpc.GetComponent<Npc>().marks[1].SetActive(true);
+                    if (UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id)==11)
                     {
                         ItemCraftingManager.Instance.CallAddRecipe(10116002);
                     }
@@ -143,7 +145,7 @@ public class Dialog : MonoBehaviour
                 if (id == 500) //검술
                 {
                     MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
-                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(Random.Range(1,5)));
+                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
                 }
                 if (id == 700) //차원문
                 {
@@ -153,6 +155,8 @@ public class Dialog : MonoBehaviour
                 {
                     tempnpc.SetActive(false);
                     UI_Manager.Instance.questManager.GetComponent<QuestManager>().QuestClear();
+                    UI_Manager.Instance.questManager.GetComponent<QuestManager>().header.text += " - 완료";
+                    UI_Manager.Instance.questManager.GetComponent<QuestManager>().content.text = "마법사에게 돌아가보자";
                     InventoryManager.Instance.CallAddItem(5000,1);
                 }
                 if (id == 1000) //상자
@@ -178,6 +182,7 @@ public class Dialog : MonoBehaviour
                     tempnpc.SetActive(false);
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
+                    player.GetComponent<PlayerInputSystem>().PlayerActions.Disable();
                     UI_Manager.Instance.tutorialUI.SetActive(true);
                 }
 
