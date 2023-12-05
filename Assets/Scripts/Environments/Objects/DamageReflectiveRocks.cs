@@ -14,7 +14,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [Tooltip("밑의 타입과 세트")][SerializeField] private bool lockAttackEffectTypes;
     [SerializeField] private AttackEffectTypes customAttackEffectTypes;
     [SerializeField] private bool isRespawn;
-    [SerializeField] private float respawnTime;
+    [SerializeField] private float respawnTime = 8f;
 
     [Header("조건을 충족시 발생하는 모드")]
     [SerializeField] private bool isIF;
@@ -49,15 +49,6 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         fallingManager = FallingStalactitesManager.Instance;
         Init();
         basePosition = transform.position;
-    }
-
-    private void Update()
-    {
-        if (test)
-        {
-            FallingObject();
-            test = false;
-        }
     }
 
     private void Init()
