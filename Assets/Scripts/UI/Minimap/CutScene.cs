@@ -11,13 +11,14 @@ public class CutScene : MonoBehaviour
     private GameObject _cylinder; //ºû±âµÕ
     private PlayerInput _playerInput;
     private CylinderLighting timeCylinder; //ºû±âµÕ Active Å¬·¡½º
-    private bool isPlaying = false;
+    private UI_Manager uiManager;
 
     private static readonly string assetPath = "Timeline/PlayerTimeline";
 
     IEnumerator lightCoroutine;
     void Start()
     {
+        uiManager = UI_Manager.Instance;
         _pd = GetComponent<PlayableDirector>();
         _playerInput = GetComponent<PlayerInput>();
         lightCoroutine = LightCylinder();
@@ -43,7 +44,7 @@ public class CutScene : MonoBehaviour
         }
         _pd.Play(_ta);  //Å¸ÀÓ¶óÀÎ ÇÃ·¹ÀÌ
         _playerInput.SwitchCurrentActionMap("UI"); //playerInput ¾×¼Ç ¸Ê º¯°æ
-        isPlaying = true;
+        uiManager.isPlaying = true;
         StartCoroutine(lightCoroutine);
     }
     private IEnumerator LightCylinder()
@@ -53,13 +54,13 @@ public class CutScene : MonoBehaviour
     }
     void OnSkip()  //Å¸ÀÓ¶óÀÎ ½ºÅµ
     {
-        if (!isPlaying)
+        if (!uiManager.isPlaying)
         {
             return;
         }
         if (_pd.time > 0)
         {
-            isPlaying = false;
+            uiManager.isPlaying = false;
             _playerInput.SwitchCurrentActionMap("Player");
             _pd.time = _pd.duration;
         }
