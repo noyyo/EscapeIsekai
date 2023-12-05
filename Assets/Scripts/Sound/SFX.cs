@@ -22,9 +22,9 @@ public class SFX : MonoBehaviour
         managedPool = pool;
     }
 
-    public void PlaySFX(AudioClip audioClip, Transform transform, float playTime, bool isLoop)
+    public void PlaySFX(AudioClip audioClip, Transform transform, float playTime, bool isLoop, Vector3 vector3)
     {
-        thisTransform.position = transform.position;
+        thisTransform.position = vector3;
         thisTransform.parent = transform;
         audioSource.clip = audioClip;
         SFXName = audioClip.name;
@@ -38,7 +38,6 @@ public class SFX : MonoBehaviour
             Invoke("DestroyAudioSource", playTime);
             audioSource.loop = false;
         }
-
     }
 
     public void DestroyAudioSource()

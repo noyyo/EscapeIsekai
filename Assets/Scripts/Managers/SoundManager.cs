@@ -90,7 +90,21 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, value.length, isLoop);
+            PlaySFX(value, transform, value.length, isLoop, transform.position);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Error 이 효과음과 같은 이름이 없습니다. 다시 확인해 주세요");
+            return false;
+        }
+    }
+
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, bool isLoop)
+    {   
+        if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
+        {
+            PlaySFX(value, transform, value.length, isLoop, vector3);
             return true;
         }
         else
@@ -104,7 +118,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, playTime, false);
+            PlaySFX(value, transform, playTime, false, transform.position);
             return true;
         }
         else
@@ -114,14 +128,29 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
     }
 
-    private void PlaySFX(AudioClip clip, Transform transform, float playTime, bool isLoop)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, float playTime)
+    {
+        if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
+        {
+            PlaySFX(value, transform, playTime, false, vector3);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Error 이 효과음과 같은 이름이 없습니다. 다시 확인해 주세요");
+            return false;
+        }
+    }
+
+    private void PlaySFX(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3)
     {
         SFX sfx = objectPool_AudioSources.Get();
-        sfx.PlaySFX(clip, transform, playTime, isLoop);
+        sfx.PlaySFX(clip, transform, playTime, isLoop, vector3);
         if (isLoop)
             playLoopSFXList.Add(sfx);
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
     }
+
     public bool CallStopLoopSFX(ClipType clipType, string sfxName)
     {
         int _playLoopSFXListCount = playLoopSFXList.Count;
