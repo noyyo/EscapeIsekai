@@ -27,6 +27,7 @@ public class Tutorial : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        GameManager.Instance.Player.GetComponent<PlayerInputSystem>().PlayerActions.Enable();
         gameObject.SetActive(false);
 
     }

@@ -120,9 +120,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7992a5bd29feed14f9ae548af04dafbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
-  _value: 0
-  _attacker: {fileID: 0}
+  test: 0
+  magnification: 1
+  isCustom: 0
+  customDamage: 0
+  customValue: 0
+  lockAttackEffectTypes: 0
+  customAttackEffectTypes: 0
+  isRespawn: 1
+  respawnTime: 10
+  isIF: 0
+  attackerName: Worm
+  attackerAttackEffectTypes: 0
+  isFallingRock: 0
+  fallingDamage: 0
+  count: 0
+  radius: 0
+  posY: 10
+  speed: 5
+  fallStartTime: 0
+  attackTarget: 0
+  limitPosY: 0
 --- !u!208 &1059293601062079512
 NavMeshObstacle:
   m_ObjectHideFlags: 0
