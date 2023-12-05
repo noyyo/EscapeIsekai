@@ -36,8 +36,9 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public event Action UI_OptionTurnOnEvent;
     public event Action UI_OptionTurnOffEvent;
 
-    public string itemName;
-    public string itemExplanation;
+    [HideInInspector]public string itemName;
+    [HideInInspector]public string itemExplanation;
+    [HideInInspector]public bool isPlaying = false;
 
     private void Awake()
     {
@@ -147,7 +148,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     public void CallUI_OptionTurnOn()
     {
-        if (!option.IsDisplay)
+        if (!option.IsDisplay && !isPlaying)
         {
             UI_OptionTurnOnEvent?.Invoke();
             SetIsNotUIInputPossible();

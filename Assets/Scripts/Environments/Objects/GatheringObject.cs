@@ -53,6 +53,7 @@ public class GatheringObject : MonoBehaviour
     {
         if (_gathering)
         {
+            SoundManager.Instance.CallPlaySFX(ClipType.EnvironmentSFX, "pick", this.transform, false);
             _UI_Manager.gathering.SetActive(false);
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
@@ -61,6 +62,4 @@ public class GatheringObject : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
-
-
 }
