@@ -22,7 +22,7 @@ public class PlayerThrowState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Throw");
+        float normalizedTime = GetNormalizedTime("Throw");
         if (normalizedTime <= 0.9f)
         {
             return;

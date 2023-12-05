@@ -16,4 +16,9 @@ public class PlayerRunState : PlayerGroundState
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.RunParameterHash);
     }
+    public override void Update()
+    {
+        base.Update();
+        OnIdle();
+    }
 }

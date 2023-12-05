@@ -14,11 +14,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GroundedData>k__BackingField:
     <WalkSpeed>k__BackingField: 3
-    <RunSpeed>k__BackingField: 8
-    <BaseRotatingDamping>k__BackingField: 8
+    <RunSpeed>k__BackingField: 6
+    <BaseRotatingDamping>k__BackingField: 6
     <WalkSpeedModifier>k__BackingField: 0.22
     <RunSpeedModifier>k__BackingField: 1
-    <RollForce>k__BackingField: 5
+    <RollForce>k__BackingField: 10
+    <RollCurve>k__BackingField:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 6
+        inSlope: 16.666666
+        outSlope: 16.666666
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.3
+        value: 11
+        inSlope: 0.00057626236
+        outSlope: 0.00057626236
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.6
+        value: 6
+        inSlope: -10.952718
+        outSlope: -10.952718
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.19938819
+      - serializedVersion: 3
+        time: 0.8
+        value: 2
+        inSlope: -12.500001
+        outSlope: -12.500001
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: -5.0000005
+        outSlope: -5.0000005
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     <StaminaCost>k__BackingField: 20
     <SkillCost>k__BackingField: 10
     <PowerUpCost>k__BackingField: 100

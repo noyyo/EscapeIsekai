@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class PlayerStateMachine : StateMachine, IDamageable
 {
     public Player Player { get; }
@@ -39,7 +40,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
     public bool IsAttacking { get; set; }
     public int ComboIndex { get; set; }
 
-    public List<Buff> buffs = new List<Buff>();
+    [HideInInspector] public List<Buff> buffs = new List<Buff>();
 
     private float checkDelay = 0.1f;
     private float lastCheckTime;

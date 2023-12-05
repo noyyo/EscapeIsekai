@@ -20,6 +20,7 @@ public class PlayerGroundData
 
     [field: Header("RollData")]
     [field: SerializeField][field: Range(0f, 10f)] public float RollForce { get; private set; } = 10f;
+    [field: SerializeField] public AnimationCurve RollCurve { get; private set; }
 
     [field: SerializeField][field: Range(0f, 20f)] public float StaminaCost { get; private set; } = 20f;
 

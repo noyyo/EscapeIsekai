@@ -71,7 +71,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
         ForceMove();
         // Animator를 전달하고 "Attack"이라는 태그를 주면 가져올 수 있다
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Attack");
+        float normalizedTime = GetNormalizedTime("Attack");
         if (normalizedTime < 1f)
         {
             // 애니메이션이 처리가 되고 있는 중

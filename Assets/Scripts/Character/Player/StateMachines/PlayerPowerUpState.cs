@@ -27,7 +27,7 @@ public class PlayerPowerUpState : PlayerGroundState
 
 
 
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "PowerUp");
+        float normalizedTime = GetNormalizedTime("PowerUp");
         if (normalizedTime <= 0.9f)
         {
             return;
