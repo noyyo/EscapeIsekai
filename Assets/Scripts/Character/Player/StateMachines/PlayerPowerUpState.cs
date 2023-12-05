@@ -38,6 +38,7 @@ public class PlayerPowerUpState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
+        isMovable = true;
     }
 
 

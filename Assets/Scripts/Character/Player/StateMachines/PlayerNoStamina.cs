@@ -26,6 +26,7 @@ public class PlayerNoStamina : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
+        isMovable = true;
     }
 
     public override void Update()
