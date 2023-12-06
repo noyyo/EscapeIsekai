@@ -40,6 +40,7 @@ public class TimeSlip : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         for (int i = 0; i <= originalText.Length; i++)
         {
+            SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "ButtonSound", this.transform, false);
             text.text = originalText.Substring(0, i);
             yield return new WaitForSeconds(0.1f);
         }
@@ -61,16 +62,19 @@ public class TimeSlip : MonoBehaviour
     {
         if (EventSystem.current.currentSelectedGameObject.name == btns[0].name)
         {
+            SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "Click", this.transform, false);
             GameManager.Instance.time = 0.2f;
             StartCoroutine("Fade");
         }
         if (EventSystem.current.currentSelectedGameObject.name == btns[1].name)
         {
+            SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "Click", this.transform, false);
             GameManager.Instance.time = 0.5f;
             StartCoroutine("Fade");
         }
         if (EventSystem.current.currentSelectedGameObject.name == btns[2].name)
         {
+            SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "Click", this.transform, false);
             GameManager.Instance.time = 0.8f;
             StartCoroutine("Fade");
         }
@@ -80,6 +84,7 @@ public class TimeSlip : MonoBehaviour
         text.gameObject.SetActive(false);
         ShowBtn();
         Color c = panel.GetComponent<Image>().color;
+        SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "TimeSlip", this.transform, false);
         for (float i = panel.GetComponent<Image>().color.a; i < 1.1; i += 0.01f)
         {
             c.a = i;
@@ -104,6 +109,7 @@ public class TimeSlip : MonoBehaviour
         {
             Destroy(obj);
         }
+        SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "TimeSlipLastSound", this.transform, false);
         yield return null;
     }
 
