@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 
 public class SFX : MonoBehaviour
 {
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     private Transform thisTransform;
     private IObjectPool<SFX> managedPool;
     private SoundManager soundManager;

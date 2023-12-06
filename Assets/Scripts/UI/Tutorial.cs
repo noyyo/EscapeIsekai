@@ -28,6 +28,7 @@ public class Tutorial : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.Player.GetComponent<PlayerInputSystem>().PlayerActions.Enable();
+        SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "Click", this.transform, false);
         gameObject.SetActive(false);
 
     }

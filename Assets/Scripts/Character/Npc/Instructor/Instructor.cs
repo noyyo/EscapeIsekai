@@ -18,6 +18,7 @@ public class Instructor : CustomSingleton<Instructor>
     {
         if(rank <= 5 )
         {
+            SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "RankUpSound", this.transform, false);
             effect.transform.position = GameManager.Instance.Player.transform.position;
             effect.GetComponent<ParticleSystem>().Play();
             GameManager.Instance.Player.GetComponent<Player>().Playerconditions.Power += 2;

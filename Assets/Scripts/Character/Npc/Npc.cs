@@ -88,6 +88,26 @@ public class Npc : MonoBehaviour
     {
         if (isHit)
         {
+            int temp = Random.Range(0,3);
+            string tempstr = null;
+            if (temp == 0)
+                tempstr = "npc";
+            if (temp == 1)
+                tempstr = "npc1";
+            if (temp == 2)
+                tempstr = "npc2";
+            if(id!=800)
+            {
+                if(id==200|| id == 300|| id == 400||id ==1100)
+                {
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 1f);
+                }
+                else
+                {
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 0.4f);
+                }
+            }
+            
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
             UI_Manager.Instance.gathering.SetActive(false);
