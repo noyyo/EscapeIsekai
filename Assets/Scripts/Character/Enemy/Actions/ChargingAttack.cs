@@ -66,7 +66,7 @@ public class ChargingAttack : AttackAction
             return;
         Vector3 indicatorPosition = agent.transform.position;
         indicatorPosition.y += agent.baseOffset + agent.height - 0.1f;
-        float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(agent.agentTypeID).agentSlope) * Condition.LessThanThisDistance;
+        float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(agent.agentTypeID).agentSlope * Mathf.Deg2Rad) * Condition.LessThanThisDistance;
         indicatorPosition.y += maxSlopeHeight;
         indicator = AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Get();
         indicator.IndicateBoxAOE(indicatorPosition, agent.transform.forward, agent.radius * 2, agent.height + maxSlopeHeight * 2, Condition.LessThanThisDistance + agent.radius, false);

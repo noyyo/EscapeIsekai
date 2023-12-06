@@ -103,13 +103,17 @@ public class ProjectileRain : AttackAction
 
     private void ProjectileTriggerEnter(Collider other, Projectile projectile)
     {
-        projectilePool.Release(projectile);
-        Collider[] colliders = Physics.OverlapSphere(projectile.transform.position, effectRadius);
-
-        foreach (Collider collider in colliders)
+        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex)
         {
-            ApplyAttack(collider.gameObject, isPossibleMultihit: true);
+            Collider[] colliders = Physics.OverlapSphere(projectile.transform.position, effectRadius);
+
+            foreach (Collider collider in colliders)
+            {
+                ApplyAttack(collider.gameObject, isPossibleMultihit: true);
+            }
+            projectilePool.Release(projectile);
         }
+
     }
     private void ProjectileTimeExpired(Projectile projectile)
     {
@@ -136,10 +140,14 @@ public class ProjectileRain : AttackAction
             initialPosition.z = basePosition.z + randomCircle.y;
             Ray ray = new Ray(initialPosition, Vector3.down);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, rainRadius * 3, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+            if (Physics.Raycast(ray, out hit, rainRadius * 3, 1 << TagsAndLayers.GroundLayerIndex))
+            {
                 initialPosition.y = hit.point.y + dropSpeed * dropTime;
+            }
             else
+            {
                 initialPosition.y = initialPosition.y - (rainRadius * 1.5f) + dropSpeed * dropTime;
+            }
 
             projectile.SetProjectileInfo(ProjectileLaunchTypes.Drop, initialPosition, Vector3.down, dropSpeed, enemy);
             projectile.IndicateCircleAOE(radius: 1, depth: dropSpeed * dropTime + Mathf.Max(effectRadius, additionalAOEYOffset));

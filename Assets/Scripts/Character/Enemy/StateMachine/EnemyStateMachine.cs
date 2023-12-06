@@ -63,7 +63,6 @@ public class EnemyStateMachine : StateMachine, IDamageable
         FleeState = new EnemyFleeState(this);
         DeadState = new EnemyDeadState(this);
         IsFleeable = enemy.Data.IsFleeable;
-        IsMovable = enemy.Data.IsMovable;
         actionData = enemy.Actions;
         actionsToExecute = new List<AttackAction>(actionData.Length);
         IsPauseChanged += PauseAnimation;
@@ -74,6 +73,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         OnDie += Dead;
         Player = GameManager.Instance.Player;
         PositionableTarget = Player.GetComponent<Player>();
+        SetMovable(enemy.Data.IsMovable);
         enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
     }
 
@@ -280,14 +280,14 @@ public class EnemyStateMachine : StateMachine, IDamageable
     }
     private void SetMovable(bool isMovable)
     {
-        this.IsMovable = isMovable;
+        IsMovable = isMovable;
         if (isMovable)
         {
-            agent.isStopped = true;
+            agent.isStopped = false;
         }
         else
         {
-            agent.isStopped = false;
+            agent.isStopped = true;
         }
     }
     public void ResetStateMachine()

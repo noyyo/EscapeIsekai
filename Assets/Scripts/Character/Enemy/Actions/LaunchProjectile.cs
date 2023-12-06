@@ -100,13 +100,16 @@ public class LaunchProjectile : AttackAction
     /// <param name="projectile">투사체 자신의 정보입니다.</param>
     private void OnProjectileTriggerEnter(Collider other, Projectile projectile)
     {
-        if (projectile.Launcher == StateMachine.Enemy)
+        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex)
         {
-            return;
+            projectilePool.Release(projectile);
         }
-        GameObject target = other.gameObject;
-        ApplyAttack(target, true);
-        projectilePool.Release(projectile);
+        else if (other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag))
+        {
+            GameObject target = other.gameObject;
+            ApplyAttack(target, true);
+            projectilePool.Release(projectile);
+        }
     }
     private void OnDisappearTimeExpired(Projectile projectile)
     {
@@ -117,7 +120,7 @@ public class LaunchProjectile : AttackAction
         if (isTargeting)
         {
             IPositionable target = StateMachine.PositionableTarget;
-            Vector3 verticalDirection = target.GetObjectCenterPosition() - (LaunchPointReference.transform.position + enemyTransform.TransformDirection(offset));
+            Vector3 verticalDirection = target.GetObjectCenterPosition() - (LaunchPointReference.transform.position + offset);
             verticalDirection.Normalize();
             verticalDirection.x = 0;
             verticalDirection.z = 0;
@@ -137,7 +140,6 @@ public class LaunchProjectile : AttackAction
         Quaternion verticalRotation = Quaternion.Euler(verticalAngle, 0, 0);
         Vector3 direction = enemyTransform.TransformDirection(verticalRotation * Vector3.forward);
         Vector3 nextProjectilePosition = startPosition;
-
         for (int i = 0; i < projectileAmount; i++)
         {
             Projectile projectile = projectilePool.Get();

@@ -87,11 +87,11 @@ public class Projectile : MonoBehaviour
             depth = launchSpeed * disappearTime;
         Ray ray = new Ray(transform.position, direction);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, depth, LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
+        if (Physics.Raycast(ray, out hit, depth, 1 << LayerMask.NameToLayer(TagsAndLayers.GroundLayer)))
         {
             depth = hit.distance + 0.1f;
         }
-        indicator.IndicateBoxAOE(transform.position, direction, colliderSize.x, colliderSize.y + yOffset, depth, false);
+        indicator.IndicateBoxAOE(transform.position, direction, colliderSize.x * transform.localScale.x, colliderSize.y * transform.localScale.y + yOffset, depth, false);
     }
     public void IndicateCircleAOE(float radius = 0, float depth = 0)
     {
@@ -106,7 +106,7 @@ public class Projectile : MonoBehaviour
             return;
         }
         if (radius <= 0)
-            radius = Mathf.Max(colliderSize.x, colliderSize.y, colliderSize.z);
+            radius = Mathf.Max(colliderSize.x * transform.localScale.x, colliderSize.y * transform.localScale.y, colliderSize.z * transform.localScale.z);
         if (depth <= 0)
             depth = launchSpeed * disappearTime;
         indicator.IndicateCircleAOE(transform.position, direction, radius, depth, false);

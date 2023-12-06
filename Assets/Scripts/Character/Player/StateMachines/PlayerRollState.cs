@@ -49,7 +49,6 @@ public class PlayerRollState : PlayerGroundState
     {
         base.Update();
         normalizedTime = GetNormalizedTime("Roll");
-        Debug.Log(normalizedTime);
         if (normalizedTime >= 1f)
         {
             if (beforeState == stateMachine.RunState)

@@ -72,7 +72,7 @@ public class MeleeAttack : AttackAction
                 return;
             indicator = AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Get();
             Transform transform = StateMachine.Enemy.transform;
-            float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(StateMachine.Enemy.Agent.agentTypeID).agentSlope) * Condition.LessThanThisDistance;
+            float maxSlopeHeight = Mathf.Sin(NavMesh.GetSettingsByID(StateMachine.Enemy.Agent.agentTypeID).agentSlope * Mathf.Deg2Rad) * Condition.LessThanThisDistance;
 
             if (aoeType == AOETypes.Box)
             {

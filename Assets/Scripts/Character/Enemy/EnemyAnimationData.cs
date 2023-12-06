@@ -8,6 +8,7 @@ public class EnemyAnimationData
     [SerializeField][ReadOnly] private string peaceParameterName = "@Peace";
     [SerializeField][ReadOnly] private string idleParameterName = "Idle";
     [SerializeField][ReadOnly] private string walkParameterName = "Walk";
+    [SerializeField][ReadOnly] private string returnToBaseParameterName = "ReturnToBase";
 
     [Header("Battle")]
     [SerializeField][ReadOnly] private string battleParameterName = "@Battle";
@@ -17,6 +18,7 @@ public class EnemyAnimationData
     public int PeaceParameterHash { get; private set; }
     public int IdleParameterHash { get; private set; }
     public int WalkParameterHash { get; private set; }
+    public int ReturnToBaseParameterHash { get; private set; }
     public int RunParameterHash { get; private set; }
     public int BattleParameterHash { get; private set; }
     public int DeadParameterHash { get; private set; }
@@ -25,6 +27,7 @@ public class EnemyAnimationData
         PeaceParameterHash = Animator.StringToHash(peaceParameterName);
         IdleParameterHash = Animator.StringToHash(idleParameterName);
         WalkParameterHash = Animator.StringToHash(walkParameterName);
+        ReturnToBaseParameterHash = Animator.StringToHash(returnToBaseParameterName);
         RunParameterHash = Animator.StringToHash(runParameterName);
         DeadParameterHash = Animator.StringToHash(DeadParameterName);
         BattleParameterHash = Animator.StringToHash(battleParameterName);
