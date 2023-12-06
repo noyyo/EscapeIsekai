@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class Inventory : MonoBehaviour
 {
@@ -68,12 +69,11 @@ public class Inventory : MonoBehaviour
     {
         if (!ui_Manager.IsTurnOnInventory)
         {
-            ui_Manager.CallUI_ItemCraftingTurnOn();
-            //ui_Manager.CallUI_InventoryTurnOn();
+            ui_Manager.CallUI_InventoryTurnOn();
         }
         else
         {
-            //ui_Manager.CallUI_InventoryTurnOff();
+            ui_Manager.CallUI_InventoryTurnOff();
         }
     }
 
@@ -90,11 +90,16 @@ public class Inventory : MonoBehaviour
         bool isAddItem = false;
         if (itemDB.GetItemData(id, out ItemData newItem))
         {
-            int newItemType = (id / 100000) % 10;
-            if (count >= 0)
-                isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem, out errorItemCount);
+            if(id == 5000)
+                isAddItem = AddList(itemDics[3], count, 3, in newItem, out errorItemCount);
             else
-                isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem, out errorItemCount);
+            {
+                int newItemType = (id / 100000) % 10;
+                if (count >= 0)
+                    isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem, out errorItemCount);
+                else
+                    isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem, out errorItemCount);
+            }
         }
         return isAddItem;
     }
@@ -104,11 +109,16 @@ public class Inventory : MonoBehaviour
         bool isAddItem = false;
         if (itemDB.GetItemData(id, out ItemData newItem))
         {
-            int newItemType = (id / 100000) % 10;
-            if (count >= 0)
-                isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem);
+            if (id == 5000)
+                isAddItem = AddList(itemDics[3], count, 3, in newItem);
             else
-                isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem);
+            {
+                int newItemType = (id / 100000) % 10;
+                if (count >= 0)
+                    isAddItem = AddList(itemDics[newItemType], count, newItemType, in newItem);
+                else
+                    isAddItem = SubList(itemDics[newItemType], count, newItemType, in newItem);
+            }
         }
         return isAddItem;
     }
@@ -158,11 +168,16 @@ public class Inventory : MonoBehaviour
 
         if (itemDB.GetItemData(id, out ItemData newItem))
         {
-            int newItemType = (id / 100000) % 10;
-            if (count >= 0)
-                isTrue = AddList(itemDics[newItemType], count, newItemType, in newItem);
+            if (id == 5000)
+                isTrue = AddList(itemDics[3], count, 3, in newItem);
             else
-                isTrue = SubList(itemDics[newItemType], count, newItemType, in newItem);
+            {
+                int newItemType = (id / 100000) % 10;
+                if (count >= 0)
+                    isTrue = AddList(itemDics[newItemType], count, newItemType, in newItem);
+                else
+                    isTrue = SubList(itemDics[newItemType], count, newItemType, in newItem);
+            }
         }
         if (isTrue)
         {
@@ -519,8 +534,11 @@ public class Inventory : MonoBehaviour
 
     public void Drop()
     {
-        TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
-        itemManager.Drop(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex], 1, this.transform.position);
+        if (itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID != 5000)
+        {
+            TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
+            itemManager.Drop(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex], 1, this.transform.position);
+        }
     }
 
     public void SetDisplayType(ItemType itemType)

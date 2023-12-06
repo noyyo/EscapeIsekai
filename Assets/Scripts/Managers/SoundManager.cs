@@ -98,7 +98,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, value.length, isLoop, transform.position);
+            PlaySFX(value, transform, value.length, isLoop, transform.position, pitchValue, soundValue);
             return true;
         }
         else
@@ -112,7 +112,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {   
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, value.length, isLoop, vector3);
+            PlaySFX(value, transform, value.length, isLoop, vector3, pitchValue, soundValue);
             return true;
         }
         else
@@ -126,7 +126,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, playTime, false, transform.position);
+            PlaySFX(value, transform, playTime, false, transform.position, pitchValue, soundValue);
             return true;
         }
         else
@@ -140,7 +140,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, playTime, false, vector3);
+            PlaySFX(value, transform, playTime, false, vector3, pitchValue, soundValue);
             return true;
         }
         else
@@ -156,6 +156,8 @@ public class SoundManager : CustomSingleton<SoundManager>
         sfx.PlaySFX(clip, transform, playTime, isLoop, vector3);
         if (isLoop)
             playLoopSFXList.Add(sfx);
+        sfx.audioSource.pitch = pitchValue;
+        sfx.audioSource.volume = soundValue;
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
     }
 
@@ -178,7 +180,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, value.length, isLoop, transform.position, pitchValue);
+            return PlaySFXReturnSource(value, transform, value.length, isLoop, transform.position, pitchValue, soundValue);
         }
         else
         {
@@ -191,7 +193,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, value.length, isLoop, vector3, pitchValue);
+            return PlaySFXReturnSource(value, transform, value.length, isLoop, vector3, pitchValue, soundValue);
         }
         else
         {
@@ -205,7 +207,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, playTime, false, transform.position, pitchValue);
+            return PlaySFXReturnSource(value, transform, playTime, false, transform.position, pitchValue, soundValue);
         }
         else
         {
@@ -218,7 +220,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, playTime, false, vector3, pitchValue);
+            return PlaySFXReturnSource(value, transform, playTime, false, vector3, pitchValue, soundValue);
         }
         else
         {
@@ -235,6 +237,7 @@ public class SoundManager : CustomSingleton<SoundManager>
             playLoopSFXList.Add(sfx);
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
         sfx.audioSource.pitch = pitchValue;
+        sfx.audioSource.volume = soundValue;
         return sfx.audioSource;
     }
 
