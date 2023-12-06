@@ -55,9 +55,12 @@ MonoBehaviour:
     peaceParameterName: '@Peace'
     idleParameterName: Idle
     walkParameterName: Walk
+    returnToBaseParameterName: ReturnToBase
     battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
+    StunParameterName: Stun
+    StunStartParameterName: StunStart
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 
@@ -126,7 +129,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 9
   m_ObstacleAvoidanceType: 4
 --- !u!114 &290099279936866549
 MonoBehaviour:

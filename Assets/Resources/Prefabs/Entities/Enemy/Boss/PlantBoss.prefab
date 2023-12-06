@@ -150,7 +150,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 5.1
   m_BaseOffset: 0
-  m_WalkableMask: 9
+  m_WalkableMask: 17
   m_ObstacleAvoidanceType: 4
 --- !u!54 &3721398939632967592
 Rigidbody:
@@ -224,6 +224,8 @@ MonoBehaviour:
     battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
+    StunParameterName: Stun
+    StunStartParameterName: StunStart
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 

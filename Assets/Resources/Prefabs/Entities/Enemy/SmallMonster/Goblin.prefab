@@ -1963,6 +1963,7 @@ MonoBehaviour:
     runParameterName: Run
     DeadParameterName: Dead
     StunParameterName: Stun
+    StunStartParameterName: StunStart
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 
@@ -2003,7 +2004,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 25
+  m_WalkableMask: 9
   m_ObstacleAvoidanceType: 4
 --- !u!54 &5349278322888682573
 Rigidbody:

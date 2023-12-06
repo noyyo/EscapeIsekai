@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2916136586662552525
+--- !u!1 &3600946800759085303
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3788427071988414607}
-  - component: {fileID: 8273190726085707389}
-  - component: {fileID: 9100059277409430324}
-  - component: {fileID: 2910757221179112410}
+  - component: {fileID: 2777827732895374203}
+  - component: {fileID: 8855370264608416605}
+  - component: {fileID: 4637204433109699951}
+  - component: {fileID: 3757935418849563592}
   m_Layer: 11
   m_Name: DesertDemo Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4
+  m_StaticEditorFlags: 20
   m_IsActive: 1
---- !u!4 &3788427071988414607
+--- !u!4 &2777827732895374203
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2916136586662552525}
+  m_GameObject: {fileID: 3600946800759085303}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1885704513937141555}
+  m_Father: {fileID: 2628990550968107440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8273190726085707389
+--- !u!33 &8855370264608416605
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2916136586662552525}
-  m_Mesh: {fileID: 4300000, guid: 2135b3fb33673a84ab1d8c2e2fb250b1, type: 2}
---- !u!23 &9100059277409430324
+  m_GameObject: {fileID: 3600946800759085303}
+  m_Mesh: {fileID: 4300000, guid: e3a76ffa6f9c5b74ba01c55731301c89, type: 2}
+--- !u!23 &4637204433109699951
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2916136586662552525}
+  m_GameObject: {fileID: 3600946800759085303}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 3
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 75960cc4ea212714d8a469928c985b12, type: 2}
@@ -84,13 +84,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2910757221179112410
+--- !u!64 &3757935418849563592
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2916136586662552525}
+  m_GameObject: {fileID: 3600946800759085303}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -105,8 +105,8 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: b2ee7f041d78ee141859e4341f594824, type: 2}
---- !u!1 &4219527278810981651
+  m_Mesh: {fileID: 4300000, guid: b5e9d56d7b8e4f5468c224b6fba6c58e, type: 2}
+--- !u!1 &4604186423507416468
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,38 +114,70 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4731942348438853900}
-  - component: {fileID: -5877518352451154878}
+  - component: {fileID: 2628990550968107440}
   m_Layer: 11
-  m_Name: DesertDemo Terrain
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4
+  m_StaticEditorFlags: 20
   m_IsActive: 1
---- !u!4 &4731942348438853900
+--- !u!4 &2628990550968107440
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4219527278810981651}
+  m_GameObject: {fileID: 4604186423507416468}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2777827732895374203}
+  m_Father: {fileID: 6933211617072138449}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9213265902884809463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6933211617072138449}
+  - component: {fileID: 8508659685652744094}
+  m_Layer: 11
+  m_Name: DesertDemo Terrain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 20
+  m_IsActive: 1
+--- !u!4 &6933211617072138449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9213265902884809463}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -750}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1885704513937141555}
+  - {fileID: 2628990550968107440}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5877518352451154878
+--- !u!114 &8508659685652744094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4219527278810981651}
+  m_GameObject: {fileID: 9213265902884809463}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1888829932, guid: 459b4a6900a65d846b2cca6dc357533a, type: 3}
@@ -153,44 +185,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabProjectPath: Assets/Texture/TerrainData_Important/DesertDemo Terrain/DesertDemo
     Terrain.prefab
-  vertexCountHorizontal: 25
-  vertexCountVertical: 25
+  vertexCountHorizontal: 150
+  vertexCountVertical: 150
   chunkCountHorizontal: 1
   chunkCountVertical: 1
   hasEdgeFall: 0
   hasPerChunkUV: 0
   meshIsCompressed: 0
   meshes:
-  - {fileID: 4300000, guid: 2135b3fb33673a84ab1d8c2e2fb250b1, type: 2}
---- !u!1 &8411748661070650030
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1885704513937141555}
-  m_Layer: 11
-  m_Name: Mesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4
-  m_IsActive: 1
---- !u!4 &1885704513937141555
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8411748661070650030}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3788427071988414607}
-  m_Father: {fileID: 4731942348438853900}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  - {fileID: 4300000, guid: e3a76ffa6f9c5b74ba01c55731301c89, type: 2}
