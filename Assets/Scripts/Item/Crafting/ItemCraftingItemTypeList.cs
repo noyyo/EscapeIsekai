@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,21 +10,24 @@ public class ItemCraftingItemTypeList : MonoBehaviour
     [SerializeField] private GameObject arrow;
     [SerializeField] private Button button;
     [SerializeField] private GameObject craftingItemSlotSpawn;
-    //private bool _isDisplay;
+    private bool _isDisplay;
     private List<ItemCraftingSlot> slotList = new List<ItemCraftingSlot>();
     private ItemCraftingManager craftingManager;
     private GameObject prefabs;
     private int slotListLength = -1;
+    private ContentSizeFitter contentSizeFitter;
+    private UI_Manager ui_Manager;
 
-    //public event Action slotActiveEvent;
+    public event Action slotActiveEvent;
 
     private void Awake()
     {
+        ui_Manager = UI_Manager.Instance;
         if (button == null)
         {
             button = GetComponentInChildren<Button>();
         }
-        //_isDisplay = false;
+        _isDisplay = false;
         craftingManager = ItemCraftingManager.Instance;
         prefabs = craftingManager.CraftingSlotPrefab;
 
@@ -31,6 +35,7 @@ public class ItemCraftingItemTypeList : MonoBehaviour
         {
             craftingItemSlotSpawn = this.gameObject;
         }
+        contentSizeFitter = GetComponent<ContentSizeFitter>();
     }
 
     private void Start()
@@ -38,19 +43,16 @@ public class ItemCraftingItemTypeList : MonoBehaviour
         button.onClick.AddListener(OnClickButton);
     }
 
-    //사이즈 조절 불가로 버그 유발
     private void OnClickButton()
     {
-        //_isDisplay = !_isDisplay;
-        //if (_isDisplay)
-        //{
-        //    _arrow.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
-        //}
-        //else
-        //{
-        //    _arrow.transform.rotation = Quaternion.identity;
-        //}
-        //slotActiveEvent?.Invoke();
+        _isDisplay = !_isDisplay;
+        if (_isDisplay)
+            arrow.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+        else
+            arrow.transform.rotation = Quaternion.identity;
+        slotActiveEvent?.Invoke();
+        ui_Manager.PlayClickBtnSound();
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
 
     public void AddRecipe(in ItemRecipe newRecipe)
@@ -62,7 +64,7 @@ public class ItemCraftingItemTypeList : MonoBehaviour
     private void CreateItemCraftingSlot()
     {
         ItemCraftingSlot newSlot = Instantiate(prefabs, this.transform).GetComponent<ItemCraftingSlot>();
-        //slotActiveEvent += newSlot.TurnOnOffSlot;
+        slotActiveEvent += newSlot.TurnOnOffSlot;
         slotList.Add(newSlot);
         slotListLength++;
     }

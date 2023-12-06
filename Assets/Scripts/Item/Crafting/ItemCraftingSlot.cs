@@ -17,7 +17,7 @@ public class ItemCraftingSlot : MonoBehaviour
     private ItemCraftingManager craftingManager;
 
     private Button button;
-    private bool isDisplay = false;
+    private bool isDisplay = true;
     private bool isMake = true;
     private ItemDB itemDB;
     private GameManager gameManager;
@@ -41,6 +41,7 @@ public class ItemCraftingSlot : MonoBehaviour
     private void Start()
     {
         craftingManager.OnCraftingEvent += MakeCheck;
+        TurnOnOffSlot();
     }
 
     //목차버튼 누르면 슬롯을 활성화하기 위한 메서드

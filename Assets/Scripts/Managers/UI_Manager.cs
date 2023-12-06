@@ -5,6 +5,8 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 {
     protected UI_Manager() { }
     [SerializeField] private GameObject cavas;
+    private GameManager gameManager;
+    private SoundManager soundManager;
     public GameObject gathering;
     public UI_Gathering UI_gathering;
     public GameObject talkManager;
@@ -17,8 +19,12 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private GameObject optionUI;
     private UI_Option option;
 
+    private Transform playerTransform;
     private bool isNotUIInputPossible = false;
     private bool isTurnOnInventory;
+    private readonly string buttonSoundName = "ButtonSound";
+    private readonly string clickSoundName = "Click";
+    private readonly string wrongName = "Wrong";
     public GameObject Canvas { get { return cavas; } }
     public GameObject Inventory_UI { get { return inventoryUI; } }
     public GameObject ItemCrafting_UI { get { return itemCraftingUI; } }
@@ -51,10 +57,13 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         UI_AllTurnOffEvent += CallUI_ItemCraftingTurnOff;
         UI_AllTurnOffEvent += CallUI_TradingTurnOff;
         UI_AllTurnOffEvent += CallUI_OptionTurnOff;
+        playerTransform = gameManager.Player.transform;
     }
 
     public void Init()
     {
+        gameManager = GameManager.Instance;
+        soundManager = SoundManager.Instance;
         cavas = GameObject.FindGameObjectWithTag("Canvas");
         if (cavas == null)
             cavas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
@@ -162,6 +171,20 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             UI_OptionTurnOffEvent?.Invoke();
             SetIsNotUIInputPossible();
         }
+    }
+
+    public void PlayClickBtnSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, buttonSoundName, playerTransform, false);
+    }
+
+    public void PlayClickSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, clickSoundName, playerTransform, false);
+    }
+    public void PlayWrongSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, wrongName, playerTransform, false, soundValue: 3f);
     }
 
 }

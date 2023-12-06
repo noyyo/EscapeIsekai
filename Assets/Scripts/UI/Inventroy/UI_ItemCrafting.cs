@@ -29,9 +29,9 @@ public class UI_ItemCrafting : MonoBehaviour
     public void Start()
     {
         Init();
-        craftingButton.onClick.AddListener(craftingManager.CallOnCrafting);
-        backButton.onClick.AddListener(ui_Manager.CallUI_ItemCraftingTurnOff);
-        inventoryButton.onClick.AddListener(() => { ui_Manager.CallUI_ItemCraftingTurnOff(); ui_Manager.CallUI_InventoryTurnOn(); });
+        craftingButton.onClick.AddListener(() => { craftingManager.CallOnCrafting(); });
+        backButton.onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_ItemCraftingTurnOff(); });
+        inventoryButton.onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_ItemCraftingTurnOff(); ui_Manager.CallUI_InventoryTurnOn(); });
         craftingManager.OnUpdateUIEvent += UpdatePriceText;
         craftingManager.OnUpdateUIEvent += UpdateItemExplanationText;
         craftingManager.OnUpdateUIEvent += AddMaterialsSlot;

@@ -131,25 +131,34 @@ public class TradingController : MonoBehaviour
     private void ClickBuyButton()
     {
         if (!tradingManager.tryByitem(tradingManager.ClickID, 1))
-            Debug.Log("돈이 부족합니다.");
+            ui_Manager.PlayWrongSound();
         else
+        {
             tradingManager.CallOnDisplayPlayerSlot();
+            tradingManager.PlayCoinSound();
+        } 
     }
 
     private void ClickSellButton()
     {
         if (!tradingManager.trySellItem(tradingManager.ClickID, 1))
-            Debug.Log("아이템이 없습니다.");
+            ui_Manager.PlayWrongSound();
         else
+        {
             tradingManager.CallOnDisplayShopSlot();
+            tradingManager.PlayCoinSound();
+        }
     }
 
     private void ClickRepurchase()
     {
         if (!tradingManager.tryRepurchase(tradingManager.ClickIndex, 1))
-            Debug.Log("돈이 부족합니다.");
+            ui_Manager.PlayWrongSound();
         else
+        {
             tradingManager.CallOnDisplayPlayerSlot();
+            tradingManager.PlayCoinSound();
+        }  
     }
 
     private int SellItem(int itemID, int itemCount)
