@@ -1,5 +1,5 @@
 using UnityEngine;
-public enum CanTakeDamageCharacterTypes
+public enum CanBeAttackedTypes
 {
     None = 0,
     Player,
@@ -36,5 +36,5 @@ public class EnemySO : ScriptableObject
     [Tooltip("이 목록에 있는 이펙트를 적용받을 수 있게 됩니다.")]
     [field: SerializeField] public AttackEffectTypes[] AffectedEffects { get; private set; }
     [Tooltip("이 목록에 있는 캐릭터에게 데미지를 받을 수 있습니다.")]
-    [field: SerializeField] public CanTakeDamageCharacterTypes[] CanTakeDamageCharacterType { get; private set; }
+    [field: SerializeField] public CanBeAttackedTypes[] CanBeAttackedType { get; private set; }
 }

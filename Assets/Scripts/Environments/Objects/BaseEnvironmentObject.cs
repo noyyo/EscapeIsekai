@@ -20,7 +20,7 @@ public abstract class BaseEnvironmentObject : MonoBehaviour, IDamageable, IPosit
         }
     }
     protected AffectedAttackEffectInfo affectedEffectInfo;
-    [SerializeField] protected List<CanTakeDamageCharacterTypes> canTakeDamageCharacterTypes = new List<CanTakeDamageCharacterTypes>();
+    [SerializeField] protected List<CanBeAttackedTypes> canBeAttackedType = new List<CanBeAttackedTypes>();
     public AffectedAttackEffectInfo AffectedEffectInfo { get => affectedEffectInfo; }
 
     public event Action OnDie;
@@ -29,17 +29,17 @@ public abstract class BaseEnvironmentObject : MonoBehaviour, IDamageable, IPosit
 
     public abstract void TakeDamage(int damage, GameObject attacker);
     public abstract void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker);
-    protected bool CanTakeDamage(GameObject attacker)
+    protected bool CanTakeDamageAndEffect(GameObject attacker)
     {
-        CanTakeDamageCharacterTypes type = CanTakeDamageCharacterTypes.None;
+        CanBeAttackedTypes type = CanBeAttackedTypes.None;
         if (attacker.CompareTag(TagsAndLayers.PlayerTag))
-            type = CanTakeDamageCharacterTypes.Player;
+            type = CanBeAttackedTypes.Player;
         else if (attacker.CompareTag(TagsAndLayers.EnemyTag))
-            type = CanTakeDamageCharacterTypes.Enemy;
+            type = CanBeAttackedTypes.Enemy;
         else if (attacker.CompareTag(TagsAndLayers.EnvironmentTag))
-            type = CanTakeDamageCharacterTypes.Environment;
+            type = CanBeAttackedTypes.Environment;
 
-        foreach (var characterType in canTakeDamageCharacterTypes)
+        foreach (var characterType in canBeAttackedType)
         {
             if (characterType == type)
                 return true;
