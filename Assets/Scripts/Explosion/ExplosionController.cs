@@ -43,7 +43,7 @@ public class ExplosionController : MonoBehaviour
                 target = colliders[i].GetComponent<Player>().StateMachine;
             else
                 target = colliders[i].GetComponent<Enemy>().StateMachine;
-            target?.TakeDamage(damage);
+            target?.TakeDamage(damage, this.gameObject);
             target?.TakeEffect(attackEffectTypes, attackEffectValue, this.attacker);
         }
     }
