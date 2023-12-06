@@ -128,7 +128,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 4.5
   m_BaseOffset: 0
-  m_WalkableMask: 25
+  m_WalkableMask: 17
   m_ObstacleAvoidanceType: 4
 --- !u!65 &8687543341573223033
 BoxCollider:
@@ -196,11 +196,15 @@ MonoBehaviour:
     peaceParameterName: '@Peace'
     idleParameterName: Idle
     walkParameterName: Walk
+    returnToBaseParameterName: ReturnToBase
     battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
+    StunParameterName: Stun
+    StunStartParameterName: StunStart
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 1
