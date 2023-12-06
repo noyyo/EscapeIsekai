@@ -11,12 +11,15 @@ public class PlayerWalkState : PlayerGroundState
         base.Enter();
         stateMachine.MovementSpeed = groundData.WalkSpeed;
         StartAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "NewWalk", stateMachine.Player.transform, true);
+
     }
 
     public override void Exit()
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "NewWalk");
     }
     public override void Update()
     {

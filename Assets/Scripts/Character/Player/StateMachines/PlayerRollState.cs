@@ -17,6 +17,7 @@ public class PlayerRollState : PlayerGroundState
         base.Enter();
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Roll", stateMachine.Player.transform, false);
         direction = stateMachine.Player.transform.forward;
         direction.y = 0;
         direction.Normalize();
@@ -34,6 +35,7 @@ public class PlayerRollState : PlayerGroundState
         base.Exit();
         isMovable = true;
         normalizedTime = 0f;
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Roll");
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)

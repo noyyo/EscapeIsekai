@@ -13,12 +13,14 @@ public class PlayerSuperJump : PlayerAirState
         stateMachine.Player.ForceReceiver.Jump(10);
         StartAnimation(stateMachine.Player.AnimationData.SuperJumpParameterHash);
         stateMachine.Player.Playerconditions.UseSuperJump(groundData.SuperJumpCost);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Jump", stateMachine.Player.transform, false);
     }
 
     public override void Exit()
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.SuperJumpParameterHash);
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Jump");
     }
 
     public override void PhysicsUpdate()

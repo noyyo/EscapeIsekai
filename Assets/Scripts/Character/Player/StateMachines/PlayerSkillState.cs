@@ -17,12 +17,14 @@ public class PlayerSkillState : PlayerGroundState
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Skill", stateMachine.Player.transform, false);
     }
 
     public override void Exit()
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Skill");
     }
 
     public override void Update()

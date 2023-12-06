@@ -15,6 +15,7 @@ public class PlayerNoStamina : PlayerGroundState
         base.Enter();
         stateMachine.Player.Playerconditions.UseNoStamina(groundData.NoStaminaCost);
         StartAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "NoStamina", stateMachine.Player.transform, false);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.nostamina, stateMachine);
         buff.ApplyBuff(10);
@@ -27,6 +28,7 @@ public class PlayerNoStamina : PlayerGroundState
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
         isMovable = true;
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "NoStamina");
     }
 
     public override void Update()
