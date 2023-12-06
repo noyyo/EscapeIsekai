@@ -16,6 +16,7 @@ public class PlayerShieldState : PlayerGroundState
         base.Enter();
         stateMachine.Player.Playerconditions.UseShield(groundData.ShieldCost);
         StartAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Shield", stateMachine.Player.transform, false);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.shield, stateMachine);
         buff.ApplyBuff(10);
@@ -27,6 +28,7 @@ public class PlayerShieldState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Shield");
         isMovable = true;
     }
 

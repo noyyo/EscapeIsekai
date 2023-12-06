@@ -12,6 +12,7 @@ public class PlayerBaseState : IState
     protected CharacterController controller;
     protected Animator animator;
     private bool isAnimStarted;
+    protected SoundManager soundManager;
 
     public PlayerBaseState(PlayerStateMachine playerstateMachine)
     {
@@ -19,6 +20,8 @@ public class PlayerBaseState : IState
         groundData = stateMachine.Player.Data.GroundedData;
         controller = playerstateMachine.Player.Controller;
         animator = playerstateMachine.Player.Animator;
+        if (soundManager == null)
+            soundManager = SoundManager.Instance;
     }
 
     public virtual void Enter()

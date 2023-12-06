@@ -44,7 +44,6 @@ public class Player : MonoBehaviour, IPositionable
 
         StateMachine = new PlayerStateMachine(this);
 
-
         playerUI = GameObject.FindObjectOfType<PlayerUI>();
         if (playerUI == null)
         {
