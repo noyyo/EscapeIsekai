@@ -6,6 +6,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private GameManager gameManager;
     private UI_Manager ui_Manager;
     private InventoryManager inventoryManager;
+    private SoundManager soundManager;
     private ItemCraftingController craftingController;
     private GameObject itemCraftingUI;
     private GameObject craftingSlotPrefab;
@@ -13,6 +14,8 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private GameObject itemExplanation_UI;
     private MaterialsSlot[] materialsSlots;
     private ItemRecipe clickSlot;
+    private Transform playerTransform;
+    private readonly string crftingSoundName = "CrftingSound";
     private bool isMake;
 
     public GameObject CraftingSlotPrefab { get { return craftingSlotPrefab; } }
@@ -24,15 +27,16 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     public event Action OffOutLineEvent;
     public event Action<ItemRecipe> OnUpdateUIEvent;
     public event Action OnCraftingEvent;
+    public event Action OnTextUpdateEvent;
 
     private void Awake()
     {
         gameManager = GameManager.Instance;
         ui_Manager = UI_Manager.Instance;
         inventoryManager = InventoryManager.Instance;
+        soundManager = SoundManager.Instance;
         craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
         craftingController = gameManager.Player.GetComponent<ItemCraftingController>();
-
     }
 
     private void Start()
@@ -43,10 +47,12 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         OnClickCraftingSlotEvent += ItemMaterialsUITurnOn;
         OnClickCraftingSlotEvent += CallUpdateUI;
         OnClickCraftingSlotEvent += CallOffOutLineEvent;
+        OnClickCraftingSlotEvent += ui_Manager.PlayClickSound;
 
         ui_Manager.UI_ItemCraftingTurnOffEvent += CallOffOutLineEvent;
         ui_Manager.UI_ItemCraftingTurnOffEvent += ItemMaterialsUITurnOff;
         ui_Manager.UI_ItemCraftingTurnOffEvent += ItemCraftingUITurnOff;
+        playerTransform = gameManager.Player.transform;
     }
 
     private void Init()
@@ -111,7 +117,16 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     {
         this.isMake = isMake;
         if (this.isMake)
+        {
+            OnTextUpdateEvent?.Invoke();
+            PlayCraftingSound();
             return inventoryManager.CallAddItems(ClickSlot);
+        }
+        ui_Manager.PlayWrongSound();
         return false;
     }
+    public void PlayCraftingSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, crftingSoundName, playerTransform, false, soundValue : 3f);
+    } 
 }

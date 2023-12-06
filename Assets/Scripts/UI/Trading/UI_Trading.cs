@@ -41,19 +41,19 @@ public class UI_Trading : MonoBehaviour
         tailButton = tail.GetComponentsInChildren<Button>();
         BuyButton = tail.transform.GetChild(1).gameObject;
 
-        myCategoryButtons[0].onClick.AddListener(() => PlayerItemCategoryButton(0));
-        myCategoryButtons[1].onClick.AddListener(() => PlayerItemCategoryButton(1));
-        myCategoryButtons[2].onClick.AddListener(() => PlayerItemCategoryButton(2));
-        myCategoryButtons[3].onClick.AddListener(() => PlayerItemCategoryButton(3));
+        myCategoryButtons[0].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); PlayerItemCategoryButton(0); });
+        myCategoryButtons[1].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); PlayerItemCategoryButton(1); });
+        myCategoryButtons[2].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); PlayerItemCategoryButton(2); });
+        myCategoryButtons[3].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); PlayerItemCategoryButton(3); });
 
-        shopCategoryButtons[0].onClick.AddListener(() => ShopItemCategoryButton(0));
-        shopCategoryButtons[1].onClick.AddListener(() => ShopItemCategoryButton(1));
-        shopCategoryButtons[2].onClick.AddListener(() => ShopItemCategoryButton(2));
-        shopCategoryButtons[3].onClick.AddListener(() => ShopItemCategoryButton(3));
+        shopCategoryButtons[0].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ShopItemCategoryButton(0); });
+        shopCategoryButtons[1].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ShopItemCategoryButton(1); });
+        shopCategoryButtons[2].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ShopItemCategoryButton(2); });
+        shopCategoryButtons[3].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ShopItemCategoryButton(3); });
 
-        tailButton[0].onClick.AddListener(() => { ui_Manager.CallUI_TradingTurnOff(); });
-        tailButton[1].onClick.AddListener(tradingManager.CallOnClickBuyButton);
-        tailButton[2].onClick.AddListener(() => { ui_Manager.CallUI_TradingTurnOff(); ui_Manager.CallUI_InventoryTurnOn(); });
+        tailButton[0].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_TradingTurnOff(); });
+        tailButton[1].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); tradingManager.CallOnClickBuyButton(); });
+        tailButton[2].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_TradingTurnOff(); ui_Manager.CallUI_InventoryTurnOn(); });
 
         ui_Manager.UI_TradingTurnOnEvent += Activate;
         ui_Manager.UI_TradingTurnOffEvent += Deactivate;
@@ -63,6 +63,8 @@ public class UI_Trading : MonoBehaviour
         tradingManager.clickSlotButtonEvent += ItemExplanationTurnOn;
         tradingManager.clickSlotButtonEvent += BuyButtonTurnOn;
         tradingManager.clickSlotButtonEvent += BuyButtonTextUpdate;
+        tradingManager.clickSlotButtonEvent += ui_Manager.PlayClickSound;
+
         tradingManager.itemExplanationText = ItemExplanationUpdateText;
 
         ClickCategoryButtonEvnet += ItemExplanationTurnOff;

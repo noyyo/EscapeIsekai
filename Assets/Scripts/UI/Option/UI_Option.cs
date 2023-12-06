@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -23,8 +24,6 @@ public class UI_Option : MonoBehaviour
     private TMP_InputField sfxVolumeInputField;
     private Button back;
     private Button inventory;
-    //private readonly string max = "100";
-    //private readonly string min = "0";
     public bool IsDisplay { get; private set; }
 
     private void Awake()
@@ -57,11 +56,17 @@ public class UI_Option : MonoBehaviour
         MasterVolume.onValueChanged.AddListener((n) => SliderValueChange(MasterVolumeInputField, n, MiXType.MasterVolume));
         bgmVolume.onValueChanged.AddListener((n) => SliderValueChange(bgmVolumeInputField, n, MiXType.BgmVolume));
         sfxVolume.onValueChanged.AddListener((n) => SliderValueChange(sfxVolumeInputField, n, MiXType.SfxVolume));
+
+        MasterVolumeInputField.onSelect.AddListener((n) => uiManager.PlayClickBtnSound());
+        bgmVolumeInputField.onSelect.AddListener((n) => uiManager.PlayClickBtnSound());
+        sfxVolumeInputField.onSelect.AddListener((n) => uiManager.PlayClickBtnSound());
+
         MasterVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, MasterVolume, MiXType.MasterVolume));
         bgmVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, bgmVolume, MiXType.BgmVolume));
         sfxVolumeInputField.onEndEdit.AddListener((n) => ChangeText(n, MasterVolumeInputField, sfxVolume, MiXType.SfxVolume));
-        back.onClick.AddListener(uiManager.CallUI_OptionTurnOff);
-        inventory.onClick.AddListener(() => { uiManager.CallUI_OptionTurnOff(); uiManager.CallUI_InventoryTurnOn(); });
+
+        back.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); });
+        inventory.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); uiManager.CallUI_InventoryTurnOn(); });
     }
 
     private void SliderValueChange(TMP_InputField inputField, float n, MiXType mixType)

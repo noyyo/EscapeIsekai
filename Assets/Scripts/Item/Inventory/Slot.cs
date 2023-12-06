@@ -30,6 +30,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     //드래그가 유효한지 저장하기위한 bool값
     private bool isData;
 
+    private UI_Manager ui_Manager;
     private InventoryManager inventoryManager;
     private Color defaultColor;
 
@@ -54,7 +55,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         inventoryManager = InventoryManager.Instance;
         item2DImage = itemImage.GetComponent<Image>();
         itemImageTransform = itemImage.transform;
-        inventory_UI = UI_Manager.Instance.Inventory_UI;
+        ui_Manager = UI_Manager.Instance;
+        inventory_UI = ui_Manager.Inventory_UI;
         button = GetComponent<Button>();
         backGround = GetComponent<Image>();
         defaultColor = backGround.color;
@@ -146,6 +148,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             defaultPos = itemImageTransform.position;
             startParent = itemImageTransform.parent;
             itemImageTransform.SetParent(inventory_UI.transform, false);
+            ui_Manager.PlayClickSound();
         }
         else
         {
