@@ -36,6 +36,7 @@ public abstract class AttackAction : ScriptableObject
     /// 액션이 완료되면 true로 세팅해야합니다. true값이 되면 다음 프레임에서 액션의 실행은 종료됩니다.
     /// </summary>
     protected bool isCompleted;
+    private bool isInterrupted;
     /// <summary>
     /// 이펙트가 시작됐는지 여부입니다.
     /// </summary>
@@ -93,6 +94,7 @@ public abstract class AttackAction : ScriptableObject
     {
         timeStarted = Time.time;
         isCompleted = false;
+        isInterrupted = false;
         isEffectStarted = false;
         isEffectEnded = false;
         alreadyAttackApplied.Clear();
@@ -108,10 +110,10 @@ public abstract class AttackAction : ScriptableObject
         {
             OnEffectFinish();
         }
-        if (!isCompleted)
+        if (!isCompleted && !isInterrupted)
             CheckAnimationState();
 
-        if (isCompleted && !HasRemainingEffect)
+        if (isCompleted && !HasRemainingEffect && !isInterrupted)
         {
             if (restedTime < Config.RestTimeAfterAction)
             {
@@ -334,6 +336,10 @@ public abstract class AttackAction : ScriptableObject
                 }
             }
         }
+    }
+    public void Interrupt()
+    {
+        isInterrupted = true;
     }
     protected virtual void OnDrawGizmo(Transform enemyTransform) { }
 }

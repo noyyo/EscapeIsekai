@@ -26,6 +26,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public EnemyReturnToBaseState ReturnToBaseState { get; }
     public EnemyFleeState FleeState { get; }
     public EnemyDeadState DeadState { get; }
+    public EnemyStunState StunState { get; }
+
     [SerializeField][ReadOnly] private bool isPause;
     [SerializeField][ReadOnly] private bool isActive;
     [SerializeField] private float ActivationCheckDelay = 0.5f;
@@ -62,6 +64,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         ReturnToBaseState = new EnemyReturnToBaseState(this);
         FleeState = new EnemyFleeState(this);
         DeadState = new EnemyDeadState(this);
+        StunState = new EnemyStunState(this);
         IsFleeable = enemy.Data.IsFleeable;
         actionData = enemy.Actions;
         actionsToExecute = new List<AttackAction>(actionData.Length);
@@ -236,7 +239,9 @@ public class EnemyStateMachine : StateMachine, IDamageable
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        if (!CanTakeDamage(attacker))
+        if (IsInvincible)
+            return;
+        if (!CanTakeDamageAndEffect(attacker))
             return;
         HP -= damage;
         HP = Mathf.Max(HP, 0);
@@ -259,6 +264,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
 
     public void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
     {
+        if (IsInvincible)
+            return;
+        if (!CanTakeDamageAndEffect(attacker))
+            return;
         if (!AffectedEffectInfo.CanBeAffected(attackEffectTypes))
             return;
 
@@ -273,6 +282,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
                 forceReceiver.AddForce(Vector3.up * value);
                 break;
             case AttackEffectTypes.Stun:
+                StunState.SetStunTime(value);
+                CurrentAction.Interrupt();
+                CurrentAction = null;
+                ChangeState(StunState);
                 break;
         }
     }
@@ -306,17 +319,17 @@ public class EnemyStateMachine : StateMachine, IDamageable
         CurrentAction = null;
         ChangeState(IdleState);
     }
-    private bool CanTakeDamage(GameObject attacker)
+    private bool CanTakeDamageAndEffect(GameObject attacker)
     {
-        CanTakeDamageCharacterTypes type = CanTakeDamageCharacterTypes.None;
+        CanBeAttackedTypes type = CanBeAttackedTypes.None;
         if (attacker.CompareTag(TagsAndLayers.PlayerTag))
-            type = CanTakeDamageCharacterTypes.Player;
+            type = CanBeAttackedTypes.Player;
         else if (attacker.CompareTag(TagsAndLayers.EnemyTag))
-            type = CanTakeDamageCharacterTypes.Enemy;
+            type = CanBeAttackedTypes.Enemy;
         else if (attacker.CompareTag(TagsAndLayers.EnvironmentTag))
-            type = CanTakeDamageCharacterTypes.Environment;
+            type = CanBeAttackedTypes.Environment;
 
-        foreach (var characterType in Enemy.Data.CanTakeDamageCharacterType)
+        foreach (var characterType in Enemy.Data.CanBeAttackedType)
         {
             if (characterType == type)
                 return true;

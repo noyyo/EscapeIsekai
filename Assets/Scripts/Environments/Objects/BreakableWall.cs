@@ -16,7 +16,7 @@ public class BreakableWall : BaseEnvironmentObject
 
     public override void TakeDamage(int damage, GameObject attacker)
     {
-        if (!CanTakeDamage(attacker))
+        if (!CanTakeDamageAndEffect(attacker))
             return;
         HP -= damage;
         if (HP <= 0)
