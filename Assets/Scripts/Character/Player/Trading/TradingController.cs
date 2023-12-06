@@ -166,16 +166,19 @@ public class TradingController : MonoBehaviour
         int sum = 0;
         if (itemDB.GetItemData(itemID, out ItemData itemData))
         {
-            if (inventoryManager.CallTryAddItem(itemID, -itemCount))
+            if (itemData.IsSale)
             {
-                sum = itemCount * itemData.Price;
-                if (repurchaseItem.Count >= tradingManager.RepurchaseItemMaxCount)
-                    repurchaseItem.RemoveAt(0);
+                if (inventoryManager.CallTryAddItem(itemID, -itemCount))
+                {
+                    sum = itemCount * itemData.Price;
+                    if (repurchaseItem.Count >= tradingManager.RepurchaseItemMaxCount)
+                        repurchaseItem.RemoveAt(0);
 
-                repurchaseItem.Add(new ItemsSoldByUser(itemID, itemCount));
+                    repurchaseItem.Add(new ItemsSoldByUser(itemID, itemCount));
 
-                if (tradingSlotList[1].Count <= repurchaseItem.Count)
-                    CreateShopSlot();
+                    if (tradingSlotList[1].Count <= repurchaseItem.Count)
+                        CreateShopSlot();
+                }
             }
         }
         else
