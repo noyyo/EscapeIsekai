@@ -15,6 +15,7 @@ public class PlayerPowerUpState : PlayerGroundState
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
         stateMachine.Player.Playerconditions.ActivePowerUp(groundData.PowerUpCost);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "PowerUp", stateMachine.Player.transform, false);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.speed, stateMachine);  // 버프타입의 객체를 새로 생성된 메모리 주소를 가짐.
         buff.ApplyBuff(10);
@@ -38,6 +39,7 @@ public class PlayerPowerUpState : PlayerGroundState
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "PowerUp");
         isMovable = true;
     }
 
