@@ -84,12 +84,12 @@ public class UI_Inventory : MonoBehaviour
         inventoryTypeButtons[2].onClick.AddListener(() => { OnCategoryButton(ItemType.Material); });
         inventoryTypeButtons[3].onClick.AddListener(() => { OnCategoryButton(ItemType.ETC); });
 
-        inventoryTailButtons[0].onClick.AddListener(inventory.SortInventory);
-        inventoryTailButtons[1].onClick.AddListener(inventory.Drop);
-        inventoryTailButtons[2].onClick.AddListener(inventory.UseItem);
+        inventoryTailButtons[0].onClick.AddListener(() => { ui_manager.PlayClickBtnSound(); inventory.SortInventory(); });
+        inventoryTailButtons[1].onClick.AddListener(() => { ui_manager.PlayClickBtnSound(); inventory.Drop(); });
+        inventoryTailButtons[2].onClick.AddListener(() => { ui_manager.PlayClickBtnSound(); inventory.UseItem(); });
 
-        backButton.onClick.AddListener(ui_manager.CallUI_InventoryTurnOff); //돌아가기
-        optionButton.onClick.AddListener(() => { ui_manager.CallUI_InventoryTurnOff(); ui_manager.CallUI_OptionTurnOn(); });
+        backButton.onClick.AddListener(() => { ui_manager.PlayClickBtnSound(); ui_manager.CallUI_InventoryTurnOff(); }); //돌아가기
+        optionButton.onClick.AddListener(() => { ui_manager.PlayClickBtnSound(); ui_manager.CallUI_InventoryTurnOff(); ui_manager.CallUI_OptionTurnOn(); });
 
         ui_manager.UI_InventoryTurnOnEvent += InventroyUITurnOn;
         ui_manager.UI_InventoryTurnOffEvent += InventroyUITurnOff;
@@ -160,6 +160,7 @@ public class UI_Inventory : MonoBehaviour
     //카테고리 버튼 눌렀을시 해야해는 동작 모음 (이벤트로 바꿔도 상관없을듯)
     public void OnCategoryButton(ItemType categoryType)
     {
+        ui_manager.PlayClickBtnSound();
         if (nowDisplayItemType == categoryType) return;
         InventoryUITurnOff();
         CallItemSlots(categoryType); //Slot에 표시되는 Item 바꾸기

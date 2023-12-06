@@ -24,12 +24,16 @@ public class TradingManager : CustomSingleton<TradingManager>
     [SerializeField]
     private int shopCategoryCount = 3;
     private UI_Manager ui_Manager;
+    private GameManager gameManager;
+    private SoundManager soundManager;
+    private Transform playerTransform;
     private List<UI_TradingSlot>[] tradingSlotList;
     private List<int>[] shopItemIDList;
     private List<ItemsSoldByUser> repurchaseItem;
     private int clickID;
     private int clickIndex;
     private int playerMoney = 0;
+    private readonly string coinSoundName = "CoinSound";
 
     public List<UI_TradingSlot>[] TradingSlotList { get { return tradingSlotList; } }
     public List<ItemsSoldByUser> RepurchaseItem { get { return repurchaseItem; } }
@@ -62,6 +66,8 @@ public class TradingManager : CustomSingleton<TradingManager>
 
     private void Awake()
     {
+        gameManager = GameManager.Instance;
+        soundManager = SoundManager.Instance;
         ui_Manager = UI_Manager.Instance;
         repurchaseItem = new List<ItemsSoldByUser>();
         tradingSlotList = new List<UI_TradingSlot>[2];
@@ -74,6 +80,7 @@ public class TradingManager : CustomSingleton<TradingManager>
 
     private void Start()
     {
+        playerTransform = gameManager.Player.transform;
         trySellItem = (itemID, itemCount) => SellItem(sellItem(itemID, itemCount));
         tryByitem = (itemID, itemCount) => Byitem(byitem(itemID, itemCount));
         tryRepurchase = (itemID, itemCount) => Repurchase(repurchase(itemID, itemCount));
@@ -176,4 +183,10 @@ public class TradingManager : CustomSingleton<TradingManager>
         playerMoney += moeny;
         CallOnMoneyTextUpdate();
     }
+
+    public void PlayCoinSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, coinSoundName, playerTransform, false);
+    }
+
 }

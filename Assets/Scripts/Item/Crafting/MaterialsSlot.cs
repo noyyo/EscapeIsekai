@@ -24,7 +24,7 @@ public class MaterialsSlot : MonoBehaviour
 
     private void Start()
     {
-        craftingManager.OnCraftingEvent += UpdateItemData;
+        craftingManager.OnTextUpdateEvent += UpdateItemData;
     }
 
     public void GetItemData(ItemData newItem, int consumption, int count, bool isCrafting)

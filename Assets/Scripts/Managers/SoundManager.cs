@@ -22,8 +22,7 @@ public class SoundManager : CustomSingleton<SoundManager>
 
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private int poolMaxCount = 20;
-    [SerializeField] private string defaultBGMName = "¹ÌÁöÀÇ ¼¶";
-
+    [SerializeField] private string defaultBGMName = "ë¯¸ì§€ì˜ ì„¬";
     private Dictionary<string, AudioClip>[] ClipDics;
 
     private GameObject sfxPrefab;
@@ -95,68 +94,70 @@ public class SoundManager : CustomSingleton<SoundManager>
     }
     //---------
 
-    public bool CallPlaySFX(ClipType clipType, string sfxName, Transform transform, bool isLoop)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Transform transform, bool isLoop, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, value.length, isLoop, transform.position);
+            PlaySFX(value, transform, value.length, isLoop, transform.position, pitchValue, soundValue);
             return true;
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
 
-    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, bool isLoop)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, bool isLoop, float pitchValue = 1, float soundValue = 1)
     {   
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, value.length, isLoop, vector3);
+            PlaySFX(value, transform, value.length, isLoop, vector3, pitchValue, soundValue);
             return true;
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
 
-    public bool CallPlaySFX(ClipType clipType, string sfxName, Transform transform, float playTime)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Transform transform, float playTime, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, playTime, false, transform.position);
+            PlaySFX(value, transform, playTime, false, transform.position, pitchValue, soundValue);
             return true;
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
 
-    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, float playTime)
+    public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, float playTime, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            PlaySFX(value, transform, playTime, false, vector3);
+            PlaySFX(value, transform, playTime, false, vector3, pitchValue, soundValue);
             return true;
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
 
-    private void PlaySFX(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3)
+    private void PlaySFX(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1, float soundValue = 1)
     {
         SFX sfx = objectPool_AudioSources.Get();
         sfx.PlaySFX(clip, transform, playTime, isLoop, vector3);
         if (isLoop)
             playLoopSFXList.Add(sfx);
+        sfx.audioSource.pitch = pitchValue;
+        sfx.audioSource.volume = soundValue;
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
     }
 
@@ -175,59 +176,60 @@ public class SoundManager : CustomSingleton<SoundManager>
         return false;
     }
     //------------------------------------------------
-    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Transform transform, bool isLoop, float pitchValue = 1)
+    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Transform transform, bool isLoop, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, value.length, isLoop, transform.position, pitchValue);
+            return PlaySFXReturnSource(value, transform, value.length, isLoop, transform.position, pitchValue, soundValue);
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
 
-    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Vector3 vector3, bool isLoop, float pitchValue = 1)
+    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Vector3 vector3, bool isLoop, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, value.length, isLoop, vector3, pitchValue);
+            return PlaySFXReturnSource(value, transform, value.length, isLoop, vector3, pitchValue, soundValue);
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
 
-    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Transform transform, float playTime, float pitchValue = 1)
+
+    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Transform transform, float playTime, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, playTime, false, transform.position, pitchValue);
+            return PlaySFXReturnSource(value, transform, playTime, false, transform.position, pitchValue, soundValue);
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
 
-    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Vector3 vector3, float playTime, float pitchValue = 1)
+    public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Vector3 vector3, float playTime, float pitchValue = 1, float soundValue = 1)
     {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
-            return PlaySFXReturnSource(value, transform, playTime, false, vector3, pitchValue);
+            return PlaySFXReturnSource(value, transform, playTime, false, vector3, pitchValue, soundValue);
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
-
-    private AudioSource PlaySFXReturnSource(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1)
+    
+    private AudioSource PlaySFXReturnSource(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1, float soundValue = 1)
     {
         SFX sfx = objectPool_AudioSources.Get();
         sfx.PlaySFX(clip, transform, playTime, isLoop, vector3);
@@ -235,12 +237,13 @@ public class SoundManager : CustomSingleton<SoundManager>
             playLoopSFXList.Add(sfx);
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
         sfx.audioSource.pitch = pitchValue;
+        sfx.audioSource.volume = soundValue;
         return sfx.audioSource;
     }
 
     //-------
 
-    //»ç¿îµå Á¶Àı
+    //ì‚¬ìš´ë“œ ì¡°ì ˆ
     public void MasterVolume(float val)
     {
         mixer.SetFloat("MasterVolume", val * 0.4f - 30);
@@ -257,7 +260,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     }
     //------
 
-    //¹è°æÀ½ º¯°æ
+    //ë°°ê²½ìŒ ë³€ê²½
     public void ChangeBGM(string bgmName)
     {
         if (ClipDics[0].TryGetValue(bgmName, out AudioClip value))
