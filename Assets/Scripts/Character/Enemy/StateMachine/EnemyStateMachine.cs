@@ -234,8 +234,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
         ActivatedActionsChanged?.Invoke();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject attacker)
     {
+        if (!CanTakeDamage(attacker))
+            return;
         HP -= damage;
         HP = Mathf.Max(HP, 0);
         if (HP == 0)
@@ -303,5 +305,22 @@ public class EnemyStateMachine : StateMachine, IDamageable
         OriginPosition = Vector3.zero;
         CurrentAction = null;
         ChangeState(IdleState);
+    }
+    private bool CanTakeDamage(GameObject attacker)
+    {
+        CanTakeDamageCharacterTypes type = CanTakeDamageCharacterTypes.None;
+        if (attacker.CompareTag(TagsAndLayers.PlayerTag))
+            type = CanTakeDamageCharacterTypes.Player;
+        else if (attacker.CompareTag(TagsAndLayers.EnemyTag))
+            type = CanTakeDamageCharacterTypes.Enemy;
+        else if (attacker.CompareTag(TagsAndLayers.EnvironmentTag))
+            type = CanTakeDamageCharacterTypes.Environment;
+
+        foreach (var characterType in Enemy.Data.CanTakeDamageCharacterType)
+        {
+            if (characterType == type)
+                return true;
+        }
+        return false;
     }
 }

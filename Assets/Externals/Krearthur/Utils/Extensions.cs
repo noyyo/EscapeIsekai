@@ -12,8 +12,7 @@ namespace Krearthur.Utils
             if (go.scene.rootCount == 0) return true;
             PrefabInstanceStatus status = PrefabUtility.GetPrefabInstanceStatus(go);
 
-            return status == PrefabInstanceStatus.Connected
-                || status == PrefabInstanceStatus.Disconnected;
+            return status == PrefabInstanceStatus.Connected;
         }
 
         /// <summary>

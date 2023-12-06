@@ -32,7 +32,7 @@ public class MouseSlideMinigame : MonoBehaviour
     }
     private void Update()
     {
-        if (parent.active)
+        if (parent.activeSelf)
         {
             if (Input.GetMouseButtonDown(0))
             {

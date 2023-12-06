@@ -16,9 +16,7 @@ public class Scaffolding : BaseEnvironmentObject
     [SerializeField] private float limitTime = 3f;
 
     [Header("TakeDamage 설정용")]
-    [SerializeField] private int maxHP = 100;
-
-    private int hp;
+    [SerializeField][ReadOnly] private int maxHP;
     private int takeDamage;
     private bool isInvoke;
     // -1은 몬스터, 0은 초기화, 1은 플레이어
@@ -29,7 +27,8 @@ public class Scaffolding : BaseEnvironmentObject
 
     private void Awake()
     {
-        TryGetComponent<Collider>(out thisCollider);
+        maxHP = HP;
+        TryGetComponent(out thisCollider);
         if (thisCollider == null)
             thisCollider = GetComponentInChildren<Collider>();
         breakWaitForSeconds = new WaitForSeconds(limitTime);
@@ -37,7 +36,7 @@ public class Scaffolding : BaseEnvironmentObject
         Init();
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, GameObject attacker)
     {
         takeDamage = damage;
     }
@@ -88,10 +87,10 @@ public class Scaffolding : BaseEnvironmentObject
         switch (type)
         {
             default:
-                hp = hp - takeDamage;
-                if (hp <= 0)
+                HP = HP - takeDamage;
+                if (HP <= 0)
                 {
-                    hp = 0;
+                    HP = 0;
                     StopCoroutine(IBreakScaffolding());
                     BreakScaffolding();
                 }
@@ -125,7 +124,7 @@ public class Scaffolding : BaseEnvironmentObject
     private void Init()
     {
         thisCollider.enabled = true;
-        hp = maxHP;
+        HP = maxHP;
         isInvoke = false;
     }
 
@@ -144,17 +143,17 @@ public class Scaffolding : BaseEnvironmentObject
 
     private void Activate()
     {
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     //애니메이션 끝나면 호출할것
     private void Deactivate()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public override Vector3 GetObjectCenterPosition()
     {
-        throw new System.NotImplementedException();
+        return thisCollider.bounds.center;
     }
 }

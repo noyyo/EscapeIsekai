@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FallingTree : BaseEnvironmentObject
 {
-    [SerializeField] private int maxHP = 1;
+    [SerializeField][ReadOnly] private int maxHP;
     [SerializeField] private float objSpeed = 1f;
 
     [Range(0f, 8f)][SerializeField] private float playFadeOutTime = 2f;
@@ -14,7 +14,6 @@ public class FallingTree : BaseEnvironmentObject
     [SerializeField] private bool isRespawn = true;
     [SerializeField] private float respawnTime = 5f;
 
-    private int hp;
     private int playerDamage;
     private bool isPlayer;
     private bool isBreak;
@@ -28,6 +27,7 @@ public class FallingTree : BaseEnvironmentObject
 
     private void Awake()
     {
+        maxHP = HP;
         if (TryGetComponent<Collider>(out thisCollider))
             thisCollider = GetComponentInChildren<Collider>();
         defaultPos = transform.position;
@@ -39,7 +39,7 @@ public class FallingTree : BaseEnvironmentObject
         Init();
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, GameObject attacker)
     { playerDamage = damage; }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
@@ -62,7 +62,7 @@ public class FallingTree : BaseEnvironmentObject
                 {
                     IDamageable target = null;
                     target = enemy.StateMachine;
-                    target?.TakeDamage(1);
+                    target?.TakeDamage(1, gameObject);
                     target?.TakeEffect(attackType, effectValue, this.gameObject);
                     isBreak = false;
                 }
@@ -77,7 +77,7 @@ public class FallingTree : BaseEnvironmentObject
 
     private void Init()
     {
-        hp = maxHP;
+        HP = maxHP;
         transform.position = defaultPos;
         transform.rotation = defaultRot;
         thisCollider.enabled = true;
@@ -88,11 +88,11 @@ public class FallingTree : BaseEnvironmentObject
 
     private void ChangeHP()
     {
-        hp -= playerDamage;
+        HP -= playerDamage;
         playerDamage = 0;
-        if (hp <= 0)
+        if (HP <= 0)
         {
-            hp = 0;
+            HP = 0;
             BreakTree();
         }
         else
@@ -152,6 +152,6 @@ public class FallingTree : BaseEnvironmentObject
 
     public override Vector3 GetObjectCenterPosition()
     {
-        throw new System.NotImplementedException();
+        return thisCollider.bounds.center;
     }
 }

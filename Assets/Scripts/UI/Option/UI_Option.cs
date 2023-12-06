@@ -23,8 +23,8 @@ public class UI_Option : MonoBehaviour
     private TMP_InputField sfxVolumeInputField;
     private Button back;
     private Button inventory;
-    private readonly string max = "100";
-    private readonly string min = "0";
+    //private readonly string max = "100";
+    //private readonly string min = "0";
     public bool IsDisplay { get; private set; }
 
     private void Awake()

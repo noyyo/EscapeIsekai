@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
     public float ExplosionRadius = 5f; // Æø¹ß ¹Ý°æ
     public float StunTime = 3f;
 

@@ -2,55 +2,40 @@ using UnityEngine;
 
 public class BreakableWall : BaseEnvironmentObject
 {
-    [SerializeField] private int hp = 100;
-    [SerializeField] Collider thisCollider;
-
+    private Collider thisCollider;
     private int defaultHP;
-    private int damage;
-    private bool isPlayer;
-
-    private void Start()
+    private void Awake()
     {
-        defaultHP = hp;
-        if (thisCollider == null)
-            thisCollider = GetComponent<Collider>();
+        defaultHP = HP;
+        thisCollider = GetComponent<Collider>();
         if (thisCollider == null)
             thisCollider = GetComponentInChildren<Collider>();
+        OnDie += OnBreak;
         Init();
     }
 
-    public override void TakeDamage(int damage)
-    { this.damage = damage; }
-
-    public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
-    { isPlayer = attacker.CompareTag(TagsAndLayers.PlayerTag); }
-
-    private void OnTriggerEnter(Collider other)
+    public override void TakeDamage(int damage, GameObject attacker)
     {
-        if (isPlayer)
+        if (!CanTakeDamage(attacker))
+            return;
+        HP -= damage;
+        if (HP <= 0)
         {
-            if (hp > 0)
-                HPControl();
-            isPlayer = false;
-        }
-    }
-
-    private void HPControl()
-    {
-        hp -= damage;
-        if (hp <= 0)
-        {
-            hp = 0;
-            OnBreak();
+            HP = 0;
             return;
         }
         PlayTakeDamageAnimation();
     }
 
+    public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
+    {
+
+    }
+
     private void OnBreak()
     {
         thisCollider.enabled = false;
-        PlayerBreakAnimation();
+        PlayBreakAnimation();
 
         //애니메이션이 끝나면 비활성화
         gameObject.SetActive(false);
@@ -61,14 +46,14 @@ public class BreakableWall : BaseEnvironmentObject
 
     }
 
-    private void PlayerBreakAnimation()
+    private void PlayBreakAnimation()
     {
 
     }
 
     public void Init()
     {
-        hp = defaultHP;
+        HP = defaultHP;
         gameObject.SetActive(true);
         thisCollider.enabled = true;
     }
