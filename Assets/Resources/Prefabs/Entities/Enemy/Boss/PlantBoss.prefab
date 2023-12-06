@@ -222,7 +222,9 @@ MonoBehaviour:
     battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
+  Collider: {fileID: 0}
   <StateMachine>k__BackingField:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 1
@@ -2374,7 +2376,7 @@ PrefabInstance:
     - target: {fileID: 6726944412754469696, guid: d0213101b9a974b2b9a2b14af4b0f9cf,
         type: 3}
       propertyPath: m_CullingMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6726944412754469696, guid: d0213101b9a974b2b9a2b14af4b0f9cf,
         type: 3}
@@ -2796,7 +2798,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 12.350225
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 878340347854839493, guid: d0213101b9a974b2b9a2b14af4b0f9cf, type: 3}
+    - {fileID: 878340347854839492, guid: d0213101b9a974b2b9a2b14af4b0f9cf, type: 3}
+    - {fileID: 878340347854839495, guid: d0213101b9a974b2b9a2b14af4b0f9cf, type: 3}
+    - {fileID: 878340347854839494, guid: d0213101b9a974b2b9a2b14af4b0f9cf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4419652140847239124, guid: d0213101b9a974b2b9a2b14af4b0f9cf,

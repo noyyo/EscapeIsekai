@@ -39,7 +39,7 @@ public class EnemyChaseState : EnemyBaseState
         base.Exit();
 
         StopAnimation(enemy.AnimationData.BattleParameterHash);
-        if (!isChoosed)
+        if (!isChoosed && stateMachine.IsMovable)
         {
             agent.isStopped = false;
         }
@@ -75,7 +75,7 @@ public class EnemyChaseState : EnemyBaseState
         }
         else
         {
-            stateMachine.ChangeState(stateMachine.ReturnToBaseState);
+            ChangeBattleStance(false);
             return;
         }
     }
@@ -140,6 +140,8 @@ public class EnemyChaseState : EnemyBaseState
     }
     private void MoveToTarget()
     {
+        if (!stateMachine.IsMovable)
+            return;
         if (!isMoving)
         {
             isMoving = true;
@@ -152,7 +154,7 @@ public class EnemyChaseState : EnemyBaseState
         bool isInNavMesh = NavMesh.SamplePosition(currentPosition, out hit, 1f, agent.areaMask - (1 << NavMesh.GetAreaFromName("Walkable")));
         if (!isInNavMesh)
         {
-            stateMachine.ChangeState(stateMachine.ReturnToBaseState);
+            ChangeBattleStance(false);
         }
         else
         {

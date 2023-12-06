@@ -13,7 +13,7 @@ public class EnemyIdleState : EnemyBaseState
         base.Enter();
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
-        if (agent.enabled)
+        if (stateMachine.IsMovable)
             agent.ResetPath();
         StartAnimation(enemy.AnimationData.PeaceParameterHash);
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
@@ -33,11 +33,12 @@ public class EnemyIdleState : EnemyBaseState
         base.Update();
         if (IsInChaseRange())
         {
-            stateMachine.ChangeState(stateMachine.ChaseState);
+            ChangeBattleStance(true);
         }
-        else if (Time.time - idleStartTime > wanderWaitingTime)
+        else if (Time.time - idleStartTime > wanderWaitingTime && !isStanceChanging)
         {
             stateMachine.ChangeState(stateMachine.WanderState);
+            return;
         }
     }
 }

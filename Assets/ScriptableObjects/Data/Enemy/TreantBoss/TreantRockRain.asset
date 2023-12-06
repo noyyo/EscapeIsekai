@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793e616c95c48eb4693fd957a473a4a2, type: 3}
+  m_Name: TreantRockRain
+  m_EditorClassIdentifier: 
+  StateMachine:
+    currentStateName: 
+    isPause: 0
+    isActive: 0
+    ActivationCheckDelay: 0
+    ActivationDistance: 0
+    <IsInvincible>k__BackingField: 0
+    <IsFleeable>k__BackingField: 0
+    CurrentAction: {fileID: 0}
+    actionsInActive: []
+    actionsToExecute: []
+    <HP>k__BackingField: 0
+    BattleTime: 0
+    IsInBattle: 0
+    IsDead: 0
+    IsMovable: 0
+  ActionType: 4
+  Config:
+    RestTimeAfterAction: 1
+    EffectDurationSeconds: 2.5
+    DamageAmount: 10
+    AttackEffectType: 0
+    AttackEffectValue: 0
+    animTrigger1: ProjectileRain
+    animTrigger2: 
+    AnimTriggerHash1: 0
+    AnimTriggerHash2: 0
+    ChainedAction: {fileID: 0}
+  Condition:
+    Priority: 2
+    WaitUntilExecute: 0
+    MoreThanThisHp: 0
+    LessThanThisHp: 1000
+    MoreThanThisDistance: 5
+    LessThanThisDistance: 50
+    WhenThisTypeIsActivated: -1
+    WhenThisTypeIsDeactivated: -1
+    AfterBattleStartTime: 0
+    BeforeThisTime: 100000
+    CoolDown: 15
+  EffectStartTime: 0
+  HasRemainingEffect: 0
+  lastUsedTime: 0
+  projectilePrefab: {fileID: 5130743592047857980, guid: f7168f05faeeee74ab3536c540104bd0,
+    type: 3}
+  projectileAmountInBatch: 20
+  batchCount: 3
+  rainRadius: 20
+  effectRadius: 3
+  dropSpeed: 5
+  dropTime: 2.5
+  isTargeting: 1

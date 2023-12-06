@@ -10,6 +10,10 @@ public class EnemyBaseState : IState
     public Rigidbody rigidbody;
     public NavMeshAgent agent;
     public CharacterController controller;
+    private static readonly string changeBattleStanceTag = "ChangeStance";
+    private bool isAnimStarted;
+    private bool isTargetStanceBattle;
+    protected bool isStanceChanging;
 
     public EnemyBaseState(EnemyStateMachine enemyStateMachine)
     {
@@ -38,7 +42,7 @@ public class EnemyBaseState : IState
     {
         if (stateMachine.GetIsPause())
             return;
-
+        CheckStanceChanging();
     }
     public virtual void PhysicsUpdate()
     {
@@ -57,5 +61,54 @@ public class EnemyBaseState : IState
     protected bool IsInChaseRange()
     {
         return stateMachine.TargetDistance <= enemyData.ChasingRange;
+    }
+    protected void ChangeBattleStance(bool isTargetStanceBattle)
+    {
+        if (isStanceChanging)
+            return;
+        this.isTargetStanceBattle = isTargetStanceBattle;
+        isStanceChanging = true;
+    }
+    private void CheckStanceChanging()
+    {
+        if (!isStanceChanging)
+            return;
+        if (isTargetStanceBattle)
+        {
+            StartAnimation(enemy.AnimationData.BattleParameterHash);
+            AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (!isAnimStarted && currentInfo.IsTag(changeBattleStanceTag))
+            {
+                isStanceChanging = true;
+                isAnimStarted = true;
+            }
+            else if (isAnimStarted && !currentInfo.IsTag(changeBattleStanceTag))
+            {
+                isAnimStarted = false;
+                isStanceChanging = false;
+                stateMachine.ChangeState(stateMachine.ChaseState);
+            }
+        }
+        else
+        {
+            StartAnimation(enemy.AnimationData.PeaceParameterHash);
+            StartAnimation(enemy.AnimationData.ReturnToBaseParameterHash);
+            AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (!isAnimStarted && currentInfo.IsTag(changeBattleStanceTag))
+            {
+                isStanceChanging = true;
+                isAnimStarted = true;
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero;
+            }
+            else if (isAnimStarted && !currentInfo.IsTag(changeBattleStanceTag))
+            {
+                isAnimStarted = false;
+                isStanceChanging = false;
+                if (stateMachine.IsMovable)
+                    agent.isStopped = false;
+                stateMachine.ChangeState(stateMachine.ReturnToBaseState);
+            }
+        }
     }
 }
