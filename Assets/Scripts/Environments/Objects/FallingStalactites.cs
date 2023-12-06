@@ -13,7 +13,7 @@ public class FallingStalactites : BaseEnvironmentObject
     private FallingStalactitesManager stalactitesManager;
     private IObjectPool<FallingStalactites> managedPool;
     private AOEIndicator aoeIndicator;
-    private Collider collider;
+    private new Collider collider;
     private Vector3 colliderSize;
     private Transform thisTransform;
     private float fallingSpeed;
@@ -36,7 +36,7 @@ public class FallingStalactites : BaseEnvironmentObject
         managedPool = pool;
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, GameObject attacker)
     { }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
@@ -96,8 +96,8 @@ public class FallingStalactites : BaseEnvironmentObject
         }
         if (isTrue)
         {
-            targetObject?.TakeDamage(damage);
-            targetObject?.TakeEffect(attackEffectType, attackEffectValue, this.gameObject);
+            targetObject?.TakeDamage(damage, gameObject);
+            targetObject?.TakeEffect(attackEffectType, attackEffectValue, gameObject);
             isTrue = false;
             PlayAnimationFadeOut();
             stalactitesManager.OnRelease(aoeIndicator);
@@ -157,6 +157,6 @@ public class FallingStalactites : BaseEnvironmentObject
 
     public override Vector3 GetObjectCenterPosition()
     {
-        throw new System.NotImplementedException();
+        return collider.bounds.center;
     }
 }

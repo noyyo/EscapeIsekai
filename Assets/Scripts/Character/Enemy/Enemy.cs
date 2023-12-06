@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, IPositionable
 {
     public event Action<Collision> OnCollisionOcurred;
+    public event Action<Collider> OnTriggerEntered;
     [field: SerializeField] public EnemySO Data { get; protected set; }
     [field: SerializeField] public EnemyAnimationData AnimationData { get; protected set; }
     public Animator Animator { get; protected set; }
@@ -97,5 +98,9 @@ public class Enemy : MonoBehaviour, IPositionable
     public Vector3 GetObjectCenterPosition()
     {
         return Collider.bounds.center;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        OnTriggerEntered?.Invoke(other);
     }
 }

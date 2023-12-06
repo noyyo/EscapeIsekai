@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 4830174046434646343}
   - component: {fileID: 3077821223263141689}
   - component: {fileID: 8360560850608784490}
+  - component: {fileID: 7515820478674374170}
   m_Layer: 0
   m_Name: PlantBoss
   m_TagString: Enemy
@@ -219,6 +220,7 @@ MonoBehaviour:
     peaceParameterName: '@Peace'
     idleParameterName: Idle
     walkParameterName: Walk
+    returnToBaseParameterName: ReturnToBase
     battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
@@ -259,6 +261,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drag: 0.2
+--- !u!114 &7515820478674374170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7108636164434663685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c430058029d90424785454d5308a3493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8410434855245538711
 GameObject:
   m_ObjectHideFlags: 0

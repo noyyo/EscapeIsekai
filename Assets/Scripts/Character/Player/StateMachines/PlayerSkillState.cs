@@ -68,6 +68,6 @@ public class PlayerSkillState : PlayerGroundState
             target = environmentObj;
         }
 
-        target?.TakeDamage(10 + stateMachine.Player.Playerconditions.Power);
+        target?.TakeDamage(10 + stateMachine.Player.Playerconditions.Power, stateMachine.Player.gameObject);
     }
 }

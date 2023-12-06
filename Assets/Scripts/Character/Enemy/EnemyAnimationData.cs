@@ -14,6 +14,7 @@ public class EnemyAnimationData
     [SerializeField][ReadOnly] private string battleParameterName = "@Battle";
     [SerializeField][ReadOnly] private string runParameterName = "Run";
     [SerializeField][ReadOnly] private string DeadParameterName = "Dead";
+    [SerializeField][ReadOnly] private string StunParameterName = "Stun";
 
     public int PeaceParameterHash { get; private set; }
     public int IdleParameterHash { get; private set; }
@@ -22,6 +23,7 @@ public class EnemyAnimationData
     public int RunParameterHash { get; private set; }
     public int BattleParameterHash { get; private set; }
     public int DeadParameterHash { get; private set; }
+    public int StunParameterHash { get; private set; }
     public void Initialize()
     {
         PeaceParameterHash = Animator.StringToHash(peaceParameterName);
@@ -30,6 +32,7 @@ public class EnemyAnimationData
         ReturnToBaseParameterHash = Animator.StringToHash(returnToBaseParameterName);
         RunParameterHash = Animator.StringToHash(runParameterName);
         DeadParameterHash = Animator.StringToHash(DeadParameterName);
+        StunParameterHash = Animator.StringToHash(StunParameterName);
         BattleParameterHash = Animator.StringToHash(battleParameterName);
     }
 }

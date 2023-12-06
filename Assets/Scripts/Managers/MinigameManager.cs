@@ -10,7 +10,7 @@ public class MinigameManager : CustomSingleton<MinigameManager>
     private GameObject _instructor;
     private GameObject _blackSmith;
 
-    public event Action<bool> MiniGameSuccess; //신경안써도됨
+    //public event Action<bool> MiniGameSuccess; //신경안써도됨
     int sucecesOrFail;
     public event Action<int> ChangeSuccess; //미니게임 성공여부 확인 이벤트 구문 맨아래쪽 예시 구문 적어둠
     public GameObject kamen { get { return _kamen; } }

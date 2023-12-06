@@ -1,4 +1,11 @@
 using UnityEngine;
+public enum CanBeAttackedTypes
+{
+    None = 0,
+    Player,
+    Enemy,
+    Environment
+}
 
 [CreateAssetMenu(fileName = "EnemySO", menuName = "Characters/Enemy/EnemySO")]
 public class EnemySO : ScriptableObject
@@ -28,4 +35,6 @@ public class EnemySO : ScriptableObject
     [field: Header("Attack")]
     [Tooltip("이 목록에 있는 이펙트를 적용받을 수 있게 됩니다.")]
     [field: SerializeField] public AttackEffectTypes[] AffectedEffects { get; private set; }
+    [Tooltip("이 목록에 있는 캐릭터에게 데미지를 받을 수 있습니다.")]
+    [field: SerializeField] public CanBeAttackedTypes[] CanBeAttackedType { get; private set; }
 }
