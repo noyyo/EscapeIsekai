@@ -98,7 +98,14 @@ public class Npc : MonoBehaviour
                 tempstr = "npc2";
             if(id!=800)
             {
-                SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, tempstr, this.transform, false);
+                if(id==200|| id == 300|| id == 400||id ==1100)
+                {
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 1f);
+                }
+                else
+                {
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 0.4f);
+                }
             }
             
             Dialog.Instance.Action(gameObject);
