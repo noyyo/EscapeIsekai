@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3180750684824146339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 156.2, y: 16.2, z: 133.07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -77,9 +77,11 @@ MonoBehaviour:
     peaceParameterName: '@Peace'
     idleParameterName: Idle
     walkParameterName: Walk
+    returnToBaseParameterName: ReturnToBase
     battleParameterName: '@Battle'
     runParameterName: Run
     DeadParameterName: Dead
+    StunParameterName: Stun
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 

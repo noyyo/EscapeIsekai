@@ -12,6 +12,7 @@ public class EnemyStunState : EnemyBaseState
         base.Enter();
         stunStartTime = Time.time;
         StartAnimation(enemy.AnimationData.StunParameterHash);
+        StartAnimation(enemy.AnimationData.StunStartParameterHash);
         if (stateMachine.IsMovable)
         {
             agent.velocity = Vector3.zero;
