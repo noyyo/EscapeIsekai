@@ -182,6 +182,7 @@ public class GameManager : CustomSingleton<GameManager>
     {
         deadNpc.SetActive(true);
         deadNpc.transform.position = Player.transform.position + Player.transform.forward * 2;
+        SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, "DeadNpc", this.transform, false, 1f);
         Dialog.Instance.Action(deadNpc);
     }
     public IEnumerator Revive()

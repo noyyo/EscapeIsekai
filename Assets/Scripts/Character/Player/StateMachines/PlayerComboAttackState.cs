@@ -17,7 +17,7 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
-
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Attack", stateMachine.Player.transform ,false);
         // 초기화
         alreadyApplyCombo = false;
         alreadyAppliedForce = false;
@@ -36,6 +36,7 @@ public class PlayerComboAttackState : PlayerAttackState
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
         alreadyCollided.Clear();
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Attack");
 
         // 콤보가 끊겼을 때 다시 인덱스값을 0으로 돌림
         if (!alreadyApplyCombo)

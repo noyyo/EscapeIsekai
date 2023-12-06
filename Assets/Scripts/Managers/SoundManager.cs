@@ -22,7 +22,7 @@ public class SoundManager : CustomSingleton<SoundManager>
 
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private int poolMaxCount = 20;
-    [SerializeField] private string defaultBGMName = "¹ÌÁöÀÇ ¼¶";
+    [SerializeField] private string defaultBGMName = "ë¯¸ì§€ì˜ ì„¬";
     private Dictionary<string, AudioClip>[] ClipDics;
 
     private GameObject sfxPrefab;
@@ -103,7 +103,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
@@ -117,7 +117,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
@@ -131,7 +131,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
@@ -145,7 +145,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return false;
         }
     }
@@ -182,7 +182,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
@@ -195,10 +195,11 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
+
 
     public AudioSource CallPlaySFXReturnSource(ClipType clipType, string sfxName, Transform transform, float playTime, float pitchValue = 1, float soundValue = 1)
     {
@@ -208,7 +209,7 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
@@ -221,11 +222,11 @@ public class SoundManager : CustomSingleton<SoundManager>
         }
         else
         {
-            Debug.Log("Error ÀÌ È¿°úÀ½°ú °°Àº ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù. ´Ù½Ã È®ÀÎÇØ ÁÖ¼¼¿ä");
+            Debug.Log("Error ì´ íš¨ê³¼ìŒê³¼ ê°™ì€ ì´ë¦„ì´ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ í™•ì¸í•´ ì£¼ì„¸ìš”");
             return null;
         }
     }
-
+    
     private AudioSource PlaySFXReturnSource(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1, float soundValue = 1)
     {
         SFX sfx = objectPool_AudioSources.Get();
@@ -239,7 +240,7 @@ public class SoundManager : CustomSingleton<SoundManager>
 
     //-------
 
-    //»ç¿îµå Á¶Àı
+    //ì‚¬ìš´ë“œ ì¡°ì ˆ
     public void MasterVolume(float val)
     {
         mixer.SetFloat("MasterVolume", val * 0.4f - 30);
@@ -256,7 +257,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     }
     //------
 
-    //¹è°æÀ½ º¯°æ
+    //ë°°ê²½ìŒ ë³€ê²½
     public void ChangeBGM(string bgmName)
     {
         if (ClipDics[0].TryGetValue(bgmName, out AudioClip value))
