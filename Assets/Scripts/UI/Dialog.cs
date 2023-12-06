@@ -88,8 +88,8 @@ public class Dialog : MonoBehaviour
             serveQuestTalkIndex = 0;
             panel.SetActive(isAction);
         }
-         
-            
+        SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "Click", this.transform, false);
+
     }
     public void Talk(int id, bool isNPC)
     {
@@ -154,6 +154,7 @@ public class Dialog : MonoBehaviour
                 if (id == 800) //유물
                 {
                     tempnpc.SetActive(false);
+                    SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "Artifact", this.transform, false);
                     UI_Manager.Instance.questManager.GetComponent<QuestManager>().QuestClear();
                     UI_Manager.Instance.questManager.GetComponent<QuestManager>().header.text += " - 완료";
                     UI_Manager.Instance.questManager.GetComponent<QuestManager>().content.text = "마법사에게 돌아가보자";
@@ -185,7 +186,7 @@ public class Dialog : MonoBehaviour
                     player.GetComponent<PlayerInputSystem>().PlayerActions.Disable();
                     UI_Manager.Instance.tutorialUI.SetActive(true);
                 }
-
+                SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "NPCLastUI", this.transform, false);
                 return;
             }
 
