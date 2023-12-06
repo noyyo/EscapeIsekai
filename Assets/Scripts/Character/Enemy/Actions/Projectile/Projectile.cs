@@ -25,8 +25,8 @@ public class Projectile : MonoBehaviour
     private AOETypes indicatorAOEType;
     private bool isInfoSetted;
     private float timeSinceLaunced;
-    private Rigidbody rigidbody;
-    private Collider collider;
+    private new Rigidbody rigidbody;
+    private new Collider collider;
     private Vector3 colliderSize;
     private Vector3 direction;
     private float launchSpeed;

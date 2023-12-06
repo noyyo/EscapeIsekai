@@ -3,7 +3,6 @@ using UnityEngine;
 public class MinimapCamera : MonoBehaviour
 {
     private Transform _target; //플레이어
-    private float _offsetRatio = 0.5f; //미니맵에 위치할 y축 퍼센티지
     private int height = 70;
 
     Camera cam;

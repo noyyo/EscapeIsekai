@@ -33,7 +33,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [SerializeField] private FallingStalactitesTarget attackTarget;
     [Tooltip("최하 높이 설정")][SerializeField] private float limitPosY = 0;
 
-    private Collider collider;
+    private new Collider collider;
 
     private int damage;
     private float value;
@@ -63,7 +63,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         attackEffectTypes = customAttackEffectTypes;
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, GameObject attacker)
     {
         if (!isCustom)
             this.damage = (int)(damage * magnification);
@@ -102,7 +102,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
                 return;
             }
             target = enemy.StateMachine;
-            target?.TakeDamage(damage);
+            target?.TakeDamage(damage, gameObject);
             target?.TakeEffect(attackEffectTypes, value, this.gameObject);
             isBoss = false;
             FallingObject();

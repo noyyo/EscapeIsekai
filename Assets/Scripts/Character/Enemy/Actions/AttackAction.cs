@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public enum ActionTypes
@@ -17,6 +18,7 @@ public enum AnimState
     Playing,
     Completed
 }
+
 [CreateAssetMenu(fileName = "AttackActionSO", menuName = "Characters/Enemy/AttackAction")]
 public abstract class AttackAction : ScriptableObject
 {
@@ -186,7 +188,7 @@ public abstract class AttackAction : ScriptableObject
             target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, StateMachine.Enemy.gameObject);
             return;
         }
-        target.TakeDamage(Config.DamageAmount);
+        target.TakeDamage(Config.DamageAmount, StateMachine.Enemy.gameObject);
         target.TakeEffect(Config.AttackEffectType, Config.AttackEffectValue, StateMachine.Enemy.gameObject);
         alreadyAttackApplied.Add(targetObj);
     }

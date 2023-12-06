@@ -115,7 +115,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject attacker)
     {
         if (!shieldActive && currentState != RollState)
         {
