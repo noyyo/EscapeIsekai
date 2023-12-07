@@ -65,9 +65,9 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private void Start()
     {
-        confirmBtn.onClick.AddListener(() => confirmBtnAction.Invoke());
-        confirmBtn.onClick.AddListener(() => cancelBtnAction.Invoke());
-        confirmBtn.onClick.AddListener(() => headCancelBtnAction.Invoke());
+        confirmBtn.onClick.AddListener(() => confirmBtnAction?.Invoke());
+        cancelBtn.onClick.AddListener(() => cancelBtnAction?.Invoke());
+        headCancelBtn.onClick.AddListener(() => headCancelBtnAction?.Invoke());
     }
 
     public void headTextUpdate(string str)
