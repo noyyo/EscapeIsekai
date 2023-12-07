@@ -133,10 +133,10 @@ public class UI_Trading : MonoBehaviour
 
     private void PlayerItemCategoryButton(int category)
     {
-        if (tradingManager.displayPlayerItemCategory != category)
+        if (tradingManager.DisplayPlayerItemCategory != category)
         {
             DisplayPlayerSlot(category);
-            tradingManager.displayPlayerItemCategory = category;
+            tradingManager.SetDisplayPlayerItemCategory(category);
             ClickCategoryButtonEvnet?.Invoke();
 
         }
@@ -144,10 +144,10 @@ public class UI_Trading : MonoBehaviour
 
     private void ShopItemCategoryButton(int category)
     {
-        if (tradingManager.displayShopItemCategory != category)
+        if (tradingManager.DisplayShopItemCategory != category)
         {
             DisplayShopSlot(category);
-            tradingManager.displayShopItemCategory = category;
+            tradingManager.SetDisplayShopItemCategory(category);
             ClickCategoryButtonEvnet?.Invoke();
         }
     }
@@ -169,7 +169,7 @@ public class UI_Trading : MonoBehaviour
 
     private void BuyButtonTextUpdate()
     {
-        if (tradingManager.isPlayerSlotClick)
+        if (tradingManager.IsPlayerSlotClick)
             buyButtonText.text = "판매";
         else
             buyButtonText.text = "구매";

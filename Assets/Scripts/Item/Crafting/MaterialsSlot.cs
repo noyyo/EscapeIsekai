@@ -37,23 +37,23 @@ public class MaterialsSlot : MonoBehaviour
         UpdateText();
     }
 
-    public void GetItemData(int id, int consumption, int count, bool isCrafting)
+    public void GetItemData(int id, int newConsumption, int count, bool isCrafting)
     {
         icon.enabled = true;
         itemDB.GetItemData(id, out ItemData newItem);
         icon.sprite = newItem.Icon;
         itemCount = count;
-        this.consumption = consumption;
+        consumption = newConsumption;
         isCraftingItem = isCrafting;
         UpdateText();
     }
 
-    public void GetItemData(Sprite icon, int consumption, int itemCount, bool isCrafting)
+    public void GetItemData(Sprite newicon, int newConsumption, int newitemCount, bool isCrafting)
     {
-        this.icon.enabled = true;
-        this.icon.sprite = icon;
-        this.itemCount = itemCount;
-        this.consumption = consumption;
+        icon.enabled = true;
+        icon.sprite = newicon;
+        itemCount = newitemCount;
+        consumption = newConsumption;
         isCraftingItem = isCrafting;
         UpdateText();
     }
@@ -61,27 +61,27 @@ public class MaterialsSlot : MonoBehaviour
     public void UpdateItemData()
     {
         if (itemCount >= consumption)
+        {
             itemCount -= consumption;
-        UpdateText();
+            UpdateText();
+        }
     }
 
     public void UpdateText()
     {
-        if (isCraftingItem)
+        if (icon.enabled)
         {
-            text.text = multiplication + itemCount;
-        }
-        else
-        {
-            if (consumption == 0)
-                text.text = "";
+            if (isCraftingItem)
+                text.text = multiplication + itemCount;
             else
+            {
                 text.text = itemCount + slash + consumption;
 
-            if (consumption > itemCount)
-                text.color = Color.red;
-            else
-                text.color = Color.black;
+                if (consumption > itemCount)
+                    text.color = Color.red;
+                else
+                    text.color = Color.black;
+            }
         }
     }
 

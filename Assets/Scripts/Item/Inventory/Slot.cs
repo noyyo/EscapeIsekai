@@ -129,6 +129,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private void SlotClick()
     {
+        ui_Manager.PlayClickBtnSound();
         //클릭한 정보 매니저한태 전달
         inventoryManager.SetClickItem(uniqueIndex);
 

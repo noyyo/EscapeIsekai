@@ -17,7 +17,7 @@ public class PlayerRollState : PlayerGroundState
         base.Enter();
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.RollParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Roll", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Roll", stateMachine.Player.transform, false, 1f, 0.1f);
         direction = stateMachine.Player.transform.forward;
         direction.y = 0;
         direction.Normalize();

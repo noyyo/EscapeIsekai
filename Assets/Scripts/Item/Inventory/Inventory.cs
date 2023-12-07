@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class Inventory : MonoBehaviour
 {
@@ -20,6 +19,7 @@ public class Inventory : MonoBehaviour
     private int clickSlotIndex;
     private PlayerInputSystem playerInputSystem;
     private Player player;
+    private EquipCotroller equipCotroller;
 
     public ItemType DisplayType { get { return displayType; } }
 
@@ -35,6 +35,9 @@ public class Inventory : MonoBehaviour
         playerInputSystem = GetComponent<PlayerInputSystem>();
         InitInventory();
         CreateSlot();
+        equipCotroller = GetComponent<EquipCotroller>();
+        if (equipCotroller == null)
+            equipCotroller = gameObject.AddComponent<EquipCotroller>();
     }
 
     private void Start()
@@ -513,18 +516,24 @@ public class Inventory : MonoBehaviour
     {
         if (!(itemDics[(int)displayType][clickSlotIndex].IsEquip))
         {
-            Debug.Log("장비를 장착합니다..");
             itemDics[(int)displayType][clickSlotIndex].IsEquip = true;
+            if (equipCotroller.Equip(itemDics[(int)displayType][clickSlotIndex], clickSlotIndex, out Item oldItme, out int oldIndex))
+            {
+                oldItme.IsEquip = false;
+                inventoryManager.CallOnUnEquipItemEvent(oldItme);
+                slotList[oldIndex].UnDisplayEquip();
+            }
+            inventoryManager.PlayItemEquipSound();
             inventoryManager.CallOnEquipItemEvent(itemDics[(int)displayType][clickSlotIndex]);
             slotList[clickSlotIndex].DisplayEquip();
             //사용 버튼의 텍스트를 장비해제으로 수정
-            inventoryManager.CalOnTextChangeUnEquipEvent();
+            inventoryManager.CallOnTextChangeUnEquipEvent();
         }
         else
         {
-            Debug.Log("장비를 해제합니다.");
             itemDics[(int)displayType][clickSlotIndex].IsEquip = false;
-            inventoryManager.CallUnEquipItemEvent(itemDics[(int)displayType][clickSlotIndex]);
+            equipCotroller.UnEquip(itemDics[(int)displayType][clickSlotIndex]);
+            inventoryManager.CallOnUnEquipItemEvent(itemDics[(int)displayType][clickSlotIndex]);
             slotList[clickSlotIndex].UnDisplayEquip();
             //사용 버튼의 텍스트를 장비착용으로 수정
             inventoryManager.CallOnTextChangeEquipEvent();

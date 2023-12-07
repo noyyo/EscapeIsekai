@@ -10,7 +10,7 @@ public class PlayerJumpState : PlayerAirState
         stateMachine.Player.ForceReceiver.Jump(stateMachine.JumpForce);
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.JumpParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Jump", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Jump", stateMachine.Player.transform, false, 1f, 0.1f);
     }
 
     public override void Exit()

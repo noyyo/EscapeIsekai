@@ -15,7 +15,7 @@ public class PlayerThrowState : PlayerGroundState
         base.Enter();
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Throw", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Throw", stateMachine.Player.transform, false, 1f, 0.1f);
         stateMachine.Player.CreateGrenadeWithDelay(0.8f);
         stateMachine.Player.Playerconditions.UseThrow(groundData.ThrowCost);
     }

@@ -47,7 +47,8 @@ public class Playerconditions : MonoBehaviour
     private InventoryManager inventoryManager;
 
     [field:SerializeField][field:ReadOnly] public int Power { get; set; } = 10;
-    [field: SerializeField][field: ReadOnly] public int Guard { get; private set; } = 300;
+    [field: SerializeField][field: ReadOnly] public int Guard { get; private set; } = 0;
+
 
     private bool nostaminaActive = false;
 
@@ -200,7 +201,7 @@ public class Playerconditions : MonoBehaviour
         if (superJump.curValue - amount < 0)
             return false;
 
-        superJump.Subtract(amount);
+        superJump.Subtract(superJump.maxValue);
         return true;
     }
     public bool UseThrow(float amount)
@@ -208,7 +209,7 @@ public class Playerconditions : MonoBehaviour
         if (throwskill.curValue - amount < 0)
             return false;
 
-        throwskill.Subtract(amount);
+        throwskill.Subtract(throwskill.maxValue);
         return true;
     }
     public bool UseNoStamina(float amount)
@@ -216,7 +217,7 @@ public class Playerconditions : MonoBehaviour
         if (noStamina.curValue - amount < 0)
             return false;
 
-        noStamina.Subtract(amount);
+        noStamina.Subtract(noStamina.maxValue);
         return true;
     }
     public bool UseShield(float amount)
@@ -224,7 +225,7 @@ public class Playerconditions : MonoBehaviour
         if (shield.curValue - amount < 0)
             return false;
 
-        shield.Subtract(amount);
+        shield.Subtract(shield.maxValue);
         return true;
     }
 }

@@ -29,7 +29,7 @@ public class UI_ItemCrafting : MonoBehaviour
     public void Start()
     {
         Init();
-        craftingButton.onClick.AddListener(() => { craftingManager.CallOnCrafting(); });
+        craftingButton.onClick.AddListener(craftingManager.CallOnCrafting);
         backButton.onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_ItemCraftingTurnOff(); });
         inventoryButton.onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_ItemCraftingTurnOff(); ui_Manager.CallUI_InventoryTurnOn(); });
         craftingManager.OnUpdateUIEvent += UpdatePriceText;
@@ -94,10 +94,10 @@ public class UI_ItemCrafting : MonoBehaviour
     {
         Sprite[] sprites = inventoryManager.CallIsCheckItems(clickSlot, out int[] sum);
         craftingManager.MaterialsSlots[0].GetItemData(sprites[0], 0, clickSlot.AvailableCount, true);
-        int materialsLength = craftingManager.ClickSlot.Materials.Length;
+        int materialsLength = craftingManager.CurrentClickSlot.Materials.Length;
         for (int i = 1; i <= materialsLength; i++)
         {
-            craftingManager.MaterialsSlots[i].GetItemData(sprites[i], craftingManager.ClickSlot.MaterialsCount[i - 1], sum[i - 1], false);
+            craftingManager.MaterialsSlots[i].GetItemData(sprites[i], craftingManager.CurrentClickSlot.MaterialsCount[i - 1], sum[i - 1], false);
         }
         if (materialsLength != 7)
         {
@@ -112,4 +112,5 @@ public class UI_ItemCrafting : MonoBehaviour
     {
         money.text = tradingManager.PlayerMoney.ToString();
     }
+
 }

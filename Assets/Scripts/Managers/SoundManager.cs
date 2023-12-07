@@ -153,11 +153,11 @@ public class SoundManager : CustomSingleton<SoundManager>
     private void PlaySFX(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1, float soundValue = 1)
     {
         SFX sfx = objectPool_AudioSources.Get();
+        sfx.audioSource.pitch = pitchValue;
+        sfx.audioSource.volume = soundValue;
         sfx.PlaySFX(clip, transform, playTime, isLoop, vector3);
         if (isLoop)
             playLoopSFXList.Add(sfx);
-        sfx.audioSource.pitch = pitchValue;
-        sfx.audioSource.volume = soundValue;
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
     }
 
@@ -232,12 +232,12 @@ public class SoundManager : CustomSingleton<SoundManager>
     private AudioSource PlaySFXReturnSource(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1, float soundValue = 1)
     {
         SFX sfx = objectPool_AudioSources.Get();
+        sfx.audioSource.pitch = pitchValue;
+        sfx.audioSource.volume = soundValue;
         sfx.PlaySFX(clip, transform, playTime, isLoop, vector3);
         if (isLoop)
             playLoopSFXList.Add(sfx);
         OnSFXAllStopEvent += sfx.DestroyAudioSource;
-        sfx.audioSource.pitch = pitchValue;
-        sfx.audioSource.volume = soundValue;
         return sfx.audioSource;
     }
 
