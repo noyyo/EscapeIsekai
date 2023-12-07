@@ -131,8 +131,12 @@ public class TimeSlip : MonoBehaviour
             {
                 if (npc.GetComponent<NpcAi>().dayPosition != null)
                 {
-                    npc.GetComponent<NavMeshAgent>().SetDestination(npc.gameObject.transform.position);
+                    npc.GetComponent<NavMeshAgent>().enabled=false;
+                    npc.GetComponent<NpcAi>().enabled = false;
+                    // npc.GetComponent<NavMeshAgent>().SetDestination(npc.gameObject.transform.position);
                     npc.transform.position = npc.GetComponent<NpcAi>().dayPosition.transform.position;
+                    npc.GetComponent<NavMeshAgent>().enabled = true;
+                    npc.GetComponent<NpcAi>().enabled = true;
                 }
             }
         }
@@ -142,8 +146,12 @@ public class TimeSlip : MonoBehaviour
             {
                 if (npc.GetComponent<NpcAi>().nightPosition != null)
                 {
-                    npc.GetComponent<NavMeshAgent>().SetDestination(npc.gameObject.transform.position);
+                    npc.GetComponent<NavMeshAgent>().enabled = false;
+                    npc.GetComponent<NpcAi>().enabled = false;
+                    //  npc.GetComponent<NavMeshAgent>().SetDestination(npc.gameObject.transform.position);
                     npc.transform.position = npc.GetComponent<NpcAi>().nightPosition.transform.position;
+                    npc.GetComponent<NavMeshAgent>().enabled = true;
+                    npc.GetComponent<NpcAi>().enabled = true;
                 }
             }
         }

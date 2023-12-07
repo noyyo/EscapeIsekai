@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BirdyMeleeAttack1
   m_EditorClassIdentifier: 
   StateMachine:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 0
@@ -27,11 +28,12 @@ MonoBehaviour:
     IsInBattle: 0
     IsDead: 0
     IsMovable: 0
+    IsInitialized: 0
   ActionType: 0
   Config:
     RestTimeAfterAction: 0.5
     EffectDurationSeconds: 0
-    DamageAmount: 5
+    DamageAmount: 25
     AttackEffectType: 1
     AttackEffectValue: 5
     animTrigger1: MeleeAttack1
