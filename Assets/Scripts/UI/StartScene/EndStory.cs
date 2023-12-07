@@ -11,6 +11,8 @@ public class EndStory : Story
 
     void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         animator = white.GetComponent<Animator>();
         StartTalk(dialogues);
     }
