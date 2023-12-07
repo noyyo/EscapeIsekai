@@ -13,21 +13,22 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private GameObject itemCaftingMaterials_UI;
     private GameObject itemExplanation_UI;
     private MaterialsSlot[] materialsSlots;
-    private ItemRecipe clickSlot;
+    private ItemRecipe currentClickSlot;
     private Transform playerTransform;
     private readonly string crftingSoundName = "CrftingSound";
-    private bool isMake;
+    private bool currentIsMake;
 
     public GameObject CraftingSlotPrefab { get { return craftingSlotPrefab; } }
-    public ItemRecipe ClickSlot { get { return clickSlot; } }
+    public ItemRecipe CurrentClickSlot { get { return currentClickSlot; } }
     public MaterialsSlot[] MaterialsSlots { get { return materialsSlots; } }
-    public bool IsMake { get { return isMake; } }
+    public bool CurrentIsMake { get { return currentIsMake; } }
 
     public event Action OnClickCraftingSlotEvent;
     public event Action OffOutLineEvent;
     public event Action<ItemRecipe> OnUpdateUIEvent;
     public event Action OnCraftingEvent;
     public event Action OnTextUpdateEvent;
+    public Func<bool> ChangeCurrentIsMake;
 
     private void Awake()
     {
@@ -52,6 +53,9 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         ui_Manager.UI_ItemCraftingTurnOffEvent += CallOffOutLineEvent;
         ui_Manager.UI_ItemCraftingTurnOffEvent += ItemMaterialsUITurnOff;
         ui_Manager.UI_ItemCraftingTurnOffEvent += ItemCraftingUITurnOff;
+
+        OnCraftingEvent += CraftingItem;
+
         playerTransform = gameManager.Player.transform;
     }
 
@@ -65,8 +69,8 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     public void CallOnClickCraftingSlotEvent(ItemRecipe newRecipe, bool isNewMake)
     {
-        clickSlot = newRecipe;
-        isMake = isNewMake;
+        currentClickSlot = newRecipe;
+        currentIsMake = isNewMake;
         OnClickCraftingSlotEvent?.Invoke();
     }
 
@@ -78,7 +82,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     public void CallUpdateUI()
     {
-        OnUpdateUIEvent?.Invoke(ClickSlot);
+        OnUpdateUIEvent?.Invoke(CurrentClickSlot);
     }
 
     public void CallOnCrafting()
@@ -98,35 +102,38 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         itemExplanation_UI.SetActive(false);
     }
 
+    //자체 UI off
     private void ItemCraftingUITurnOff()
     {
         itemCraftingUI.SetActive(false);
     }
-
+    //자체 UI on
     private void ItemCraftingUITurnOn()
     {
+        OnTextUpdateEvent?.Invoke();
         itemCraftingUI.SetActive(true);
     }
-
+    //레시피 추가
     public void CallAddRecipe(int id)
     {
         craftingController.AddRecipe(id);
     }
 
-    public bool CraftingItem(bool isMake)
+    public void CraftingItem()
     {
-        this.isMake = isMake;
-        if (this.isMake)
+        if (currentIsMake)
         {
+            inventoryManager.CallAddItems(CurrentClickSlot);
             OnTextUpdateEvent?.Invoke();
+            currentIsMake = ChangeCurrentIsMake();
             PlayCraftingSound();
-            return inventoryManager.CallAddItems(ClickSlot);
         }
-        ui_Manager.PlayWrongSound();
-        return false;
+        else
+            ui_Manager.PlayWrongSound();
     }
+
     public void PlayCraftingSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, crftingSoundName, playerTransform, false, soundValue : 3f);
+        soundManager.CallPlaySFX(ClipType.UISFX, crftingSoundName, playerTransform, false, soundValue : 0.1f);
     } 
 }

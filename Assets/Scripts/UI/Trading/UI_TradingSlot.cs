@@ -93,7 +93,7 @@ public class UI_TradingSlot : MonoBehaviour
 
     private void OnClickSlot()
     {
-        tradingManager.isPlayerSlotClick = isPlayer;
+        tradingManager.SetIsPlayerSlotClick(isPlayer);
         tradingManager.SetClickID(itemID);
         tradingManager.SetClickIndex(uniqueIndex);
         tradingManager.CallOnClickSlotButton();
