@@ -28,8 +28,6 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public Action cancelBtnAction;
     public Action headCancelBtnAction;
 
-    private bool isInputField;
-
     private void Awake()
     {
         if (!headTextGO.TryGetComponent<TMP_Text>(out headText))
@@ -60,6 +58,9 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             headCancelBtn = headCancelGo.GetComponentInChildren<Button>();
         if (headCancelBtn == null)
             Debug.LogError("headCancelGo을 넣어주세요");
+
+        if (!inputFieldGO.TryGetComponent<TMP_InputField>(out inputField))
+            inputField = inputFieldGO.GetComponentInChildren<TMP_InputField>();
     }
 
     private void Start()
@@ -159,36 +160,24 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         headCancelGo.SetActive(false);
     }
 
-    public void SetInputField()
-    {
-        isInputField = true;
-        if (inputFieldGO.TryGetComponent<TMP_InputField>(out inputField))
-            inputField = inputFieldGO.GetComponentInChildren<TMP_InputField>();
-        inputFieldGO.SetActive(true);
-    }
-
     public void InputFieldGOTurnOn()
     {
-        if (isInputField)
-            inputFieldGO.SetActive(true);
+        inputFieldGO.SetActive(true);
     }
 
     public void InputFieldGOTurnOff()
     {
-        if (isInputField)
-            inputFieldGO.SetActive(false);
+        inputFieldGO.SetActive(false);
     }
 
     public void InputFieldSetOnEndEdit(Action<string> action)
     {
-        if (isInputField)
-            inputField.onEndEdit.AddListener((str) => action.Invoke(str));
+        inputField.onEndEdit.AddListener((str) => action.Invoke(str));
     }
 
     public void InputFieldRemoveAllListeners()
     {
-        if (isInputField)
-            inputField.onEndEdit.RemoveAllListeners();
+        inputField.onEndEdit.RemoveAllListeners();
     }
 
     /// <summary>
@@ -197,14 +186,12 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     /// <param name="contentType"></param>
     public void InputFieldContentType(TMP_InputField.ContentType contentType)
     {
-        if (isInputField)
-            inputField.contentType = contentType;
+        inputField.contentType = contentType;
     }
 
     public void InputFieldFontSize(float size)
     {
-        if (isInputField)
-            inputField.pointSize = size;
+        inputField.pointSize = size;
     }
 
     public void Activate()

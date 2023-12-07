@@ -12,16 +12,20 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private List<Slot> slotList;
     //위와 비슷한 이유로 List로 생성
     private Dictionary<int, Item>[] itemDics;
-
     private GameManager gameManager;
     private UI_Manager ui_Manager;
     private UI_Inventory ui_Inventory;
     private Inventory inventory;
+    private SoundManager soundManager;
 
     private int clickSlotIndex;
     private int dropSlotIndex;
     private bool isDrop;
     private ItemType displayType;
+    private Transform playerTransform;
+    private readonly string itemEquipSoundName = "ItemEquip";
+    private readonly string inventoryCloseName = "InventoryClose";
+    private readonly string inventoryOpenName = "InventoryOpen";
 
     public Inventory Inventory { get { return inventory; } }
     public List<Slot> SlotList { get { return slotList; } }
@@ -41,6 +45,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     {
         gameManager = GameManager.Instance;
         ui_Manager = UI_Manager.Instance;
+        soundManager = SoundManager.Instance;
         itemDics = new Dictionary<int, Item>[itemKategorieCount];
         for (int i = 0; i < itemKategorieCount; i++)
             itemDics[i] = new Dictionary<int, Item>();
@@ -56,7 +61,10 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     {
         displayType = ItemType.Equipment;
         inventory = gameManager.Player.GetComponent<Inventory>();
+        playerTransform = gameManager.Player.transform;
         ui_Inventory = ui_Manager.Inventory_UI.GetComponent<UI_Inventory>();
+        ui_Manager.UI_InventoryTurnOnEvent += PlayInventoryOpenSound;
+        ui_Manager.UI_InventoryTurnOffEvent += PlayInventoryCloseSound;
     }
 
     //버튼을 클릭했을 호출
@@ -102,7 +110,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         OnTextChangeEquipEvent?.Invoke();
     }
 
-    public void CalOnTextChangeUnEquipEvent()
+    public void CallOnTextChangeUnEquipEvent()
     {
         OnTextChangeUnEquipEvent?.Invoke();
     }
@@ -187,8 +195,23 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     {
         OnEquipItemEvent?.Invoke(item);
     }
-    public void CallUnEquipItemEvent(Item item)
+    public void CallOnUnEquipItemEvent(Item item)
     {
         UnEquipItemEvent?.Invoke(item);
+    }
+
+    public void PlayItemEquipSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, itemEquipSoundName, playerTransform, false, soundValue: 0.2f);
+    }
+
+    public void PlayInventoryCloseSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, inventoryCloseName, playerTransform, false, soundValue: 0.2f);
+    }
+
+    public void PlayInventoryOpenSound()
+    {
+        soundManager.CallPlaySFX(ClipType.UISFX, inventoryOpenName, playerTransform, false, soundValue: 0.2f);
     }
 }
