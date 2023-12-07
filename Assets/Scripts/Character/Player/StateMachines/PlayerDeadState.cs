@@ -10,12 +10,14 @@ public class PlayerDeadState : PlayerBaseState
     {
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.DeadParameterHash);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Dead", stateMachine.Player.transform, false, 1f, 0.1f);
         DisablePlayerCollider();
     }
     public override void Exit()
     {
         base.Exit();
         StopAnimation(stateMachine.Player.AnimationData.DeadParameterHash);
+        soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Dead");
     }
 
     private void DisablePlayerCollider()

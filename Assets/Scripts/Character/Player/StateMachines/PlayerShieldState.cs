@@ -16,7 +16,7 @@ public class PlayerShieldState : PlayerGroundState
         base.Enter();
         stateMachine.Player.Playerconditions.UseShield(groundData.ShieldCost);
         StartAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Shield", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Shield", stateMachine.Player.transform, false, 1f, 0.1f);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.shield, stateMachine);
         buff.ApplyBuff(10);

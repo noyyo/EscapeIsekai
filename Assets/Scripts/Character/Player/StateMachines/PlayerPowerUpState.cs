@@ -15,7 +15,7 @@ public class PlayerPowerUpState : PlayerGroundState
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.PowerUpParameterHash);
         stateMachine.Player.Playerconditions.ActivePowerUp(groundData.PowerUpCost);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "PowerUp", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "PowerUp", stateMachine.Player.transform, false, 1f, 0.1f);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.speed, stateMachine);  // 버프타입의 객체를 새로 생성된 메모리 주소를 가짐.
         buff.ApplyBuff(10);

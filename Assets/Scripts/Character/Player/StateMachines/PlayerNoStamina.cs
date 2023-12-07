@@ -15,7 +15,7 @@ public class PlayerNoStamina : PlayerGroundState
         base.Enter();
         stateMachine.Player.Playerconditions.UseNoStamina(groundData.NoStaminaCost);
         StartAnimation(stateMachine.Player.AnimationData.NoStaminaParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "NoStamina", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "NoStamina", stateMachine.Player.transform, false, 1f, 0.1f);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.nostamina, stateMachine);
         buff.ApplyBuff(10);
