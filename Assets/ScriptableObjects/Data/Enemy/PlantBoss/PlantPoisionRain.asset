@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlantPoisionRain
   m_EditorClassIdentifier: 
   StateMachine:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 0
@@ -26,11 +27,13 @@ MonoBehaviour:
     BattleTime: 0
     IsInBattle: 0
     IsDead: 0
+    IsMovable: 0
+    IsInitialized: 0
   ActionType: 4
   Config:
     RestTimeAfterAction: 0
     EffectDurationSeconds: 15
-    DamageAmount: 20
+    DamageAmount: 30
     AttackEffectType: 0
     AttackEffectValue: 0
     animTrigger1: ProjectileRain

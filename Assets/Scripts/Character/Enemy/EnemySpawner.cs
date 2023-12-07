@@ -30,7 +30,6 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         int index = Random.Range(0, EnemyPrefabs.Length);
-        float yOffset = EnemyPrefabs[index].transform.position.y;
         ObjectPool<Enemy> enemyPool = EnemySpawnManager.Instance.GetPool(EnemyPrefabs[index]);
         Enemy enemy = enemyPool.Get();
         Vector3 max = boxCollider.bounds.max;
@@ -41,16 +40,10 @@ public class EnemySpawner : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, max.y, 1 << LayerMask.NameToLayer("Ground")))
         {
-            NavMeshAgent agent;
-            enemy.TryGetComponent(out agent);
-            if (agent == null)
-            {
-                Debug.LogError("생성하려는 적에게 NavMeshAgent가 없습니다.");
-            }
-            enemy.transform.position = new Vector3(x, hit.point.y + agent.height / 2 - agent.baseOffset + yOffset, z);
+            enemy.transform.position = new Vector3(x, hit.point.y, z);
+            enemy.Agent.enabled = false;
             enemy.gameObject.SetActive(true);
-            agent.enabled = false;
-            agent.enabled = true;
+            enemy.Agent.enabled = true;
             Enemies.Add(enemy);
             enemy.StateMachine.OnDieAction += ReleaseEnemy;
             currentEnemyCount++;
