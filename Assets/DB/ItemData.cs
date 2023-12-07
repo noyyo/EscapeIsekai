@@ -1,25 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum ItemEquipmentType
-{
-    //방어구는 0 ~ 9, 무기 10 ~ 19, 장신구 20 ~ 29
-    Head,
-    Top,
-    Bottoms,
-    Shoes,
-    Gloves,
-    OneHandedWeapon = 10,
-    TwoHandedWeapon = 11,
-    Accessories = 20
-}
-
-public enum ItemConsumableType
-{
-    HpHeal,
-    Recipe = 10
-}
-
 public enum ItemType
 {
     Equipment,
