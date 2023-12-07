@@ -70,6 +70,7 @@ public class GameManager : CustomSingleton<GameManager>
         if (endPotal == null)
         {
             endPotal = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/차원문"));
+            endPotal.name = "차원문";
             endPotal.SetActive(false);
         }
         CursorEnable();
