@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GiantWormShootFireball2
   m_EditorClassIdentifier: 
   StateMachine:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 0
@@ -27,11 +28,12 @@ MonoBehaviour:
     IsInBattle: 0
     IsDead: 0
     IsMovable: 0
+    IsInitialized: 0
   ActionType: 2
   Config:
     RestTimeAfterAction: 1
     EffectDurationSeconds: 0
-    DamageAmount: 10
+    DamageAmount: 25
     AttackEffectType: 0
     AttackEffectValue: 0
     animTrigger1: Projectile

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GoblinMeleeAttack1
   m_EditorClassIdentifier: 
   StateMachine:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 0
@@ -27,11 +28,12 @@ MonoBehaviour:
     IsInBattle: 0
     IsDead: 0
     IsMovable: 0
+    IsInitialized: 0
   ActionType: 0
   Config:
-    RestTimeAfterAction: 0.5
+    RestTimeAfterAction: 2
     EffectDurationSeconds: 0
-    DamageAmount: 200
+    DamageAmount: 15
     AttackEffectType: 0
     AttackEffectValue: 0
     animTrigger1: MeleeAttack1
@@ -50,7 +52,7 @@ MonoBehaviour:
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 10
+    CoolDown: 5
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0

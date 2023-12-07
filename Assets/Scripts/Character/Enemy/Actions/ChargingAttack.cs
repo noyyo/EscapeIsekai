@@ -79,15 +79,25 @@ public class ChargingAttack : AttackAction
             Vector3 forward = agent.transform.forward;
             forward.y = 0;
             targetPosition = agent.transform.position + forward.normalized * Condition.LessThanThisDistance;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(targetPosition, out hit, Condition.LessThanThisDistance, NavMesh.AllAreas))
+            Vector3 raycastPosition = targetPosition;
+            raycastPosition.y += Condition.LessThanThisDistance;
+
+            Ray ray = new Ray(raycastPosition, Vector3.down);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Condition.LessThanThisDistance * 2, 1 << TagsAndLayers.GroundLayerIndex))
             {
-                targetPosition = hit.position;
+                targetPosition = hit.point;
+            }
+            NavMeshHit navHit;
+            if (NavMesh.SamplePosition(targetPosition, out navHit, Condition.LessThanThisDistance, agent.areaMask))
+            {
+                targetPosition = navHit.position;
             }
             else
             {
                 Debug.LogError("NavMesh영역을 찾을 수 없습니다.");
             }
+
             AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Release(indicator);
             isIndicatorOn = false;
 
@@ -97,13 +107,17 @@ public class ChargingAttack : AttackAction
         }
 
         Vector3 direction = targetPosition - agent.transform.position;
-
+        direction.y = 0;
         if (chargingSpeed * Time.deltaTime < direction.magnitude)
         {
             direction = direction.normalized * chargingSpeed * Time.deltaTime;
         }
         agent.Move(direction);
-        if (Vector3.Distance(agent.transform.position, targetPosition) < 0.1f)
+        Vector3 currentPosition = agent.transform.position;
+        currentPosition.y = 0;
+        Vector3 targetPositionExceptY = targetPosition;
+        targetPositionExceptY.y = 0;
+        if (Vector3.Distance(currentPosition, targetPositionExceptY) < 0.1f)
         {
             alreadyChargedCount++;
             StopAnimation(Config.AnimTriggerHash2);

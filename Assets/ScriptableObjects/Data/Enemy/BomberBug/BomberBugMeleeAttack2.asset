@@ -28,11 +28,12 @@ MonoBehaviour:
     IsInBattle: 0
     IsDead: 0
     IsMovable: 0
+    IsInitialized: 0
   ActionType: 0
   Config:
-    RestTimeAfterAction: 1
+    RestTimeAfterAction: 2
     EffectDurationSeconds: 0
-    DamageAmount: 8
+    DamageAmount: 15
     AttackEffectType: 1
     AttackEffectValue: 2
     animTrigger1: MeleeAttack2
@@ -51,7 +52,7 @@ MonoBehaviour:
     WhenThisTypeIsDeactivated: -1
     AfterBattleStartTime: 0
     BeforeThisTime: 100000
-    CoolDown: 10
+    CoolDown: 5
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
