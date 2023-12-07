@@ -4,13 +4,12 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Condition
 {
-    [HideInInspector]
     public float curValue;
     public float maxValue;
     public float startValue;
     public float regenRate;
     public float decayRate;
-    public Image uiBar;
+    [ReadOnly] public Image uiBar;
 
     public void Add(float amount)
     {
@@ -35,6 +34,7 @@ public class Playerconditions : MonoBehaviour
 {
     public Condition health;
     public Condition hunger;
+    public Condition rollCoolTime;
     public Condition stamina;
     public Condition skill;
     public Condition powerUp;
@@ -42,13 +42,12 @@ public class Playerconditions : MonoBehaviour
     public Condition throwskill;
     public Condition noStamina;
     public Condition shield;
-    public Condition rollCoolTime;
-    public float noHungerHealthDecay;
+    [ReadOnly] public float noHungerHealthDecay;
 
     private InventoryManager inventoryManager;
 
-    public int Power { get; set; } = 10;
-    public int Guard { get; private set; } = 300;
+    [field:SerializeField][field:ReadOnly] public int Power { get; set; } = 10;
+    [field: SerializeField][field: ReadOnly] public int Guard { get; private set; } = 300;
 
     private bool nostaminaActive = false;
 
@@ -59,7 +58,6 @@ public class Playerconditions : MonoBehaviour
         {
             Power += (int)item.DefaultATK;
             Guard += (int)item.DefaultDEF;
-            Debug.Log(Power);
         }
     }
 
@@ -69,7 +67,6 @@ public class Playerconditions : MonoBehaviour
         {
             Power -= (int)item.DefaultATK;
             Guard -= (int)item.DefaultDEF;
-            Debug.Log(Power);
         }
     }
 

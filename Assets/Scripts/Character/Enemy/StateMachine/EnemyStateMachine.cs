@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.Android;
 
 [Serializable]
 public class EnemyStateMachine : StateMachine, IDamageable
@@ -50,6 +51,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     [ReadOnly] public bool IsDead;
     // 기본적으로 움직일 수 없는 개체만 사용합니다.
     [ReadOnly] public bool IsMovable;
+    public bool IsInitialized;
 
 
     public EnemyStateMachine(Enemy enemy)
@@ -76,8 +78,9 @@ public class EnemyStateMachine : StateMachine, IDamageable
         OnDie += Dead;
         Player = GameManager.Instance.Player;
         PositionableTarget = Player.GetComponent<Player>();
-        SetMovable(enemy.Data.IsMovable);
+        InitializeMovable(enemy.Data.IsMovable);
         enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
+        IsInitialized = true;
     }
 
     private void EventDecision(AnimationEvent animEvent)
@@ -304,6 +307,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
         {
             agent.isStopped = true;
         }
+    }
+    private void InitializeMovable(bool isMovable)
+    {
+        IsMovable = isMovable;
     }
     public void ResetStateMachine()
     {

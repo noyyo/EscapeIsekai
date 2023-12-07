@@ -146,6 +146,9 @@ MonoBehaviour:
     shieldParameterName: Shield
     deadParameterName: Dead
   <Weapon>k__BackingField: {fileID: 5338040155650280331}
+  StateMachine:
+    currentStateName: 
+    buffs: []
   <AnimationEventReceiver>k__BackingField: {fileID: 5882289599330039590}
   playerUI: {fileID: 0}
   grenades: []
@@ -334,8 +337,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health:
     curValue: 0
-    maxValue: 600
-    startValue: 600
+    maxValue: 400
+    startValue: 400
     regenRate: 1
     decayRate: 0
     uiBar: {fileID: 0}
@@ -345,6 +348,13 @@ MonoBehaviour:
     startValue: 500
     regenRate: 0
     decayRate: 1
+    uiBar: {fileID: 0}
+  rollCoolTime:
+    curValue: 0
+    maxValue: 3
+    startValue: 3
+    regenRate: 1
+    decayRate: 0
     uiBar: {fileID: 0}
   stamina:
     curValue: 0
@@ -395,14 +405,9 @@ MonoBehaviour:
     regenRate: 1
     decayRate: 0
     uiBar: {fileID: 0}
-  rollCoolTime:
-    curValue: 0
-    maxValue: 3
-    startValue: 3
-    regenRate: 1
-    decayRate: 0
-    uiBar: {fileID: 0}
   noHungerHealthDecay: 1
+  <Power>k__BackingField: 10
+  <Guard>k__BackingField: 300
 --- !u!114 &5103163347228671359
 MonoBehaviour:
   m_ObjectHideFlags: 0

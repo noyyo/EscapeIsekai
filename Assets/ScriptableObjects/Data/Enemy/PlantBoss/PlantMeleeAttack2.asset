@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlantMeleeAttack2
   m_EditorClassIdentifier: 
   StateMachine:
+    currentStateName: 
     isPause: 0
     isActive: 0
     ActivationCheckDelay: 0
@@ -26,11 +27,13 @@ MonoBehaviour:
     BattleTime: 0
     IsInBattle: 0
     IsDead: 0
+    IsMovable: 0
+    IsInitialized: 0
   ActionType: 0
   Config:
     RestTimeAfterAction: 1
     EffectDurationSeconds: 0
-    DamageAmount: 8
+    DamageAmount: 30
     AttackEffectType: 1
     AttackEffectValue: 10
     animTrigger1: MeleeAttack2
@@ -53,5 +56,4 @@ MonoBehaviour:
   EffectStartTime: 0
   HasRemainingEffect: 0
   lastUsedTime: 0
-  weapon: {fileID: 0}
   aoeType: 5

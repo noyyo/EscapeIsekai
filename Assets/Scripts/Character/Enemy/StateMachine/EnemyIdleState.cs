@@ -13,7 +13,7 @@ public class EnemyIdleState : EnemyBaseState
         base.Enter();
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
-        if (stateMachine.IsMovable)
+        if (agent.enabled && stateMachine.IsMovable && stateMachine.IsInitialized)
             agent.ResetPath();
         StartAnimation(enemy.AnimationData.PeaceParameterHash);
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
