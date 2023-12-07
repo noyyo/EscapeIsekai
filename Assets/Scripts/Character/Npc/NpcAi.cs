@@ -8,7 +8,7 @@ public class NpcAi : MonoBehaviour
     public GameObject dayPosition;
     public GameObject nightPosition;
     [SerializeField]
-    float range = 2; //움직일 반경
+    float range = 5; //움직일 반경
     [SerializeField]
     float time; // 새로운 경로 탐색 쿨타임
     private bool isRunning = false;
@@ -73,8 +73,8 @@ public class NpcAi : MonoBehaviour
             }
             else if (RandomPoint(dayPosition.transform.position, range, out point) && dayPosition != null)
             {
-                dayPosition.transform.position = point;
-                agent.SetDestination(dayPosition.transform.position);
+                //dayPosition.transform.position = point;
+                agent.SetDestination(point);
                 yield return new WaitForSecondsRealtime(time);
             }
         }

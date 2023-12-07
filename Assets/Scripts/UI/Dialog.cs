@@ -118,7 +118,7 @@ public class Dialog : MonoBehaviour
                     tempnpc.GetComponent<Npc>().marks[1].SetActive(true);
                     if (UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id)==11)
                     {
-                        ItemCraftingManager.Instance.CallAddRecipe(10116002);
+                        ItemCraftingManager.Instance.CallAddRecipe(10116003);
                     }
                     if (UI_Manager.Instance.questManager.GetComponent<QuestManager>().GetQuestTalkIndex(id) == 14)
                     {
