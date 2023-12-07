@@ -30,8 +30,14 @@ public class TradingManager : CustomSingleton<TradingManager>
     private List<UI_TradingSlot>[] tradingSlotList;
     private List<int>[] shopItemIDList;
     private List<ItemsSoldByUser> repurchaseItem;
-    private int clickID;
-    private int clickIndex;
+    private int displayPlayerItemCategory;
+    private int displayShopItemCategory;
+    private bool isPlayerSlotClick;
+    private bool isPreviousPlayerSlotClick;
+    private int currentClickID;
+    private int currentClickIndex;
+    private int previousClickID;
+    private int previousClickIndex;
     private int playerMoney = 0;
     private readonly string coinSoundName = "CoinSound";
 
@@ -41,8 +47,14 @@ public class TradingManager : CustomSingleton<TradingManager>
     public int PlayerMoney { get { return playerMoney; } }
     public int RepurchaseItemMaxCount { get { return repurchaseItemMaxCount; } }
     public int ShopCategoryCount { get { return shopCategoryCount; } }
-    public int ClickID { get { return clickID; } }
-    public int ClickIndex { get { return clickIndex; } }
+    public int CurrentClickID { get { return currentClickID; } }
+    public int CurrentClickIndex { get { return currentClickIndex; } }    
+    public int PreviousClickID { get { return previousClickID; } }
+    public int PreviousClickIndex { get { return previousClickIndex; } }
+    public int DisplayPlayerItemCategory { get { return displayPlayerItemCategory; } }
+    public int DisplayShopItemCategory { get { return displayShopItemCategory; } }
+    public bool IsPlayerSlotClick { get { return isPlayerSlotClick; } }
+    public bool IsPreviousPlayerSlotClick { get { return isPreviousPlayerSlotClick; } }
 
     private Func<int, int, int> sellItem;
     private Func<int, int, int> byitem;
@@ -59,10 +71,6 @@ public class TradingManager : CustomSingleton<TradingManager>
     public event Action moneyTextUpdateEvent;
     public Action<int> addMoney;
     public Action<string, string, string> itemExplanationText;
-
-    public int displayPlayerItemCategory = 0;
-    public int displayShopItemCategory = 0;
-    public bool isPlayerSlotClick;
 
     private void Awake()
     {
@@ -115,6 +123,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         if (addMoney != 0)
         {
             playerMoney += addMoney;
+            InitClickID();
             CallOnMoneyTextUpdate();
             return true;
         }
@@ -126,6 +135,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         if (addMoney != 0)
         {
             playerMoney -= addMoney;
+            InitClickID();
             CallOnMoneyTextUpdate();
             return true;
         }
@@ -137,6 +147,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         if (addMoney != 0)
         {
             playerMoney -= addMoney;
+            InitClickID();
             CallOnMoneyTextUpdate();
             return true;
         }
@@ -150,22 +161,24 @@ public class TradingManager : CustomSingleton<TradingManager>
 
     public void SetClickID(int id)
     {
-        clickID = id;
+        previousClickID = currentClickID;
+        currentClickID = id;
     }
 
     public void SetClickIndex(int index)
     {
-        clickIndex = index;
+        previousClickIndex = currentClickIndex;
+        currentClickIndex = index;
     }
 
     public void CallOnDisplayPlayerSlot()
     {
-        displayPlayerSlotEvent?.Invoke(displayPlayerItemCategory);
+        displayPlayerSlotEvent?.Invoke(DisplayPlayerItemCategory);
     }
 
     public void CallOnDisplayShopSlot()
     {
-        displayShopSlotEvent?.Invoke(displayShopItemCategory);
+        displayShopSlotEvent?.Invoke(DisplayShopItemCategory);
     }
 
     public void CallOnClickBuyButton()
@@ -189,4 +202,25 @@ public class TradingManager : CustomSingleton<TradingManager>
         soundManager.CallPlaySFX(ClipType.UISFX, coinSoundName, playerTransform, false);
     }
 
+    private void InitClickID()
+    {
+        currentClickID = -1;
+        currentClickIndex = -1;
+    }
+
+    public void SetIsPlayerSlotClick(bool newValue)
+    {
+        isPreviousPlayerSlotClick = isPlayerSlotClick;
+        isPlayerSlotClick = newValue;
+    }
+    
+    public void SetDisplayPlayerItemCategory(int newValue)
+    {
+        displayPlayerItemCategory = newValue;
+    }
+
+    public void SetDisplayShopItemCategory(int newValue)
+    {
+        displayShopItemCategory = newValue;
+    }
 }

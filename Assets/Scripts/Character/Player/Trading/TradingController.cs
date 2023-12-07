@@ -40,7 +40,8 @@ public class TradingController : MonoBehaviour
         shopItemDatas = tradingManager.ShopItemIDList;
         repurchaseItem = tradingManager.RepurchaseItem;
         tradingManager.addShopItem += AddShopItem;
-        tradingManager.clickSlotButtonEvent += () => ClickSlot(tradingManager.ClickID);
+        tradingManager.clickSlotButtonEvent += () => ClickSlot(tradingManager.CurrentClickID);
+        tradingManager.clickSlotButtonEvent += CheckSameSlot;
         tradingManager.clickBuyButtonEvent += ClickActionButton;
         CreatePlayerSlot();
     }
@@ -111,16 +112,26 @@ public class TradingController : MonoBehaviour
         }
     }
 
+    private void CheckSameSlot()
+    {
+        if(tradingManager.CurrentClickID == tradingManager.PreviousClickID 
+            && tradingManager.CurrentClickIndex == tradingManager.PreviousClickIndex
+            && tradingManager.IsPlayerSlotClick == tradingManager.IsPreviousPlayerSlotClick)
+        {
+            ClickActionButton();
+        }
+    }
+
     private void ClickActionButton()
     {
-        if (tradingManager.isPlayerSlotClick)
+        if (tradingManager.IsPlayerSlotClick)
         {
             ClickSellButton();
             tradingManager.CallOnDisplayPlayerSlot();
         }
         else
         {
-            if (tradingManager.displayShopItemCategory == 3)
+            if (tradingManager.DisplayShopItemCategory == 3)
                 ClickRepurchase();
             else
                 ClickBuyButton();
@@ -130,8 +141,10 @@ public class TradingController : MonoBehaviour
 
     private void ClickBuyButton()
     {
-        if (!tradingManager.tryByitem(tradingManager.ClickID, 1))
+        if (!tradingManager.tryByitem(tradingManager.CurrentClickID, 1))
+        {
             ui_Manager.PlayWrongSound();
+        }  
         else
         {
             tradingManager.CallOnDisplayPlayerSlot();
@@ -141,7 +154,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickSellButton()
     {
-        if (!tradingManager.trySellItem(tradingManager.ClickID, 1))
+        if (!tradingManager.trySellItem(tradingManager.CurrentClickID, 1))
             ui_Manager.PlayWrongSound();
         else
         {
@@ -152,7 +165,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickRepurchase()
     {
-        if (!tradingManager.tryRepurchase(tradingManager.ClickIndex, 1))
+        if (!tradingManager.tryRepurchase(tradingManager.CurrentClickIndex, 1))
             ui_Manager.PlayWrongSound();
         else
         {
