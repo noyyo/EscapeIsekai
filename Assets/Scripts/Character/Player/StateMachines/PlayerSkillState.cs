@@ -17,7 +17,7 @@ public class PlayerSkillState : PlayerGroundState
         isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Skill", stateMachine.Player.transform, false);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Skill", stateMachine.Player.transform, false, 1f, 0.1f);
     }
 
     public override void Exit()

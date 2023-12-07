@@ -99,13 +99,13 @@ public class Player : MonoBehaviour, IPositionable
 
     public void CreateGrenadeWithDelay(float delayInSeconds)
     {
-        if (InventoryManager.Instance.CallTryAddItem(10010000, -1))
+        if (InventoryManager.Instance.CallTryAddItem(10163000, -1))
         {
             StartCoroutine(CreateGrenadeCoroutine(delayInSeconds));
         }
         else
         {
-            Debug.LogError("스턴볼 스크롤이 없습니다.");
+            Debug.LogError("스턴볼이 없습니다.");
         }
     }
 
