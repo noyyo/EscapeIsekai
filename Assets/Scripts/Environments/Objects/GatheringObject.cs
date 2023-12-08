@@ -9,6 +9,7 @@ public class GatheringObject : MonoBehaviour
     private Player _playerInputSystem;
     private UI_Manager _UI_Manager;
     private ItemSpawner itemSpawner;
+    private Transform playerTransform;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -47,19 +48,20 @@ public class GatheringObject : MonoBehaviour
     private void Start()
     {
         _UI_Manager = UI_Manager.Instance;
+        playerTransform = GameManager.Instance.Player.transform;
     }
 
     private void Gathering(InputAction.CallbackContext context)
     {
         if (_gathering)
         {
-            SoundManager.Instance.CallPlaySFX(ClipType.EnvironmentSFX, "pick", this.transform, false);
+            SoundManager.Instance.CallPlaySFX(ClipType.EnvironmentSFX, "pick", playerTransform, false, soundValue: 0.05f);
             _UI_Manager.gathering.SetActive(false);
             InventoryManager.Instance.CallAddItem(_itemId, 1);
             _playerInputSystem.Input.PlayerActions.Interaction.started -= Gathering;
             _gathering = false;
-            itemSpawner.EnableItem(this.gameObject);
-            this.gameObject.SetActive(false);
+            itemSpawner.EnableItem(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

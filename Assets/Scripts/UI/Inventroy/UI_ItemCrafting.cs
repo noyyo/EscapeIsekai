@@ -44,7 +44,7 @@ public class UI_ItemCrafting : MonoBehaviour
             craftingButton = this.transform.GetChild(2).GetChild(2).GetComponent<Button>();
         if (craftPriceText == null)
             craftPriceText = this.transform.GetChild(2).GetChild(1).GetComponent<TMP_Text>();
-            itemText = this.transform.GetChild(3).GetComponentsInChildren<TMP_Text>();
+        itemText = this.transform.GetChild(3).GetComponentsInChildren<TMP_Text>();
         if (backButton == null)
             backButton = this.transform.GetChild(4).GetChild(0).GetChild(2).GetComponent<Button>();
         if (inventoryButton == null)

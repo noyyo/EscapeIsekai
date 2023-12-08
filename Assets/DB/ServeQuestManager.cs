@@ -109,7 +109,7 @@ public class ServeQuestManager : MonoBehaviour
                     {
                         for (int j = 0; j < arry[i].GetComponent<EnemySpawner>().EnemyPrefabs.Length; j++)
                         {
-                            if(questDBDic[key].QuestMonster == arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID)
+                            if (questDBDic[key].QuestMonster == arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.ID)
                             {
                                 monster1 = arry[i].GetComponent<EnemySpawner>().EnemyPrefabs[j].Data.Name;
                             }
@@ -131,7 +131,7 @@ public class ServeQuestManager : MonoBehaviour
                     tempheader.text = questDBDic[key].QuestName;
                     TextMeshProUGUI tempcontent = Instantiate(content, parent.transform);
                     string contentText = null;
-                    string monster1=null;
+                    string monster1 = null;
                     GameObject[] arry = GameObject.FindGameObjectsWithTag(TagsAndLayers.EnemySpawnerTag);
                     for (int i = 0; i < arry.Length; i++)
                     {

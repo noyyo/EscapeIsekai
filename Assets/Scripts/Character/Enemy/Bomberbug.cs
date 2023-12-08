@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Bomberbug : Enemy
@@ -25,7 +22,7 @@ public class Bomberbug : Enemy
 
     private void AnimationEventDecision(AnimationEvent animationEvent)
     {
-        if(animationEvent.stringParameter == "Explosion")
+        if (animationEvent.stringParameter == "Explosion")
         {
             Explosion();
         }

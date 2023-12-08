@@ -36,7 +36,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     private void Awake()
     {
         bgm = this.GetComponent<AudioSource>();
-        if(bgm == null )
+        if (bgm == null)
         {
             bgm = this.AddComponent<AudioSource>();
             mixer = Resources.Load<AudioMixer>("Sound/AudioVolumeController");
@@ -109,7 +109,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     }
 
     public bool CallPlaySFX(ClipType clipType, string sfxName, Vector3 vector3, bool isLoop, float pitchValue = 1, float soundValue = 1)
-    {   
+    {
         if (ClipDics[(int)clipType].TryGetValue(sfxName, out AudioClip value))
         {
             PlaySFX(value, transform, value.length, isLoop, vector3, pitchValue, soundValue);
@@ -228,7 +228,7 @@ public class SoundManager : CustomSingleton<SoundManager>
             return null;
         }
     }
-    
+
     private AudioSource PlaySFXReturnSource(AudioClip clip, Transform transform, float playTime, bool isLoop, Vector3 vector3, float pitchValue = 1, float soundValue = 1)
     {
         SFX sfx = objectPool_AudioSources.Get();
@@ -273,7 +273,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         bgm.clip = clip;
         bgm.loop = true;
-        bgm.volume = 0.1f;
+        bgm.volume = 0.035f;
         bgm.Play();
     }
 

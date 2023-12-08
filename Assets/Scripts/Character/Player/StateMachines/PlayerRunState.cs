@@ -9,7 +9,7 @@ public class PlayerRunState : PlayerGroundState
         base.Enter();
         stateMachine.MovementSpeed = groundData.RunSpeed;
         StartAnimation(stateMachine.Player.AnimationData.RunParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Run", stateMachine.Player.transform, true, 1f, 0.05f);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Run", stateMachine.Player.transform, true, 1f, 0.04f);
     }
 
     public override void Exit()
