@@ -239,11 +239,11 @@ public class PlayerBaseState : IState
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
         AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
 
-        if(animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
         {
             return nextInfo.normalizedTime;
         }
-        else if(!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
         {
             return currentInfo.normalizedTime;
         }

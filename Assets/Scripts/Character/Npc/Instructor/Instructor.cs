@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Instructor : CustomSingleton<Instructor>
@@ -16,7 +14,7 @@ public class Instructor : CustomSingleton<Instructor>
     }
     private void GameSuc()
     {
-        if(rank <= 5 )
+        if (rank <= 5)
         {
             SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "RankUpSound", this.transform, false);
             effect.transform.position = GameManager.Instance.Player.transform.position;

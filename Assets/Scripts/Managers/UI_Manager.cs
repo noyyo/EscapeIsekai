@@ -42,9 +42,9 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public event Action UI_OptionTurnOnEvent;
     public event Action UI_OptionTurnOffEvent;
 
-    [HideInInspector]public string itemName;
-    [HideInInspector]public string itemExplanation;
-    [HideInInspector]public bool isPlaying = false;
+    [HideInInspector] public string itemName;
+    [HideInInspector] public string itemExplanation;
+    [HideInInspector] public bool isPlaying = false;
 
     private void Awake()
     {

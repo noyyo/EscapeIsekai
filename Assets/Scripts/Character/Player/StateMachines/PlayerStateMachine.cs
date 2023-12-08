@@ -91,7 +91,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
     public override void Update()
     {
         base.Update();
-        
+
         if (Time.time - lastCheckTime >= checkDelay)
         {
             CheckBuff();

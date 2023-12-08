@@ -46,7 +46,7 @@ public class Playerconditions : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
-    [field:SerializeField] public int Power { get; set; } = 5;
+    [field: SerializeField] public int Power { get; set; } = 5;
     [field: SerializeField] public int Guard { get; private set; } = 0;
 
 

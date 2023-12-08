@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -54,11 +52,11 @@ public class ExplosionController : MonoBehaviour
         this.transform.position = pos;
         explosionRadius = newExplosionRadius;
         layer = newlayer;
-        if(colliders == null)
+        if (colliders == null)
         {
             colliders = new Collider[MaxCollisionObject];
         }
-        else if(colliders.Length < MaxCollisionObject)
+        else if (colliders.Length < MaxCollisionObject)
         {
             colliders = new Collider[MaxCollisionObject];
         }

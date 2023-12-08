@@ -25,7 +25,7 @@ public class PlayerRollState : PlayerGroundState
             StartAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
         else if (beforeState == stateMachine.RunState)
             StartAnimation(stateMachine.Player.AnimationData.RunParameterHash);
-        
+
         stateMachine.Player.Playerconditions.UseStamina(groundData.StaminaCost);
         stateMachine.Player.Playerconditions.RollCoolTime(groundData.RollCoolTime);
     }

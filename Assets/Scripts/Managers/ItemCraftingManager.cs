@@ -134,6 +134,6 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     public void PlayCraftingSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, crftingSoundName, playerTransform, false, soundValue : 0.1f);
-    } 
+        soundManager.CallPlaySFX(ClipType.UISFX, crftingSoundName, playerTransform, false, soundValue: 0.1f);
+    }
 }

@@ -17,7 +17,7 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Attack_Club", stateMachine.Player.transform ,false, 1f, 0.05f);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Attack_Club", stateMachine.Player.transform, false, 1f, 0.05f);
         // 초기화
         alreadyApplyCombo = false;
         alreadyAppliedForce = false;
@@ -72,7 +72,7 @@ public class PlayerComboAttackState : PlayerAttackState
 
         ForceMove();
         // Animator를 전달하고 "Attack"이라는 태그를 주면 가져올 수 있다
-        float normalizedTime = GetNormalizedTimeforCombo(stateMachine.Player.Animator,"Attack");
+        float normalizedTime = GetNormalizedTimeforCombo(stateMachine.Player.Animator, "Attack");
         if (normalizedTime < 1f)
         {
             // 애니메이션이 처리가 되고 있는 중

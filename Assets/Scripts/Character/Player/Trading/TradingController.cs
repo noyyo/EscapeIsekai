@@ -114,7 +114,7 @@ public class TradingController : MonoBehaviour
 
     private void CheckSameSlot()
     {
-        if(tradingManager.CurrentClickID == tradingManager.PreviousClickID 
+        if (tradingManager.CurrentClickID == tradingManager.PreviousClickID
             && tradingManager.CurrentClickIndex == tradingManager.PreviousClickIndex
             && tradingManager.IsPlayerSlotClick == tradingManager.IsPreviousPlayerSlotClick)
         {
@@ -144,12 +144,12 @@ public class TradingController : MonoBehaviour
         if (!tradingManager.tryByitem(tradingManager.CurrentClickID, 1))
         {
             ui_Manager.PlayWrongSound();
-        }  
+        }
         else
         {
             tradingManager.CallOnDisplayPlayerSlot();
             tradingManager.PlayCoinSound();
-        } 
+        }
     }
 
     private void ClickSellButton()
@@ -171,7 +171,7 @@ public class TradingController : MonoBehaviour
         {
             tradingManager.CallOnDisplayPlayerSlot();
             tradingManager.PlayCoinSound();
-        }  
+        }
     }
 
     private int SellItem(int itemID, int itemCount)
