@@ -182,6 +182,8 @@ public abstract class AttackAction : ScriptableObject
     {
         if (!isPossibleMultihit && !isPossibleMultiEffect && alreadyAttackApplied.Contains(targetObj))
             return;
+        if (targetObj == StateMachine.Enemy)
+            return;
         IDamageable target = GetDamageableComponent(targetObj);
         if (target == null)
             return;

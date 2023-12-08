@@ -51,6 +51,7 @@ public class HideAndAttack : AttackAction
     public override void OnEnd()
     {
         base.OnEnd();
+        collider.enabled = true;
         agent.obstacleAvoidanceType = initialObstacleAvoidanceType;
         StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= AnimationEventDecision;
         UnsubscribeWeaponEvent();

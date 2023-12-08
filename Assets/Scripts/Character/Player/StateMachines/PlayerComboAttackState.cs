@@ -99,9 +99,12 @@ public class PlayerComboAttackState : PlayerAttackState
     }
     public void ApplyAttack(Collider other)
     {
+        if (other.gameObject == stateMachine.Player)
+            return;
+        if (!(other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag)))
+            return;
         if (alreadyCollided.Contains(other.gameObject))
             return;
-
         alreadyCollided.Add(other.gameObject);
         IDamageable target = null;
         if (other.tag == TagsAndLayers.EnemyTag)
@@ -127,7 +130,6 @@ public class PlayerComboAttackState : PlayerAttackState
             }
             target = environmentObj;
         }
-
         target?.TakeDamage(attackInfoData.Damage + stateMachine.Player.Playerconditions.Power, stateMachine.Player.gameObject);
         target?.TakeEffect(attackInfoData.AttackEffectType, attackInfoData.AttackEffectValue, stateMachine.Player.gameObject);
     }

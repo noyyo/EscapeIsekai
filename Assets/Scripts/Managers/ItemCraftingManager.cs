@@ -121,7 +121,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     public void CraftingItem()
     {
-        if (currentIsMake)
+        if (currentIsMake && TradingManager.Instance.PlayerMoney >= currentClickSlot.CraftingPrice)
         {
             inventoryManager.CallAddItems(CurrentClickSlot);
             OnTextUpdateEvent?.Invoke();

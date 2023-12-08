@@ -176,7 +176,9 @@ public class PlayerStateMachine : StateMachine, IDamageable
         if (currentState != ComboAttackState && currentState != SkillState)
             return;
 
-        ComboAttackState.ApplyAttack(other);
-        SkillState.ApplyAttack(other);
+        if (currentState == ComboAttackState)
+            ComboAttackState.ApplyAttack(other);
+        else
+            SkillState.ApplyAttack(other);
     }
 }

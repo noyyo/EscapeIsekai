@@ -263,7 +263,7 @@ public class Dialog : MonoBehaviour
         targetNpc.GetComponent<PlayableDirector>().playableAsset = timelineAsset;
         targetNpc.GetComponent<PlayableDirector>().Play();
         targetNpc.GetComponent<Npc>().ResetTarget();
-        targetNpc.GetComponent<Npc>().isHit= false;
+        //targetNpc.GetComponent<Npc>().isHit= false;
     }
 
     private void ChestOpenFail()

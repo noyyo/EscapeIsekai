@@ -273,7 +273,7 @@ public class SoundManager : CustomSingleton<SoundManager>
     {
         bgm.clip = clip;
         bgm.loop = true;
-        bgm.volume = 0.1f;
+        bgm.volume = 0.035f;
         bgm.Play();
     }
 

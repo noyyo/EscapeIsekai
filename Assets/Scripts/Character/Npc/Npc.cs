@@ -32,7 +32,6 @@ public class Npc : MonoBehaviour
     public void ResetTarget()
     {
         stateMachine.ChangeState(stateMachine.IdleState);
-        isHit = false;
         target = null;
     }
     private void Start()
@@ -100,11 +99,11 @@ public class Npc : MonoBehaviour
             {
                 if(id==200|| id == 300|| id == 400||id ==1100)
                 {
-                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 1f);
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 1f, soundValue: 0.2f);
                 }
                 else
                 {
-                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 0.4f);
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 0.4f, soundValue:0.2f);
                 }
             }
             

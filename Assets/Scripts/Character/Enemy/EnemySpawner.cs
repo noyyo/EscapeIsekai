@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -51,19 +52,27 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            Debug.LogError("생성할 지면을 찾을 수 없습니다.");
+            Debug.LogError("생성할 지면을 찾을 수 없습니다. 오류 객체 이름 : " + gameObject.name + " 위치 : " + transform.position);
         }
     }
     private void ReleaseEnemy(Enemy enemy)
     {
+        StartCoroutine(WaitReleaseTime(enemy, 4.5f));
+
+    }
+    private IEnumerator WaitReleaseTime(Enemy enemy, float time)
+    {
+        yield return new WaitForSeconds(time);
         enemy.StateMachine.OnDieAction -= ReleaseEnemy;
         if (!Enemies.Contains(enemy))
         {
             Debug.LogError("이미 Release가 되었거나 이 Spawner가 관리하지 않는 적입니다.");
-            return;
         }
-        Enemies.Remove(enemy);
-        EnemySpawnManager.Instance.GetPool(enemy).Release(enemy);
-        currentEnemyCount--;
+        else
+        {
+            Enemies.Remove(enemy);
+            EnemySpawnManager.Instance.GetPool(enemy).Release(enemy);
+            currentEnemyCount--;
+        }
     }
 }

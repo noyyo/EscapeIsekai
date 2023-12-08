@@ -247,6 +247,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         if (!CanTakeDamageAndEffect(attacker))
             return;
         HP -= damage;
+        Debug.Log("ÇÇ ºüÁü" + damage);
         HP = Mathf.Max(HP, 0);
         if (HP == 0)
         {
@@ -286,7 +287,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
                 break;
             case AttackEffectTypes.Stun:
                 StunState.SetStunTime(value);
-                CurrentAction.Interrupt();
+                if (CurrentAction != null)
+                    CurrentAction.Interrupt();
                 CurrentAction = null;
                 ChangeState(StunState);
                 break;
@@ -335,7 +337,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
             type = CanBeAttackedTypes.Enemy;
         else if (attacker.CompareTag(TagsAndLayers.EnvironmentTag))
             type = CanBeAttackedTypes.Environment;
-
+        if (Enemy == attacker)
+            return false;
         foreach (var characterType in Enemy.Data.CanBeAttackedType)
         {
             if (characterType == type)
