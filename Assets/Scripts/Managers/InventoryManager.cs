@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
@@ -17,6 +18,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private UI_Inventory ui_Inventory;
     private Inventory inventory;
     private SoundManager soundManager;
+    private EquipCotroller playerEquipCotroller;
 
     private int clickSlotIndex;
     private int dropSlotIndex;
@@ -32,6 +34,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public Dictionary<int, Item>[] ItemDics { get { return itemDics; } }
     public int InventroySlotCount { get { return inventroySlotCount; } }
     public int ClickSlotIndex { get { return clickSlotIndex; } }
+    public EquipCotroller PlayerEquipCotroller { get { return playerEquipCotroller; } }
 
     public event Action OnTextChangeEquipEvent;
     public event Action OnTextChangeUnEquipEvent;
@@ -50,6 +53,8 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         for (int i = 0; i < itemKategorieCount; i++)
             itemDics[i] = new Dictionary<int, Item>();
         slotList = new List<Slot>();
+        if (!TryGetComponent<EquipCotroller>(out playerEquipCotroller))
+            playerEquipCotroller = gameObject.AddComponent<EquipCotroller>();
     }
 
     private void Start()
