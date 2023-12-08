@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 1102326440859746645}
   - component: {fileID: 125215866855016390}
   - component: {fileID: 973806645391504112}
+  - component: {fileID: 1925791961940050604}
   m_Layer: 0
   m_Name: EnemySpawner
-  m_TagString: Untagged
+  m_TagString: EnemySpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,6 +73,22 @@ MonoBehaviour:
   MaxEnemyCount: 8
   SpawnDelay: 10
   Enemies: []
+--- !u!114 &1925791961940050604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965496808331981608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 66.13681, y: 17.130787, z: 77.77289}
+  m_Center: {x: -95.67439, y: -6.0653934, z: 58.23195}
+  m_Area: 3
+  m_AffectedAgents: ffffffff
 --- !u!1 &1920467416404390500
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,9 +100,10 @@ GameObject:
   - component: {fileID: 5637196859134031295}
   - component: {fileID: 3592950722857762856}
   - component: {fileID: 9151670516797218250}
+  - component: {fileID: 2735856610506768320}
   m_Layer: 0
   m_Name: EnemySpawner (2)
-  m_TagString: Untagged
+  m_TagString: EnemySpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,6 +161,22 @@ MonoBehaviour:
   MaxEnemyCount: 5
   SpawnDelay: 10
   Enemies: []
+--- !u!114 &2735856610506768320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920467416404390500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 67.145874, y: 54.16209, z: 73.23096}
+  m_Center: {x: -156.03415, y: -14.148684, z: -34.61548}
+  m_Area: 3
+  m_AffectedAgents: ffffffff
 --- !u!1 &4312337505459711374
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,9 +187,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8750406415674970607}
   - component: {fileID: 125184111012743853}
-  - component: {fileID: 2313016216734339707}
-  - component: {fileID: 7098159004492296606}
-  - component: {fileID: 3291467409210983215}
   m_Layer: 0
   m_Name: MonsterZone
   m_TagString: Untagged
@@ -194,54 +225,6 @@ MonoBehaviour:
   m_Center: {x: -2.4311218, y: -9.813329, z: -13.041725}
   m_Area: 4
   m_AffectedAgents: ffffffff
---- !u!114 &2313016216734339707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4312337505459711374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Size: {x: 67.145874, y: 54.16209, z: 73.23096}
-  m_Center: {x: -156.03415, y: -14.148684, z: -34.61548}
-  m_Area: 3
-  m_AffectedAgents: ffffffff
---- !u!114 &7098159004492296606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4312337505459711374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Size: {x: 43.949127, y: 41.030506, z: 62.34867}
-  m_Center: {x: -60.98436, y: -5.766489, z: -44.578327}
-  m_Area: 3
-  m_AffectedAgents: ffffffff
---- !u!114 &3291467409210983215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4312337505459711374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Size: {x: 66.13681, y: 17.130787, z: 77.77289}
-  m_Center: {x: -95.67439, y: -6.0653934, z: 58.23195}
-  m_Area: 3
-  m_AffectedAgents: ffffffff
 --- !u!1 &7889001558309976960
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,9 +236,10 @@ GameObject:
   - component: {fileID: 809895082270695148}
   - component: {fileID: 8876781636183343232}
   - component: {fileID: 913634236691836408}
+  - component: {fileID: 3204869751550287958}
   m_Layer: 0
   m_Name: EnemySpawner (1)
-  m_TagString: Untagged
+  m_TagString: EnemySpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -314,6 +298,22 @@ MonoBehaviour:
   MaxEnemyCount: 8
   SpawnDelay: 10
   Enemies: []
+--- !u!114 &3204869751550287958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7889001558309976960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 43.949127, y: 41.030506, z: 62.34867}
+  m_Center: {x: -60.98436, y: -5.766489, z: -44.578327}
+  m_Area: 3
+  m_AffectedAgents: ffffffff
 --- !u!1 &7965436978941557110
 GameObject:
   m_ObjectHideFlags: 0
