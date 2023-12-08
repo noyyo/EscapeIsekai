@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FallingTree : BaseEnvironmentObject
@@ -24,6 +26,7 @@ public class FallingTree : BaseEnvironmentObject
     private float deg;
     private float speed;
     private Collider thisCollider;
+    private List<Enemy> enemyList;
 
     private void Awake()
     {
@@ -32,6 +35,7 @@ public class FallingTree : BaseEnvironmentObject
             thisCollider = GetComponentInChildren<Collider>();
         defaultPos = transform.position;
         defaultRot = transform.rotation;
+        enemyList = new List<Enemy>();
     }
 
     private void Start()
@@ -51,27 +55,39 @@ public class FallingTree : BaseEnvironmentObject
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.CompareTag(TagsAndLayers.EnemyTag))
+        {
+            Enemy newEnemy = other.GetComponent<Enemy>();
+            if (!enemyList.Contains(newEnemy))
+                enemyList.Add(newEnemy);
+        }
+
         if (isBreak)
         {
-            if (other.CompareTag(TagsAndLayers.EnemyTag))
+            foreach(Enemy n in enemyList)
             {
-                Enemy enemy;
-                if (!other.gameObject.TryGetComponent<Enemy>(out enemy))
-                    enemy = other.gameObject.GetComponentInParent<Enemy>();
-                if (enemy != null)
-                {
-                    IDamageable target = null;
-                    target = enemy.StateMachine;
-                    target?.TakeDamage(1, gameObject);
-                    target?.TakeEffect(attackType, effectValue, this.gameObject);
-                    isBreak = false;
-                }
+                IDamageable target = null;
+                target = n.StateMachine;
+                target?.TakeDamage(1, gameObject);
+                target?.TakeEffect(attackType, effectValue, this.gameObject);
             }
+            isBreak = false;
+            enemyList.Clear();
         }
         else if (isPlayer)
         {
             isPlayer = false;
             ChangeHP();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(TagsAndLayers.EnemyTag))
+        {
+            Enemy newEnemy = other.GetComponent<Enemy>();
+            if (enemyList.Contains(newEnemy))
+                enemyList.Remove(newEnemy);
         }
     }
 
