@@ -94,6 +94,7 @@ public class MeleeAttack : AttackAction
                 Debug.LogError("MeleeAttack의 Indicator가 없습니다.");
             }
             AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+            indicator = null;
         }
     }
     private void SubscribeWeaponEvent()
@@ -118,5 +119,12 @@ public class MeleeAttack : AttackAction
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(enemyTransform.position, Condition.LessThanThisDistance);
+    }
+    protected override void ReleaseIndicator()
+    {
+        if (indicator == null)
+            return;
+        AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+        indicator = null;
     }
 }

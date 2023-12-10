@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     private float lastSpawnTime;
     [SerializeField]
     [ReadOnly]
-    public List<Enemy> Enemies = new List<Enemy>();
+    public HashSet<Enemy> Enemies = new HashSet<Enemy>();
     BoxCollider boxCollider;
     private void Awake()
     {
@@ -38,9 +38,10 @@ public class EnemySpawner : MonoBehaviour
         float z = Random.Range(min.z, max.z);
         Ray ray = new Ray(new Vector3(x, max.y, z), Vector3.down);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, max.y, 1 << LayerMask.NameToLayer("Ground")))
+        if (Physics.Raycast(ray, out hit, max.y, 1 << TagsAndLayers.GroundLayerIndex))
         {
             enemy.transform.position = new Vector3(x, hit.point.y, z);
+            enemy.StateMachine.OriginPosition = enemy.transform.position;
             enemy.Agent.enabled = false;
             enemy.gameObject.SetActive(true);
             enemy.Agent.enabled = true;
@@ -57,7 +58,6 @@ public class EnemySpawner : MonoBehaviour
     private void ReleaseEnemy(Enemy enemy)
     {
         StartCoroutine(WaitReleaseTime(enemy, 4.5f));
-
     }
     private IEnumerator WaitReleaseTime(Enemy enemy, float time)
     {

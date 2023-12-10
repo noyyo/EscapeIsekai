@@ -68,4 +68,9 @@ public class TestAction : AttackAction
         base.OnEffectFinish();
         Debug.Log($"EffectFinish 시간(액션기준) : {Time.time}");
     }
+
+    protected override void ReleaseIndicator()
+    {
+        throw new System.NotImplementedException();
+    }
 }

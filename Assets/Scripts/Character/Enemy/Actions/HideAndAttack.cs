@@ -128,4 +128,11 @@ public class HideAndAttack : AttackAction
     {
         ApplyAttack(other.gameObject);
     }
+    protected override void ReleaseIndicator()
+    {
+        if (indicator == null)
+            return;
+        AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+        indicator = null;
+    }
 }

@@ -39,7 +39,7 @@ public class EnemyChaseState : EnemyBaseState
         base.Exit();
 
         StopAnimation(enemy.AnimationData.BattleParameterHash);
-        if (!isChoosed && stateMachine.IsMovable)
+        if (!isChoosed && stateMachine.IsMovable && enemy.isActiveAndEnabled)
         {
             agent.isStopped = false;
         }

@@ -341,6 +341,8 @@ public abstract class AttackAction : ScriptableObject
     public void Interrupt()
     {
         isInterrupted = true;
+        ReleaseIndicator();
     }
+    protected abstract void ReleaseIndicator();
     protected virtual void OnDrawGizmo(Transform enemyTransform) { }
 }

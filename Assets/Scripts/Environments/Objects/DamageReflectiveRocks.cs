@@ -98,7 +98,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
                 enemy = other.GetComponentInParent<Enemy>();
             if (enemy == null)
             {
-                Debug.LogError("적에게 Enemy컴포넌트가 없습니다.");
+                Debug.LogError("적에게 Enemy컴포넌트가 없습니다. 이름 : " + other.gameObject.name + " 위치 : " + other.transform.position);
                 return;
             }
             target = enemy.StateMachine;
