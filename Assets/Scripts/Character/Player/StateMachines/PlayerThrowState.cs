@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 public class PlayerThrowState : PlayerGroundState
@@ -31,7 +30,7 @@ public class PlayerThrowState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-        
+
         normalizedTime = GetNormalizedTime("Throw");
         if (normalizedTime >= 1f)
         {

@@ -120,9 +120,9 @@ public class EquipCotroller : MonoBehaviour
     public void UnEquip(Item newItem)
     {
         int n = myEquipItemData.equipItemDatas.Length;
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
         {
-            if(myEquipItemData.equipItemDatas[i] == newItem)
+            if (myEquipItemData.equipItemDatas[i] == newItem)
             {
                 myEquipItemData.equipIndex[i] = -1;
                 myEquipItemData.equipItemDatas[i] = null;

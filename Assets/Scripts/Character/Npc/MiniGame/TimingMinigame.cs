@@ -65,7 +65,7 @@ public class TimingMinigame : MonoBehaviour
     IEnumerator StartMission()
     {
         parent.SetActive(true);
-        StartCoroutine("MakeMark", Random.Range(5,10));
+        StartCoroutine("MakeMark", Random.Range(5, 10));
         yield return null;
     }
 

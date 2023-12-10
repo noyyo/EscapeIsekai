@@ -11,7 +11,7 @@ public class PlayerWalkState : PlayerGroundState
         base.Enter();
         stateMachine.MovementSpeed = groundData.WalkSpeed;
         StartAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "NewWalk", stateMachine.Player.transform, true, 1f, 0.05f);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "NewWalk", stateMachine.Player.transform, true, 1f, 0.04f);
 
     }
 

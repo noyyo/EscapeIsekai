@@ -40,9 +40,9 @@ public class EquipData
 {
     public Item[] equipItemDatas;
     public int[] equipIndex;
-    
+
     public EquipData()
-    { 
+    {
         equipItemDatas = new Item[12];
         equipIndex = new int[12];
         Array.Fill(equipIndex, -1);

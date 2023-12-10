@@ -105,7 +105,7 @@ public class Player : MonoBehaviour, IPositionable
         }
         else
         {
-            Debug.LogError("스턴볼이 없습니다.");
+            Debug.Log("스턴볼이 없습니다.");
         }
     }
 

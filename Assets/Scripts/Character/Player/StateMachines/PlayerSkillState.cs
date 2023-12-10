@@ -23,6 +23,7 @@ public class PlayerSkillState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
+        alreadyCollided.Clear();
         StopAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
         soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Skill");
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2824361701259678264}
   - component: {fileID: 290099279936866549}
   - component: {fileID: 5511019115620970079}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MushRoom
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -78,6 +78,7 @@ MonoBehaviour:
     IsInBattle: 0
     IsDead: 0
     IsMovable: 0
+    IsInitialized: 0
   Actions:
   - {fileID: 11400000, guid: c525b6ca70b53874c9cc150c3a34cef7, type: 2}
   - {fileID: 11400000, guid: a5674619786433d4ca69cadbdef3a853, type: 2}
@@ -129,7 +130,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0
-  m_WalkableMask: 9
+  m_WalkableMask: 25
   m_ObstacleAvoidanceType: 4
 --- !u!114 &290099279936866549
 MonoBehaviour:

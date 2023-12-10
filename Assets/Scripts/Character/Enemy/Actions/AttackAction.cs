@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public enum ActionTypes
@@ -181,6 +180,8 @@ public abstract class AttackAction : ScriptableObject
     protected void ApplyAttack(GameObject targetObj, bool isPossibleMultihit = false, bool isPossibleMultiEffect = false)
     {
         if (!isPossibleMultihit && !isPossibleMultiEffect && alreadyAttackApplied.Contains(targetObj))
+            return;
+        if (targetObj == StateMachine.Enemy)
             return;
         IDamageable target = GetDamageableComponent(targetObj);
         if (target == null)

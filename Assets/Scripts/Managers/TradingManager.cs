@@ -48,7 +48,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public int RepurchaseItemMaxCount { get { return repurchaseItemMaxCount; } }
     public int ShopCategoryCount { get { return shopCategoryCount; } }
     public int CurrentClickID { get { return currentClickID; } }
-    public int CurrentClickIndex { get { return currentClickIndex; } }    
+    public int CurrentClickIndex { get { return currentClickIndex; } }
     public int PreviousClickID { get { return previousClickID; } }
     public int PreviousClickIndex { get { return previousClickIndex; } }
     public int DisplayPlayerItemCategory { get { return displayPlayerItemCategory; } }
@@ -213,7 +213,7 @@ public class TradingManager : CustomSingleton<TradingManager>
         isPreviousPlayerSlotClick = isPlayerSlotClick;
         isPlayerSlotClick = newValue;
     }
-    
+
     public void SetDisplayPlayerItemCategory(int newValue)
     {
         displayPlayerItemCategory = newValue;

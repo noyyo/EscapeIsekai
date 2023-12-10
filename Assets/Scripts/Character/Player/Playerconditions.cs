@@ -46,12 +46,17 @@ public class Playerconditions : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
-    [field:SerializeField][field:ReadOnly] public int Power { get; set; } = 10;
-    [field: SerializeField][field: ReadOnly] public int Guard { get; private set; } = 0;
+    [field: SerializeField] public int Power { get; set; } = 5;
+    [field: SerializeField] public int Guard { get; private set; } = 0;
 
 
     private bool nostaminaActive = false;
 
+    private void Awake()
+    {
+        Power = 5;
+        Guard = 0;
+    }
 
     private void Equip(Item item)
     {

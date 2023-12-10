@@ -91,7 +91,7 @@ public class Inventory : MonoBehaviour
         bool isAddItem = false;
         if (itemDB.GetItemData(id, out ItemData newItem))
         {
-            if(id == 5000)
+            if (id == 5000)
                 isAddItem = AddList(itemDics[3], count, 3, in newItem, out errorItemCount);
             else
             {
