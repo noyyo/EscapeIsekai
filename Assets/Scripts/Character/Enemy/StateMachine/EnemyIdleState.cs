@@ -14,7 +14,9 @@ public class EnemyIdleState : EnemyBaseState
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         if (agent.enabled && stateMachine.IsMovable && stateMachine.IsInitialized)
+        {
             agent.ResetPath();
+        }
         StartAnimation(enemy.AnimationData.PeaceParameterHash);
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
         idleStartTime = Time.time;

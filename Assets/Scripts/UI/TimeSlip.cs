@@ -131,7 +131,7 @@ public class TimeSlip : MonoBehaviour
             {
                 if (npc.GetComponent<NpcAi>().dayPosition != null)
                 {
-                    npc.GetComponent<NavMeshAgent>().enabled=false;
+                    npc.GetComponent<NavMeshAgent>().enabled = false;
                     npc.GetComponent<NpcAi>().enabled = false;
                     // npc.GetComponent<NavMeshAgent>().SetDestination(npc.gameObject.transform.position);
                     npc.transform.position = npc.GetComponent<NpcAi>().dayPosition.transform.position;

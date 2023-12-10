@@ -109,6 +109,8 @@ public class ProjectileRain : AttackAction
 
             foreach (Collider collider in colliders)
             {
+                if (collider.gameObject == enemy.gameObject)
+                    continue;
                 ApplyAttack(collider.gameObject, isPossibleMultihit: true);
             }
             projectilePool.Release(projectile);

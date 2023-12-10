@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2020997133778527802}
   - component: {fileID: 6958738140827527138}
   - component: {fileID: 527180234624573265}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0
-  m_WalkableMask: 9
+  m_WalkableMask: 25
   m_ObstacleAvoidanceType: 4
 --- !u!114 &829757095594711614
 MonoBehaviour:
@@ -100,6 +100,7 @@ MonoBehaviour:
     IsInBattle: 0
     IsDead: 0
     IsMovable: 0
+    IsInitialized: 0
   Actions:
   - {fileID: 11400000, guid: a0a39fabcd5847a449a1512ce0abf4fc, type: 2}
   - {fileID: 11400000, guid: dafb8a8633c67464fac4976bac9f88b5, type: 2}

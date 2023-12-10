@@ -32,7 +32,6 @@ public class Npc : MonoBehaviour
     public void ResetTarget()
     {
         stateMachine.ChangeState(stateMachine.IdleState);
-        isHit = false;
         target = null;
     }
     private void Start()
@@ -88,7 +87,7 @@ public class Npc : MonoBehaviour
     {
         if (isHit)
         {
-            int temp = Random.Range(0,3);
+            int temp = Random.Range(0, 3);
             string tempstr = null;
             if (temp == 0)
                 tempstr = "npc";
@@ -96,18 +95,18 @@ public class Npc : MonoBehaviour
                 tempstr = "npc1";
             if (temp == 2)
                 tempstr = "npc2";
-            if(id!=800)
+            if (id != 800)
             {
-                if(id==200|| id == 300|| id == 400||id ==1100)
+                if (id == 200 || id == 300 || id == 400 || id == 1100)
                 {
-                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 1f);
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 1f, soundValue: 0.2f);
                 }
                 else
                 {
-                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 0.4f);
+                    SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, tempstr, this.transform, false, 0.4f, soundValue: 0.2f);
                 }
             }
-            
+
             Dialog.Instance.Action(gameObject);
             Dialog.Instance.panel.SetActive(true);
             UI_Manager.Instance.gathering.SetActive(false);
