@@ -70,10 +70,12 @@ public class Inventory : MonoBehaviour
     {
         if (!ui_Manager.IsTurnOnInventory)
         {
+            inventoryManager.PlayInventoryOpenSound();
             ui_Manager.CallUI_InventoryTurnOn();
         }
         else
         {
+            inventoryManager.PlayInventoryCloseSound();
             ui_Manager.CallUI_InventoryTurnOff();
         }
     }

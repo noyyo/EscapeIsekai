@@ -175,12 +175,12 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     public void PlayClickBtnSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, buttonSoundName, playerTransform, false, soundValue: 0.05f);
+        soundManager.CallPlaySFX(ClipType.UISFX, buttonSoundName, playerTransform, false, soundValue: 0.03f);
     }
 
     public void PlayClickSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, clickSoundName, playerTransform, false, soundValue: 0.05f);
+        soundManager.CallPlaySFX(ClipType.UISFX, clickSoundName, playerTransform, false, soundValue: 0.03f);
     }
 
     public void PlayWrongSound()

@@ -68,8 +68,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         inventory = gameManager.Player.GetComponent<Inventory>();
         playerTransform = gameManager.Player.transform;
         ui_Inventory = ui_Manager.Inventory_UI.GetComponent<UI_Inventory>();
-        ui_Manager.UI_InventoryTurnOnEvent += PlayInventoryOpenSound;
-        ui_Manager.UI_InventoryTurnOffEvent += PlayInventoryCloseSound;
     }
 
     //버튼을 클릭했을 호출

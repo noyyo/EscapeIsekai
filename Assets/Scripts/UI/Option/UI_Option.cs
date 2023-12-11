@@ -23,6 +23,7 @@ public class UI_Option : MonoBehaviour
     private TMP_InputField sfxVolumeInputField;
     private Button back;
     private Button inventory;
+    private Button exit;
     public bool IsDisplay { get; private set; }
 
     private void Awake()
@@ -36,6 +37,7 @@ public class UI_Option : MonoBehaviour
         sfxVolumeInputField = this.transform.GetChild(2).GetChild(2).GetChild(2).GetComponent<TMP_InputField>();
         back = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
         inventory = this.transform.GetChild(0).GetChild(1).GetComponent<Button>();
+        exit = this.transform.GetChild(3).GetComponent<Button>();
         uiManager.UI_OptionTurnOnEvent += Activate;
         uiManager.UI_OptionTurnOffEvent += Deactivate;
         playerInputSystem = GameManager.Instance.Player.GetComponent<PlayerInputSystem>();
@@ -66,6 +68,7 @@ public class UI_Option : MonoBehaviour
 
         back.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); });
         inventory.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); uiManager.CallUI_InventoryTurnOn(); });
+        exit.onClick.AddListener(GameExit);
     }
 
     private void SliderValueChange(TMP_InputField inputField, float n, MiXType mixType)
@@ -101,6 +104,15 @@ public class UI_Option : MonoBehaviour
                 soundManager.SFXVolume(n);
                 break;
         }
+    }
+
+    private void GameExit()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                        Application.Quit();
+        #endif
     }
 
     private void OnOption(InputAction.CallbackContext context)

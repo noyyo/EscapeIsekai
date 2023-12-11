@@ -11,7 +11,7 @@ public class ExplosionManager : CustomSingleton<ExplosionManager>
 
     private void Awake()
     {
-        prefab = Resources.Load<GameObject>("Prefabs/Effect/Explosion");
+        prefab = Resources.Load<GameObject>("Prefabs/Entities/Particles/Explosion");
         objectPool_ExplosionController = new ObjectPool<ExplosionController>(CreateExplosionController, OnGetExplosion, OnReleasExplosion, OnDestroyExplosion, maxSize: poolMaxCount);
     }
 
