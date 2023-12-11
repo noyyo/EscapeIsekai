@@ -30,8 +30,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
 
     [SerializeField][ReadOnly] private bool isPause;
     [SerializeField][ReadOnly] private bool isActive;
-    [SerializeField] private float ActivationCheckDelay = 0.5f;
-    [SerializeField] private float ActivationDistance = 100f;
+    [SerializeField] private float activationCheckDelay = 0.5f;
+    [SerializeField] private float activationDistance = 100f;
+    public static readonly float monsterUIOnDistance = 30f;
+    private bool isMonsterUIOn;
     private float lastCheckTime;
     public float TargetDistance { get; private set; }
     public Vector3 OriginPosition { get; set; }
@@ -78,6 +80,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         Player = GameManager.Instance.Player;
         PositionableTarget = Player.GetComponent<Player>();
         InitializeMovable(enemy.Data.IsMovable);
+        OriginPosition = enemy.transform.position;
         enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
         IsInitialized = true;
     }
@@ -101,6 +104,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public override void Update()
     {
         CheckTargetDistance();
+        SetMonsterUIByDistance();
         if (!isActive)
             return;
         if (IsInBattle)
@@ -117,10 +121,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
     }
     private void CheckTargetDistance()
     {
-        if (Time.time - lastCheckTime > ActivationCheckDelay)
+        if (Time.time - lastCheckTime > activationCheckDelay)
         {
             CalculateTargetDistance();
-            if (TargetDistance <= ActivationDistance)
+            if (TargetDistance <= activationDistance)
             {
                 isActive = true;
             }
@@ -244,7 +248,14 @@ public class EnemyStateMachine : StateMachine, IDamageable
         if (IsInvincible)
             return;
         if (!CanTakeDamageAndEffect(attacker))
+        {
+            if (attacker.CompareTag(TagsAndLayers.PlayerTag))
+            {
+                PlaySFX("OnHitBlocked", soundValue: 0.8f);
+            }
             return;
+        }
+        PlaySFX("OnHit", 1.05f, 0.5f);
         HP -= damage;
         Debug.Log("ÇÇ ºüÁü" + damage);
         HP = Mathf.Max(HP, 0);
@@ -261,6 +272,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
         actionsToExecute.Clear();
         CurrentAction = null;
         IsDead = true;
+        Enemy.Collider.enabled = false;
+        Enemy.enabled = false;
         ServeQuestManager.Instance.QuestMonsterCheck(Enemy);
         ChangeState(DeadState);
     }
@@ -343,5 +356,22 @@ public class EnemyStateMachine : StateMachine, IDamageable
                 return true;
         }
         return false;
+    }
+    private void SetMonsterUIByDistance()
+    {
+        if (!isMonsterUIOn && TargetDistance <= monsterUIOnDistance)
+        {
+            isMonsterUIOn = true;
+            // UI On
+        }
+        else if (isMonsterUIOn && TargetDistance > monsterUIOnDistance)
+        {
+            isMonsterUIOn = false;
+            // UI Off
+        }
+    }
+    private void PlaySFX(string sfxFileName, float pitch = 1f, float soundValue = 1f)
+    {
+        SoundManager.Instance.CallPlaySFX(ClipType.EnemySFX, sfxFileName, Enemy.transform, false, pitch ,soundValue);
     }
 }

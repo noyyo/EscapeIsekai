@@ -11,6 +11,7 @@ public class EnemyStunState : EnemyBaseState
     {
         base.Enter();
         stunStartTime = Time.time;
+        SetBattleOrPeaceParameter(true);
         StartAnimation(enemy.AnimationData.StunParameterHash);
         StartAnimation(enemy.AnimationData.StunStartParameterHash);
         if (stateMachine.IsMovable)
@@ -22,6 +23,7 @@ public class EnemyStunState : EnemyBaseState
     public override void Exit()
     {
         base.Exit();
+        SetBattleOrPeaceParameter(false);
         StopAnimation(enemy.AnimationData.StunParameterHash);
         if (stateMachine.IsMovable && agent.enabled)
         {
@@ -46,5 +48,31 @@ public class EnemyStunState : EnemyBaseState
     public void SetStunTime(float stunTime)
     {
         this.stunTime = stunTime;
+    }
+
+    private void SetBattleOrPeaceParameter(bool isStart)
+    {
+        if (isStart)
+        {
+            if (stateMachine.IsInBattle)
+            {
+                StartAnimation(enemy.AnimationData.BattleParameterHash);
+            }
+            else
+            {
+                StartAnimation(enemy.AnimationData.PeaceParameterHash);
+            }
+        }
+        else
+        {
+            if (stateMachine.IsInBattle)
+            {
+                StopAnimation(enemy.AnimationData.BattleParameterHash);
+            }
+            else
+            {
+                StopAnimation(enemy.AnimationData.PeaceParameterHash);
+            }
+        }
     }
 }

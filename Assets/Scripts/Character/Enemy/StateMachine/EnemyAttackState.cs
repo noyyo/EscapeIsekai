@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EnemyAttackState : EnemyBaseState
 {
     AttackAction action;
@@ -12,6 +14,7 @@ public class EnemyAttackState : EnemyBaseState
         agent.ResetPath();
         action = stateMachine.CurrentAction;
         action.OnStart();
+
     }
 
     public override void Exit()

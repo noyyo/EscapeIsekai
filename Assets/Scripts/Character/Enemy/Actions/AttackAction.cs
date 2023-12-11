@@ -312,7 +312,7 @@ public abstract class AttackAction : ScriptableObject
 
             if (!isAnimStarted && lastAnimStateInfo.fullPathHash != currentInfo.fullPathHash)
             {
-                if (currentInfo.IsTag("BattleStance"))
+                if (currentInfo.IsTag("BattleStance") || currentInfo.IsTag("ChangeStance"))
                     return;
                 lastAnimStateInfo = currentInfo;
                 currentAnimNormalizedTime = currentInfo.normalizedTime;
