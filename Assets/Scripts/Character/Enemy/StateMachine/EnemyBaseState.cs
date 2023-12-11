@@ -68,6 +68,7 @@ public class EnemyBaseState : IState
             return;
         this.isTargetStanceBattle = isTargetStanceBattle;
         isStanceChanging = true;
+        CheckStanceChanging();
     }
     private void CheckStanceChanging()
     {
@@ -79,7 +80,6 @@ public class EnemyBaseState : IState
             AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
             if (!isAnimStarted && currentInfo.IsTag(changeBattleStanceTag))
             {
-                isStanceChanging = true;
                 isAnimStarted = true;
             }
             else if (isAnimStarted && !currentInfo.IsTag(changeBattleStanceTag))
@@ -92,11 +92,10 @@ public class EnemyBaseState : IState
         else
         {
             StartAnimation(enemy.AnimationData.PeaceParameterHash);
-            StartAnimation(enemy.AnimationData.ReturnToBaseParameterHash);
             AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
             if (!isAnimStarted && currentInfo.IsTag(changeBattleStanceTag))
             {
-                isStanceChanging = true;
+                StartAnimation(enemy.AnimationData.ReturnToBaseParameterHash);
                 isAnimStarted = true;
                 agent.isStopped = true;
                 agent.velocity = Vector3.zero;

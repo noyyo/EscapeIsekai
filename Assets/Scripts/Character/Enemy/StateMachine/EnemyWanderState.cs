@@ -12,11 +12,13 @@ public class EnemyWanderState : EnemyBaseState
         base.Enter();
         agent.SetDestination(GetWanderLocation());
         agent.speed = enemyData.WalkSpeed * stateMachine.MovementSpeedModifier;
+        enemy.OnCollisionOcurred += OnCollisionOccured;
         StartAnimation(enemy.AnimationData.WalkParameterHash);
     }
     public override void Exit()
     {
         base.Exit();
+        enemy.OnCollisionOcurred -= OnCollisionOccured;
         StopAnimation(enemy.AnimationData.WalkParameterHash);
     }
     public override void Update()
@@ -46,5 +48,12 @@ public class EnemyWanderState : EnemyBaseState
     {
         int angle = Random.Range(0, 360);
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
+    }
+    private void OnCollisionOccured(Collision collision)
+    {
+        if (collision.gameObject.CompareTag(TagsAndLayers.EnemyTag))
+        {
+            agent.SetDestination(GetWanderLocation());
+        }
     }
 }

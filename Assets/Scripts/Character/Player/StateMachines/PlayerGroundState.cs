@@ -157,7 +157,7 @@ public class PlayerGroundState : PlayerBaseState
     }
     private void SetSlidingVelocity()
     {
-        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 10, 1 << TagsAndLayers.GroundLayerIndex))
+        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 10))
         {
             float angle = Vector3.Angle(hit.normal, Vector3.up);
             if (angle > controller.slopeLimit)
@@ -173,7 +173,7 @@ public class PlayerGroundState : PlayerBaseState
         {
             Vector3 currentPosition = player.transform.position;
             currentPosition.y -= controller.center.y - controller.height / 2;
-            if (Physics.SphereCast(currentPosition, controller.radius, Vector3.down, out RaycastHit sphereHit, 0.1f , 1 << TagsAndLayers.GroundLayerIndex))
+            if (Physics.SphereCast(currentPosition, controller.radius, Vector3.down, out RaycastHit sphereHit, 0.1f))
             {
                 slidingVelocity += Vector3.ProjectOnPlane(new Vector3(0, Physics.gravity.y * Time.deltaTime, 0), hit.normal);
                 isSliding = true;
