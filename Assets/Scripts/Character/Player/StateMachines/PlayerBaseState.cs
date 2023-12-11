@@ -13,15 +13,18 @@ public class PlayerBaseState : IState
     protected Animator animator;
     private bool isAnimStarted;
     protected SoundManager soundManager;
+    protected Player player;
 
-    public PlayerBaseState(PlayerStateMachine playerstateMachine)
+    public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
-        stateMachine = playerstateMachine;
+        stateMachine = playerStateMachine;
+        player = playerStateMachine.Player;
         groundData = stateMachine.Player.Data.GroundedData;
-        controller = playerstateMachine.Player.Controller;
-        animator = playerstateMachine.Player.Animator;
+        controller = playerStateMachine.Player.Controller;
+        animator = playerStateMachine.Player.Animator;
         if (soundManager == null)
             soundManager = SoundManager.Instance;
+        
     }
 
     public virtual void Enter()
