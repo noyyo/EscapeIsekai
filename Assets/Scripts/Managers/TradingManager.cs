@@ -112,10 +112,10 @@ public class TradingManager : CustomSingleton<TradingManager>
         addShopItem(10202002);
         addShopItem(10202003);
         addShopItem(10202004);
-        addShopItem(10202005);
-        addShopItem(10202006);
-        addShopItem(10202007);
-        addShopItem(10202008);
+        addShopItem(10102005);
+        addShopItem(10102006);
+        addShopItem(10102007);
+        addShopItem(10102008);
     }
 
     private bool SellItem(int addMoney)

@@ -23,6 +23,9 @@ public class UI_Option : MonoBehaviour
     private TMP_InputField sfxVolumeInputField;
     private Button back;
     private Button inventory;
+    private Button tutorialBtn;
+    private Button exit;
+    private Tutorial tutorial;
     public bool IsDisplay { get; private set; }
 
     private void Awake()
@@ -36,6 +39,8 @@ public class UI_Option : MonoBehaviour
         sfxVolumeInputField = this.transform.GetChild(2).GetChild(2).GetChild(2).GetComponent<TMP_InputField>();
         back = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
         inventory = this.transform.GetChild(0).GetChild(1).GetComponent<Button>();
+        tutorialBtn = this.transform.GetChild(3).GetComponent<Button>();
+        exit = this.transform.GetChild(4).GetComponent<Button>();
         uiManager.UI_OptionTurnOnEvent += Activate;
         uiManager.UI_OptionTurnOffEvent += Deactivate;
         playerInputSystem = GameManager.Instance.Player.GetComponent<PlayerInputSystem>();
@@ -52,6 +57,7 @@ public class UI_Option : MonoBehaviour
     private void Init()
     {
         soundManager = SoundManager.Instance;
+        tutorial = uiManager.tutorialUI.GetComponent<Tutorial>();
         MasterVolume.onValueChanged.AddListener((n) => SliderValueChange(MasterVolumeInputField, n, MiXType.MasterVolume));
         bgmVolume.onValueChanged.AddListener((n) => SliderValueChange(bgmVolumeInputField, n, MiXType.BgmVolume));
         sfxVolume.onValueChanged.AddListener((n) => SliderValueChange(sfxVolumeInputField, n, MiXType.SfxVolume));
@@ -66,6 +72,8 @@ public class UI_Option : MonoBehaviour
 
         back.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); });
         inventory.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); uiManager.CallUI_InventoryTurnOn(); });
+        tutorialBtn.onClick.AddListener(tutorial.EnableInOption);
+        exit.onClick.AddListener(GameExit);
     }
 
     private void SliderValueChange(TMP_InputField inputField, float n, MiXType mixType)
@@ -101,6 +109,15 @@ public class UI_Option : MonoBehaviour
                 soundManager.SFXVolume(n);
                 break;
         }
+    }
+
+    private void GameExit()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                        Application.Quit();
+        #endif
     }
 
     private void OnOption(InputAction.CallbackContext context)

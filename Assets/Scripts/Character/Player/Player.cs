@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Player : MonoBehaviour, IPositionable
 {
@@ -23,11 +25,11 @@ public class Player : MonoBehaviour, IPositionable
 
     [HideInInspector] public PlayerUI playerUI;
 
-
     public GameObject[] grenades;
     [HideInInspector] public int hasGrenades;
     public GameObject grenadeObj;
     public Transform throwPoint;
+    public Transform teleportPosition;
 
     private void Awake()
     {
@@ -41,7 +43,7 @@ public class Player : MonoBehaviour, IPositionable
         Controller = GetComponent<CharacterController>();
         ForceReceiver = GetComponent<ForceReceiver>();
         Playerconditions = GetComponent<Playerconditions>();
-
+        
         StateMachine = new PlayerStateMachine(this);
 
         playerUI = GameObject.FindObjectOfType<PlayerUI>();
@@ -78,12 +80,14 @@ public class Player : MonoBehaviour, IPositionable
         StateMachine.ChangeState(StateMachine.IdleState);
         //Health.OnDie += OnDie;
         StateMachine.OnDie += OnDie;
+        Input.PlayerActions.Escape.started += Escape;
     }
 
     private void Update()
     {
         StateMachine.HandleInput();
         StateMachine.Update();
+        //if(Input)
     }
 
     private void FixedUpdate()
@@ -120,4 +124,15 @@ public class Player : MonoBehaviour, IPositionable
         return Collider.bounds.center;
     }
 
+    protected virtual void Escape(InputAction.CallbackContext context)
+    {
+        Teleport(teleportPosition.position);
+    }
+
+    public void Teleport(Vector3 teleportPosition)
+    {
+        Controller.enabled = false;
+        transform.position = teleportPosition;
+        Controller.enabled = true;
+    }
 }

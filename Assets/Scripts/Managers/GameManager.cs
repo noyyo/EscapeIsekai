@@ -17,7 +17,6 @@ public class GameManager : CustomSingleton<GameManager>
     private UI_Manager _ui_Manager;
     private SoundManager _soundManager;
     private PlayerInputSystem _playerInputSystem;
-    private GameObject _soundManagerObject;
     [HideInInspector]
     public GameObject timeSlip;
     public UI_Manager Ui_Manager { get { return _ui_Manager; } }
@@ -43,9 +42,7 @@ public class GameManager : CustomSingleton<GameManager>
 
     private void Awake()
     {
-        if (_soundManagerObject == null)
-            _soundManagerObject = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/SoundManager"));
-        _soundManager = _soundManagerObject.GetComponent<SoundManager>();
+        _soundManager = SoundManager.Instance;
         PlayerInit();
         _ui_Manager = UI_Manager.Instance;
         if (timeSlip == null)
