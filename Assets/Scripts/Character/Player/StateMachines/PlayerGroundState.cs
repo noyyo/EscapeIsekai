@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerGroundState : PlayerBaseState
 {
-
+    private bool isSliding;
+    private Vector3 slidingVelocity;
     public PlayerGroundState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
@@ -24,8 +26,12 @@ public class PlayerGroundState : PlayerBaseState
     public override void Update()
     {
         base.Update();
-
-        if (stateMachine.IsAttacking)
+        SetSlidingVelocity();
+        if (isSliding)
+        {
+            controller.Move((player.ForceReceiver.Movement + slidingVelocity) * Time.deltaTime);
+        }
+        if (stateMachine.IsAttacking && !isSliding)
         {
             OnAttack();
             return;
@@ -60,11 +66,15 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
+        if (isSliding)
+            return;
         stateMachine.ChangeState(stateMachine.JumpState);
     }
 
     protected override void OnSuperJumpStarted(InputAction.CallbackContext context)
     {
+        if (isSliding)
+            return;
         if (stateMachine.Player.Playerconditions.superJump.curValue < groundData.SuperJumpCost)
             return;
         stateMachine.ChangeState(stateMachine.SuperJump);
@@ -145,5 +155,47 @@ public class PlayerGroundState : PlayerBaseState
     {
         stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
+    private void SetSlidingVelocity()
+    {
+        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 10, 1 << TagsAndLayers.GroundLayerIndex))
+        {
+            float angle = Vector3.Angle(hit.normal, Vector3.up);
+            if (angle > controller.slopeLimit)
+            {
+                slidingVelocity += Vector3.ProjectOnPlane(new Vector3(0, Physics.gravity.y * Time.deltaTime, 0), hit.normal);
+                isSliding = true;
+                isMovable = false;
+                return;
+            }
+            
+        }
+        else // tangent값이 10 이상, 약 경사 85도가량 이상이지만 땅에 닿아있을 때
+        {
+            Vector3 currentPosition = player.transform.position;
+            currentPosition.y -= controller.center.y - controller.height / 2;
+            if (Physics.SphereCast(currentPosition, controller.radius, Vector3.down, out RaycastHit sphereHit, 0.1f , 1 << TagsAndLayers.GroundLayerIndex))
+            {
+                slidingVelocity += Vector3.ProjectOnPlane(new Vector3(0, Physics.gravity.y * Time.deltaTime, 0), hit.normal);
+                isSliding = true;
+                isMovable = false;
+                return;
+            }
+        }
 
+        if (isSliding)
+        {
+            float decelerationRate = Time.deltaTime * 3f;
+            if (decelerationRate > 1f)
+                slidingVelocity = Vector3.zero;
+            else
+                slidingVelocity -= slidingVelocity * decelerationRate;
+            if (slidingVelocity.sqrMagnitude < 1)
+            {
+                slidingVelocity = Vector3.zero;
+                isSliding = false;
+                isMovable = true;
+            }
+        }
+
+    }
 }
