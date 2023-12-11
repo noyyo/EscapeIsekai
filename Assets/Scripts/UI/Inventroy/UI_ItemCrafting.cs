@@ -36,6 +36,8 @@ public class UI_ItemCrafting : MonoBehaviour
         craftingManager.OnUpdateUIEvent += UpdateItemExplanationText;
         craftingManager.OnUpdateUIEvent += AddMaterialsSlot;
         tradingManager.moneyTextUpdateEvent += MoneyTextUpdate;
+        ui_Manager.UI_ItemCraftingTurnOnEvent += MoneyTextUpdate;
+        MoneyTextUpdate();
     }
 
     private void Init()

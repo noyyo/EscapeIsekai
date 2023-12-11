@@ -35,9 +35,7 @@ public class Inventory : MonoBehaviour
         playerInputSystem = GetComponent<PlayerInputSystem>();
         InitInventory();
         CreateSlot();
-        equipCotroller = GetComponent<EquipCotroller>();
-        if (equipCotroller == null)
-            equipCotroller = gameObject.AddComponent<EquipCotroller>();
+        equipCotroller = inventoryManager.PlayerEquipCotroller;
     }
 
     private void Start()
@@ -72,10 +70,12 @@ public class Inventory : MonoBehaviour
     {
         if (!ui_Manager.IsTurnOnInventory)
         {
+            inventoryManager.PlayInventoryOpenSound();
             ui_Manager.CallUI_InventoryTurnOn();
         }
         else
         {
+            inventoryManager.PlayInventoryCloseSound();
             ui_Manager.CallUI_InventoryTurnOff();
         }
     }
@@ -509,7 +509,6 @@ public class Inventory : MonoBehaviour
             player.Playerconditions.Heal((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHP);
             TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
         }
-
     }
 
     private void EquipItem()

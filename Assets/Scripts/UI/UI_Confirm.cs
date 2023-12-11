@@ -11,6 +11,7 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [SerializeField] private GameObject confirmGO;
     [SerializeField] private GameObject cancelGO;
     [Tooltip("UI의 Head부분에 있는 X를 넣어주시면 됩니다.")][SerializeField] GameObject headCancelGo;
+    [SerializeField] private GameObject inputFieldGO;
 
     private TMP_Text headText;
     private TMP_Text contentText;
@@ -20,7 +21,6 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private Button cancelBtn;
     private Button headCancelBtn;
 
-    private GameObject inputFieldGO;
     private TMP_InputField inputField;
     private Vector2 defaultPos;
 
