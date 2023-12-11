@@ -157,4 +157,8 @@ public class ProjectileRain : AttackAction
             projectile.Launch();
         }
     }
+    protected override void ReleaseIndicator()
+    {
+
+    }
 }

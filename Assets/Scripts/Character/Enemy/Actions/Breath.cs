@@ -163,4 +163,12 @@ public class Breath : AttackAction
         //Vector3 direction = verticalRotation * enemyTransform.forward;
         //Gizmos.DrawRay(startPosition, direction * Condition.LessThanThisDistance);
     }
+
+    protected override void ReleaseIndicator()
+    {
+        if (indicator == null)
+            return;
+        AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+        indicator = null;
+    }
 }

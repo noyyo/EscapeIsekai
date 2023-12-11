@@ -37,10 +37,24 @@ public class ExplosionController : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             IDamageable target = null;
+            
             if (colliders[i].CompareTag(TagsAndLayers.PlayerTag))
-                target = colliders[i].GetComponent<Player>().StateMachine;
+            {
+                Player player;
+                if (colliders[i].TryGetComponent(out player))
+                {
+                    target = player.StateMachine;
+                }
+            }
             else
-                target = colliders[i].GetComponent<Enemy>().StateMachine;
+            {
+                Enemy enemy;
+                if (colliders[i].TryGetComponent(out enemy))
+                {
+                    target = enemy.StateMachine;
+                }
+            }
+
             target?.TakeDamage(damage, this.gameObject);
             target?.TakeEffect(attackEffectTypes, attackEffectValue, this.attacker);
         }

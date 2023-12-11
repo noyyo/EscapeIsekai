@@ -23,7 +23,7 @@ public class EnemyStunState : EnemyBaseState
     {
         base.Exit();
         StopAnimation(enemy.AnimationData.StunParameterHash);
-        if (stateMachine.IsMovable)
+        if (stateMachine.IsMovable && agent.enabled)
         {
             agent.isStopped = false;
         }

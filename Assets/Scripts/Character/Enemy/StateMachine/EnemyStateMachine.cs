@@ -248,7 +248,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         HP -= damage;
         Debug.Log("ÇÇ ºüÁü" + damage);
         HP = Mathf.Max(HP, 0);
-        if (HP == 0)
+        if (HP == 0 && !IsDead)
         {
             OnDie?.Invoke();
             OnDieAction?.Invoke(Enemy);
@@ -323,7 +323,6 @@ public class EnemyStateMachine : StateMachine, IDamageable
         IsInvincible = false;
         IsFleeable = Enemy.Data.IsFleeable;
         BattleTime = 0f;
-        OriginPosition = Vector3.zero;
         CurrentAction = null;
         ChangeState(IdleState);
     }

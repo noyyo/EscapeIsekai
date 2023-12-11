@@ -193,5 +193,7 @@ public class LaunchProjectile : AttackAction
             settedProjectiles.RemoveAt(i);
         }
     }
-
+    protected override void ReleaseIndicator()
+    {
+    }
 }

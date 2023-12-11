@@ -163,6 +163,17 @@ public class ChargingAttack : AttackAction
     }
     private void OnCollisionEnter(Collision collision)
     {
+        isChargingEnd = true;
+        StopAnimation(Config.AnimTriggerHash2);
         ApplyAttack(collision.gameObject, isPossibleMultiEffect: true);
+        ReleaseIndicator();
+    }
+
+    protected override void ReleaseIndicator()
+    {
+        if (indicator == null)
+            return;
+        AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Release(indicator);
+        indicator = null;
     }
 }

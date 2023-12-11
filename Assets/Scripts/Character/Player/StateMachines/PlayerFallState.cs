@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerFallState : PlayerAirState
 {
     public PlayerFallState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
@@ -21,7 +23,6 @@ public class PlayerFallState : PlayerAirState
     public override void Update()
     {
         base.Update();
-
         if (stateMachine.Player.Controller.isGrounded)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
