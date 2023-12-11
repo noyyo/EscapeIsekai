@@ -205,16 +205,16 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     public void PlayItemEquipSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, itemEquipSoundName, playerTransform, false, soundValue: 0.2f);
+        soundManager.CallPlaySFX(ClipType.UISFX, itemEquipSoundName, playerTransform, false, soundValue: 0.15f);
     }
 
     public void PlayInventoryCloseSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, inventoryCloseName, playerTransform, false, soundValue: 0.2f);
+        soundManager.CallPlaySFX(ClipType.UISFX, inventoryCloseName, playerTransform, false, soundValue: 0.1f);
     }
 
     public void PlayInventoryOpenSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, inventoryOpenName, playerTransform, false, soundValue: 0.2f);
+        soundManager.CallPlaySFX(ClipType.UISFX, inventoryOpenName, playerTransform, false, soundValue: 0.1f);
     }
 }

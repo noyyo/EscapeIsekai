@@ -7,6 +7,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
     private UI_Manager ui_Manager;
     private InventoryManager inventoryManager;
     private SoundManager soundManager;
+    private TradingManager tradingManager;
     private ItemCraftingController craftingController;
     private GameObject itemCraftingUI;
     private GameObject craftingSlotPrefab;
@@ -38,6 +39,7 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
         soundManager = SoundManager.Instance;
         craftingSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/CreftingSlot");
         craftingController = gameManager.Player.GetComponent<ItemCraftingController>();
+        tradingManager = TradingManager.Instance;
     }
 
     private void Start()
@@ -121,8 +123,9 @@ public class ItemCraftingManager : CustomSingleton<ItemCraftingManager>
 
     public void CraftingItem()
     {
-        if (currentIsMake && TradingManager.Instance.PlayerMoney >= currentClickSlot.CraftingPrice)
+        if (currentIsMake && tradingManager.PlayerMoney >= currentClickSlot.CraftingPrice)
         {
+            tradingManager.addMoney(-currentClickSlot.CraftingPrice);
             inventoryManager.CallAddItems(CurrentClickSlot);
             OnTextUpdateEvent?.Invoke();
             currentIsMake = ChangeCurrentIsMake();
