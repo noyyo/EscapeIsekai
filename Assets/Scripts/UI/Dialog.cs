@@ -139,8 +139,11 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 500) //검술
                 {
-                    MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
-                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
+                    if(Instructor.Instance.rank <5)
+                    {
+                        MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
+                        StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
+                    }
                 }
                 if (id == 700) //차원문
                 {
