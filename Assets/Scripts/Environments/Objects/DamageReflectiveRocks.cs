@@ -43,6 +43,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     private Vector3 basePosition;
     private Vector2 randomCircle;
     private Vector3 initialPosition;
+    private Enemy enemy;
 
     private void Awake()
     {
@@ -101,7 +102,10 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         if (isIF)
         {
             if (attackEffectTypes == attackerAttackEffectTypes && (attacker.name == attackerName || attacker.CompareTag(TagsAndLayers.EnemyTag)))
+            {
                 isBoss = true;
+            }
+                
         }
         else
             isBoss = attacker.CompareTag(TagsAndLayers.EnemyTag);

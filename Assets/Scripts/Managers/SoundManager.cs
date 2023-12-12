@@ -15,6 +15,11 @@ public enum ClipType
     UISFX
 }
 
+public struct BGMChangePos
+{
+    Vector2 maxPos;
+    Vector2 minPos;
+}
 
 public class SoundManager : CustomSingleton<SoundManager>
 {
@@ -269,11 +274,16 @@ public class SoundManager : CustomSingleton<SoundManager>
             BGMPlay(ClipDics[0][defaultBGMName]);
     }
 
+    public void PlayDefaultBGM()
+    {
+        BGMPlay(ClipDics[0][defaultBGMName]);
+    }
+
     private void BGMPlay(AudioClip clip)
     {
         bgm.clip = clip;
         bgm.loop = true;
-        bgm.volume = 0.035f;
+        bgm.volume = 0.03f;
         bgm.Play();
     }
 
