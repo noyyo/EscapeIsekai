@@ -63,10 +63,31 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         attackEffectTypes = customAttackEffectTypes;
     }
 
-    public override void TakeDamage(int damage, GameObject attacker)
+    public override void TakeDamage(int newDamage, GameObject attacker)
     {
+        if (!CanTakeDamageAndEffect(attacker))
+            return;
+
         if (!isCustom)
-            this.damage = (int)(damage * magnification);
+            damage = (int)(newDamage * magnification);
+
+        if (isBoss)
+        {
+            IDamageable target = null;
+            Enemy enemy;
+            
+            if (attacker.TryGetComponent<Enemy>(out enemy))
+            {
+                Debug.LogError("적에게 Enemy컴포넌트가 없습니다. 이름 : " + attacker.gameObject.name + " 위치 : " + attacker.transform.position);
+                return;
+            }
+            target = enemy.StateMachine;
+            target?.TakeDamage(newDamage, gameObject);
+            target?.TakeEffect(attackEffectTypes, value, gameObject);
+            isBoss = false;
+            FallingObject();
+            Deactivate();
+        }
     }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
@@ -83,31 +104,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
                 isBoss = true;
         }
         else
-        {
             isBoss = attacker.CompareTag(TagsAndLayers.EnemyTag);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isBoss)
-        {
-            IDamageable target = null;
-            Enemy enemy;
-            if (!other.TryGetComponent<Enemy>(out enemy))
-                enemy = other.GetComponentInParent<Enemy>();
-            if (enemy == null)
-            {
-                Debug.LogError("적에게 Enemy컴포넌트가 없습니다. 이름 : " + other.gameObject.name + " 위치 : " + other.transform.position);
-                return;
-            }
-            target = enemy.StateMachine;
-            target?.TakeDamage(damage, gameObject);
-            target?.TakeEffect(attackEffectTypes, value, this.gameObject);
-            isBoss = false;
-            FallingObject();
-            Deactivate();
-        }
     }
 
     private void Respawn()

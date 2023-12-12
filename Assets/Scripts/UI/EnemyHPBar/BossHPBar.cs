@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class BossHPBar : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Enemy enemy;
+    private UIBarScript uiBarScript;
+
+    private void Awake()
     {
-        
+        uiBarScript = GetComponent<UIBarScript>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetEnemyHPBar(Enemy newEnemy)
     {
-        
+        enemy = newEnemy;
+        uiBarScript.UpdateValue(newEnemy.StateMachine.HP, newEnemy.Data.MaxHP);
+        Activate();
+        //newEnemy.changeHPEvent += uiBarScript.UpdateValue;
+        //newEnemy.onReleaseHPBar += OnRelease;
+    }
+
+    private void OnRelease()
+    {
+        //newEnemy.changeHPEvent -= uiBarScript.UpdateValue;
+        //newEnemy.onReleaseHPBar -= OnRelease;
+        enemy = null;
+        Deactivate();
+    }
+
+    private void Activate()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 }
