@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageReflectiveRocks : BaseEnvironmentObject
@@ -15,6 +16,10 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     [SerializeField] private AttackEffectTypes customAttackEffectTypes;
     [SerializeField] private bool isRespawn;
     [SerializeField] private float respawnTime = 8f;
+
+    [Header("DontAttackType")]
+    [SerializeField] private bool isDontAttackUse;
+    [SerializeField] private AttackEffectTypes[] customDontAttackEffectTypes;
 
     [Header("조건을 충족시 발생하는 모드")]
     [SerializeField] private bool isIF;
@@ -64,55 +69,59 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         attackEffectTypes = customAttackEffectTypes;
     }
 
-    public override void TakeDamage(int damage, GameObject attacker)
+    public override void TakeDamage(int newDamage, GameObject attacker)
     {
         if (!isCustom)
-            this.damage = (int)(damage * magnification);
+            damage = (int)(newDamage * magnification);
     }
 
-    public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
+    public override void TakeEffect(AttackEffectTypes newAttackEffectTypes, float newValue, GameObject attacker)
     {
-        if (!isCustom)
-            this.value = value;
-        if (!lockAttackEffectTypes)
-            this.attackEffectTypes = attackEffectTypes;
+        if (!CanTakeDamageAndEffect(attacker))
+        {
+            isBoss = false;
+            return;
+        }
+        else
+            isBoss = true;
 
+        if (isDontAttackUse)
+        {
+            foreach(AttackEffectTypes n in customDontAttackEffectTypes)
+            {
+                if (n == newAttackEffectTypes)
+                    return;
+            }
+        }
+            
+
+        if (!isCustom)
+            value = newValue;
+        if (!lockAttackEffectTypes)
+            attackEffectTypes = newAttackEffectTypes;
 
         if (isIF)
         {
-            if (attackEffectTypes == attackerAttackEffectTypes && (attacker.name == attackerName || attacker.CompareTag(TagsAndLayers.EnemyTag)))
-            {
+            if (attackEffectTypes == attackerAttackEffectTypes && attacker.name == attackerName)
                 isBoss = true;
-            }
-                
         }
-        else
-        {
-            isBoss = attacker.CompareTag(TagsAndLayers.EnemyTag);
-            if (isBoss)
-                enemy = attacker.GetComponent<Enemy>();
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
+            
         if (isBoss)
         {
             IDamageable target = null;
-            if (enemy == null)
+            Enemy enemy;
+
+            if (!attacker.TryGetComponent<Enemy>(out enemy))
             {
-                if (!other.TryGetComponent<Enemy>(out enemy))
-                    enemy = other.GetComponentInParent<Enemy>();
-                if (enemy == null)
-                    return;
+                Debug.LogError("적에게 Enemy컴포넌트가 없습니다. 이름 : " + attacker.gameObject.name + " 위치 : " + attacker.transform.position);
+                return;
             }
             target = enemy.StateMachine;
             target?.TakeDamage(damage, gameObject);
-            target?.TakeEffect(attackEffectTypes, value, this.gameObject);
+            target?.TakeEffect(attackEffectTypes, value, gameObject);
             isBoss = false;
             FallingObject();
             Deactivate();
-            enemy = null;
         }
     }
 
