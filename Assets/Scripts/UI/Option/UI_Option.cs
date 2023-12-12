@@ -25,7 +25,9 @@ public class UI_Option : MonoBehaviour
     private Button inventory;
     private Button tutorialBtn;
     private Button exit;
+    private Button questBtn;
     private Tutorial tutorial;
+    private ServeQuestManager questManager;
     public bool IsDisplay { get; private set; }
 
     private void Awake()
@@ -41,6 +43,7 @@ public class UI_Option : MonoBehaviour
         inventory = this.transform.GetChild(0).GetChild(1).GetComponent<Button>();
         tutorialBtn = this.transform.GetChild(3).GetComponent<Button>();
         exit = this.transform.GetChild(4).GetComponent<Button>();
+        questBtn = this.transform.GetChild(5).GetComponent<Button>();
         uiManager.UI_OptionTurnOnEvent += Activate;
         uiManager.UI_OptionTurnOffEvent += Deactivate;
         playerInputSystem = GameManager.Instance.Player.GetComponent<PlayerInputSystem>();
@@ -58,6 +61,7 @@ public class UI_Option : MonoBehaviour
     {
         soundManager = SoundManager.Instance;
         tutorial = uiManager.tutorialUI.GetComponent<Tutorial>();
+        questManager = uiManager.questManager.GetComponent<ServeQuestManager>();
         MasterVolume.onValueChanged.AddListener((n) => SliderValueChange(MasterVolumeInputField, n, MiXType.MasterVolume));
         bgmVolume.onValueChanged.AddListener((n) => SliderValueChange(bgmVolumeInputField, n, MiXType.BgmVolume));
         sfxVolume.onValueChanged.AddListener((n) => SliderValueChange(sfxVolumeInputField, n, MiXType.SfxVolume));
@@ -73,6 +77,7 @@ public class UI_Option : MonoBehaviour
         back.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); });
         inventory.onClick.AddListener(() => { uiManager.PlayClickBtnSound(); uiManager.CallUI_OptionTurnOff(); uiManager.CallUI_InventoryTurnOn(); });
         tutorialBtn.onClick.AddListener(tutorial.EnableInOption);
+        questBtn.onClick.AddListener(questManager.EnableInOption);
         exit.onClick.AddListener(GameExit);
     }
 
