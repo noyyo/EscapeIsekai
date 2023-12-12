@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyForceReceiver : MonoBehaviour
 {
-    [SerializeField] private float drag = 0.3f;
+    public float Drag = 0.3f;
 
     private Vector3 dampingVelocity;
     private Vector3 impact;
@@ -11,7 +11,7 @@ public class EnemyForceReceiver : MonoBehaviour
 
     void Update()
     {
-        impact = Vector3.SmoothDamp(impact, Vector3.zero, ref dampingVelocity, drag);
+        impact = Vector3.SmoothDamp(impact, Vector3.zero, ref dampingVelocity, Drag);
     }
 
     public void Reset()

@@ -10,7 +10,48 @@ public class GatheringObject : MonoBehaviour
     private UI_Manager _UI_Manager;
     private ItemSpawner itemSpawner;
     private Transform playerTransform;
+    private ParticleSystem particle;
+    private Player player;
+    private float playerDistance;
+    static readonly private float distanceCheckDelay = 1f;
+    static readonly private float particlePlayDistance = 30f;
+    private float lastDistanceCheckTime;
 
+    private void Awake()
+    {
+        particle = GetComponent<ParticleSystem>();
+    }
+    private void Start()
+    {
+        _UI_Manager = UI_Manager.Instance;
+        player = GameManager.Instance.Player.GetComponent<Player>();
+        playerTransform = GameManager.Instance.Player.transform;
+    }
+    private void Update()
+    {
+        if (player == null)
+        {
+            Debug.LogError("플레이어가 없습니다.");
+            return;
+        }
+        if (Time.time - lastDistanceCheckTime > distanceCheckDelay)
+        {
+            CheckPlayerDistance();
+        }
+    }
+    private void CheckPlayerDistance()
+    {
+        playerDistance = Vector3.Distance(player.transform.position, transform.position);
+        lastDistanceCheckTime = Time.time;
+        if (playerDistance > particlePlayDistance && particle.isPlaying)
+        {
+            particle.Stop();
+        }
+        else if (playerDistance <= particlePlayDistance && !particle.isPlaying)
+        {
+            particle.Play();
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == TagsAndLayers.ItemSpawnerTag)
@@ -45,11 +86,7 @@ public class GatheringObject : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        _UI_Manager = UI_Manager.Instance;
-        playerTransform = GameManager.Instance.Player.transform;
-    }
+
 
     private void Gathering(InputAction.CallbackContext context)
     {

@@ -59,6 +59,7 @@ public class Breath : AttackAction
     {
         base.OnEnd();
         StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= AnimEventDecision;
+        particle.Stop();
     }
 
     private void AnimEventDecision(AnimationEvent animEvent)
@@ -93,6 +94,7 @@ public class Breath : AttackAction
             if (indicator == null)
                 return;
             AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+            indicator = null;
         }
     }
     private void InitializeParticle()
@@ -170,5 +172,6 @@ public class Breath : AttackAction
             return;
         AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
         indicator = null;
+        particle.Stop();
     }
 }

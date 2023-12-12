@@ -23,7 +23,7 @@ public class Grenade : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex)
+        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.gameObject.layer == TagsAndLayers.PlayerLayerIndex)
         {
             Explosion();
         }
