@@ -33,7 +33,7 @@ public class EnemySpawnManager : MonoBehaviour
         {
             return enemyPools[enemy.Data.ID];
         }
-        ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(createFunc: () => EnemyCreateFunc(enemy), actionOnGet: enemy => EnemyOnGet(enemy), actionOnRelease: enemy => enemy.OnRelease(), defaultCapacity: 5, maxSize: 100);
+        ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(createFunc: () => EnemyCreateFunc(enemy), actionOnGet: enemy => enemy.OnGet(), actionOnRelease: enemy => enemy.OnRelease(), defaultCapacity: 5, maxSize: 100);
         enemyPools.Add(enemy.Data.ID, enemyPool);
         return enemyPool;
     }
@@ -43,10 +43,6 @@ public class EnemySpawnManager : MonoBehaviour
         enemyInstant.gameObject.SetActive(false);
         enemyInstant.Agent.enabled = false;
         return enemyInstant;
-    }
-    private void EnemyOnGet(Enemy enemy)
-    {
-        enemy.ResetEnemy();
     }
     public void AddSpawner(EnemySpawner spawner)
     {

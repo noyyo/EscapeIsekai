@@ -7,7 +7,7 @@ public class ChargingAttack : AttackAction
     [SerializeField] private float chargingSpeed;
     [Tooltip("돌진을 시행할 횟수입니다.")]
     [SerializeField][Range(1, 3)] private int chargingCount;
-    [SerializeField][Range(0.5f, 2f)] private float waitTimeBetweenCharging;
+    [SerializeField][Range(0.2f, 2f)] private float waitTimeBetweenCharging = 0.2f;
     private float waitedTime;
     private int alreadyChargedCount = 0;
     private bool isCharging;
@@ -98,11 +98,10 @@ public class ChargingAttack : AttackAction
                 Debug.LogError("NavMesh영역을 찾을 수 없습니다.");
             }
 
-            AOEIndicatorPool.Instance.GetIndicatorPool(AOETypes.Box).Release(indicator);
+            ReleaseIndicator();
             isIndicatorOn = false;
 
             StartAnimation(Config.AnimTriggerHash2);
-            StateMachine.Enemy.Rigidbody.isKinematic = true;
             isCharging = true;
         }
 
@@ -119,18 +118,22 @@ public class ChargingAttack : AttackAction
         targetPositionExceptY.y = 0;
         if (Vector3.Distance(currentPosition, targetPositionExceptY) < 0.1f)
         {
-            alreadyChargedCount++;
-            StopAnimation(Config.AnimTriggerHash2);
-            isCharging = false;
-            if (alreadyChargedCount >= chargingCount)
-            {
-                alreadyChargedCount = 0;
-                isCompleted = true;
-            }
-            else
-            {
-                isChargingEnd = true;
-            }
+            EndCharging();
+        }
+    }
+    private void EndCharging()
+    {
+        alreadyChargedCount++;
+        StopAnimation(Config.AnimTriggerHash2);
+        isCharging = false;
+        if (alreadyChargedCount >= chargingCount)
+        {
+            alreadyChargedCount = 0;
+            isCompleted = true;
+        }
+        else
+        {
+            isChargingEnd = true;
         }
     }
     private void LookTarget()
@@ -140,6 +143,7 @@ public class ChargingAttack : AttackAction
             waitedTime += Time.deltaTime;
             return;
         }
+
         Vector3 targetDirection = StateMachine.Player.transform.position - agent.transform.position;
         targetDirection.y = 0;
         Vector3 forward = agent.transform.forward;
@@ -163,10 +167,10 @@ public class ChargingAttack : AttackAction
     }
     private void OnCollisionEnter(Collision collision)
     {
-        isChargingEnd = true;
-        StopAnimation(Config.AnimTriggerHash2);
+        if (collision.gameObject.layer == TagsAndLayers.GroundLayerIndex)
+            return;
         ApplyAttack(collision.gameObject, isPossibleMultiEffect: true);
-        ReleaseIndicator();
+        EndCharging();
     }
 
     protected override void ReleaseIndicator()

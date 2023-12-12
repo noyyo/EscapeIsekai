@@ -79,9 +79,12 @@ public class Enemy : MonoBehaviour, IPositionable
     {
 
     }
-    public void ResetEnemy()
+    public Enemy OnGet()
     {
+        Collider.enabled = true;
+        enabled = true;
         StateMachine.ResetStateMachine();
+        return this;
     }
     public void OnRelease()
     {
@@ -92,6 +95,7 @@ public class Enemy : MonoBehaviour, IPositionable
 
     protected void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Ãæµ¹");
         OnCollisionOcurred?.Invoke(collision);
     }
 

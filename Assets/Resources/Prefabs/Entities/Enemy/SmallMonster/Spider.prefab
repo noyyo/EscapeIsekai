@@ -383,8 +383,8 @@ MonoBehaviour:
     currentStateName: 
     isPause: 0
     isActive: 0
-    ActivationCheckDelay: 1
-    ActivationDistance: 100
+    activationCheckDelay: 0
+    activationDistance: 0
     <IsInvincible>k__BackingField: 0
     <IsFleeable>k__BackingField: 0
     CurrentAction: {fileID: 0}
@@ -443,9 +443,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &7074590434695834726
 MonoBehaviour:

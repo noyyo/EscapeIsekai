@@ -43,6 +43,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
     private Vector3 basePosition;
     private Vector2 randomCircle;
     private Vector3 initialPosition;
+    private Enemy enemy;
 
     private void Awake()
     {
@@ -80,11 +81,16 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         if (isIF)
         {
             if (attackEffectTypes == attackerAttackEffectTypes && (attacker.name == attackerName || attacker.CompareTag(TagsAndLayers.EnemyTag)))
+            {
                 isBoss = true;
+            }
+                
         }
         else
         {
             isBoss = attacker.CompareTag(TagsAndLayers.EnemyTag);
+            if (isBoss)
+                enemy = attacker.GetComponent<Enemy>();
         }
     }
 
@@ -93,13 +99,12 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         if (isBoss)
         {
             IDamageable target = null;
-            Enemy enemy;
-            if (!other.TryGetComponent<Enemy>(out enemy))
-                enemy = other.GetComponentInParent<Enemy>();
             if (enemy == null)
             {
-                Debug.LogError("적에게 Enemy컴포넌트가 없습니다. 이름 : " + other.gameObject.name + " 위치 : " + other.transform.position);
-                return;
+                if (!other.TryGetComponent<Enemy>(out enemy))
+                    enemy = other.GetComponentInParent<Enemy>();
+                if (enemy == null)
+                    return;
             }
             target = enemy.StateMachine;
             target?.TakeDamage(damage, gameObject);
@@ -107,6 +112,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
             isBoss = false;
             FallingObject();
             Deactivate();
+            enemy = null;
         }
     }
 

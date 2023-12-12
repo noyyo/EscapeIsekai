@@ -20,6 +20,7 @@ public class EnemyReturnToBaseState : EnemyBaseState
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         StopAnimation(enemy.AnimationData.ReturnToBaseParameterHash);
+        agent.speed = enemyData.RunSpeed;
         stateMachine.IsInvincible = false;
 
     }

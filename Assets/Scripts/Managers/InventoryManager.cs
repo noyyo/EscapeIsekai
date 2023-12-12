@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryManager : CustomSingleton<InventoryManager>
@@ -17,6 +18,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     private UI_Inventory ui_Inventory;
     private Inventory inventory;
     private SoundManager soundManager;
+    private EquipCotroller playerEquipCotroller;
 
     private int clickSlotIndex;
     private int dropSlotIndex;
@@ -32,6 +34,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public Dictionary<int, Item>[] ItemDics { get { return itemDics; } }
     public int InventroySlotCount { get { return inventroySlotCount; } }
     public int ClickSlotIndex { get { return clickSlotIndex; } }
+    public EquipCotroller PlayerEquipCotroller { get { return playerEquipCotroller; } }
 
     public event Action OnTextChangeEquipEvent;
     public event Action OnTextChangeUnEquipEvent;
@@ -50,6 +53,8 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         for (int i = 0; i < itemKategorieCount; i++)
             itemDics[i] = new Dictionary<int, Item>();
         slotList = new List<Slot>();
+        if (!TryGetComponent<EquipCotroller>(out playerEquipCotroller))
+            playerEquipCotroller = gameObject.AddComponent<EquipCotroller>();
     }
 
     private void Start()
@@ -63,8 +68,6 @@ public class InventoryManager : CustomSingleton<InventoryManager>
         inventory = gameManager.Player.GetComponent<Inventory>();
         playerTransform = gameManager.Player.transform;
         ui_Inventory = ui_Manager.Inventory_UI.GetComponent<UI_Inventory>();
-        ui_Manager.UI_InventoryTurnOnEvent += PlayInventoryOpenSound;
-        ui_Manager.UI_InventoryTurnOffEvent += PlayInventoryCloseSound;
     }
 
     //버튼을 클릭했을 호출
@@ -202,16 +205,16 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     public void PlayItemEquipSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, itemEquipSoundName, playerTransform, false, soundValue: 0.2f);
+        soundManager.CallPlaySFX(ClipType.UISFX, itemEquipSoundName, playerTransform, false, soundValue: 0.15f);
     }
 
     public void PlayInventoryCloseSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, inventoryCloseName, playerTransform, false, soundValue: 0.2f);
+        soundManager.CallPlaySFX(ClipType.UISFX, inventoryCloseName, playerTransform, false, soundValue: 0.1f);
     }
 
     public void PlayInventoryOpenSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, inventoryOpenName, playerTransform, false, soundValue: 0.2f);
+        soundManager.CallPlaySFX(ClipType.UISFX, inventoryOpenName, playerTransform, false, soundValue: 0.1f);
     }
 }

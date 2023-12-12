@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.Android;
 
 public class EnemyChaseState : EnemyBaseState
 {
@@ -11,12 +12,14 @@ public class EnemyChaseState : EnemyBaseState
     private static readonly float actionExecutableTime = 3f;
     private float stateStartTime;
     private AttackAction action;
+    private bool isChangingState;
     public EnemyChaseState(EnemyStateMachine enemyStateMachine) : base(enemyStateMachine)
     {
     }
     public override void Enter()
     {
         base.Enter();
+        isChangingState = false;
         stateMachine.IsInBattle = true;
         isLookTarget = false;
         StartAnimation(enemy.AnimationData.BattleParameterHash);
@@ -32,7 +35,6 @@ public class EnemyChaseState : EnemyBaseState
             agent.autoBraking = false;
             agent.speed = enemyData.RunSpeed * stateMachine.MovementSpeedModifier;
         }
-
     }
     public override void Exit()
     {
@@ -52,6 +54,8 @@ public class EnemyChaseState : EnemyBaseState
     public override void Update()
     {
         base.Update();
+        if (isChangingState)
+            return;
         if (!isChoosed)
         {
             if (Time.time - stateStartTime >= actionCoolDownWaitTime)
@@ -65,6 +69,8 @@ public class EnemyChaseState : EnemyBaseState
             if (Time.time - stateStartTime >= actionExecutableTime)
             {
                 stateMachine.ChangeState(stateMachine.ChaseState);
+                if (isMoving)
+                    StartAnimation(enemy.AnimationData.RunParameterHash);
                 return;
             }
 
@@ -75,7 +81,11 @@ public class EnemyChaseState : EnemyBaseState
         }
         else
         {
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+            StopAnimation(enemy.AnimationData.RunParameterHash);
             ChangeBattleStance(false);
+            isChangingState = true;
             return;
         }
     }
@@ -88,6 +98,7 @@ public class EnemyChaseState : EnemyBaseState
             {
                 agent.velocity = Vector3.zero;
                 stateMachine.ChangeState(stateMachine.AttackState);
+                isChangingState = true;
                 return;
             }
         }
@@ -97,15 +108,12 @@ public class EnemyChaseState : EnemyBaseState
             if (targetDistance < action.Condition.MoreThanThisDistance)
             {
                 // 사용 가능 거리보다 현재 거리가 짧으면 액션을 다시 선택해서 체이싱합니다.
+                isChangingState = true;
                 stateMachine.ChangeState(stateMachine.ChaseState);
+                return;
             }
             else if (targetDistance > action.Condition.LessThanThisDistance)
             {
-                if (stateMachine.Enemy.Data.RunSpeed == 0)
-                {
-                    stateMachine.ChangeState(stateMachine.ChaseState);
-                    return;
-                }
                 MoveToTarget();
             }
         }
@@ -129,6 +137,8 @@ public class EnemyChaseState : EnemyBaseState
         if (isMoving)
         {
             isMoving = false;
+            agent.velocity = Vector3.zero;
+            agent.ResetPath();
             StopAnimation(enemy.AnimationData.RunParameterHash);
         }
         Vector3 targetDirection = stateMachine.Player.transform.position - agent.transform.position;
@@ -141,7 +151,11 @@ public class EnemyChaseState : EnemyBaseState
     private void MoveToTarget()
     {
         if (!stateMachine.IsMovable)
+        {
+            stateMachine.ChangeState(stateMachine.ChaseState);
+            isChangingState = true;
             return;
+        }
         if (!isMoving)
         {
             isMoving = true;
@@ -150,15 +164,30 @@ public class EnemyChaseState : EnemyBaseState
         }
         NavMeshHit hit;
         Vector3 currentPosition = agent.transform.position;
-        currentPosition.y -= agent.baseOffset;
+        currentPosition.y += agent.baseOffset;
         bool isInNavMesh = NavMesh.SamplePosition(currentPosition, out hit, 1f, agent.areaMask - (1 << NavMesh.GetAreaFromName("Walkable")));
         if (!isInNavMesh)
         {
+            StopAnimation(enemy.AnimationData.RunParameterHash);
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
             ChangeBattleStance(false);
+            isChangingState = true;
+            isMoving = false;
         }
         else
         {
-            agent.SetDestination(stateMachine.Player.transform.position);
+            if (NavMesh.SamplePosition(stateMachine.Player.transform.position, out hit, 5f, agent.areaMask - (1 << NavMesh.GetAreaFromName("Walkable"))))
+                agent.SetDestination(hit.position);
+            else
+            {
+                StopAnimation(enemy.AnimationData.RunParameterHash);
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+                ChangeBattleStance(false);
+                isChangingState = true;
+                isMoving = false;
+            }
         }
     }
 }

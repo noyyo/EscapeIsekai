@@ -82,7 +82,11 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         }
 
         if (itemCraftingUI == null)
+        {
             itemCraftingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), cavas.transform);
+            itemCraftingUI.SetActive(false);
+        }
+            
 
         if (questManager == null)
             questManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/QuestManager"));
@@ -175,12 +179,12 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
     public void PlayClickBtnSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, buttonSoundName, playerTransform, false, soundValue: 0.05f);
+        soundManager.CallPlaySFX(ClipType.UISFX, buttonSoundName, playerTransform, false, soundValue: 0.01f);
     }
 
     public void PlayClickSound()
     {
-        soundManager.CallPlaySFX(ClipType.UISFX, clickSoundName, playerTransform, false, soundValue: 0.05f);
+        soundManager.CallPlaySFX(ClipType.UISFX, clickSoundName, playerTransform, false, soundValue: 0.01f);
     }
 
     public void PlayWrongSound()
