@@ -42,8 +42,8 @@ public class EnemyHPBar : MonoBehaviour
         transform.parent = newEnemy.transform;
         uiBarScript.UpdateValue(newEnemy.StateMachine.HP, newEnemy.Data.MaxHP);
         
-        //newEnemy.changeHPEvent += uiBarScript.UpdateValue;
-        //newEnemy.onReleaseHPBar += OnRelease;
+        newEnemy.StateMachine.HpUpdated += uiBarScript.UpdateValue;
+        newEnemy.StateMachine.ReleaseMonsterUI += OnRelease;
         SetUIPosition(newEnemy.transform, newEnemy.Agent.height, extraHeight);
         StartCoroutine(SetUIRotion());
     }
@@ -51,7 +51,7 @@ public class EnemyHPBar : MonoBehaviour
     private void SetUIPosition(Transform enemyTransform, float enemyHeight, float extraHeight)
     {
         thisPos.Set(0, enemyHeight + extraHeight, 0);
-        transform.position = thisPos;
+        transform.localPosition = thisPos;
     }
 
     private IEnumerator SetUIRotion()
@@ -65,8 +65,8 @@ public class EnemyHPBar : MonoBehaviour
 
     private void OnRelease()
     {
-        //newEnemy.changeHPEvent -= uiBarScript.UpdateValue;
-        //newEnemy.onReleaseHPBar -= OnRelease;
+        enemy.StateMachine.HpUpdated -= uiBarScript.UpdateValue;
+        enemy.StateMachine.ReleaseMonsterUI -= OnRelease;
         enemy = null;
         thisPos = Vector3.zero;
         StopCoroutine(SetUIRotion());

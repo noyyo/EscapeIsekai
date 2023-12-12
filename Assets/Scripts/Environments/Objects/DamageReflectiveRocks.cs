@@ -19,7 +19,7 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
 
     [Header("DontAttackType")]
     [SerializeField] private bool isDontAttackUse;
-    [SerializeField] private AttackEffectTypes[] customDontAttackEffectTypes;
+    [SerializeField] private ActionTypes[] customDontAttackActionTypes;
 
     [Header("조건을 충족시 발생하는 모드")]
     [SerializeField] private bool isIF;
@@ -87,9 +87,22 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
 
         if (isDontAttackUse)
         {
-            foreach(AttackEffectTypes n in customDontAttackEffectTypes)
+            Enemy enemy;
+            AttackAction currentAction = null;
+            if (attacker.TryGetComponent(out enemy))
             {
-                if (n == newAttackEffectTypes)
+                currentAction = enemy.StateMachine.CurrentAction;
+            }
+            else
+            {
+                return;
+            }
+            if (currentAction == null)
+                return;
+
+            foreach(ActionTypes type in customDontAttackActionTypes)
+            {
+                if (type == currentAction.ActionType)
                     return;
             }
         }

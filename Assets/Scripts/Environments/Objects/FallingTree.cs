@@ -54,36 +54,19 @@ public class FallingTree : BaseEnvironmentObject
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
     { }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag(TagsAndLayers.EnemyTag))
-        {
-            Enemy newEnemy = other.GetComponent<Enemy>();
-            if (!enemyList.Contains(newEnemy))
-                enemyList.Add(newEnemy);
-        }
-
-        if (isBreak)
-        {
-            foreach(Enemy n in enemyList)
-            {
-                IDamageable target = null;
-                target = n.StateMachine;
-                target?.TakeDamage(1, gameObject);
-                target?.TakeEffect(attackType, effectValue, gameObject);
-            }
-            isBreak = false;
-            enemyList.Clear();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag(TagsAndLayers.EnemyTag))
         {
             Enemy newEnemy = other.GetComponent<Enemy>();
-            if (enemyList.Contains(newEnemy))
-                enemyList.Remove(newEnemy);
+            if (isBreak && !enemyList.Contains(newEnemy))
+            {
+                IDamageable target = null;
+                target = newEnemy.StateMachine;
+                target?.TakeDamage(1, gameObject);
+                target?.TakeEffect(attackType, effectValue, gameObject);
+                enemyList.Add(newEnemy);
+            }
         }
     }
 
@@ -96,11 +79,13 @@ public class FallingTree : BaseEnvironmentObject
         speed = objSpeed;
         isBreak = false;
         deg = 0;
+        enemyList.Clear();
     }
 
     private void ChangeHP()
     {
         HP -= playerDamage;
+        SoundManager.Instance.CallPlaySFX(ClipType.EnemySFX, "OnHit", transform, false, pitchValue: 1.05f, soundValue: 0.5f);
         playerDamage = 0;
         if (HP <= 0)
         {
@@ -129,6 +114,7 @@ public class FallingTree : BaseEnvironmentObject
             yield return null;
         }
         Invoke("PlayAnimationFadeOut", playFadeOutTime);
+        isBreak = false;
         yield break;
     }
 

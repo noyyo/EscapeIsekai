@@ -10,6 +10,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public event Action ActivatedActionsChanged;
     public event Action OnDie;
     public event Action<Enemy> OnDieAction;
+    public event Action<float> HpUpdated;
+    public event Action ReleaseMonsterUI;
 
     // 게임 매니저에서 플레이어 불러옴.
     public GameObject Player { get; }
@@ -53,6 +55,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
     // 기본적으로 움직일 수 없는 개체만 사용합니다.
     [ReadOnly] public bool IsMovable;
     public bool IsInitialized;
+    private bool isMoveByForce;
+    private Rigidbody rigidbody;
+    private float verticalMovement;
+    private bool isBattleBGMOn;
 
 
     public EnemyStateMachine(Enemy enemy)
@@ -60,6 +66,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         //Player = gameManager.Instance.Player;
         Enemy = enemy;
         Animator = enemy.Animator;
+        rigidbody = enemy.Rigidbody;
         IdleState = new EnemyIdleState(this);
         WanderState = new EnemyWanderState(this);
         ChaseState = new EnemyChaseState(this);
@@ -82,6 +89,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         InitializeMovable(enemy.Data.IsMovable);
         OriginPosition = enemy.transform.position;
         enemy.AnimEventReceiver.AnimEventCalled += EventDecision;
+        CalculateTargetDistance();
         IsInitialized = true;
     }
 
@@ -104,9 +112,10 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public override void Update()
     {
         CheckTargetDistance();
-        SetMonsterUIByDistance();
         if (!isActive)
             return;
+        SetMonsterUIByDistance();
+        PlayBossBattleBGM();
         if (IsInBattle)
             BattleTime += Time.deltaTime;
         MoveByForce();
@@ -127,10 +136,12 @@ public class EnemyStateMachine : StateMachine, IDamageable
             if (TargetDistance <= activationDistance)
             {
                 isActive = true;
+                SetActive(true);
             }
             else
             {
                 isActive = false;
+                SetActive(false);
             }
             lastCheckTime = Time.time;
         }
@@ -258,6 +269,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         PlaySFX("OnHit", 1.05f, 0.5f);
         HP -= damage;
         HP = Mathf.Max(HP, 0);
+        HpUpdated?.Invoke((float)HP / Enemy.Data.MaxHP);
         if (HP == 0 && !IsDead)
         {
             OnDie?.Invoke();
@@ -290,6 +302,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         {
             case AttackEffectTypes.KnockBack:
                 Vector3 direction = Enemy.transform.position - attacker.transform.position;
+                direction.y = 0;
                 direction.Normalize();
                 forceReceiver.AddForce(direction * value);
                 break;
@@ -307,7 +320,35 @@ public class EnemyStateMachine : StateMachine, IDamageable
     }
     private void MoveByForce()
     {
-        agent.Move(forceReceiver.Movement * Time.deltaTime);
+        if (forceReceiver.Movement == Vector3.zero)
+        {
+            if (isMoveByForce)
+            {
+                isMoveByForce = false;
+                agent.enabled = true;
+                rigidbody.useGravity = false;
+                verticalMovement = 0f;
+                rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            }
+            return;
+        }
+        else
+        {
+            bool isInNavMesh = NavMesh.SamplePosition(Enemy.transform.position + forceReceiver.Movement * Time.deltaTime, out NavMeshHit navHit, forceReceiver.Movement.magnitude * Time.deltaTime * 0.5f, agent.areaMask - (1 << NavMesh.GetAreaFromName("Walkable")));
+            if (isInNavMesh && !isMoveByForce)
+            {
+                agent.Move(forceReceiver.Movement * Time.deltaTime);
+            }
+            else
+            {
+                isMoveByForce = true;
+                rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                rigidbody.drag = 0.1f;
+                rigidbody.useGravity = true;
+                agent.enabled = false;
+                rigidbody.AddForce(forceReceiver.Movement);
+            }
+        }
     }
     private void SetMovable(bool isMovable)
     {
@@ -358,19 +399,54 @@ public class EnemyStateMachine : StateMachine, IDamageable
     }
     private void SetMonsterUIByDistance()
     {
-        if (!isMonsterUIOn && TargetDistance <= monsterUIOnDistance)
+        if (!isMonsterUIOn && TargetDistance <= monsterUIOnDistance && IsInitialized)
         {
             isMonsterUIOn = true;
-            // UI On
+            UI_Manager.Instance.CallEnemyHPBarUITurnOnEvent(Enemy);
         }
         else if (isMonsterUIOn && TargetDistance > monsterUIOnDistance)
         {
             isMonsterUIOn = false;
-            // UI Off
+            ReleaseMonsterUI?.Invoke();
+        }
+    }
+    private void PlayBossBattleBGM()
+    {
+        if (Enemy.Data.ID > 100)
+            return;
+        if (IsInBattle && !isBattleBGMOn)
+        {
+            isBattleBGMOn = true;
+            SoundManager.Instance.BGMStop();
+            if (Enemy.Data.ID == 5)
+                SoundManager.Instance.ChangeBGM("영광의 권세");
+            else
+            {
+                SoundManager.Instance.ChangeBGM("Boss");
+            }
+        }
+        else if (!IsInBattle && isBattleBGMOn)
+        {
+            isBattleBGMOn = false;
+            if (Enemy.Data.ID <= 100)
+                SoundManager.Instance.PlayPreviousBGM();
         }
     }
     private void PlaySFX(string sfxFileName, float pitch = 1f, float soundValue = 1f)
     {
         SoundManager.Instance.CallPlaySFX(ClipType.EnemySFX, sfxFileName, Enemy.transform, false, pitch ,soundValue);
+    }
+    private void SetActive(bool isActive)
+    {
+        if (isActive)
+        {
+            Enemy.Collider.enabled = true;
+            Enemy.Animator.enabled = true;
+        }
+        else
+        {
+            Enemy.Collider.enabled = false;
+            Enemy.Animator.enabled = false;
+        }
     }
 }

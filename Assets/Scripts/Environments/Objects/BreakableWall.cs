@@ -18,6 +18,8 @@ public class BreakableWall : BaseEnvironmentObject
     {
         if (!CanTakeDamageAndEffect(attacker))
             return;
+        SoundManager.Instance.CallPlaySFX(ClipType.EnemySFX, "OnHit", transform, false, pitchValue:1.05f, soundValue: 0.5f);
+
         HP -= damage;
         if (HP <= 0)
         {
