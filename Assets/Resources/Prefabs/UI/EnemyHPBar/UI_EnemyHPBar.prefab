@@ -105,7 +105,7 @@ RectTransform:
   m_GameObject: {fileID: 1615220050027024242}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005188721, y: 0.0051887217, z: 0.005188721}
+  m_LocalScale: {x: 0.012295992, y: 0.012295992, z: 0.012295992}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6511967445136478310}
@@ -117,7 +117,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.01, y: 0.0060033}
+  m_AnchoredPosition: {x: 0.02, y: 0.0023412}
   m_SizeDelta: {x: 3, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9119341931115929879
@@ -272,7 +272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8824915969488671352
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6370679020533916471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,8 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4487a3c1aee5441b70abb88aba348e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  Test: 0
 --- !u!1 &5659761360877412498
 GameObject:
   m_ObjectHideFlags: 0

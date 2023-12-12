@@ -71,13 +71,13 @@ public class UIBarScript : MonoBehaviour {
         MRT = (MaskGO.transform as RectTransform);
 
         //this is the location of the filler object when the HP is at 1
-        Mask0 = new Vector3(FRT.position.x,FRT.position.y,FRT.position.z);
+        Mask0 = new Vector3(FRT.localPosition.x,FRT.localPosition.y,FRT.localPosition.z);
 
 		//the location of the filler object when the HP is at 0 depends on the FillStyle
 		if (FillStyle == FillStyles.horizontal)
-			Mask1 = new Vector3(FRT.position.x + FRT.rect.width,FRT.position.y,FRT.position.z );
+			Mask1 = new Vector3(FRT.localPosition.x + FRT.rect.width,FRT.localPosition.y,FRT.localPosition.z );
 		else
-			Mask1 = new Vector3(FRT.position.x ,FRT.position.y + FRT.rect.height ,FRT.position.z );
+			Mask1 = new Vector3(FRT.localPosition.x ,FRT.localPosition.y + FRT.rect.height ,FRT.localPosition.z );
 	}
 
 	void Update () 
@@ -99,13 +99,13 @@ public class UIBarScript : MonoBehaviour {
 		//Update the Mask locations (needed if you are going to move stuff arround)
 		if (FillStyle == FillStyles.horizontal)
 		{
-			Mask1 = new Vector3(MRT.position.x,MRT.position.y,MRT.position.z);
-			Mask0 = new Vector3(MRT.position.x - MRT.rect.width + MaskOffset,MRT.position.y,MRT.position.z );
+			Mask1 = new Vector3(MRT.localPosition.x,MRT.localPosition.y,MRT.localPosition.z);
+			Mask0 = new Vector3(MRT.localPosition.x - MRT.rect.width + MaskOffset,MRT.localPosition.y,MRT.localPosition.z );
 		}
 		else
 		{
-			Mask1 = new Vector3(MRT.position.x,MRT.position.y,MRT.position.z);
-			Mask0 = new Vector3(MRT.position.x ,MRT.position.y - MRT.rect.height + MaskOffset,MRT.position.z );
+			Mask1 = new Vector3(MRT.localPosition.x,MRT.localPosition.y,MRT.localPosition.z);
+			Mask0 = new Vector3(MRT.localPosition.x ,MRT.localPosition.y - MRT.rect.height + MaskOffset,MRT.localPosition.z );
 		}
 
 		//move the Current Value to the NewValue
@@ -113,7 +113,7 @@ public class UIBarScript : MonoBehaviour {
 		Value = Mathf.Clamp(Value,0f,1f);//make sure the Value is between 0 and 1
 
 		//move the Filler position to display the Correct Percent
-		FRT.position = Vector3.Lerp (Mask0,Mask1,Value);
+		FRT.localPosition = Vector3.Lerp (Mask0,Mask1,Value);
 
         //set the color for the Fill Image, and the Text Objects
         FillerImage.color = HPColor.Evaluate(Value);

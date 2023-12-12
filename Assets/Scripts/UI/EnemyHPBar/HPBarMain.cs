@@ -4,18 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-[Serializable]
-public struct ChangeSize
-{
-    public float distance;
-    public float sizePercent;
-}
-
 public class HPBarMain : MonoBehaviour
 {
     [SerializeField] private int poolMaxCount = 30;
     [Range(0f, 30f)][SerializeField] private float extraHeight;
-    [SerializeField] private List<ChangeSize> changeSizeRate; 
     private UI_Manager uiManager;
     private GameObject hpBarUIPrefab;
     private IObjectPool<EnemyHPBar> objectPool_EnemyHPBar;
@@ -39,7 +31,7 @@ public class HPBarMain : MonoBehaviour
         if (enemy.CompareTag(TagsAndLayers.EnemyTag))
         {
             EnemyHPBar hpBar = objectPool_EnemyHPBar.Get();
-            hpBar.SetEnemyHPBar(enemy, extraHeight, changeSizeRate);
+            hpBar.SetEnemyHPBar(enemy, extraHeight);
         }
         else
         {

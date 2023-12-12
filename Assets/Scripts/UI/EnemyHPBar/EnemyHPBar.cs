@@ -10,12 +10,25 @@ public class EnemyHPBar : MonoBehaviour
     private Camera mainCamera;
     private Vector3 thisPos;
     private UIBarScript uiBarScript;
-    private List<ChangeSize> changeSizeRate;
+    private Transform uiBarScriptTransform;
+    private Transform mainCameraTransform;
 
+    public bool Test;
     private void Awake()
     {
         uiBarScript = GetComponentInChildren<UIBarScript>();
+        uiBarScriptTransform = uiBarScript.transform;
         mainCamera = Camera.main;
+        mainCameraTransform = mainCamera.transform;
+        thisPos = Vector3.zero;
+    }
+
+    private void Update()
+    {
+        if (Test)
+        {
+            uiBarScript.transform.rotation = Quaternion.LookRotation(uiBarScriptTransform.position - mainCameraTransform.position);
+        }
     }
 
     public void SetManagedPool(IObjectPool<EnemyHPBar> pool)
@@ -23,11 +36,10 @@ public class EnemyHPBar : MonoBehaviour
         managedPool = pool;
     }
 
-    public void SetEnemyHPBar(Enemy newEnemy, float extraHeight, List<ChangeSize> newchangeSizeRate)
+    public void SetEnemyHPBar(Enemy newEnemy, float extraHeight)
     {
         enemy = newEnemy;
         transform.parent = newEnemy.transform;
-        changeSizeRate = newchangeSizeRate;
         uiBarScript.UpdateValue(newEnemy.StateMachine.HP, newEnemy.Data.MaxHP);
         
         //newEnemy.changeHPEvent += uiBarScript.UpdateValue;
@@ -46,20 +58,8 @@ public class EnemyHPBar : MonoBehaviour
     {
         while (true)
         {
-            transform.rotation = Quaternion.LookRotation(mainCamera.transform.position);
-            UpdateSize();
+            uiBarScript.transform.rotation = Quaternion.LookRotation(uiBarScript.transform.position - mainCamera.transform.position);
             yield return null;
-        }
-    }
-
-    private void UpdateSize()
-    {
-        foreach (ChangeSize i in changeSizeRate)
-        {
-            if (i.distance >= enemy.StateMachine.TargetDistance)
-            {
-                uiBarScript.gameObject.transform.localScale = uiBarScript.gameObject.transform.localScale * i.sizePercent;
-            }
         }
     }
 
