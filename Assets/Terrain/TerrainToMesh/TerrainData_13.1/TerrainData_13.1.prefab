@@ -61,8 +61,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4817861692850922074}
   - {fileID: 7475142698280026744}
+  - {fileID: 4064206531600691842}
   m_Father: {fileID: 8531479486929219898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2854054991852086549
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7047146447656526146}
-  - component: {fileID: 1355541742863995385}
+  - component: {fileID: -5452553461312051719}
   m_Layer: 11
   m_Name: TerrainData_13.1
   m_TagString: Untagged
@@ -99,7 +99,7 @@ Transform:
   - {fileID: 8531479486929219898}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1355541742863995385
+--- !u!114 &-5452553461312051719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 1888829932, guid: 459b4a6900a65d846b2cca6dc357533a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabProjectPath: Assets/Texture/TerrainData_Important/Assets/Terrain/TerrainData_Important/TerrainData_13.1/TerrainData_13.1.prefab
+  prefabProjectPath: Assets/Terrain/TerrainToMesh/TerrainData_13.1/TerrainData_13.1.prefab
   vertexCountHorizontal: 50
   vertexCountVertical: 50
   chunkCountHorizontal: 1
@@ -259,7 +259,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 2316cc50f2a48ca4e90dd2a9089f57d5, type: 2}
---- !u!1001 &6847337797980844191
+--- !u!1001 &62308850299519077
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -382,13 +382,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c792988d9694c14a921aa8124b650f8, type: 3}
---- !u!4 &7475142698280026744 stripped
+--- !u!4 &4064206531600691842 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4088050061195801319, guid: 0c792988d9694c14a921aa8124b650f8,
     type: 3}
-  m_PrefabInstance: {fileID: 6847337797980844191}
+  m_PrefabInstance: {fileID: 62308850299519077}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8820247583051059389
+--- !u!1001 &6847337797980844191
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -511,9 +511,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c792988d9694c14a921aa8124b650f8, type: 3}
---- !u!4 &4817861692850922074 stripped
+--- !u!4 &7475142698280026744 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4088050061195801319, guid: 0c792988d9694c14a921aa8124b650f8,
     type: 3}
-  m_PrefabInstance: {fileID: 8820247583051059389}
+  m_PrefabInstance: {fileID: 6847337797980844191}
   m_PrefabAsset: {fileID: 0}

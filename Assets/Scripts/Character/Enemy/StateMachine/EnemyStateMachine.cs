@@ -257,7 +257,6 @@ public class EnemyStateMachine : StateMachine, IDamageable
         }
         PlaySFX("OnHit", 1.05f, 0.5f);
         HP -= damage;
-        Debug.Log("ÇÇ ºüÁü" + damage);
         HP = Mathf.Max(HP, 0);
         if (HP == 0 && !IsDead)
         {

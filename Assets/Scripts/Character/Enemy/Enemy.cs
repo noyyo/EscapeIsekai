@@ -95,7 +95,6 @@ public class Enemy : MonoBehaviour, IPositionable
 
     protected void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Ãæµ¹");
         OnCollisionOcurred?.Invoke(collision);
     }
 
