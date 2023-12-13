@@ -55,6 +55,8 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
+        if (stateMachine.CurrentState == stateMachine.RollState)
+            return;
         if (isSliding)
             return;
         stateMachine.ChangeState(stateMachine.JumpState);

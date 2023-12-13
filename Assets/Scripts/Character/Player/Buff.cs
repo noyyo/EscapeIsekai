@@ -17,7 +17,7 @@ public class Buff : MonoBehaviour
     public BuffTypes buffType;
 
 
-    public Buff(BuffTypes type, PlayerStateMachine stateMachine)   // »ý¼ºÀÚ
+    public Buff(BuffTypes type, PlayerStateMachine stateMachine)
     {
         buffType = type;
         playerStateMachine = stateMachine;
