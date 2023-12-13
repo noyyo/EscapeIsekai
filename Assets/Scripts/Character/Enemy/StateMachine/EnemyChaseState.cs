@@ -18,7 +18,6 @@ public class EnemyChaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("체이스 엔터 시간 : " + Time.time);
         isChangingState = false;
         stateMachine.IsInBattle = true;
         isLookTarget = false;
@@ -155,8 +154,8 @@ public class EnemyChaseState : EnemyBaseState
     {
         if (!stateMachine.IsMovable)
         {
-            stateMachine.ChangeState(stateMachine.ChaseState);
             isChangingState = true;
+            stateMachine.ChangeState(stateMachine.ChaseState);
             return;
         }
         if (!isMoving)
@@ -187,6 +186,7 @@ public class EnemyChaseState : EnemyBaseState
                 StopAnimation(enemy.AnimationData.RunParameterHash);
                 agent.ResetPath();
                 agent.velocity = Vector3.zero;
+                stateMachine.GetActionsInActive().Clear();
                 ChangeBattleStance(false);
                 isChangingState = true;
                 isMoving = false;

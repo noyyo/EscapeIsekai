@@ -89,12 +89,7 @@ public class MeleeAttack : AttackAction
         }
         else if (animEvent.stringParameter == "AOEIndicatorOff")
         {
-            if (indicator == null)
-            {
-                Debug.LogError("MeleeAttack의 Indicator가 없습니다.");
-            }
-            AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
-            indicator = null;
+            ReleaseIndicator();
         }
     }
     private void SubscribeWeaponEvent()

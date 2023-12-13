@@ -117,7 +117,7 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        if (!shieldActive && currentState != RollState)
+        if (!shieldActive && CurrentState != RollState)
         {
             Player.Playerconditions.health.Subtract(damage - Player.Playerconditions.Guard);
         }
@@ -173,10 +173,10 @@ public class PlayerStateMachine : StateMachine, IDamageable
     }
     private void OnWeaponColliderEnter(Collider other)
     {
-        if (currentState != ComboAttackState && currentState != SkillState)
+        if (CurrentState != ComboAttackState && CurrentState != SkillState)
             return;
 
-        if (currentState == ComboAttackState)
+        if (CurrentState == ComboAttackState)
             ComboAttackState.ApplyAttack(other);
         else
             SkillState.ApplyAttack(other);

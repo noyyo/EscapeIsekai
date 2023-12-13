@@ -128,7 +128,7 @@ public class PlayerGroundState : PlayerBaseState
             return;
         if (stateMachine.Player.Playerconditions.rollCoolTime.curValue < groundData.RollCoolTime)
             return;
-        stateMachine.RollState.beforeState = stateMachine.currentState;
+        stateMachine.RollState.beforeState = stateMachine.CurrentState;
         stateMachine.ChangeState(stateMachine.RollState);
     }
 

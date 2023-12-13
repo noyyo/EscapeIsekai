@@ -4,31 +4,34 @@ using UnityEngine;
 [Serializable]
 public abstract class StateMachine
 {
-    public IState currentState { get; protected set; }
+    public IState CurrentState { get; protected set; }
     [SerializeField][ReadOnly] private string currentStateName;
+    public bool IsInStateTransition;
     public void ChangeState(IState newState)
     {
-        currentState?.Exit();
+        IsInStateTransition = true;
+        CurrentState?.Exit();
 
-        currentState = newState;
+        CurrentState = newState;
 
-        currentState?.Enter();
+        CurrentState?.Enter();
 
-        currentStateName = currentState.GetType().Name;
+        currentStateName = CurrentState.GetType().Name;
+        IsInStateTransition = false;
     }
 
     public virtual void HandleInput()
     {
-        currentState?.HandleInput();
+        CurrentState?.HandleInput();
     }
 
     public virtual void Update()
     {
-        currentState?.Update();
+        CurrentState?.Update();
     }
 
     public virtual void PhysicsUpdate()
     {
-        currentState?.PhysicsUpdate();
+        CurrentState?.PhysicsUpdate();
     }
 }
