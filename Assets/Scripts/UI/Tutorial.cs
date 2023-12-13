@@ -19,9 +19,9 @@ public class Tutorial : MonoBehaviour
         {
             content.anchoredPosition = new Vector2(content.anchoredPosition.x, 0);
         }
-        if (offsetY > 500)
+        if (offsetY > 700)
         {
-            content.anchoredPosition = new Vector2(content.anchoredPosition.x, 500);
+            content.anchoredPosition = new Vector2(content.anchoredPosition.x, 700);
             arrow.gameObject.SetActive(false);
         }
     }

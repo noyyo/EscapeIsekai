@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ServeQuestManager : MonoBehaviour
 {
     [SerializeField]
     private ServeQuestDB ServeQuestDB;
     private bool isOption;
+    private bool iskey;
     public Dictionary<int, ServeQuestData> questDBDic;
     public static ServeQuestManager Instance;
     public Dictionary<int, int> playerQuest; //0 미진행 1 진행중 2 완료
@@ -39,6 +41,7 @@ public class ServeQuestManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.Player.GetComponent<Inventory>().AddItem += QuestItemCheck;
+        GameManager.Instance.Player.GetComponent<Player>().Input.PlayerActions.QuestPanel.started += OnOffUI;
         updateQuest += UpdateQuest;
     }
     public void EnableInOption()
@@ -52,6 +55,19 @@ public class ServeQuestManager : MonoBehaviour
         {
             panel.SetActive(true); 
             isOption = true;
+        }
+    }
+    public void OnOffUI(InputAction.CallbackContext context)
+    {
+        if (iskey)
+        {
+            panel.SetActive(false);
+            iskey = false;
+        }
+        else
+        {
+            panel.SetActive(true);
+            iskey = true;
         }
     }
     public void UpdateQuest(int key)
