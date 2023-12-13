@@ -1,25 +1,5 @@
 using System;
 
-//나중에 수정해야될 방향
-//public enum ItemEquipmentType
-//{
-//    //방어구는 0 ~ 9, 무기 10 ~ 19, 장신구 20 ~ 29
-//    HelmetArmor,
-//    TopArmor,
-//    BottomArmor,
-//    ShoulderArmor,
-//    GlovesArmor,
-//    ShoesArmor,
-//    OneHandedWeapon = 10,
-//    TwoHandedWeapon = 11,
-//    SecondaryWeapon = 20,
-//    Cape = 30,
-//    Belt = 31,
-//    Ring = 32,
-//    Pendant = 33
-//}
-
-//현재의 아이템이 저장되는 타입분류
 public enum ItemEquipmentType
 {
     HelmetArmor,        //0

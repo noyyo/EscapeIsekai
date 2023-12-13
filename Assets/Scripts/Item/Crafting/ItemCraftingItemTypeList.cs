@@ -6,36 +6,29 @@ using UnityEngine.UI;
 
 public class ItemCraftingItemTypeList : MonoBehaviour
 {
-    public TMP_Text listName;
     [SerializeField] private GameObject arrow;
-    [SerializeField] private Button button;
     [SerializeField] private GameObject craftingItemSlotSpawn;
-    private bool _isDisplay;
-    private List<ItemCraftingSlot> slotList = new List<ItemCraftingSlot>();
+    [SerializeField] private Button button;
+    private UI_Manager uiManager;
     private ItemCraftingManager craftingManager;
     private GameObject prefabs;
-    private int slotListLength = -1;
     private ContentSizeFitter contentSizeFitter;
-    private UI_Manager ui_Manager;
-
+    private List<ItemCraftingSlot> slotList = new List<ItemCraftingSlot>();
+    private int slotListLength = -1;
+    private bool isDisplay;
     public event Action slotActiveEvent;
 
     private void Awake()
     {
-        ui_Manager = UI_Manager.Instance;
-        if (button == null)
-        {
-            button = GetComponentInChildren<Button>();
-        }
-        _isDisplay = false;
+        uiManager = UI_Manager.Instance;
         craftingManager = ItemCraftingManager.Instance;
-        prefabs = craftingManager.CraftingSlotPrefab;
-
-        if (craftingItemSlotSpawn == null)
-        {
-            craftingItemSlotSpawn = this.gameObject;
-        }
+        if (button == null)
+            button = GetComponentInChildren<Button>();
         contentSizeFitter = GetComponent<ContentSizeFitter>();
+        prefabs = craftingManager.CraftingSlotPrefab;
+        if (craftingItemSlotSpawn == null)
+            craftingItemSlotSpawn = gameObject;
+        isDisplay = false;      
     }
 
     private void Start()
@@ -45,13 +38,13 @@ public class ItemCraftingItemTypeList : MonoBehaviour
 
     private void OnClickButton()
     {
-        _isDisplay = !_isDisplay;
-        if (_isDisplay)
+        isDisplay = !isDisplay;
+        if (isDisplay)
             arrow.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
         else
             arrow.transform.rotation = Quaternion.identity;
         slotActiveEvent?.Invoke();
-        ui_Manager.PlayClickBtnSound();
+        uiManager.PlayClickBtnSound();
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)contentSizeFitter.transform);
     }
 

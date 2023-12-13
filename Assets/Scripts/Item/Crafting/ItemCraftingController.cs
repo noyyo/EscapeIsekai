@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class ItemCraftingController : MonoBehaviour
 {
-    private int craftingItemListCount = 4;
+    private UI_Manager ui_Manager;
+    private ItemDB itemDB;
     private GameObject craftingItemTypeListPrefab;
     private Transform craftingItemListSpawn;
-    private ItemDB itemDB;
+    private List<ItemCraftingItemTypeList> itemTypeLists;
     private Dictionary<int, int> itemEquipmentID;
     private Dictionary<int, int> itemConsumableID;
     private Dictionary<int, int> itemMaterialID;
     private Dictionary<int, int> itemFoodID;
-    private List<ItemCraftingItemTypeList> itemTypeLists;
-    private UI_Manager ui_Manager;
+    private int craftingItemListCount = 4;
 
     private void Awake()
     {
@@ -38,7 +38,6 @@ public class ItemCraftingController : MonoBehaviour
             GameObject obj = Instantiate(craftingItemTypeListPrefab);
             obj.transform.SetParent(craftingItemListSpawn, false);
             itemTypeLists.Add(obj.GetComponent<ItemCraftingItemTypeList>());
-            itemTypeLists[i].listName.text = str[i];
         }
     }
 

@@ -5,13 +5,13 @@ using UnityEngine.Pool;
 
 public class EnemyHPBar : MonoBehaviour
 {
-    private IObjectPool<EnemyHPBar> managedPool;
     private Enemy enemy;
     private Camera mainCamera;
-    private Vector3 thisPos;
     private UIBarScript uiBarScript;
     private Transform uiBarScriptTransform;
     private Transform mainCameraTransform;
+    private Vector3 thisPos;
+    private IObjectPool<EnemyHPBar> managedPool;
 
     public bool Test;
     private void Awake()
@@ -21,14 +21,6 @@ public class EnemyHPBar : MonoBehaviour
         mainCamera = Camera.main;
         mainCameraTransform = mainCamera.transform;
         thisPos = Vector3.zero;
-    }
-
-    private void Update()
-    {
-        if (Test)
-        {
-            uiBarScript.transform.rotation = Quaternion.LookRotation(uiBarScriptTransform.position - mainCameraTransform.position);
-        }
     }
 
     public void SetManagedPool(IObjectPool<EnemyHPBar> pool)
