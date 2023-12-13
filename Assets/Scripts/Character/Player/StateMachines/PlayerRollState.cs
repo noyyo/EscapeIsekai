@@ -64,7 +64,7 @@ public class PlayerRollState : PlayerGroundState
         else
         {
             normalizedTime = GetNormalizedTime("Roll");
-            controller.Move((direction * rollCurve.Evaluate(normalizedTime) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
+            controller.Move((direction * rollCurve.Evaluate(normalizedTime) + stateMachine.Player.ForceReceiver.Movement) * stateMachine.MovementSpeedModifier * Time.deltaTime);
         }
     }
 }
