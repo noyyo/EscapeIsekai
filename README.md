@@ -70,75 +70,39 @@
 
 # 3️. 주요 기능 구현 방법
 ## Player
-+ 플레이어는 FSM을 사용하여 구현하였고 물리적 계산은 Character Contorller & CapsuleCollider & RigidBody 사용.
++ 플레이어는 FSM을 사용하여 구현하였고 물리적 계산은 Character Contorller & CapsuleCollider & RigidBody 사용
++ Callback 메서드를 사용하여 키 입력을 받아 해당 상태로 변환되도록 구현
 ```
-public class Player : MonoBehaviour, IPositionable
-{
-    [field: Header("References")]
-    [field: SerializeField] public PlayerSO Data { get; private set; }
-    [field: Header("Animations")]
-    [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
-    public Rigidbody Rigidbody { get; private set; }
-    public CapsuleCollider Collider { get; private set; }
-    public Animator Animator { get; private set; }
-    public PlayerInputSystem Input { get; private set; }
-    public CharacterController Controller { get; private set; }
-    public ForceReceiver ForceReceiver { get; private set; }
-    [field: SerializeField] public Weapon Weapon { get; private set; }
-    public Playerconditions Playerconditions { get; private set; }
-    public Buff Buff { get; private set; }
-    public PlayerStateMachine StateMachine;
-    [field: SerializeField] public AnimationEventReceiver AnimationEventReceiver { get; private set; }
-    [HideInInspector] public PlayerUI playerUI;
-    public GameObject[] grenades;
-    [HideInInspector] public int hasGrenades;
-    public GameObject grenadeObj;
-    public Transform throwPoint;
-    public Transform teleportPosition;
-}
+protected virtual void AddInputActionsCallbacks()
+    {
+        PlayerInputSystem input = stateMachine.Player.Input;
+        input.PlayerActions.Movement.canceled += OnMoveCanceled;
+        input.PlayerActions.Run.started += OnRunStarted;
+        input.PlayerActions.Jump.started += OnJumpStarted;
+        input.PlayerActions.Attack.performed += OnAttackPerformed;
+        input.PlayerActions.Attack.canceled += OnAttackCanceled;
+        input.PlayerActions.SuperJump.started += OnSuperJumpStarted;
+        input.PlayerActions.Throw.started += OnThrowStarted;
+        input.PlayerActions.NoStamina.started += OnNoStaminaStarted;
+        input.PlayerActions.Shield.started += OnShieldStarted;
+    }
+
+    protected virtual void RemoveInputActionsCallbacks()
+    {
+        PlayerInputSystem input = stateMachine.Player.Input;
+        input.PlayerActions.Movement.canceled -= OnMoveCanceled;
+        input.PlayerActions.Run.started -= OnRunStarted;
+        input.PlayerActions.Jump.started -= OnJumpStarted;
+        input.PlayerActions.Attack.performed -= OnAttackPerformed;
+        input.PlayerActions.Attack.canceled -= OnAttackCanceled;
+        input.PlayerActions.SuperJump.started -= OnSuperJumpStarted;
+        input.PlayerActions.Throw.started -= OnThrowStarted;
+        input.PlayerActions.NoStamina.started -= OnNoStaminaStarted;
+        input.PlayerActions.Shield.started -= OnShieldStarted;
+    }
 ```
 
-+ 플레이어의 StateMachine은 추상클래스인 StateMachine과 인터페이스 IDagmageable을 참조한다
-```
-public class PlayerStateMachine : StateMachine, IDamageable
-{
-    public Player Player { get; }
-    // States
-    public PlayerIdleState IdleState { get; }
-    public PlayerWalkState WalkState { get; }
-    public PlayerRunState RunState { get; }
-    public PlayerJumpState JumpState { get; }
-    public PlayerRollState RollState { get; }
-    public PlayerFallState FallState { get; }
-    public PlayerNothingState NothingState { get; }
-    public PlayerComboAttackState ComboAttackState { get; }
-    public PlayerSkillState SkillState { get; }
-    public PlayerPowerUpState PowerUpState { get; }
-    public PlayerThrowState ThrowState { get; }
-    public PlayerNoStamina NoStamina { get; }
-    public PlayerShieldState ShieldState { get; }
-    public PlayerDeadState DeadState { get; }
-
-    public Vector2 MovementInput { get; set; }
-    public float MovementSpeed { get; set; }
-    public float RotationDamping { get; private set; }
-    public float MovementSpeedModifier { get; set; } = 1f;
-    public float AttackPowerModifier { get; set; } = 1f;
-    public float JumpForce { get; set; }
-    public bool IsAttacking { get; set; }
-    public int ComboIndex { get; set; }
-    [HideInInspector] public List<Buff> buffs = new List<Buff>();
-    private float checkDelay = 0.1f;
-    private float lastCheckTime;
-    private bool shieldActive = false;
-    public event Action OnDie;
-    public Transform MainCameraTransform { get; set; }
-    private AffectedAttackEffectInfo affectedEffectInfo = new AffectedAttackEffectInfo();
-    public AffectedAttackEffectInfo AffectedEffectInfo { get => affectedEffectInfo; }
-}
-```
-
-+ 플레이어의 상태에 필요한 데이터 값은 ScriptableObject로 구현,
++ 플레이어의 상태에 필요한 데이터 값은 ScriptableObject로 구현
 ```
 public class PlayerSO : ScriptableObject
 {
@@ -148,51 +112,160 @@ public class PlayerSO : ScriptableObject
 }
 ```
 
-+ 플레이어의 UI와 연결된 컨디션들은 일반적인 Class로 구현하여 값이 저장되지 않도록 함.
-```
-public class Playerconditions : MonoBehaviour
-{
-    public Condition health;
-    public Condition hunger;
-    public Condition rollCoolTime;
-    public Condition stamina;
-    public Condition skill;
-    public Condition powerUp;
-    public Condition superJump;
-    public Condition throwskill;
-    public Condition noStamina;
-    public Condition shield;
-    [ReadOnly] public float noHungerHealthDecay;
++ 플레이어의 UI와 연결된 컨디션들은 일반적인 Class로 구현하여 값이 저장되지 않도록 함
 
-    private InventoryManager inventoryManager;
-
-    [field: SerializeField] public int Power { get; set; } = 5;
-    [field: SerializeField] public int Guard { get; private set; } = 0;
-}
-```
 ---
 
 
 ## Monster AI
++ 상황에 따른 상태 전환
+플레이어와의 거리에 따라 거리가 멀어지면 연산 자원을 소비하지 않도록 동작을 멈추는 비활성화 상태로 전환
+```
+private void CheckTargetDistance()
+    {
+        if (Time.time - lastCheckTime > activationCheckDelay)
+        {
+            CalculateTargetDistance();
+            if (TargetDistance <= activationDistance && !isActive)
+            {
+                isActive = true;
+                SetActive(true);
+            }
+            else if (TargetDistance > activationDistance && isActive)
+            {
+                isActive = false;
+                SetActive(false);
+            }
+            lastCheckTime = Time.time;
+        }
+        else
+        {
+            if (isActive)
+                CalculateTargetDistance();
+        }
+    }
+```
+
++ 편집, 재사용이 용이한 공격패턴
+ScriptableObject를 사용해 에디터 상에서 편집 용이, 적의 종류에 상관없이 같은 공격 패턴 사용 가능
+```
+public override void Update()
+    {
+        base.Update();
+        if (agent.remainingDistance < 0.1f)
+            stateMachine.ChangeState(stateMachine.IdleState);
+    }
+    private Vector3 GetWanderLocation()
+    {
+        Vector3 currentPosition = agent.transform.position;
+        NavMeshHit hit = new NavMeshHit();
+        float destinationDistance = 0f;
+        int i = 0;
+        while (destinationDistance < enemyData.MinWanderDistance)
+        {
+            NavMesh.SamplePosition(currentPosition + (OnUnitCircle() * Random.Range(enemyData.MinWanderDistance, enemyData.MaxWanderDistance)), out hit, enemyData.MaxWanderDistance, agent.areaMask - NavMesh.GetAreaFromName("Walkable"));
+            destinationDistance = Vector3.Distance(currentPosition, hit.position);
+            // 과도한 샘플링 방지
+            i++;
+            if (i >= 20)
+                break;
+        }
+        return hit.position;
+    }
+```
+
++ 애니메이션과 일치하는 공격 이펙트
+공격 판정 및 이펙트가 애니메이션의 지정한 시점에 실행되도록 커스터마이징 가능
+
++ 공격 범위에 따른 AOE효과
+공격 범위에 따라 사각, 부채꼴, 원형으로 바닥에 AOE 효과를 표시해 범위의 가시성 적용
 
 ---
 
 ## Inventory
++ MVC패턴과 event를 사용하여 Manager에서 Data저장 및 Controller의 처리 기능과 뷰 기능 호출 가능
+  (Inventory Manager는 Singleton 및 DontDestroyOnLoad로 구현되어 있어 데이터 보존과 접근성 상향)
 
++ Inventory는 ScriptableObject의 값을 수정할 확장성과 데이터 양에 따른 속도 저하 고려하여 Dictionary로 구현
+
+
++ 아이템 추가 메서드에 Overloading을 사용하여 다양한 방식으로 아이템을 추가 및 반환 가능
+```
+public bool TryAddItem(int id, int count)
+    {
+        bool isTrue;
+        if (count > 0)
+            isTrue = IsCheckSpace(id, count);
+        else
+            isTrue = IsCheckItem(id, count);
+
+        if (!isTrue)
+            return isTrue;
+
+        if (itemDB.GetItemData(id, out ItemData newItem))
+        {
+            if (id == 5000)
+                isTrue = AddList(itemDics[3], count, 3, in newItem);
+            else
+            {
+                int newItemType = (id / 100000) % 10;
+                if (count >= 0)
+                    isTrue = AddList(itemDics[newItemType], count, newItemType, in newItem);
+                else
+                    isTrue = SubList(itemDics[newItemType], count, newItemType, in newItem);
+            }
+        }
+        if (isTrue)
+        {
+            AddItem?.Invoke(id, count);
+        }
+        return isTrue;
+    }
+```
+  
 ---
 
-## NPC
+## NPC & Quest
++ NPC의 데이터를 가지고 있는 클래스를 구현해 NPC를 ID값으로만 관리
+
++ 퀘스트 데이터들은 액셀 데이터를 Scriptable Object로 변환 후 QuestManager 내에 해당 퀘스트번호를 가진 딕셔너리 자료형으로 구현
+  (특정한 퀘스트가 존재할 때 무조건 하나만 존재해야 하기 때문에 중복되지 않는 Key&Value 값으로 구성
+```
+private void InitDB()
+    {
+        for (int i = 0; i < ServeQuestDB.Sheet1.Count; i++)
+        {
+            questDBDic.Add(ServeQuestDB.Sheet1[i].id, ServeQuestDB.Sheet1[i]);
+            playerQuest.Add(ServeQuestDB.Sheet1[i].id, 0);
+            if (ServeQuestDB.Sheet1[i].QuestType == 2)
+            {
+                if (ServeQuestDB.Sheet1[i].QuestMonster > 0)
+                {
+                    playerQuestKillCount.Add(ServeQuestDB.Sheet1[i].id, 0);
+                }
+                if (ServeQuestDB.Sheet1[i].QuestMonster2 > 0)
+                {
+                    playerQuestKillCount2.Add(ServeQuestDB.Sheet1[i].id, 0);
+                }
+            }
+        }
+    }
+```
 
 ---
 
 ## UI
++ UI를 조작하는 중에는 기존의 마우스 입력을 받던 카메라와 플레이어의 동작 정지
 
+  
++ 모든 UI가 UIManager에서 생성 및 참조, 관리가 되도록 구현
+
+  
++ Observer 패턴
+플레이어가 게임을 진행중에 변경된 값이 UI에 전달 및 UI가 업데이트 되도록 구현
+UI는 값만 입력받거나 확인하여 작동하기에, 느슨한 결합으로 객체간 의존성을 낮춤
 ---
 
-## Environment Interaction
-
-
----
 
 # 4. 프로젝트 결과 및 성과
 + 자유도가 높지만 확실한 목표 → 비선형적 진행구조 + 이세계 탈출이라는 최종 목표 부여
