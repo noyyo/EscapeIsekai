@@ -32,12 +32,13 @@ public class ItemCraftingController : MonoBehaviour
 
     private void CreateItemList()
     {
-        string[] str = { "장비", "소모품", "재료", "요리" };
+        string[] str = { "장비", "소모품", "재료", "기타" };
         for (int i = 0; i < craftingItemListCount; i++)
         {
             GameObject obj = Instantiate(craftingItemTypeListPrefab);
             obj.transform.SetParent(craftingItemListSpawn, false);
             itemTypeLists.Add(obj.GetComponent<ItemCraftingItemTypeList>());
+            itemTypeLists[i].listName.text = str[i];
         }
     }
 

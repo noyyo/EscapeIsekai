@@ -148,6 +148,7 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 700) //차원문
                 {
+                    SoundManager.Instance.BGMStop();
                     SceneManager.LoadScene("EndScene");
                 }
                 if (id == 800) //유물
