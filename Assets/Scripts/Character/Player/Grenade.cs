@@ -16,8 +16,8 @@ public class Grenade : MonoBehaviour
     }
     private void Throw()
     {
-        float throwForce = 10f;
-        float throwHeight = 5f;
+        float throwForce = 15f;
+        float throwHeight = 15f;
         rigidbody.AddForce(Vector3.up * throwHeight + transform.forward * throwForce * rigidbody.mass, ForceMode.Impulse);
     }
     private void OnTriggerEnter(Collider other)
