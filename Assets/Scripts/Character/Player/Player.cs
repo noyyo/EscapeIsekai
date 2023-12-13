@@ -79,7 +79,6 @@ public class Player : MonoBehaviour, IPositionable
 
     void OnDie()
     {
-        Animator.SetBool("Die", true);
         enabled = false;
     }
 

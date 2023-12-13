@@ -272,8 +272,7 @@ public class TradingController : MonoBehaviour
             tradingManager.UIConfirm.confirmTextUpdate(buyText);
         }
         tradingManager.UIConfirm.Activate();
-        tradingManager.UIConfirm.cancelBtnAction += () => tradingManager.IsSelectItemCount = false;
-        tradingManager.UIConfirm.headCancelBtnAction += () => tradingManager.IsSelectItemCount = false;  
+
     }
 
     private void GetItemCount(string str)
@@ -289,5 +288,8 @@ public class TradingController : MonoBehaviour
         tradingManager.UIConfirm.cancelTextUpdate("Ãë¼Ò");
         tradingManager.UIConfirm.InputFieldGOTurnOn();
         tradingManager.UIConfirm.SetUseInputField(GetItemCount);
+        tradingManager.UIConfirm.cancelBtnAction += () => tradingManager.IsSelectItemCount = false;
+        tradingManager.UIConfirm.confirmBtnAction += () => tradingManager.IsSelectItemCount = false;
+        tradingManager.UIConfirm.headCancelBtnAction += () => tradingManager.IsSelectItemCount = false;
     }
 }
