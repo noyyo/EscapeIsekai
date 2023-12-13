@@ -10,13 +10,12 @@ public class PlayerThrowState : PlayerGroundState
 
     public override void Enter()
     {
-        Debug.Log("´øÁö±â");
         base.Enter();
-        isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.ThrowParameterHash);
         soundManager.CallPlaySFX(ClipType.PlayerSFX, "Throw", stateMachine.Player.transform, false, 1f, 0.1f);
         stateMachine.Player.CreateGrenadeWithDelay(0.8f);
         stateMachine.Player.Playerconditions.UseThrow(groundData.ThrowCost);
+        isMovable = false;
     }
 
     public override void Exit()
@@ -30,7 +29,6 @@ public class PlayerThrowState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-
         normalizedTime = GetNormalizedTime("Throw");
         if (normalizedTime >= 1f)
         {
@@ -38,6 +36,4 @@ public class PlayerThrowState : PlayerGroundState
             return;
         }
     }
-
-
 }

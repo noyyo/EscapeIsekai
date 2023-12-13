@@ -3,7 +3,7 @@ using UnityEngine;
 public class Grenade : MonoBehaviour
 {
     private new Rigidbody rigidbody;
-    public float ExplosionRadius = 5f; // Æø¹ß ¹Ý°æ
+    public float ExplosionRadius = 5f;
     public float StunTime = 3f;
 
     private void Awake()
@@ -19,7 +19,6 @@ public class Grenade : MonoBehaviour
         float throwForce = 10f;
         float throwHeight = 5f;
         rigidbody.AddForce(Vector3.up * throwHeight + transform.forward * throwForce * rigidbody.mass, ForceMode.Impulse);
-
     }
     private void OnTriggerEnter(Collider other)
     {

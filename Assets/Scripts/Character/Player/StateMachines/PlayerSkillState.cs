@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerSkillState : PlayerGroundState
 {
     private float normalizedTime;
-
     protected HashSet<GameObject> alreadyCollided = new HashSet<GameObject>();
 
     public PlayerSkillState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
@@ -14,8 +13,8 @@ public class PlayerSkillState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        isMovable = false;
         StartAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
+        isMovable = false;
         stateMachine.Player.Playerconditions.UseSkill(groundData.SkillCost);
         soundManager.CallPlaySFX(ClipType.PlayerSFX, "Skill", stateMachine.Player.transform, false, 1f, 0.1f);
     }
@@ -23,8 +22,8 @@ public class PlayerSkillState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
-        alreadyCollided.Clear();
         StopAnimation(stateMachine.Player.AnimationData.SkillParameterHash);
+        alreadyCollided.Clear();
         soundManager.CallStopLoopSFX(ClipType.PlayerSFX, "Skill");
     }
 

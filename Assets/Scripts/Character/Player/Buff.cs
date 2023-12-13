@@ -36,11 +36,9 @@ public class Buff : MonoBehaviour
                 playerStateMachine.MovementSpeedModifier = 2.0f;
                 break;
             case BuffTypes.nostamina:
-                Debug.Log("스태미나 버프!");
                 playerconditions.ActiveNoStaminaBuff();
                 break;
             case BuffTypes.shield:
-                Debug.Log("보호막 활성화");
                 playerStateMachine.ActivateShield();
                 break;
             default:
@@ -56,11 +54,9 @@ public class Buff : MonoBehaviour
                 playerStateMachine.MovementSpeedModifier = 1.0f;
                 break;
             case BuffTypes.nostamina:
-                Debug.Log("스태미너 버프 빠짐");
                 playerconditions.DeActivateNoStaminaBuff();
                 break;
             case BuffTypes.shield:
-                Debug.Log("보호막 사라짐");
                 playerStateMachine.DeActivateShield();
                 break;
             default:

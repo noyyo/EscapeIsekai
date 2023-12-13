@@ -9,10 +9,9 @@ public class PlayerWalkState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.MovementSpeed = groundData.WalkSpeed;
         StartAnimation(stateMachine.Player.AnimationData.WalkParameterHash);
         soundManager.CallPlaySFX(ClipType.PlayerSFX, "NewWalk", stateMachine.Player.transform, true, 1f, 0.04f);
-
+        stateMachine.MovementSpeed = groundData.WalkSpeed;
     }
 
     public override void Exit()

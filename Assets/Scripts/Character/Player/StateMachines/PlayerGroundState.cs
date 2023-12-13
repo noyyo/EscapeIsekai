@@ -12,7 +12,6 @@ public class PlayerGroundState : PlayerBaseState
 
     public override void Enter()
     {
-        // ground를 상속받는 부분은 ground의 bool 값이 켜져있는채로 시작을 함.
         base.Enter();
         StartAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
     }
@@ -41,16 +40,6 @@ public class PlayerGroundState : PlayerBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        // Player가 땅에 있지않고 떨어지고 있는 상태라면 FallState를 적용
-        // 중력을 한번에 받는 양이 더 크다(떨어지는 상태를 의미)
-        /*
-        if(!stateMachine.Player.Controller.isGrounded 
-            && stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
-        {
-            stateMachine.ChangeState(stateMachine.FallState);
-            return;
-        }
-        */
     }
     protected void OnIdle()
     {
