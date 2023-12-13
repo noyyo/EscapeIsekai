@@ -272,11 +272,12 @@ public class TradingController : MonoBehaviour
             tradingManager.UIConfirm.confirmTextUpdate(buyText);
         }
         tradingManager.UIConfirm.Activate();
+        tradingManager.UIConfirm.cancelBtnAction += () => tradingManager.IsSelectItemCount = false;
+        tradingManager.UIConfirm.headCancelBtnAction += () => tradingManager.IsSelectItemCount = false;  
     }
 
     private void GetItemCount(string str)
     {
-        tradingManager.IsSelectItemCount = false;
         int.TryParse(str, out itemCount);
         if (itemCount == 0)
             return;

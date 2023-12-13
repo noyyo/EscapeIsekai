@@ -511,7 +511,9 @@ public class Inventory : MonoBehaviour
         {
             player.Playerconditions.Eat((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHunger);
             player.Playerconditions.Heal((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHP);
-            TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
+            if (itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].Count == 1)
+                inventoryManager.CallOnUseButtonTurnOff();
+            Add(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
         }
     }
 
