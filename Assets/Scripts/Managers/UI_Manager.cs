@@ -86,7 +86,16 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             UI_gathering = gathering.GetComponent<UI_Gathering>();
             gathering.SetActive(false);
         }
-
+        if (bossHPBarUI == null)
+        {
+            bossHPBarUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_BossHPBar"), cavas.transform);
+            bossHPBarUI.SetActive(false);
+        }
+        if (MonsterHPBarMain == null)
+        {
+            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"), cavas.transform);
+        }
+        
         if (inventoryUI == null)
         {
             inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), cavas.transform);
@@ -127,21 +136,12 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             tutorialUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TutorialUI"), cavas.transform);
             tutorialUI.SetActive(false);
         }
-
-        if(bossHPBarUI == null)
-        {
-            bossHPBarUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_BossHPBar"), cavas.transform);
-            bossHPBarUI.SetActive(false);
-        }
-        if (MonsterHPBarMain == null)
-        {
-            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"), cavas.transform);
-        }
-        if(confirmationWindow == null)
+        if (confirmationWindow == null)
         {
             confirmationWindow = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmationWindow"), cavas.transform);
             confirmationWindow.SetActive(false);
         }
+
     }
 
     private void SetIsNotUIInputPossible()
