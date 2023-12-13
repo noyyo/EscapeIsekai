@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -25,6 +26,7 @@ public class ProjectileRain : AttackAction
     private ObjectPool<Projectile> projectilePool;
     // AOE를 표시할 때 Y축 방향으로 추가할 범위입니다. effectRadius와 비교해서 큰 값을 적용합니다.
     private static readonly float additionalAOEYOffset = 1.5f;
+    private HashSet<Projectile> hitProjectiles = new HashSet<Projectile>(20);
 
     public ProjectileRain()
     {
@@ -51,6 +53,7 @@ public class ProjectileRain : AttackAction
     {
         base.OnEnd();
         enemy.AnimEventReceiver.AnimEventCalled -= AnimationEventDecision;
+        hitProjectiles.Clear();
     }
     public override void OnUpdate()
     {
@@ -106,12 +109,15 @@ public class ProjectileRain : AttackAction
         if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.gameObject.layer == TagsAndLayers.PlayerLayerIndex)
         {
             Collider[] colliders = Physics.OverlapSphere(projectile.transform.position, effectRadius);
-
             foreach (Collider collider in colliders)
             {
-                if (collider.gameObject == enemy.gameObject)
-                    continue;
-                ApplyAttack(collider.gameObject, isPossibleMultihit: true);
+                if (!hitProjectiles.Contains(projectile))
+                {
+                    hitProjectiles.Add(projectile);
+                    if (collider.gameObject == enemy.gameObject)
+                        continue;
+                    ApplyAttack(collider.gameObject, isPossibleMultihit: true);
+                }
             }
             projectilePool.Release(projectile);
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 [CreateAssetMenu(fileName = "LaunchProjectile", menuName = "Characters/Enemy/AttackAction/LaunchProjectile")]
@@ -29,6 +30,8 @@ public class LaunchProjectile : AttackAction
     private ObjectPool<Projectile> projectilePool;
     private List<Projectile> settedProjectiles;
     private Transform enemyTransform;
+    private HashSet<Projectile> hitProjectiles = new HashSet<Projectile>(20);
+
     public LaunchProjectile()
     {
         ActionType = ActionTypes.LaunchProjectile;
@@ -76,6 +79,7 @@ public class LaunchProjectile : AttackAction
     {
         base.OnEnd();
         StateMachine.Enemy.AnimEventReceiver.AnimEventCalled -= EventDecision;
+        hitProjectiles.Clear();
     }
     public override void OnUpdate()
     {
@@ -106,9 +110,12 @@ public class LaunchProjectile : AttackAction
         }
         else if (other.gameObject.layer == TagsAndLayers.PlayerLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag))
         {
-            GameObject target = other.gameObject;
-            if (target != StateMachine.Enemy)
-                ApplyAttack(target, true);
+            if (!hitProjectiles.Contains(projectile))
+            {
+                hitProjectiles.Add(projectile);
+                if (other.gameObject == other.gameObject)
+                ApplyAttack(other.gameObject, isPossibleMultihit: true);
+            }
             projectilePool.Release(projectile);
         }
     }
