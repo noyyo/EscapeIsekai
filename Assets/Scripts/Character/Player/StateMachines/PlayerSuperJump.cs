@@ -6,14 +6,12 @@ public class PlayerSuperJump : PlayerAirState
 
     public override void Enter()
     {
-
         base.Enter();
-
+        StartAnimation(stateMachine.Player.AnimationData.SuperJumpParameterHash);
+        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Jump", stateMachine.Player.transform, false, 1f, 0.1f);
         stateMachine.JumpForce = stateMachine.Player.Data.AirData.JumpForce;
         stateMachine.Player.ForceReceiver.Jump(10);
-        StartAnimation(stateMachine.Player.AnimationData.SuperJumpParameterHash);
         stateMachine.Player.Playerconditions.UseSuperJump(groundData.SuperJumpCost);
-        soundManager.CallPlaySFX(ClipType.PlayerSFX, "Jump", stateMachine.Player.transform, false, 1f, 0.1f);
     }
 
     public override void Exit()

@@ -7,9 +7,9 @@ public class ForceReceiver : MonoBehaviour
 
     private Vector3 dampingVelocity;
     private Vector3 impact;
+    public Vector3 Movement => impact + Vector3.up * verticalVelocity;
     private float verticalVelocity;
 
-    public Vector3 Movement => impact + Vector3.up * verticalVelocity;
 
     void Update()
     {
@@ -21,7 +21,6 @@ public class ForceReceiver : MonoBehaviour
         {
             verticalVelocity += Physics.gravity.y * Time.deltaTime;
         }
-
         impact = Vector3.SmoothDamp(impact, Vector3.zero, ref dampingVelocity, drag);
     }
 

@@ -32,6 +32,8 @@ public class Condition
 
 public class Playerconditions : MonoBehaviour
 {
+    [field: SerializeField] public int Power { get; set; } = 5;
+    [field: SerializeField] public int Guard { get; private set; } = 0;
     public Condition health;
     public Condition hunger;
     public Condition rollCoolTime;
@@ -42,15 +44,10 @@ public class Playerconditions : MonoBehaviour
     public Condition throwskill;
     public Condition noStamina;
     public Condition shield;
-    [ReadOnly] public float noHungerHealthDecay;
-
     private InventoryManager inventoryManager;
-
-    [field: SerializeField] public int Power { get; set; } = 5;
-    [field: SerializeField] public int Guard { get; private set; } = 0;
-
-
+    private readonly Player player;
     private bool nostaminaActive = false;
+    [ReadOnly] public float noHungerHealthDecay;
 
     private void Awake()
     {
@@ -75,9 +72,6 @@ public class Playerconditions : MonoBehaviour
             Guard -= (int)item.DefaultDEF;
         }
     }
-
-
-
     public void Initialize(PlayerUI playerUI)
     {
         health.curValue = health.startValue;
@@ -129,8 +123,7 @@ public class Playerconditions : MonoBehaviour
 
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
-
-
+        
         health.uiBar.fillAmount = health.GetPercentage();
         hunger.uiBar.fillAmount = hunger.GetPercentage();
         stamina.uiBar.fillAmount = stamina.GetPercentage();
@@ -188,7 +181,7 @@ public class Playerconditions : MonoBehaviour
         if (skill.curValue - amount < 0)
             return false;
 
-        skill.Subtract(amount);
+        skill.Subtract(skill.maxValue);
         return true;
     }
 

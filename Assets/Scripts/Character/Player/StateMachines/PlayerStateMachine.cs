@@ -6,87 +6,66 @@ using UnityEngine;
 public class PlayerStateMachine : StateMachine, IDamageable
 {
     public Player Player { get; }
-
-    // States
     public PlayerIdleState IdleState { get; }
     public PlayerWalkState WalkState { get; }
     public PlayerRunState RunState { get; }
     public PlayerJumpState JumpState { get; }
     public PlayerRollState RollState { get; }
     public PlayerFallState FallState { get; }
-
     public PlayerNothingState NothingState { get; }
     public PlayerComboAttackState ComboAttackState { get; }
-
     public PlayerSkillState SkillState { get; }
     public PlayerPowerUpState PowerUpState { get; }
-
     public PlayerSuperJump SuperJump { get; }
-
     public PlayerThrowState ThrowState { get; }
-
     public PlayerNoStamina NoStamina { get; }
-
     public PlayerShieldState ShieldState { get; }
     public PlayerDeadState DeadState { get; }
-
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; set; }
     public float RotationDamping { get; private set; }
     public float MovementSpeedModifier { get; set; } = 1f;
     public float AttackPowerModifier { get; set; } = 1f;
-
     public float JumpForce { get; set; }
     public bool IsAttacking { get; set; }
     public int ComboIndex { get; set; }
 
-    [HideInInspector] public List<Buff> buffs = new List<Buff>();
-
     private float checkDelay = 0.1f;
     private float lastCheckTime;
-
     private bool shieldActive = false;
-
     public event Action OnDie;
-
     public Transform MainCameraTransform { get; set; }
     private AffectedAttackEffectInfo affectedEffectInfo = new AffectedAttackEffectInfo();
     public AffectedAttackEffectInfo AffectedEffectInfo { get => affectedEffectInfo; }
+    [HideInInspector] public List<Buff> buffs = new List<Buff>();
 
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
-        // this는 인스턴스이다.
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
         RollState = new PlayerRollState(this);
-
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
         NothingState = new PlayerNothingState(this);
         ComboAttackState = new PlayerComboAttackState(this);
-
         SkillState = new PlayerSkillState(this);
         PowerUpState = new PlayerPowerUpState(this);
-
         SuperJump = new PlayerSuperJump(this);
         ThrowState = new PlayerThrowState(this);
         NoStamina = new PlayerNoStamina(this);
         ShieldState = new PlayerShieldState(this);
-
         DeadState = new PlayerDeadState(this);
 
         MainCameraTransform = Camera.main.transform;
 
-        // 플레이어의 기본 데이터를 가져옴
         MovementSpeed = player.Data.GroundedData.WalkSpeed;
         RotationDamping = player.Data.GroundedData.BaseRotatingDamping;
         OnDie += Dead;
         AffectedEffectInfo.SetFlag(AffectedAttackEffectInfo.AllFlag);
         Player.Weapon.WeaponColliderEnter += OnWeaponColliderEnter;
     }
-
 
     public override void Update()
     {
@@ -98,7 +77,6 @@ public class PlayerStateMachine : StateMachine, IDamageable
             lastCheckTime = Time.time;
         }
     }
-
 
     private void CheckBuff()
     {
@@ -144,7 +122,6 @@ public class PlayerStateMachine : StateMachine, IDamageable
 
     private void Dead()
     {
-        // TODO : 죽을 때 처리할 내용
         ChangeState(DeadState);
     }
 
@@ -158,16 +135,13 @@ public class PlayerStateMachine : StateMachine, IDamageable
             case AttackEffectTypes.KnockBack:
                 direction.Normalize();
                 Player.ForceReceiver.AddForce(direction * value);
-                // KnockBack 로직
                 break;
             case AttackEffectTypes.Airborne:
                 Player.ForceReceiver.AddForce(Vector3.up * value);
                 direction.y = 0;
                 Player.ForceReceiver.AddForce(direction.normalized * value);
-                // Airborne 로직
                 break;
             case AttackEffectTypes.Stun:
-                // Stun 로직
                 break;
         }
     }

@@ -3,17 +3,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerBaseState : IState
 {
-
-    // 모든 State는 StateMachine과 역참조를 함.
     protected PlayerStateMachine stateMachine;
+    protected CharacterController controller;
+    protected SoundManager soundManager;
+    protected Player player;
+    protected Animator animator;
     protected readonly PlayerGroundData groundData;
     protected bool isMovable = true;
     protected bool forceMove = false;
-    protected CharacterController controller;
-    protected Animator animator;
     private bool isAnimStarted;
-    protected SoundManager soundManager;
-    protected Player player;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
@@ -24,7 +22,6 @@ public class PlayerBaseState : IState
         animator = playerStateMachine.Player.Animator;
         if (soundManager == null)
             soundManager = SoundManager.Instance;
-        
     }
 
     public virtual void Enter()
@@ -52,18 +49,14 @@ public class PlayerBaseState : IState
         Move();
     }
 
-    //키 입력처리 부분
     protected virtual void AddInputActionsCallbacks()
     {
         PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Movement.canceled += OnMoveCanceled;
         input.PlayerActions.Run.started += OnRunStarted;
-
         input.PlayerActions.Jump.started += OnJumpStarted;
-
         input.PlayerActions.Attack.performed += OnAttackPerformed;
         input.PlayerActions.Attack.canceled += OnAttackCanceled;
-
         input.PlayerActions.SuperJump.started += OnSuperJumpStarted;
         input.PlayerActions.Throw.started += OnThrowStarted;
         input.PlayerActions.NoStamina.started += OnNoStaminaStarted;
@@ -73,17 +66,12 @@ public class PlayerBaseState : IState
 
     protected virtual void RemoveInputActionsCallbacks()
     {
-
         PlayerInputSystem input = stateMachine.Player.Input;
         input.PlayerActions.Movement.canceled -= OnMoveCanceled;
         input.PlayerActions.Run.started -= OnRunStarted;
-
-
         input.PlayerActions.Jump.started -= OnJumpStarted;
-
         input.PlayerActions.Attack.performed -= OnAttackPerformed;
         input.PlayerActions.Attack.canceled -= OnAttackCanceled;
-
         input.PlayerActions.SuperJump.started -= OnSuperJumpStarted;
         input.PlayerActions.Throw.started -= OnThrowStarted;
         input.PlayerActions.NoStamina.started -= OnNoStaminaStarted;
@@ -91,7 +79,6 @@ public class PlayerBaseState : IState
     }
 
 
-    // move와 run을 callback 함수로 받아서 정의
     protected virtual void OnMoveCanceled(InputAction.CallbackContext context)
     {
 
@@ -138,11 +125,9 @@ public class PlayerBaseState : IState
 
     private void ReadMovementInput()
     {
-        // 역참조. 자주사용하는 것들은 캐싱을 해놓는 것이 좋다.
         stateMachine.MovementInput = stateMachine.Player.Input.PlayerActions.Movement.ReadValue<Vector2>();
     }
 
-    //실제 이동 처리
     private void Move()
     {
         Vector3 movementDirection = GetMovementDirection();
@@ -172,7 +157,6 @@ public class PlayerBaseState : IState
     private void Move(Vector3 movementDirection)
     {
         if (!isMovable) return;
-        // 플레이어 이동처리
         float movementSpeed = GetMovementSpeed();
         controller.Move(
             ((movementDirection * movementSpeed)
@@ -192,7 +176,6 @@ public class PlayerBaseState : IState
         if (movementDirection != Vector3.zero)
         {
             Transform playerTransform = stateMachine.Player.transform;
-            // 바라보는 방향으로 회전을 하게끔 구현
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
             playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
         }
@@ -200,13 +183,10 @@ public class PlayerBaseState : IState
 
     private float GetMovementSpeed()
     {
-        // 실제로 이동하는 속도의 처리
         float movementSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
         return movementSpeed;
     }
 
-    // state 마다 애니메이션을 추가하는 처리
-    // SetBool 을 통해 애니메이션을 재생하고 끝내는 로직
     protected void StartAnimation(int animationHash)
     {
         stateMachine.Player.Animator.SetBool(animationHash, true);

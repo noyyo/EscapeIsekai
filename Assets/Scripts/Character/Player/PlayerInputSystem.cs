@@ -12,7 +12,6 @@ public class PlayerInputSystem : MonoBehaviour
         PlayerActions = InputActions.Player;
     }
 
-    // playerinput을 활성화, 비활성화 시키는 부분
     private void OnEnable()
     {
         InputActions.Enable();

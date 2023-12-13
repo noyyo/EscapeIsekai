@@ -6,7 +6,6 @@ public class PlayerShieldState : PlayerGroundState
     private Buff buff;
     private float normalizedTime;
 
-
     public PlayerShieldState(PlayerStateMachine playerstateMachine) : base(playerstateMachine)
     {
     }
@@ -14,9 +13,9 @@ public class PlayerShieldState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Player.Playerconditions.UseShield(groundData.ShieldCost);
         StartAnimation(stateMachine.Player.AnimationData.ShieldParameterHash);
         soundManager.CallPlaySFX(ClipType.PlayerSFX, "Shield", stateMachine.Player.transform, false, 1f, 0.1f);
+        stateMachine.Player.Playerconditions.UseShield(groundData.ShieldCost);
         powerUpStartTime = Time.time;
         buff = new Buff(BuffTypes.shield, stateMachine);
         buff.ApplyBuff(10);
