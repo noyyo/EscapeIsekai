@@ -33,10 +33,6 @@ public class Dialog : MonoBehaviour
 
     public void Action(GameObject scanObj) //대화시작
     {
-        //if (panel.activeSelf == false)
-        //{
-        //    panel.SetActive(true);
-        //}
         player.GetComponent<PlayerInputSystem>().PlayerActions.Disable();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
@@ -65,7 +61,7 @@ public class Dialog : MonoBehaviour
 
             Talk(npcData.id, npcData.isNPC);
         }
-        panel.SetActive(isAction);
+        panel.SetActive(true);
     }
 
     public void BtnAction()
