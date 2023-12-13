@@ -84,7 +84,8 @@ public class DamageReflectiveRocks : BaseEnvironmentObject
         }
         else
             isBoss = true;
-
+        if (newAttackEffectTypes == AttackEffectTypes.None)
+            return;
         if (isDontAttackUse)
         {
             Enemy enemy;

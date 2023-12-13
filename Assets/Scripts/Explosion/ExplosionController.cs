@@ -41,7 +41,6 @@ public class ExplosionController : MonoBehaviour
         particleSystems.Play(true);
         isAttackedPlayer = false;
         int count = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, colliders, layer);
-        Debug.Log(count);
         for (int i = 0; i < count; i++)
         {
             if (colliders[i].CompareTag(TagsAndLayers.PlayerTag) && !isAttackedPlayer)
