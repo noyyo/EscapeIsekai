@@ -8,7 +8,7 @@ public class CutScene : MonoBehaviour
 {
     private PlayableDirector _pd;
     private TimelineAsset _ta;
-    private GameObject _cylinder; //빛기둥
+    private GameObject _cylinder;
     private PlayerInput _playerInput;
     private CylinderLighting timeCylinder; //빛기둥 Active 클래스
     private UI_Manager uiManager;
@@ -33,17 +33,17 @@ public class CutScene : MonoBehaviour
 
     void OnNavigate()
     {
-        if (_cylinder.activeSelf == false)  //빛기둥 활성화, 시간 조절
+        if (_cylinder.activeSelf == false)  
         {
             _cylinder.SetActive(true);
-            timeCylinder.PlusTime(10f);  //활성화 시간 추가
+            timeCylinder.PlusTime(10f);
         }
         else
         {
             timeCylinder.PlusTime(10f);
         }
-        _pd.Play(_ta);  //타임라인 플레이
-        _playerInput.SwitchCurrentActionMap("UI"); //playerInput 액션 맵 변경
+        _pd.Play(_ta);
+        _playerInput.SwitchCurrentActionMap("UI");
         uiManager.isPlaying = true;
         StartCoroutine(lightCoroutine);
     }
@@ -52,7 +52,7 @@ public class CutScene : MonoBehaviour
         yield return new WaitForSecondsRealtime(5f);  //타임라인 재생 시간 동안 input 액션맵 변경 유지
         _playerInput.SwitchCurrentActionMap("Player");
     }
-    void OnSkip()  //타임라인 스킵
+    void OnSkip()
     {
         if (!uiManager.isPlaying)
         {
