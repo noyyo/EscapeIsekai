@@ -17,7 +17,6 @@ public class Scaffolding : BaseEnvironmentObject
 
     [Header("TakeDamage 설정용")]
     [SerializeField][ReadOnly] private int maxHP;
-    private int takeDamage;
     private bool isInvoke;
     // -1은 몬스터, 0은 초기화, 1은 플레이어
     private int attackerNumber;
@@ -38,56 +37,31 @@ public class Scaffolding : BaseEnvironmentObject
 
     public override void TakeDamage(int damage, GameObject attacker)
     {
-        takeDamage = damage;
+        if (!CanTakeDamageAndEffect(attacker))
+            return;
+        Damage(damage);
     }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
-    {
-        if (attacker.CompareTag(TagsAndLayers.PlayerTag))
-            attackerNumber = 1;
-        else if (attacker.CompareTag(TagsAndLayers.EnemyTag))
-            attackerNumber = -1;
-        else
-            attackerNumber = 0;
-    }
+    { }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (attackerNumber == 1)
+        if (!other.CompareTag(TagsAndLayers.PlayerTag))
+            return;
+        if (!isInvoke && type != ScaffoldingType.TakeDamage)
         {
-            switch (type)
-            {
-                case ScaffoldingType.TakeDamage:
-                    break;
-                default:
-                    if (!isInvoke)
-                    {
-                        StartCoroutine(IBreakScaffolding());
-                        isInvoke = true;
-                    }
-                    break;
-            }
+            StartCoroutine(IBreakScaffolding());
+            isInvoke = true;
         }
-        else if (attackerNumber == -1)
-        {
-            switch (type)
-            {
-                case ScaffoldingType.LimitTime:
-                    break;
-                default:
-                    Damage();
-                    break;
-            }
-        }
-        attackerNumber = 0;
     }
 
-    private void Damage()
+    private void Damage(int damage)
     {
         switch (type)
         {
             default:
-                HP = HP - takeDamage;
+                HP = HP - damage;
                 if (HP <= 0)
                 {
                     HP = 0;
@@ -96,7 +70,6 @@ public class Scaffolding : BaseEnvironmentObject
                 }
                 else
                     PlayAnimationTakeDamage();
-                takeDamage = 0;
                 break;
         }
     }

@@ -117,7 +117,7 @@ public class PlayerGroundState : PlayerBaseState
             return;
         if (stateMachine.Player.Playerconditions.rollCoolTime.curValue < groundData.RollCoolTime)
             return;
-        stateMachine.RollState.beforeState = stateMachine.currentState;
+        stateMachine.RollState.beforeState = stateMachine.CurrentState;
         stateMachine.ChangeState(stateMachine.RollState);
     }
 
@@ -146,28 +146,18 @@ public class PlayerGroundState : PlayerBaseState
     }
     private void SetSlidingVelocity()
     {
-        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 10))
+        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex)))
         {
             float angle = Vector3.Angle(hit.normal, Vector3.up);
             if (angle > controller.slopeLimit)
             {
-                slidingVelocity += Vector3.ProjectOnPlane(new Vector3(0, Physics.gravity.y * Time.deltaTime, 0), hit.normal);
-                isSliding = true;
-                isMovable = false;
-                return;
-            }
-            
-        }
-        else // tangent값이 10 이상, 약 경사 85도가량 이상이지만 땅에 닿아있을 때
-        {
-            Vector3 currentPosition = player.transform.position;
-            currentPosition.y -= controller.center.y - controller.height / 2;
-            if (Physics.SphereCast(currentPosition, controller.radius, Vector3.down, out RaycastHit sphereHit, 0.1f))
-            {
-                slidingVelocity += Vector3.ProjectOnPlane(new Vector3(0, Physics.gravity.y * Time.deltaTime, 0), hit.normal);
-                isSliding = true;
-                isMovable = false;
-                return;
+                if (IsForwardOrBackwardSteepSlope())
+                {
+                    slidingVelocity += Vector3.ProjectOnPlane(new Vector3(0, Physics.gravity.y * Time.deltaTime, 0), hit.normal);
+                    isSliding = true;
+                    isMovable = false;
+                    return;
+                }
             }
         }
 
@@ -186,5 +176,29 @@ public class PlayerGroundState : PlayerBaseState
             }
         }
 
+    }
+    private bool IsForwardOrBackwardSteepSlope()
+    {
+        Vector3 forwardRaycastOrigin = player.transform.position + player.transform.forward * controller.radius + Vector3.up;
+        if (Physics.Raycast(forwardRaycastOrigin, Vector3.down, out RaycastHit hitForward, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex)))
+        {
+            float angle = Vector3.Angle(hitForward.normal, Vector3.up);
+            if (angle > controller.slopeLimit)
+            {
+                return true;
+            }
+        }
+
+        Vector3 backwardRaycastOrigin = player.transform.position - player.transform.forward * controller.radius + Vector3.up;
+        if (Physics.Raycast(backwardRaycastOrigin, Vector3.down, out RaycastHit hitBackward, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex)))
+        {
+            float angle = Vector3.Angle(hitBackward.normal, Vector3.up);
+            if (angle > controller.slopeLimit)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -115,7 +115,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3899014685294320865}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.65
   m_Speed: 3
@@ -205,6 +205,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 
+    IsInStateTransition: 0
     isPause: 0
     isActive: 0
     activationCheckDelay: 0
@@ -226,7 +227,7 @@ MonoBehaviour:
   explosionRadius: 5
   layersToCollide:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16896
   MaxCollisionObject: 20
   damage: 20
   attackEffectTypes: 3
@@ -243,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bca4b563c3ce946ad27f2688d7b796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drag: 0.3
+  Drag: 0.3
 --- !u!1001 &3087556132676665099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,7 +257,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: f7321563e7cbdea4189b7337bccbfc1b, type: 2}
+      objectReference: {fileID: 9100000, guid: edb1035a28158614bac3c7537d62f8ba, type: 2}
     - target: {fileID: 7131222243682938342, guid: 83fa8ff0de846453681ae3a0c891708d,
         type: 3}
       propertyPath: m_ApplyRootMotion

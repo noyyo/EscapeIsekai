@@ -32,11 +32,13 @@ public class SoundManager : CustomSingleton<SoundManager>
 
     private GameObject sfxPrefab;
     private AudioSource bgm;
+    private AudioClip previousAudioClip;
     private IObjectPool<SFX> objectPool_AudioSources;
     private List<SFX> playLoopSFXList;
 
     public event Action OnSoundAllStopEvent;
     public event Action OnSFXAllStopEvent;
+
 
     private void Awake()
     {
@@ -279,8 +281,14 @@ public class SoundManager : CustomSingleton<SoundManager>
         BGMPlay(ClipDics[0][defaultBGMName]);
     }
 
+    public void PlayPreviousBGM()
+    {
+        BGMPlay(previousAudioClip);
+    }
+
     private void BGMPlay(AudioClip clip)
     {
+        previousAudioClip = bgm.clip;
         bgm.clip = clip;
         bgm.loop = true;
         bgm.volume = 0.03f;

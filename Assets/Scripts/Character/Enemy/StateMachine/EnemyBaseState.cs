@@ -42,6 +42,8 @@ public class EnemyBaseState : IState
     {
         if (stateMachine.GetIsPause())
             return;
+        if (stateMachine.IsInStateTransition)
+            return;
         CheckStanceChanging();
     }
     public virtual void PhysicsUpdate()

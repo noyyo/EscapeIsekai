@@ -17,7 +17,6 @@ public class FallingTree : BaseEnvironmentObject
     [SerializeField] private float respawnTime = 5f;
 
     private int playerDamage;
-    private bool isPlayer;
     private bool isBreak;
     private Vector3 defaultPos;
     private Quaternion defaultRot;
@@ -44,50 +43,30 @@ public class FallingTree : BaseEnvironmentObject
     }
 
     public override void TakeDamage(int damage, GameObject attacker)
-    { playerDamage = damage; }
+    {
+        if (!CanTakeDamageAndEffect(attacker))
+            return;
+        playerDamage = damage;
+        playerPos = attacker.transform.position;
+        ChangeHP();
+    }
 
     public override void TakeEffect(AttackEffectTypes attackEffectTypes, float value, GameObject attacker)
-    {
-        isPlayer = attacker.CompareTag(TagsAndLayers.PlayerTag);
-        if (isPlayer)
-            playerPos = attacker.transform.position;
-    }
+    { }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag(TagsAndLayers.EnemyTag))
-        {
-            Enemy newEnemy = other.GetComponent<Enemy>();
-            if (!enemyList.Contains(newEnemy))
-                enemyList.Add(newEnemy);
-        }
-
-        if (isBreak)
-        {
-            foreach(Enemy n in enemyList)
-            {
-                IDamageable target = null;
-                target = n.StateMachine;
-                target?.TakeDamage(1, gameObject);
-                target?.TakeEffect(attackType, effectValue, this.gameObject);
-            }
-            isBreak = false;
-            enemyList.Clear();
-        }
-        else if (isPlayer)
-        {
-            isPlayer = false;
-            ChangeHP();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag(TagsAndLayers.EnemyTag))
         {
             Enemy newEnemy = other.GetComponent<Enemy>();
-            if (enemyList.Contains(newEnemy))
-                enemyList.Remove(newEnemy);
+            if (isBreak && !enemyList.Contains(newEnemy))
+            {
+                IDamageable target = null;
+                target = newEnemy.StateMachine;
+                target?.TakeDamage(1, gameObject);
+                target?.TakeEffect(attackType, effectValue, gameObject);
+                enemyList.Add(newEnemy);
+            }
         }
     }
 
@@ -100,11 +79,13 @@ public class FallingTree : BaseEnvironmentObject
         speed = objSpeed;
         isBreak = false;
         deg = 0;
+        enemyList.Clear();
     }
 
     private void ChangeHP()
     {
         HP -= playerDamage;
+        SoundManager.Instance.CallPlaySFX(ClipType.EnemySFX, "OnHit", transform, false, pitchValue: 1.05f, soundValue: 0.5f);
         playerDamage = 0;
         if (HP <= 0)
         {
@@ -133,6 +114,7 @@ public class FallingTree : BaseEnvironmentObject
             yield return null;
         }
         Invoke("PlayAnimationFadeOut", playFadeOutTime);
+        isBreak = false;
         yield break;
     }
 

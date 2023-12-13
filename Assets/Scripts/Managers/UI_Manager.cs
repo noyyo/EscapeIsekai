@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_Manager : CustomSingleton<UI_Manager>
@@ -7,8 +8,8 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     [SerializeField] private GameObject cavas;
     private GameManager gameManager;
     private SoundManager soundManager;
+
     public GameObject gathering;
-    public UI_Gathering UI_gathering;
     public GameObject talkManager;
     public GameObject questManager;
     public GameObject dialog;
@@ -17,20 +18,26 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private GameObject itemCraftingUI;
     private GameObject tradingUI;
     private GameObject optionUI;
-    private UI_Option option;
+    private GameObject bossHPBarUI;
+    public UI_Gathering UI_gathering;
 
+    private UI_Option option;
     private Transform playerTransform;
+
     private bool isNotUIInputPossible = false;
     private bool isTurnOnInventory;
     private readonly string buttonSoundName = "ButtonSound";
     private readonly string clickSoundName = "Click";
     private readonly string wrongName = "Wrong";
+
     public GameObject Canvas { get { return cavas; } }
     public GameObject Inventory_UI { get { return inventoryUI; } }
     public GameObject ItemCrafting_UI { get { return itemCraftingUI; } }
     public GameObject Trading_UI { get { return tradingUI; } }
     public GameObject Option_UI { get { return optionUI; } }
+    public GameObject BossHPBarUI { get { return bossHPBarUI; } }
     public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
+    public GameObject MonsterHPBarMain { get; private set; }
 
     public event Action UI_AllTurnOffEvent;
     public event Action UI_InventoryTurnOnEvent;
@@ -41,6 +48,8 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public event Action UI_TradingTurnOffEvent;
     public event Action UI_OptionTurnOnEvent;
     public event Action UI_OptionTurnOffEvent;
+    public event Action<Enemy> enemyHPBarUITurnOnEvent;
+    public event Action<Enemy> enemyHPBarUITurnOffEvent;
 
     [HideInInspector] public string itemName;
     [HideInInspector] public string itemExplanation;
@@ -87,7 +96,6 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             itemCraftingUI.SetActive(false);
         }
             
-
         if (questManager == null)
             questManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/QuestManager"));
 
@@ -115,6 +123,16 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         {
             tutorialUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TutorialUI"), cavas.transform);
             tutorialUI.SetActive(false);
+        }
+
+        if(bossHPBarUI == null)
+        {
+            bossHPBarUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_BossHPBar"), cavas.transform);
+            bossHPBarUI.SetActive(false);
+        }
+        if (MonsterHPBarMain == null)
+        {
+            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"));
         }
     }
 
@@ -177,6 +195,16 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         }
     }
 
+    public void CallEnemyHPBarUITurnOnEvent(Enemy enemy)
+    {
+        enemyHPBarUITurnOnEvent?.Invoke(enemy);
+    }
+
+    public void CallEnemyHPBarUITurnOffEvent(Enemy enemy)
+    {
+        enemyHPBarUITurnOffEvent?.Invoke(enemy);
+    }
+
     public void PlayClickBtnSound()
     {
         soundManager.CallPlaySFX(ClipType.UISFX, buttonSoundName, playerTransform, false, soundValue: 0.01f);
@@ -191,5 +219,4 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     {
         soundManager.CallPlaySFX(ClipType.UISFX, wrongName, playerTransform, false, soundValue: 0.2f);
     }
-
 }

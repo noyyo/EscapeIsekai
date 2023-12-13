@@ -130,7 +130,7 @@ public class FallingStalactites : BaseEnvironmentObject
 
     private IEnumerator DownPosition()
     {
-        //yield return delayTime;
+        yield return delayTime;
         while (true)
         {
             transform.Translate(Vector3.down * Time.deltaTime * fallingSpeed);

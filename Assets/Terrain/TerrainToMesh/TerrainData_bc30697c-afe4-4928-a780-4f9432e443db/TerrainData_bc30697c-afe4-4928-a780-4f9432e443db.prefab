@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3071759902323443455}
   - {fileID: 773555895086004142}
+  - {fileID: 6218622440195622346}
   m_Father: {fileID: 5551543733961455772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7125297559071149123
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5056310196974184656}
-  - component: {fileID: -7335551149909890470}
+  - component: {fileID: 1921841055222959593}
   m_Layer: 11
   m_Name: TerrainData_bc30697c-afe4-4928-a780-4f9432e443db
   m_TagString: Untagged
@@ -237,7 +237,7 @@ Transform:
   - {fileID: 5551543733961455772}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7335551149909890470
+--- !u!114 &1921841055222959593
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 1888829932, guid: 459b4a6900a65d846b2cca6dc357533a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabProjectPath: Assets/Texture/TerrainData_Important/Assets/Terrain/TerrainData_Important/TerrainData_bc30697c-afe4-4928-a780-4f9432e443db/TerrainData_bc30697c-afe4-4928-a780-4f9432e443db.prefab
+  prefabProjectPath: Assets/Terrain/TerrainToMesh/TerrainData_bc30697c-afe4-4928-a780-4f9432e443db/TerrainData_bc30697c-afe4-4928-a780-4f9432e443db.prefab
   vertexCountHorizontal: 50
   vertexCountVertical: 50
   chunkCountHorizontal: 1
@@ -259,7 +259,7 @@ MonoBehaviour:
   meshIsCompressed: 0
   meshes:
   - {fileID: 4300000, guid: 4822281f75cabd34fb3f4c2a83a2454e, type: 2}
---- !u!1001 &6472806676407713668
+--- !u!1001 &370636252173454816
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -382,13 +382,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 476c3a1163b21204f943497dc1afc951, type: 3}
---- !u!4 &773555895086004142 stripped
+--- !u!4 &6218622440195622346 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6010123643106641962, guid: 476c3a1163b21204f943497dc1afc951,
     type: 3}
-  m_PrefabInstance: {fileID: 6472806676407713668}
+  m_PrefabInstance: {fileID: 370636252173454816}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8775592385088016085
+--- !u!1001 &6472806676407713668
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -511,9 +511,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 476c3a1163b21204f943497dc1afc951, type: 3}
---- !u!4 &3071759902323443455 stripped
+--- !u!4 &773555895086004142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6010123643106641962, guid: 476c3a1163b21204f943497dc1afc951,
     type: 3}
-  m_PrefabInstance: {fileID: 8775592385088016085}
+  m_PrefabInstance: {fileID: 6472806676407713668}
   m_PrefabAsset: {fileID: 0}

@@ -85,7 +85,7 @@ public class Npc : MonoBehaviour
 
     private void OnInteraction()
     {
-        if (isHit)
+        if (isHit&&GameManager.Instance.Ui_Manager.dialog.GetComponent<Dialog>().isAction==false)
         {
             int temp = Random.Range(0, 3);
             string tempstr = null;
@@ -95,7 +95,7 @@ public class Npc : MonoBehaviour
                 tempstr = "npc1";
             if (temp == 2)
                 tempstr = "npc2";
-            if (id != 800)
+            if (id != 800 || id !=1000)
             {
                 if (id == 200 || id == 300 || id == 400 || id == 1100)
                 {

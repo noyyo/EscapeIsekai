@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
 
 public class EnemyChaseState : EnemyBaseState
 {
@@ -25,11 +24,11 @@ public class EnemyChaseState : EnemyBaseState
         StartAnimation(enemy.AnimationData.BattleParameterHash);
         isChoosed = stateMachine.ChooseAction();
         stateStartTime = Time.time;
-        if (!isChoosed)
+        if (!isChoosed && agent.isActiveAndEnabled)
         {
             agent.isStopped = true;
         }
-        else
+        else if (isChoosed && agent.isActiveAndEnabled)
         {
             action = stateMachine.CurrentAction;
             agent.autoBraking = false;
@@ -48,7 +47,8 @@ public class EnemyChaseState : EnemyBaseState
         else
         {
             StopAnimation(enemy.AnimationData.RunParameterHash);
-            agent.autoBraking = true;
+            if (agent.isActiveAndEnabled)
+                agent.autoBraking = true;
         }
     }
     public override void Update()
@@ -75,6 +75,8 @@ public class EnemyChaseState : EnemyBaseState
             }
 
         }
+        if (!agent.isActiveAndEnabled)
+            return;
         if (IsInChaseRange())
         {
             Chase();
@@ -152,8 +154,8 @@ public class EnemyChaseState : EnemyBaseState
     {
         if (!stateMachine.IsMovable)
         {
-            stateMachine.ChangeState(stateMachine.ChaseState);
             isChangingState = true;
+            stateMachine.ChangeState(stateMachine.ChaseState);
             return;
         }
         if (!isMoving)
@@ -184,6 +186,7 @@ public class EnemyChaseState : EnemyBaseState
                 StopAnimation(enemy.AnimationData.RunParameterHash);
                 agent.ResetPath();
                 agent.velocity = Vector3.zero;
+                stateMachine.GetActionsInActive().Clear();
                 ChangeBattleStance(false);
                 isChangingState = true;
                 isMoving = false;

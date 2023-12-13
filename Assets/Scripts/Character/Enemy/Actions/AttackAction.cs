@@ -126,7 +126,8 @@ public abstract class AttackAction : ScriptableObject
             }
             else
             {
-                StateMachine.ChangeState(StateMachine.ChaseState);
+                if (StateMachine.CurrentState == StateMachine.AttackState)
+                    StateMachine.ChangeState(StateMachine.ChaseState);
             }
         }
     }

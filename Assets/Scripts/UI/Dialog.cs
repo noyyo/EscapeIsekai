@@ -17,7 +17,7 @@ public class Dialog : MonoBehaviour
     private int talkIndex;
     private int serveQuestTalkIndex;
     private int tmp;
-    private bool isAction;
+    public bool isAction;
     private Animator animator;
     private GameObject targetNpc;
     public static Dialog Instance;
@@ -139,8 +139,12 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 500) //검술
                 {
-                    MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
-                    StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(3));
+                    if(Instructor.Instance.rank <5)
+                    {
+                        MinigameManager.Instance.ChangeSuccess += Instructor.Instance.GameFailorSuc;
+                        int temp = Random.Range(1, 5);
+                        StartCoroutine(MinigameManager.Instance.StartMissionCoroutine(temp));
+                    }
                 }
                 if (id == 700) //차원문
                 {
@@ -148,12 +152,15 @@ public class Dialog : MonoBehaviour
                 }
                 if (id == 800) //유물
                 {
-                    tempnpc.SetActive(false);
-                    SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "Artifact", this.transform, false);
-                    UI_Manager.Instance.questManager.GetComponent<QuestManager>().QuestClear();
-                    UI_Manager.Instance.questManager.GetComponent<QuestManager>().header.text += " - 완료";
-                    UI_Manager.Instance.questManager.GetComponent<QuestManager>().content.text = "마법사에게 돌아가보자";
-                    InventoryManager.Instance.CallAddItem(5000, 1);
+                    if (QuestManager.Instance.questId == 10)
+                    {
+                        tempnpc.SetActive(false);
+                        SoundManager.Instance.CallPlaySFX(ClipType.NPCSFX, "Artifact", this.transform, false);
+                        UI_Manager.Instance.questManager.GetComponent<QuestManager>().QuestClear();
+                        UI_Manager.Instance.questManager.GetComponent<QuestManager>().header.text += " - 완료";
+                        UI_Manager.Instance.questManager.GetComponent<QuestManager>().content.text = "마법사에게 돌아가보자";
+                        InventoryManager.Instance.CallAddItem(5000, 1);
+                    }
                 }
                 if (id == 1000) //상자
                 {

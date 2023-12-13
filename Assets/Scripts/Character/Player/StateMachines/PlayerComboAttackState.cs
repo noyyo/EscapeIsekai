@@ -83,7 +83,7 @@ public class PlayerComboAttackState : PlayerAttackState
     {
         if (other.gameObject == stateMachine.Player)
             return;
-        if (!(other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag)))
+        if (!(other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag) || other.gameObject.layer == TagsAndLayers.PlayerLayerIndex))
             return;
         if (alreadyCollided.Contains(other.gameObject))
             return;

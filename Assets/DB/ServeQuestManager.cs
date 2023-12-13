@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ServeQuestManager : MonoBehaviour
 {
     [SerializeField]
     private ServeQuestDB ServeQuestDB;
+    private bool isOption;
+    private bool iskey;
     public Dictionary<int, ServeQuestData> questDBDic;
     public static ServeQuestManager Instance;
     public Dictionary<int, int> playerQuest; //0 미진행 1 진행중 2 완료
     public Dictionary<int, int> playerQuestKillCount;
     public Dictionary<int, int> playerQuestKillCount2;
     public GameObject parent;
+    public GameObject panel;
     public TextMeshProUGUI header;
     public TextMeshProUGUI content;
 
@@ -31,12 +35,40 @@ public class ServeQuestManager : MonoBehaviour
         playerQuestKillCount = new Dictionary<int, int>();
         playerQuestKillCount2 = new Dictionary<int, int>();
         questDBDic = new Dictionary<int, ServeQuestData>();
+        panel.SetActive(false);
         InitDB();
     }
     private void Start()
     {
         GameManager.Instance.Player.GetComponent<Inventory>().AddItem += QuestItemCheck;
+        GameManager.Instance.Player.GetComponent<Player>().Input.PlayerActions.QuestPanel.started += OnOffUI;
         updateQuest += UpdateQuest;
+    }
+    public void EnableInOption()
+    {
+        if(isOption)
+        {
+            panel.SetActive(false);
+            isOption = false;
+        }
+        else
+        {
+            panel.SetActive(true); 
+            isOption = true;
+        }
+    }
+    public void OnOffUI(InputAction.CallbackContext context)
+    {
+        if (iskey)
+        {
+            panel.SetActive(false);
+            iskey = false;
+        }
+        else
+        {
+            panel.SetActive(true);
+            iskey = true;
+        }
     }
     public void UpdateQuest(int key)
     {
@@ -51,6 +83,31 @@ public class ServeQuestManager : MonoBehaviour
                 if (tmp.gameObject.GetComponent<TextMeshProUGUI>().text == questDBDic[key].QuestName)
                 {
                     tmp.gameObject.GetComponent<TextMeshProUGUI>().text += " -완료";
+                }
+            }
+        }
+    }
+    public void UICountUp(int key)
+    {
+        var questPair = questList
+ .Where(item => item.Value == key)
+ .Select(item => item.Key)
+ .ToList();
+        if (questPair.Count != 0)
+        {
+            foreach (GameObject tmp in questPair)
+            {
+                if (tmp.gameObject.GetComponent<TextMeshProUGUI>().fontStyle == 0)
+                {
+                    string[] contentstr = tmp.gameObject.GetComponent<TextMeshProUGUI>().text.Split('+');
+                    if (contentstr.Length== 1)
+                    {
+                      tmp.gameObject.GetComponent<TextMeshProUGUI>().text = $"{tmp.gameObject.GetComponent<TextMeshProUGUI>().text}+{playerQuestKillCount[key]}마리처치";
+                    }
+                    else
+                    {
+                        tmp.gameObject.GetComponent<TextMeshProUGUI>().text = $"{contentstr[0]}  +{playerQuestKillCount[key]}마리처치";
+                    }
                 }
             }
         }
@@ -339,6 +396,7 @@ public class ServeQuestManager : MonoBehaviour
                 if (questDBDic[id].QuestMonster == enemy.Data.ID)
                 {
                     playerQuestKillCount[id]++;
+                    UICountUp(id);
                     if (playerQuestKillCount2.ContainsKey(id) && questDBDic[id].QuestMonster2 > 0)
                     {
                         if (questDBDic[id].QuestMonsterCount <= playerQuestKillCount[id] && questDBDic[id].QuestMonster2Count <= playerQuestKillCount2[id] && questDBDic[id].QuestType == 2)
@@ -359,6 +417,7 @@ public class ServeQuestManager : MonoBehaviour
                 else if (questDBDic[id].QuestMonster2 == enemy.Data.ID)
                 {
                     playerQuestKillCount2[id]++;
+                    UICountUp(id);
                     if (questDBDic[id].QuestMonsterCount <= playerQuestKillCount[id] && questDBDic[id].QuestMonster2Count <= playerQuestKillCount2[id] && questDBDic[id].QuestType == 2)
                     {
                         CanClear?.Invoke(questDBDic[id].Npc);

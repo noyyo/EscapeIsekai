@@ -8,25 +8,23 @@ public class UI_Inventory : MonoBehaviour
 {
     [SerializeField] private GameObject inventoryTailButtonArea;
     [SerializeField] private GameObject itemExplanationPopup;
+    [SerializeField] private GameObject tailUseButton;
     [SerializeField] private Button[] inventoryTypeButtons;
     [SerializeField] private Button[] inventoryTailButtons;
-    [SerializeField] private GameObject tailUseButton;
-    [SerializeField] private TMP_Text tailUseButtonText;
     [SerializeField] private Button backButton;
     [SerializeField] private Button optionButton;
+    [SerializeField] private TMP_Text tailUseButtonText;
     [SerializeField] private TMP_Text money;
 
+    private GameManager gameManager;
+    private UI_Manager ui_manager;
+    private InventoryManager inventoryManager;
+    private TradingManager tradingManager;
     private Inventory inventory;
     private GameObject inventoryUI;
-    private InventoryManager inventoryManager;
-    private UI_Manager ui_manager;
-    private GameManager gameManager;
-    private TradingManager tradingManager;
     private TMP_Text[] itemExplanationTexts;
-    private string delimiter;
-    private string lineBreaking;
-
-    //현재 출력되고 있는 카테고리
+    private readonly string delimiter = " : ";
+    private readonly string lineBreaking = "\n";
     private ItemType nowDisplayItemType;
 
     private void Awake()
@@ -35,9 +33,6 @@ public class UI_Inventory : MonoBehaviour
         inventoryManager = InventoryManager.Instance;
         ui_manager = UI_Manager.Instance;
         tradingManager = TradingManager.Instance;
-
-        delimiter = " : ";
-        lineBreaking = "\n";
         Init();
     }
 
@@ -47,29 +42,25 @@ public class UI_Inventory : MonoBehaviour
         nowDisplayItemType = ItemType.Equipment;
 
         if (inventoryUI == null)
-            inventoryUI = this.gameObject;
+            inventoryUI = gameObject;
 
         if (inventoryTailButtonArea == null)
-            inventoryTailButtonArea = this.transform.GetChild(1).GetChild(1).gameObject;
+            inventoryTailButtonArea = transform.GetChild(1).GetChild(1).gameObject;
 
         if (itemExplanationPopup == null)
-            itemExplanationPopup = this.transform.GetChild(3).gameObject;
+            itemExplanationPopup = transform.GetChild(3).gameObject;
 
         if (inventory == null)
             inventory = gameManager.Player.GetComponent<Inventory>();
 
-        //버튼 설정
-        // 장비 : 0, 소비 : 1, 재료 : 2, 기타 : 3
         if (inventoryTypeButtons.Length == 0)
-            inventoryTypeButtons = this.transform.GetChild(2).GetComponentsInChildren<Button>();
+            inventoryTypeButtons = transform.GetChild(2).GetComponentsInChildren<Button>();
 
-        //정렬 : 0, 버리기 : 1, 사용 : 2
         if (inventoryTypeButtons.Length == 0)
             inventoryTailButtons = inventoryTailButtonArea.GetComponentsInChildren<Button>();
 
-        //뒤로가기
         if (backButton == null)
-            backButton = this.transform.GetChild(1).GetChild(0).GetComponent<Button>();
+            backButton = transform.GetChild(1).GetChild(0).GetComponent<Button>();
 
         if (tailUseButton == null)
             tailUseButton = inventoryTailButtons[2].gameObject;

@@ -5,6 +5,7 @@ public class Tutorial : MonoBehaviour
 {
     RectTransform content;
     private bool isOption;
+    public Image arrow;
     private void Awake()
     {
         content = gameObject.GetComponent<ScrollRect>().content;
@@ -18,9 +19,10 @@ public class Tutorial : MonoBehaviour
         {
             content.anchoredPosition = new Vector2(content.anchoredPosition.x, 0);
         }
-        if (offsetY > 500)
+        if (offsetY > 700)
         {
-            content.anchoredPosition = new Vector2(content.anchoredPosition.x, 500);
+            content.anchoredPosition = new Vector2(content.anchoredPosition.x, 700);
+            arrow.gameObject.SetActive(false);
         }
     }
 
@@ -38,11 +40,15 @@ public class Tutorial : MonoBehaviour
         gameObject.SetActive(false);
 
     }
-
     public void EnableInOption()
     {
         isOption = true;
         gameObject.SetActive(true);
+    }
+    private void OnEnable()
+    {
+        content.anchoredPosition = new Vector2(content.anchoredPosition.x, 0);
+        arrow.gameObject.SetActive(true);
     }
 
 }

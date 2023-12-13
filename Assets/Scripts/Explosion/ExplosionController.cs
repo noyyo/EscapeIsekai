@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -12,12 +13,16 @@ public class ExplosionController : MonoBehaviour
     private Collider[] colliders;
     private float explosiondelayTime;
     private float explosionRadius;
-    private readonly string takeDamageString = "TakeDamage";
+    private readonly string AttackString = "Attack";
     private ParticleSystem particleSystems;
+    private bool isAttackedPlayer;
+    private Queue<Enemy> enemyQueue;
+    private Enemy attackerEnemy;
 
     private void Awake()
     {
         particleSystems = GetComponent<ParticleSystem>();
+        enemyQueue = new Queue<Enemy>();
     }
 
     public void SetManagedPool(IObjectPool<ExplosionController> pool)
@@ -27,43 +32,54 @@ public class ExplosionController : MonoBehaviour
 
     public void Explosion()
     {
-        Invoke(takeDamageString, explosiondelayTime);
+        Invoke(AttackString, explosiondelayTime);
     }
 
-    private void TakeDamage()
+    private void Attack()
     {
+        attackerEnemy = attacker.GetComponent<Enemy>();
         particleSystems.Play(true);
+        isAttackedPlayer = false;
         int count = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, colliders, layer);
+        Debug.Log(count);
         for (int i = 0; i < count; i++)
         {
-            IDamageable target = null;
-            
-            if (colliders[i].CompareTag(TagsAndLayers.PlayerTag))
+            if (colliders[i].CompareTag(TagsAndLayers.PlayerTag) && !isAttackedPlayer)
             {
+                IDamageable target = null;
                 Player player;
+                isAttackedPlayer = true;
                 if (colliders[i].TryGetComponent(out player))
                 {
                     target = player.StateMachine;
-                }
+                    target.TakeDamage(damage, attacker);
+                    target.TakeEffect(attackEffectTypes, attackEffectValue, attacker);
+                } 
             }
             else
             {
                 Enemy enemy;
                 if (colliders[i].TryGetComponent(out enemy))
                 {
-                    target = enemy.StateMachine;
+                    if (!enemyQueue.Contains(enemy) && enemy != attackerEnemy)
+                        enemyQueue.Enqueue(enemy);
                 }
             }
+            
+        }
 
-            target?.TakeDamage(damage, this.gameObject);
-            target?.TakeEffect(attackEffectTypes, attackEffectValue, this.attacker);
+        foreach(Enemy attackedEnemy in enemyQueue)
+        {
+            IDamageable enemyTarget = attackedEnemy.StateMachine;
+            enemyTarget?.TakeDamage(damage, attacker);
+            enemyTarget?.TakeEffect(attackEffectTypes, attackEffectValue, attacker);
         }
     }
 
-    public void ExplosionInit(Transform transform, Vector3 pos, float newExplosionRadius, LayerMask newlayer, int MaxCollisionObject = 20, float newExplosiondelayTime = 0)
+    public void ExplosionInit(Transform newTransform, Vector3 pos, float newExplosionRadius, LayerMask newlayer, int MaxCollisionObject = 20, float newExplosiondelayTime = 0)
     {
-        this.transform.parent = transform;
-        this.transform.position = pos;
+        transform.parent = newTransform;
+        transform.position = pos;
         explosionRadius = newExplosionRadius;
         layer = newlayer;
         if (colliders == null)

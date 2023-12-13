@@ -45,6 +45,7 @@ public class EnemySpawner : MonoBehaviour
             enemy.Agent.enabled = false;
             enemy.gameObject.SetActive(true);
             enemy.Agent.enabled = true;
+            enemy.Agent.ResetPath();
             Enemies.Add(enemy);
             enemy.StateMachine.OnDieAction += ReleaseEnemy;
             currentEnemyCount++;
