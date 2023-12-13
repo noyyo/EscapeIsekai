@@ -179,6 +179,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuestPanel"",
+                    ""type"": ""Button"",
+                    ""id"": ""02234085-481a-4f52-a4b3-c5987969f177"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -412,6 +421,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ff67dab-92a6-4550-a513-8d6571de993a"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuestPanel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -485,6 +505,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_TimeSlip = m_Player.FindAction("TimeSlip", throwIfNotFound: true);
         m_Player_Option = m_Player.FindAction("Option", throwIfNotFound: true);
         m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
+        m_Player_QuestPanel = m_Player.FindAction("QuestPanel", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
@@ -567,6 +588,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TimeSlip;
     private readonly InputAction m_Player_Option;
     private readonly InputAction m_Player_Escape;
+    private readonly InputAction m_Player_QuestPanel;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -588,6 +610,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @TimeSlip => m_Wrapper.m_Player_TimeSlip;
         public InputAction @Option => m_Wrapper.m_Player_Option;
         public InputAction @Escape => m_Wrapper.m_Player_Escape;
+        public InputAction @QuestPanel => m_Wrapper.m_Player_QuestPanel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -648,6 +671,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Escape.started += instance.OnEscape;
             @Escape.performed += instance.OnEscape;
             @Escape.canceled += instance.OnEscape;
+            @QuestPanel.started += instance.OnQuestPanel;
+            @QuestPanel.performed += instance.OnQuestPanel;
+            @QuestPanel.canceled += instance.OnQuestPanel;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -703,6 +729,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Escape.started -= instance.OnEscape;
             @Escape.performed -= instance.OnEscape;
             @Escape.canceled -= instance.OnEscape;
+            @QuestPanel.started -= instance.OnQuestPanel;
+            @QuestPanel.performed -= instance.OnQuestPanel;
+            @QuestPanel.canceled -= instance.OnQuestPanel;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -793,6 +822,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnTimeSlip(InputAction.CallbackContext context);
         void OnOption(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+        void OnQuestPanel(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
