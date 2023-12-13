@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7687668971876194075}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantSpine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438618469886628767}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6657136414325017227}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantSpine3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 894416616271322512}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRForearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,6 +128,77 @@ Transform:
   - {fileID: 5920082458694812440}
   m_Father: {fileID: 2768195602831084202}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1011717290913045640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7692070857948345029}
+  - component: {fileID: 4562128086349164143}
+  - component: {fileID: 5857491188460838597}
+  m_Layer: 9
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7692070857948345029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011717290913045640}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.08715578, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5920082458694812440}
+  m_LocalEulerAnglesHint: {x: 0, y: 10, z: 0}
+--- !u!136 &4562128086349164143
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011717290913045640}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.2
+  m_Height: 2.4
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5857491188460838597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011717290913045640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a76f1c6e0a0ecb47a91d80a7f05fc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 2
+  character: {fileID: 0}
+  ColliderSize: {x: 0, y: 0, z: 0}
 --- !u!1 &1122196222814149860
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8443707718409342223}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2768195602831084202}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRUpperarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2063914305676962871}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRThigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4920492574369151968}
   - component: {fileID: 7920954141659605328}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Top_teeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4791214346001443833}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: group1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1992730725603770592}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +457,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8304531835475235634}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantNeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 276343177403453411}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLUpperarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4146911294640576755}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1424377860091699098}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 145366630827156712}
   - component: {fileID: 8386051645368179616}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Jaw_inner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -605,7 +676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8560280690832990934}
   - component: {fileID: 1342263499097546500}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1809445750107278755}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -725,7 +796,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1148870124845485117}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRibcage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -759,7 +830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9201872817237885663}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,7 +862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6350217960562469191}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -823,7 +894,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3311033957577116388}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +926,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1767513030592351921}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantPelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -880,6 +951,77 @@ Transform:
   - {fileID: 7687668971876194075}
   m_Father: {fileID: 7401390323640944904}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3600621826036991466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9002809811591668096}
+  - component: {fileID: 3384652762574530721}
+  - component: {fileID: 4538944135353493850}
+  m_Layer: 9
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9002809811591668096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3600621826036991466}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.08715578, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1830547009053805476}
+  m_LocalEulerAnglesHint: {x: 0, y: -10, z: 0}
+--- !u!136 &3384652762574530721
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3600621826036991466}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.9
+  m_Height: 2.2
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4538944135353493850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3600621826036991466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a76f1c6e0a0ecb47a91d80a7f05fc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 0
+  character: {fileID: 0}
+  ColliderSize: {x: 0, y: 0, z: 0}
 --- !u!1 &3824329180313731963
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,7 +1031,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2117589301934269230}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLForearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -921,7 +1063,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4850148649724021337}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -953,7 +1095,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5177616347483714912}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantJaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,7 +1127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6415841811536561624}
   - component: {fileID: 6032977071234240325}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1120,7 +1262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2351574559765054552}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1151,7 +1293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 355728930720299839}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1173,6 +1315,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3311033957577116388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5185858087681583208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2382256736070700650}
+  - component: {fileID: 5493251115477944463}
+  m_Layer: 9
+  m_Name: ProjectilePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2382256736070700650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185858087681583208}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4, y: -0.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5920082458694812440}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5493251115477944463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185858087681583208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ad007c4923e464190540ef71478582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointType: 1
+  Character: {fileID: 0}
 --- !u!1 &5427773358913099785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,7 +1370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1557214885869705206}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1214,7 +1402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4100108117877067780}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1246,7 +1434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5014585242836478773}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantSpine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1278,7 +1466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2293775951458819668}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1309,7 +1497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2952148635903156750}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1341,7 +1529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7782391793482531361}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1373,7 +1561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7837431106053764083}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLToe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1404,7 +1592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4625205560804299109}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRCalf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1436,7 +1624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6078373866787889411}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLThigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1459,6 +1647,77 @@ Transform:
   - {fileID: 6350217960562469191}
   m_Father: {fileID: 1767513030592351921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6576671139328234847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7388118967083623277}
+  - component: {fileID: 923909172187172183}
+  - component: {fileID: 7266235192646934164}
+  m_Layer: 9
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7388118967083623277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576671139328234847}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.08715578, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5920082458694812440}
+  m_LocalEulerAnglesHint: {x: 0, y: 10, z: 0}
+--- !u!136 &923909172187172183
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576671139328234847}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.2
+  m_Height: 2.4
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7266235192646934164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6576671139328234847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a76f1c6e0a0ecb47a91d80a7f05fc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 3
+  character: {fileID: 0}
+  ColliderSize: {x: 0, y: 0, z: 0}
 --- !u!1 &6585886152314508152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,7 +1728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 697920218155605044}
   - component: {fileID: 1801538819184567256}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Jaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1553,6 +1812,77 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.14060318, y: 0.67608637, z: 0.0000002682209}
     m_Extent: {x: 0.30873117, y: 0.2935937, z: 0.15608461}
   m_DirtyAABB: 0
+--- !u!1 &6925310558190571584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1627147274250366690}
+  - component: {fileID: 1440219268996925924}
+  - component: {fileID: 6293374216020307383}
+  m_Layer: 9
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1627147274250366690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6925310558190571584}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.08715578, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5920082458694812440}
+  m_LocalEulerAnglesHint: {x: 0, y: 10, z: 0}
+--- !u!136 &1440219268996925924
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6925310558190571584}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7
+  m_Height: 2
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6293374216020307383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6925310558190571584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a76f1c6e0a0ecb47a91d80a7f05fc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 1
+  character: {fileID: 0}
+  ColliderSize: {x: 0, y: 0, z: 0}
 --- !u!1 &6945552913471785864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,7 +1892,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5483709259427277136}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1594,7 +1924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5996274519148842491}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1626,7 +1956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8435893668007079590}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1658,7 +1988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5668405995332769350}
   - component: {fileID: 6605242202963782131}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Bot_teeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1747,7 +2077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2741311421292367977}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRToe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1778,7 +2108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5889979594951699877}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1810,7 +2140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5920082458694812440}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1830,6 +2160,10 @@ Transform:
   m_LocalScale: {x: 0.99999994, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1627147274250366690}
+  - {fileID: 7692070857948345029}
+  - {fileID: 7388118967083623277}
+  - {fileID: 2382256736070700650}
   - {fileID: 5996274519148842491}
   - {fileID: 1992730725603770592}
   - {fileID: 9201872817237885663}
@@ -1845,7 +2179,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7401390323640944904}
   - component: {fileID: 3483298588830471026}
-  m_Layer: 6
+  - component: {fileID: 3103829567325206378}
+  m_Layer: 9
   m_Name: Treant_LP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1862,7 +2197,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.13888787, z: 0, w: 0.9903081}
   m_LocalPosition: {x: -8.18127, y: 4.991, z: -64.557106}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4737613799457979696}
@@ -1879,10 +2214,10 @@ Animator:
   m_GameObject: {fileID: 7925444621206918066}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 512764fd41d2643cbac0ebe813c24f65, type: 3}
-  m_Controller: {fileID: 9100000, guid: 89374976b83794fd2afdc5dfbd63ec1f, type: 2}
+  m_Controller: {fileID: 9100000, guid: e9e4a271f4f9bf94e919233c70aa93c8, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1890,6 +2225,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3103829567325206378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925444621206918066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea7b74079a098541b2d7fc313d677c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8512157039062666981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,7 +2246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5402643099124081872}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRDigit23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1930,7 +2277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4856177613485983362}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1965,7 +2312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5353022085815749258}
   - component: {fileID: 4481791559294637455}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Top_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2059,7 +2406,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6459722272613690223}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLDigit32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2091,7 +2438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8541048183944858508}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantRFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2123,7 +2470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4737613799457979696}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: LP_trent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2157,7 +2504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1830547009053805476}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: TreantLPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2177,6 +2524,7 @@ Transform:
   m_LocalScale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9002809811591668096}
   - {fileID: 438618469886628767}
   - {fileID: 1557214885869705206}
   - {fileID: 5889979594951699877}

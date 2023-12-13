@@ -64,6 +64,7 @@ public class EnemyBaseState : IState
     }
     protected void ChangeBattleStance(bool isTargetStanceBattle)
     {
+        Debug.Log("배틀 스탠스 체인지 " + Time.time);
         if (isStanceChanging)
             return;
         this.isTargetStanceBattle = isTargetStanceBattle;
