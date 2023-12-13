@@ -33,7 +33,7 @@ public class Dialog : MonoBehaviour
 
     public void Action(GameObject scanObj) //대화시작
     {
-        if (!panel.activeSelf)
+        if (panel.activeSelf == false)
         {
             panel.SetActive(true);
         }
