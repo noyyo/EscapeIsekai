@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour, IPositionable
     public AnimationEventReceiver AnimEventReceiver { get; protected set; }
     public Dictionary<PointReferenceTypes, PointReference> PointReferences { get; protected set; }
     public Dictionary<int, Weapon> Weapons;
-
     protected void Awake()
     {
         Animator = GetComponentInChildren<Animator>();

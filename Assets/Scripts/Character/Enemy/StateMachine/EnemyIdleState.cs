@@ -11,6 +11,7 @@ public class EnemyIdleState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        if (enemyData.ID <= 100)
         stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         if (agent.enabled && stateMachine.IsMovable && stateMachine.IsInitialized)
@@ -33,6 +34,10 @@ public class EnemyIdleState : EnemyBaseState
     public override void Update()
     {
         base.Update();
+        if (stateMachine.IsInStateTransition)
+            return;
+        if (stateMachine.CurrentState != this)
+            return;
         if (IsInChaseRange())
         {
             ChangeBattleStance(true);

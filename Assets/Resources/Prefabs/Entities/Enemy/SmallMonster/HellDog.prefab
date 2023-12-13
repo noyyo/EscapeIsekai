@@ -133,6 +133,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 
+    IsInStateTransition: 0
     isPause: 0
     isActive: 0
     activationCheckDelay: 0
@@ -158,7 +159,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2764923180342417118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.7
   m_Speed: 3.5
@@ -212,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bca4b563c3ce946ad27f2688d7b796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drag: 0.3
+  Drag: 0.3
 --- !u!65 &8195989655638423298
 BoxCollider:
   m_ObjectHideFlags: 0

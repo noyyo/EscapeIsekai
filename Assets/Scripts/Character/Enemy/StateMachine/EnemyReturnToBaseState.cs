@@ -10,7 +10,6 @@ public class EnemyReturnToBaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("리턴 투 베이스 : " + Time.time);
         StopAnimation(enemy.AnimationData.BattleParameterHash);
         agent.SetDestination(stateMachine.OriginPosition);
         agent.speed = enemyData.RunSpeed * returnSpeed;
@@ -20,7 +19,6 @@ public class EnemyReturnToBaseState : EnemyBaseState
     public override void Exit()
     {
         base.Exit();
-        stateMachine.IsInBattle = false;
         stateMachine.BattleTime = 0f;
         StopAnimation(enemy.AnimationData.ReturnToBaseParameterHash);
         agent.speed = enemyData.RunSpeed;

@@ -7,7 +7,6 @@ public class ParticleMediator : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log("파티클 충돌 들어왔어");
         OnCollisionOccured?.Invoke(other);
     }
 }

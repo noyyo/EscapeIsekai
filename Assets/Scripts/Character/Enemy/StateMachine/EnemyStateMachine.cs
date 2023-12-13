@@ -59,6 +59,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
     private Rigidbody rigidbody;
     private float verticalMovement;
     private bool isBattleBGMOn;
+    private Rigidbody PlayerRigidBody;
 
 
     public EnemyStateMachine(Enemy enemy)
@@ -133,12 +134,12 @@ public class EnemyStateMachine : StateMachine, IDamageable
         if (Time.time - lastCheckTime > activationCheckDelay)
         {
             CalculateTargetDistance();
-            if (TargetDistance <= activationDistance)
+            if (TargetDistance <= activationDistance && !isActive)
             {
                 isActive = true;
                 SetActive(true);
             }
-            else
+            else if (TargetDistance > activationDistance && isActive)
             {
                 isActive = false;
                 SetActive(false);

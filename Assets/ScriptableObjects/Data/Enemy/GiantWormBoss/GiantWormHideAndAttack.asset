@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateMachine:
     currentStateName: 
+    IsInStateTransition: 0
     isPause: 0
     isActive: 0
-    ActivationCheckDelay: 0
-    ActivationDistance: 0
+    activationCheckDelay: 0
+    activationDistance: 0
     <IsInvincible>k__BackingField: 0
     <IsFleeable>k__BackingField: 0
     CurrentAction: {fileID: 0}
@@ -34,8 +35,8 @@ MonoBehaviour:
     RestTimeAfterAction: 1
     EffectDurationSeconds: 0
     DamageAmount: 40
-    AttackEffectType: 1
-    AttackEffectValue: 15
+    AttackEffectType: 2
+    AttackEffectValue: 20
     animTrigger1: Hide
     animTrigger2: AppearAttack
     AnimTriggerHash1: 0
