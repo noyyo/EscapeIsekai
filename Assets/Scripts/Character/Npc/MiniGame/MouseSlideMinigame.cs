@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -16,6 +17,7 @@ public class MouseSlideMinigame : MonoBehaviour
     private List<int> sliceList;
     private Color c;
     private bool isFade = true;
+    [SerializeField]private bool isAllFade;
     private bool isSuccess;
     public event Action<bool> MiniGameFinished;
     public static MouseSlideMinigame Instance;
@@ -32,7 +34,7 @@ public class MouseSlideMinigame : MonoBehaviour
     }
     private void Update()
     {
-        if (parent.activeSelf)
+        if (parent.activeSelf&& sliceList.Count >0&&isAllFade)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -41,14 +43,17 @@ public class MouseSlideMinigame : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 endpos = Input.mousePosition;
-                CheckDir();
-                if (CheckDir() == sliceList[0])
+                if(startpos != Vector3.zero || endpos != Vector3.zero)
                 {
-                    StartCoroutine("Success");
-                }
-                else
-                {
-                    StartCoroutine("Fail");
+                    CheckDir();
+                    if (CheckDir() == sliceList[0])
+                    {
+                        StartCoroutine("Success");
+                    }
+                    else
+                    {
+                        StartCoroutine("Fail");
+                    }
                 }
             }
         }
@@ -56,7 +61,6 @@ public class MouseSlideMinigame : MonoBehaviour
     }
     private int CheckDir()
     {
-
         Vector2 direction = (endpos - startpos).normalized;
         float angle = Vector2.Angle(Vector2.right, direction);
 
@@ -76,6 +80,7 @@ public class MouseSlideMinigame : MonoBehaviour
 
     IEnumerator StartMission()
     {
+        sliceList.Clear();
         parent.SetActive(true);
         mouseEffect.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
@@ -83,7 +88,10 @@ public class MouseSlideMinigame : MonoBehaviour
         {
             int temp = Random.Range(0, 3);
             sliceList.Add(temp);
-            switch (temp)
+        }
+            for (int i = 0; i < 4; i++)
+        {
+            switch (sliceList[i])
             {
                 case 0:
                     fadeImage.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -100,7 +108,8 @@ public class MouseSlideMinigame : MonoBehaviour
             }
             yield return new WaitUntil(() => isFade);
         }
-        yield return null;
+        isAllFade = true;
+    yield return null;
     }
 
     IEnumerator Success()
@@ -110,6 +119,7 @@ public class MouseSlideMinigame : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             isSuccess = true;
+            ResetField();
             MiniGameFinished?.Invoke(isSuccess);
             StopAllCoroutines();
         }
@@ -118,8 +128,11 @@ public class MouseSlideMinigame : MonoBehaviour
     IEnumerator Fail() //실패해서 처음부터
     {
         isSuccess = false;
-        sliceList.Clear();
-        StartCoroutine("StartMission");
+
+        ResetField();
+        MiniGameFinished?.Invoke(isSuccess);
+        StopCoroutine("Fade");
+        StopCoroutine("StartMission");
         return null;
     }
 
@@ -130,7 +143,7 @@ public class MouseSlideMinigame : MonoBehaviour
         {
             c.a = i;
             fadeImage.color = c;
-            yield return new WaitForSecondsRealtime(0.005f);
+            yield return new WaitForSecondsRealtime(0.0005f);
         }
         c.a = 0;
         fadeImage.color = c;
@@ -138,6 +151,14 @@ public class MouseSlideMinigame : MonoBehaviour
         yield return null;
     }
 
+    private void ResetField()
+    {
+        parent.SetActive(false);
+        mouseEffect.SetActive(false);
+        isFade = true;
+        isAllFade = false;
+        startpos = Vector3.zero; endpos = Vector3.zero;
+    }
     public bool GetSuccess()
     {
         return isSuccess;
