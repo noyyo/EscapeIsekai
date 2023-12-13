@@ -6,42 +6,46 @@ using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
-    private int slotMaxCount;
-    private GameObject slotPrefab;
-    private GameObject slotSpawn;
-    private InventoryManager inventoryManager;
-    private UI_Manager ui_Manager;
+    private UI_Manager uiManager;
     private ItemManager itemManager;
-    private List<Slot> slotList;
-    private Dictionary<int, Item>[] itemDics;
+    private InventoryManager inventoryManager;
     private ItemDB itemDB;
-    private ItemType displayType;
-    private int clickSlotIndex;
-    private PlayerInputSystem playerInputSystem;
+
     private Player player;
     private EquipCotroller equipCotroller;
+    private PlayerInputSystem playerInputSystem;
+
+    private GameObject slotPrefab;
+    private GameObject slotSpawn;
+
+    private List<Slot> slotList;
+    private Dictionary<int, Item>[] itemDics;
+    private ItemType displayType;
+    private int clickSlotIndex;
+    private int slotMaxCount;
 
     public ItemType DisplayType { get { return displayType; } }
 
     public event Action<int, int> AddItem;
+
     private void Awake()
     {
-        player = GetComponent<Player>();
-        ui_Manager = UI_Manager.Instance;
+        uiManager = UI_Manager.Instance;
         itemDB = ItemDB.Instance;
         inventoryManager = InventoryManager.Instance;
         itemManager = ItemManager.Instance;
-        slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
+        player = GetComponent<Player>();
         playerInputSystem = GetComponent<PlayerInputSystem>();
+        slotPrefab = Resources.Load<GameObject>("Prefabs/UI/Inventory/Slot");
+        equipCotroller = inventoryManager.PlayerEquipCotroller;
         InitInventory();
         CreateSlot();
-        equipCotroller = inventoryManager.PlayerEquipCotroller;
     }
 
     private void Start()
     {
         DisplaySlotAllClear();
-        ui_Manager.UI_InventoryTurnOnEvent += OnDisplaySlot;
+        uiManager.UI_InventoryTurnOnEvent += OnDisplaySlot;
         playerInputSystem.InputActions.UI.Inventory.started += OnInventory;
         inventoryManager.OnSetDisplayTypeEvent += SetDisplayType;
     }
@@ -52,7 +56,7 @@ public class Inventory : MonoBehaviour
         itemDics = inventoryManager.ItemDics;
         slotMaxCount = inventoryManager.InventroySlotCount;
         displayType = ItemType.Equipment;
-        slotSpawn = ui_Manager.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
+        slotSpawn = uiManager.Inventory_UI.transform.GetChild(4).GetChild(0).GetChild(0).gameObject;
     }
 
     private void CreateSlot()
@@ -68,15 +72,15 @@ public class Inventory : MonoBehaviour
 
     public void OnInventory(InputAction.CallbackContext context)
     {
-        if (!ui_Manager.IsTurnOnInventory)
+        if (!uiManager.IsTurnOnInventory)
         {
             inventoryManager.PlayInventoryOpenSound();
-            ui_Manager.CallUI_InventoryTurnOn();
+            uiManager.CallUI_InventoryTurnOn();
         }
         else
         {
             inventoryManager.PlayInventoryCloseSound();
-            ui_Manager.CallUI_InventoryTurnOff();
+            uiManager.CallUI_InventoryTurnOff();
         }
     }
 

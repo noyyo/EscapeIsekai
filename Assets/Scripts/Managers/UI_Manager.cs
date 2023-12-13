@@ -7,8 +7,8 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     [SerializeField] private GameObject cavas;
     private GameManager gameManager;
     private SoundManager soundManager;
+
     public GameObject gathering;
-    public UI_Gathering UI_gathering;
     public GameObject talkManager;
     public GameObject questManager;
     public GameObject dialog;
@@ -17,15 +17,18 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private GameObject itemCraftingUI;
     private GameObject tradingUI;
     private GameObject optionUI;
-    private UI_Option option;
     private GameObject bossHPBarUI;
+    public UI_Gathering UI_gathering;
 
+    private UI_Option option;
     private Transform playerTransform;
+
     private bool isNotUIInputPossible = false;
     private bool isTurnOnInventory;
     private readonly string buttonSoundName = "ButtonSound";
     private readonly string clickSoundName = "Click";
     private readonly string wrongName = "Wrong";
+
     public GameObject Canvas { get { return cavas; } }
     public GameObject Inventory_UI { get { return inventoryUI; } }
     public GameObject ItemCrafting_UI { get { return itemCraftingUI; } }
@@ -91,7 +94,6 @@ public class UI_Manager : CustomSingleton<UI_Manager>
             itemCraftingUI.SetActive(false);
         }
             
-
         if (questManager == null)
             questManager = Instantiate(Resources.Load<GameObject>("Prefabs/Manager/QuestManager"));
 
@@ -211,5 +213,4 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     {
         soundManager.CallPlaySFX(ClipType.UISFX, wrongName, playerTransform, false, soundValue: 0.2f);
     }
-
 }

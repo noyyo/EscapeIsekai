@@ -3,17 +3,16 @@ using UnityEngine.Pool;
 
 public class SFX : MonoBehaviour
 {
-    public AudioSource audioSource;
     private Transform thisTransform;
     private IObjectPool<SFX> managedPool;
     private SoundManager soundManager;
-
+    [HideInInspector] public AudioSource audioSource;
     public string SFXName { get; private set; }
 
     private void Awake()
     {
         soundManager = SoundManager.Instance;
-        thisTransform = this.transform;
+        thisTransform = transform;
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -30,9 +29,7 @@ public class SFX : MonoBehaviour
         SFXName = audioClip.name;
         audioSource.Play();
         if (isLoop)
-        {
             audioSource.loop = true;
-        }
         else
         {
             Invoke("DestroyAudioSource", playTime);

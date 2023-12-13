@@ -6,11 +6,11 @@ public class MaterialsSlot : MonoBehaviour
 {
     [SerializeField] private GameObject image;
     [SerializeField] private TMP_Text text;
-    private Image icon;
     private ItemDB itemDB;
+    private ItemCraftingManager craftingManager;
+    private Image icon;
     private int itemCount;
     private int consumption;
-    private ItemCraftingManager craftingManager;
     private bool isCraftingItem;
     private readonly string slash = " / ";
     private readonly string multiplication = "X ";
@@ -18,8 +18,8 @@ public class MaterialsSlot : MonoBehaviour
     private void Awake()
     {
         itemDB = ItemDB.Instance;
-        icon = image.GetComponent<Image>();
         craftingManager = ItemCraftingManager.Instance;
+        icon = image.GetComponent<Image>();
     }
 
     private void Start()

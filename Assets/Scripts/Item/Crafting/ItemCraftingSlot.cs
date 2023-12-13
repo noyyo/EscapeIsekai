@@ -10,18 +10,17 @@ public class ItemCraftingSlot : MonoBehaviour
     [SerializeField] private Image icon;
 
     //슬롯 데이터 저장
+    private GameManager gameManager;
+    private ItemDB itemDB;
+    private ItemCraftingManager craftingManager;
     private ItemData itemData;
     private Inventory inventory;
+    private ItemRecipe itemRecipe;
+    private Button button;
     private int[] materialsCount;
     private bool[] boolArray;
-    private ItemCraftingManager craftingManager;
-
-    private Button button;
     private bool isDisplay = true;
     private bool isMake;
-    private ItemDB itemDB;
-    private GameManager gameManager;
-    private ItemRecipe itemRecipe;
 
     private void Awake()
     {

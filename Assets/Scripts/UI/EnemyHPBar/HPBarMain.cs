@@ -10,8 +10,8 @@ public class HPBarMain : MonoBehaviour
     [Range(0f, 30f)][SerializeField] private float extraHeight;
     private UI_Manager uiManager;
     private GameObject hpBarUIPrefab;
-    private IObjectPool<EnemyHPBar> objectPool_EnemyHPBar;
     private BossHPBar bossHPBar;
+    private IObjectPool<EnemyHPBar> objectPool_EnemyHPBar;
 
     private void Awake()
     {

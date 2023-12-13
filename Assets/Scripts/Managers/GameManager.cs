@@ -7,44 +7,44 @@ using UnityEngine.UI;
 public class GameManager : CustomSingleton<GameManager>
 {
     protected GameManager() { }
-    [SerializeField][ReadOnly] private GameObject _player;
-    [SerializeField][ReadOnly] private CinemachineVirtualCamera characterCamera;
-    [Range(0.0f, 1.0f)]
-    public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
-    public bool IsDay;
-    [HideInInspector]
-    public GameObject dialogCamera;
-    private UI_Manager _ui_Manager;
-    private SoundManager _soundManager;
-    private PlayerInputSystem _playerInputSystem;
-    [HideInInspector]
-    public GameObject timeSlip;
-    public UI_Manager Ui_Manager { get { return _ui_Manager; } }
-    [HideInInspector]
-    public GameObject deadNpc;
-    [HideInInspector]
-    public GameObject endPotal;
-    private GameObject panel;
-    //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
 
+    private UI_Manager uiManager;
+    private SoundManager soundManager;
+    private GameObject panel;
+    private PlayerInputSystem playerInputSystem;
+
+    [SerializeField][ReadOnly] private GameObject player;
+    [SerializeField][ReadOnly] private CinemachineVirtualCamera characterCamera;
+
+    //초기화 순서에 따른 문제 또는 Scene이동, 의도치 않은 Player 삭제를 위한 안전장치
     public GameObject Player
     {
         get
         {
-            if (_player == null)
+            if (player == null)
                 PlayerInit();
-            return _player;
+            return player;
         }
     }
+    public UI_Manager Ui_Manager { get { return uiManager; } }
+
+    [Range(0.0f, 1.0f)] public float time; //하루 사이클 시간  0.2~0.8 해떠있는 시간
+    public bool IsDay;
+
+    [HideInInspector] public GameObject dialogCamera;
+    [HideInInspector] public GameObject timeSlip;
+    [HideInInspector] public GameObject deadNpc;
+    [HideInInspector] public GameObject endPotal;
 
     public event Action OnPauseEvent;
     public event Action OnUnpauseEvent;
 
     private void Awake()
     {
-        _soundManager = SoundManager.Instance;
+        soundManager = SoundManager.Instance;
+        uiManager = UI_Manager.Instance;
         PlayerInit();
-        _ui_Manager = UI_Manager.Instance;
+        
         if (timeSlip == null)
         {
             timeSlip = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TimeSlip"));
@@ -53,7 +53,7 @@ public class GameManager : CustomSingleton<GameManager>
 
         if (dialogCamera == null)
         {
-            dialogCamera = Player.GetComponentInChildren<Camera>().gameObject;
+            dialogCamera = player.GetComponentInChildren<Camera>().gameObject;
             dialogCamera.SetActive(false);
         }
 
@@ -61,9 +61,7 @@ public class GameManager : CustomSingleton<GameManager>
             characterCamera = GameObject.FindGameObjectWithTag("CharacterCamera").GetComponent<CinemachineVirtualCamera>();
 
         if (deadNpc == null)
-        {
             deadNpc = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/여관주인"));
-        }
         if (endPotal == null)
         {
             endPotal = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/차원문"));
@@ -75,61 +73,56 @@ public class GameManager : CustomSingleton<GameManager>
 
     private void Start()
     {
-        _ui_Manager.UI_InventoryTurnOnEvent += PlayInputSystemDisable;
-        _ui_Manager.UI_InventoryTurnOnEvent += CursorEnable;
-        _ui_Manager.UI_InventoryTurnOnEvent += CallOnPauseEvent;
-        _ui_Manager.UI_InventoryTurnOnEvent += CameraLock;
+        uiManager.UI_InventoryTurnOnEvent += PlayInputSystemDisable;
+        uiManager.UI_InventoryTurnOnEvent += CursorEnable;
+        uiManager.UI_InventoryTurnOnEvent += CallOnPauseEvent;
+        uiManager.UI_InventoryTurnOnEvent += CameraLock;
 
-        _ui_Manager.UI_InventoryTurnOffEvent += PlayInputSystemEnable;
-        _ui_Manager.UI_InventoryTurnOffEvent += CursorDisable;
-        _ui_Manager.UI_InventoryTurnOffEvent += CallOnUnpauseEvent;
-        _ui_Manager.UI_InventoryTurnOffEvent += CameraUnLock;
+        uiManager.UI_InventoryTurnOffEvent += PlayInputSystemEnable;
+        uiManager.UI_InventoryTurnOffEvent += CursorDisable;
+        uiManager.UI_InventoryTurnOffEvent += CallOnUnpauseEvent;
+        uiManager.UI_InventoryTurnOffEvent += CameraUnLock;
 
-        _ui_Manager.UI_ItemCraftingTurnOnEvent += CursorEnable;
-        _ui_Manager.UI_ItemCraftingTurnOnEvent += PlayInputSystemDisable;
-        _ui_Manager.UI_ItemCraftingTurnOnEvent += CallOnPauseEvent;
-        _ui_Manager.UI_ItemCraftingTurnOnEvent += CameraLock;
+        uiManager.UI_ItemCraftingTurnOnEvent += CursorEnable;
+        uiManager.UI_ItemCraftingTurnOnEvent += PlayInputSystemDisable;
+        uiManager.UI_ItemCraftingTurnOnEvent += CallOnPauseEvent;
+        uiManager.UI_ItemCraftingTurnOnEvent += CameraLock;
 
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += CursorDisable;
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += PlayInputSystemEnable;
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += CallOnUnpauseEvent;
-        _ui_Manager.UI_ItemCraftingTurnOffEvent += CameraUnLock;
+        uiManager.UI_ItemCraftingTurnOffEvent += CursorDisable;
+        uiManager.UI_ItemCraftingTurnOffEvent += PlayInputSystemEnable;
+        uiManager.UI_ItemCraftingTurnOffEvent += CallOnUnpauseEvent;
+        uiManager.UI_ItemCraftingTurnOffEvent += CameraUnLock;
 
-        _ui_Manager.UI_TradingTurnOnEvent += CursorEnable;
-        _ui_Manager.UI_TradingTurnOnEvent += PlayInputSystemDisable;
-        _ui_Manager.UI_TradingTurnOnEvent += CallOnPauseEvent;
-        _ui_Manager.UI_TradingTurnOnEvent += CameraLock;
+        uiManager.UI_TradingTurnOnEvent += CursorEnable;
+        uiManager.UI_TradingTurnOnEvent += PlayInputSystemDisable;
+        uiManager.UI_TradingTurnOnEvent += CallOnPauseEvent;
+        uiManager.UI_TradingTurnOnEvent += CameraLock;
 
-        _ui_Manager.UI_TradingTurnOffEvent += CursorDisable;
-        _ui_Manager.UI_TradingTurnOffEvent += PlayInputSystemEnable;
-        _ui_Manager.UI_TradingTurnOffEvent += CallOnUnpauseEvent;
-        _ui_Manager.UI_TradingTurnOffEvent += CameraUnLock;
+        uiManager.UI_TradingTurnOffEvent += CursorDisable;
+        uiManager.UI_TradingTurnOffEvent += PlayInputSystemEnable;
+        uiManager.UI_TradingTurnOffEvent += CallOnUnpauseEvent;
+        uiManager.UI_TradingTurnOffEvent += CameraUnLock;
 
-        _ui_Manager.UI_OptionTurnOnEvent += CursorEnable;
-        _ui_Manager.UI_OptionTurnOnEvent += PlayInputSystemDisable;
-        _ui_Manager.UI_OptionTurnOnEvent += CallOnPauseEvent;
-        _ui_Manager.UI_OptionTurnOnEvent += CameraLock;
+        uiManager.UI_OptionTurnOnEvent += CursorEnable;
+        uiManager.UI_OptionTurnOnEvent += PlayInputSystemDisable;
+        uiManager.UI_OptionTurnOnEvent += CallOnPauseEvent;
+        uiManager.UI_OptionTurnOnEvent += CameraLock;
 
-        _ui_Manager.UI_OptionTurnOffEvent += CursorDisable;
-        _ui_Manager.UI_OptionTurnOffEvent += PlayInputSystemEnable;
-        _ui_Manager.UI_OptionTurnOffEvent += CallOnUnpauseEvent;
-        _ui_Manager.UI_OptionTurnOffEvent += CameraUnLock;
+        uiManager.UI_OptionTurnOffEvent += CursorDisable;
+        uiManager.UI_OptionTurnOffEvent += PlayInputSystemEnable;
+        uiManager.UI_OptionTurnOffEvent += CallOnUnpauseEvent;
+        uiManager.UI_OptionTurnOffEvent += CameraUnLock;
         Player.GetComponent<Player>().StateMachine.OnDie += DieEvent;
     }
 
     private void PlayerInit()
     {
         //다른 오브젝트에 Player태그가 설정되어가 있을경우 걸러내기 위한 foreach문
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag(TagsAndLayers.PlayerTag);
-        foreach (GameObject gameObject in gameObjects)
-        {
-            if (gameObject.name == "Player")
-                _player = gameObject;
-        }
-        if (_player == null)
-            _player = Instantiate(Resources.Load<GameObject>("Prefabs/Player/Player"));
+        player = GameObject.FindGameObjectWithTag(TagsAndLayers.PlayerTag);
+        if (player == null)
+            player = Instantiate(Resources.Load<GameObject>("Prefabs/Player/Player"));
 
-        _playerInputSystem = _player.GetComponent<PlayerInputSystem>();
+        playerInputSystem = player.GetComponent<PlayerInputSystem>();
     }
 
     private void CallOnPauseEvent()
@@ -146,12 +139,12 @@ public class GameManager : CustomSingleton<GameManager>
 
     private void PlayInputSystemEnable()
     {
-        _playerInputSystem.PlayerActions.Enable();
+        playerInputSystem.PlayerActions.Enable();
     }
 
     private void PlayInputSystemDisable()
     {
-        _playerInputSystem.PlayerActions.Disable();
+        playerInputSystem.PlayerActions.Disable();
     }
 
     private void CursorEnable()
@@ -180,19 +173,21 @@ public class GameManager : CustomSingleton<GameManager>
     {
         deadNpc.SetActive(true);
         deadNpc.transform.position = Player.transform.position + Player.transform.forward * 2;
-        SoundManager.Instance.CallPlaySFXReturnSource(ClipType.NPCSFX, "DeadNpc", this.transform, false, 1f);
+        soundManager.CallPlaySFXReturnSource(ClipType.NPCSFX, "DeadNpc", this.transform, false, 1f);
         Dialog.Instance.Action(deadNpc);
     }
     public IEnumerator Revive()
     {
-
-        Color c = panel.GetComponent<Image>().color;
+        Image panelImage = panel.GetComponent<Image>();
+        Player playerScript = player.GetComponent<Player>();
+        Playerconditions playerConditions = playerScript.Playerconditions;
+        Color c = panelImage.color;
         c.a = 0.0f;
         panel.SetActive(true);
-        for (float i = panel.GetComponent<Image>().color.a; i < 1.1; i += 0.01f)
+        for (float i = panelImage.color.a; i < 1.1; i += 0.01f)
         {
             c.a = i;
-            panel.GetComponent<Image>().color = c;
+            panelImage.color = c;
             yield return new WaitForSecondsRealtime(0.01f);
         }
         yield return new WaitForSecondsRealtime(2f);
@@ -207,19 +202,20 @@ public class GameManager : CustomSingleton<GameManager>
         for (float i = 1; i >= 0; i -= 0.05f)
         {
             c.a = i;
-            panel.GetComponent<Image>().color = c;
+            panelImage.color = c;
             yield return new WaitForSecondsRealtime(0.005f);
         }
         c.a = 0.8f;
-        panel.GetComponent<Image>().color = c;
+        panelImage.color = c;
         panel.SetActive(false);
-        Player.GetComponent<Player>().enabled = true;
-        Player.GetComponent<CharacterController>().enabled = true;
-        Player.GetComponent<CapsuleCollider>().enabled = true;
-        Player.GetComponent<Playerconditions>().Heal(Player.GetComponent<Playerconditions>().health.startValue);
-        Player.GetComponent<Playerconditions>().Heal(Player.GetComponent<Playerconditions>().stamina.startValue);
-        Player.GetComponent<Playerconditions>().Heal(Player.GetComponent<Playerconditions>().hunger.startValue);
-        Player.GetComponent<Player>().StateMachine.ChangeState(Player.GetComponent<Player>().StateMachine.IdleState);
+        playerScript.enabled = true;
+        playerScript.Controller.enabled = true;
+        playerScript.Collider.enabled = true;
+        playerConditions.Heal(playerConditions.health.startValue);
+        playerConditions.Heal(playerConditions.stamina.startValue);
+        playerConditions.Heal(playerConditions.hunger.startValue);
+        playerScript.StateMachine.ChangeState(playerScript.StateMachine.IdleState);
+        soundManager.PlayDefaultBGM();
         yield return null;
     }
 }
