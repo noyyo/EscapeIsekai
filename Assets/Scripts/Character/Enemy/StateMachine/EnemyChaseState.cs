@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
 
 public class EnemyChaseState : EnemyBaseState
 {
@@ -49,7 +48,8 @@ public class EnemyChaseState : EnemyBaseState
         else
         {
             StopAnimation(enemy.AnimationData.RunParameterHash);
-            agent.autoBraking = true;
+            if (agent.isActiveAndEnabled)
+                agent.autoBraking = true;
         }
     }
     public override void Update()
@@ -76,6 +76,8 @@ public class EnemyChaseState : EnemyBaseState
             }
 
         }
+        if (!agent.isActiveAndEnabled)
+            return;
         if (IsInChaseRange())
         {
             Chase();

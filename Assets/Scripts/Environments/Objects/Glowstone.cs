@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum AttackRangeType
@@ -66,7 +64,7 @@ public class Glowstone : BaseEnvironmentObject
     {
         if (isPlayer)
         {
-            if (other.gameObject.layer == TagsAndLayers.CharacterLayerIndex)
+            if (other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.gameObject.layer == TagsAndLayers.PlayerLayerIndex)
             {
                 if (other.TryGetComponent<Weapon>(out attackerWeapon))
                 {
