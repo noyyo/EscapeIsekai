@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class UI_DayNightCycle : MonoBehaviour
 {
     private Image _cycle;
-    //private DayNightCycle _dayNightCycle;
 
     private void Start()
     {

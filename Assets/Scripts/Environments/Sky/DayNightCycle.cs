@@ -3,7 +3,7 @@ using UnityEngine;
 public class DayNightCycle : MonoBehaviour
 {
 
-    [SerializeField] private float _fulldayLength; //게임상 하루의 현실 시간(초)
+    [SerializeField] private float _fulldayLength;
     [SerializeField] private float _startTime = 0.4f;
     private float timeRate;
 
@@ -25,21 +25,21 @@ public class DayNightCycle : MonoBehaviour
 
     private void Start()
     {
-        timeRate = 1.0f / _fulldayLength; //얼마큼씩 변해야 하는지
+        timeRate = 1.0f / _fulldayLength;
         GameManager.Instance.time = _startTime;
     }
 
     private void Update()
     {
-        GameManager.Instance.time = (GameManager.Instance.time + timeRate * Time.deltaTime) % 1.0f;  //하루의 퍼센테지?
+        GameManager.Instance.time = (GameManager.Instance.time + timeRate * Time.deltaTime) % 1.0f;
 
         UpdateLighting(sun, sunColor, sunIntensity);
         GameManager.Instance.IsDay = sun.gameObject.activeSelf;
         UpdateLighting(moon, moonColor, moonIntensity);
 
         UpdateSkyBox();
-        RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(GameManager.Instance.time); //환경광
-        RenderSettings.reflectionIntensity = reflectionintensityMultiplier.Evaluate(GameManager.Instance.time); //반사광
+        RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(GameManager.Instance.time);
+        RenderSettings.reflectionIntensity = reflectionintensityMultiplier.Evaluate(GameManager.Instance.time);
     }
 
     void UpdateLighting(Light lightSource, Gradient colorGradiant, AnimationCurve intensityCurve)
