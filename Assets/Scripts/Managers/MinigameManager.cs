@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MinigameManager : CustomSingleton<MinigameManager>
@@ -9,8 +10,10 @@ public class MinigameManager : CustomSingleton<MinigameManager>
     private GameObject _mouseSlider;
     private GameObject _instructor;
     private GameObject _blackSmith;
-
-    //public event Action<bool> MiniGameSuccess; //신경안써도됨
+    private TimingMinigame _timingMinigame;
+    private MouseSlideMinigame _mouseSlideMinigame;
+    private ArrowMinigame _arrowMinigame;
+    private GaugeMinigame _gaugeMinigame;
     int sucecesOrFail;
     public event Action<int> ChangeSuccess; //미니게임 성공여부 확인 이벤트 구문 맨아래쪽 예시 구문 적어둠
     public GameObject kamen { get { return _kamen; } }
@@ -23,22 +26,26 @@ public class MinigameManager : CustomSingleton<MinigameManager>
         if (_kamen == null)
         {
             _kamen = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/kamen"));
-            _kamen.GetComponent<TimingMinigame>().MiniGameFinished += OnMiniGameFinished;
+            _timingMinigame = _kamen.GetComponent<TimingMinigame>();
+            _timingMinigame.MiniGameFinished += OnMiniGameFinished;
         }
         if (_mouseSlider == null)
         {
             _mouseSlider = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/MouseSlider"));
-            _mouseSlider.GetComponent<MouseSlideMinigame>().MiniGameFinished += OnMiniGameFinished;
+            _mouseSlideMinigame = _mouseSlider.GetComponent<MouseSlideMinigame>();
+            _mouseSlideMinigame.MiniGameFinished += OnMiniGameFinished;
         }
         if (_instructor == null)
         {
             _instructor = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/instructor"));
-            _instructor.GetComponent<ArrowMinigame>().MiniGameFinished += OnMiniGameFinished;
+            _arrowMinigame = _instructor.GetComponent<ArrowMinigame>();
+            _arrowMinigame.MiniGameFinished += OnMiniGameFinished;
         }
         if (_blackSmith == null)
         {
             _blackSmith = Instantiate(Resources.Load<GameObject>("Prefabs/Npc/MiniGame/BlackSmith"));
-            _blackSmith.GetComponent<GaugeMinigame>().MiniGameFinished += OnMiniGameFinished;
+            _gaugeMinigame = _blackSmith.GetComponent<GaugeMinigame>();
+            _gaugeMinigame.MiniGameFinished += OnMiniGameFinished;
         }
     }
     public void OnMiniGameFinished(bool success)
@@ -59,13 +66,13 @@ public class MinigameManager : CustomSingleton<MinigameManager>
     {
         sucecesOrFail = 0;
         if (index == 1)
-            _kamen.GetComponent<TimingMinigame>().StartCoroutine("StartMission");
+            _timingMinigame.StartCoroutine("StartMission");
         else if (index == 2)
-            _mouseSlider.GetComponent<MouseSlideMinigame>().StartCoroutine("StartMission");
+            _mouseSlideMinigame.StartCoroutine("StartMission");
         else if (index == 3)
-            _instructor.GetComponent<ArrowMinigame>().StartCoroutine("StartMission");
+            _arrowMinigame.StartCoroutine("StartMission");
         else if (index == 4)
-            _blackSmith.GetComponent<GaugeMinigame>().StartCoroutine("StartMission");
+            _gaugeMinigame.StartCoroutine("StartMission");
 
         // 미니게임이 종료될 때까지 대기
         yield return new WaitUntil(() => sucecesOrFail != 0);
