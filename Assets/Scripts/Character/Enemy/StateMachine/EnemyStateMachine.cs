@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -59,7 +60,6 @@ public class EnemyStateMachine : StateMachine, IDamageable
     private Rigidbody rigidbody;
     private float verticalMovement;
     private bool isBattleBGMOn;
-    private Rigidbody PlayerRigidBody;
 
 
     public EnemyStateMachine(Enemy enemy)
@@ -273,6 +273,8 @@ public class EnemyStateMachine : StateMachine, IDamageable
         HpUpdated?.Invoke((float)HP / Enemy.Data.MaxHP);
         if (HP == 0 && !IsDead)
         {
+            if (attacker.CompareTag(TagsAndLayers.PlayerTag))
+                DropReward();
             OnDie?.Invoke();
             OnDieAction?.Invoke(Enemy);
         }
@@ -286,6 +288,7 @@ public class EnemyStateMachine : StateMachine, IDamageable
         IsDead = true;
         Enemy.Collider.enabled = false;
         Enemy.enabled = false;
+        Enemy.ForceReceiver.enabled = false;
         ServeQuestManager.Instance.QuestMonsterCheck(Enemy);
         ChangeState(DeadState);
     }
@@ -370,12 +373,14 @@ public class EnemyStateMachine : StateMachine, IDamageable
     public void ResetStateMachine()
     {
         HP = Enemy.Data.MaxHP;
+        HpUpdated?.Invoke((float)HP / Enemy.Data.MaxHP);
         isActive = false;
         isPause = false;
         IsDead = false;
         IsInBattle = false;
         IsInvincible = false;
         IsFleeable = Enemy.Data.IsFleeable;
+        Enemy.ForceReceiver.enabled = true;
         BattleTime = 0f;
         CurrentAction = null;
         ChangeState(IdleState);
@@ -449,5 +454,13 @@ public class EnemyStateMachine : StateMachine, IDamageable
             Enemy.Collider.enabled = false;
             Enemy.Animator.enabled = false;
         }
+    }
+    private void DropReward()
+    {
+        if (Enemy.Data.ID > 100)
+            TradingManager.Instance.addMoney(200);
+        else
+            TradingManager.Instance.addMoney(2000);
+        SoundManager.Instance.CallPlaySFX(ClipType.EnvironmentSFX, "pick", Enemy.transform, false, soundValue: 0.05f);
     }
 }

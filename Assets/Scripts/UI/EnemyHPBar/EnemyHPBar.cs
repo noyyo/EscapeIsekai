@@ -12,7 +12,7 @@ public class EnemyHPBar : MonoBehaviour
     private Transform mainCameraTransform;
     private Vector3 thisPos;
     private IObjectPool<EnemyHPBar> managedPool;
-
+    private bool isSetted;
     public bool Test;
     private void Awake()
     {
@@ -22,7 +22,11 @@ public class EnemyHPBar : MonoBehaviour
         mainCameraTransform = mainCamera.transform;
         thisPos = Vector3.zero;
     }
-
+    private void Update()
+    {
+        if (isSetted && gameObject.activeInHierarchy)
+            transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.transform.position);
+    }
     public void SetManagedPool(IObjectPool<EnemyHPBar> pool)
     {
         managedPool = pool;
@@ -31,13 +35,13 @@ public class EnemyHPBar : MonoBehaviour
     public void SetEnemyHPBar(Enemy newEnemy, float extraHeight)
     {
         enemy = newEnemy;
-        transform.parent = newEnemy.transform;
+        transform.SetParent(newEnemy.transform);
         uiBarScript.UpdateValue(newEnemy.StateMachine.HP, newEnemy.Data.MaxHP);
         
         newEnemy.StateMachine.HpUpdated += uiBarScript.UpdateValue;
         newEnemy.StateMachine.ReleaseMonsterUI += OnRelease;
         SetUIPosition(newEnemy.transform, newEnemy.Agent.height, extraHeight);
-        StartCoroutine(SetUIRotion());
+        isSetted = true;
     }
 
     private void SetUIPosition(Transform enemyTransform, float enemyHeight, float extraHeight)
@@ -46,22 +50,14 @@ public class EnemyHPBar : MonoBehaviour
         transform.localPosition = thisPos;
     }
 
-    private IEnumerator SetUIRotion()
-    {
-        while (true)
-        {
-            uiBarScript.transform.rotation = Quaternion.LookRotation(uiBarScript.transform.position - mainCamera.transform.position);
-            yield return null;
-        }
-    }
 
     private void OnRelease()
     {
         enemy.StateMachine.HpUpdated -= uiBarScript.UpdateValue;
         enemy.StateMachine.ReleaseMonsterUI -= OnRelease;
         enemy = null;
+        isSetted = false;
         thisPos = Vector3.zero;
-        StopCoroutine(SetUIRotion());
         managedPool.Release(this);
     }
 }
