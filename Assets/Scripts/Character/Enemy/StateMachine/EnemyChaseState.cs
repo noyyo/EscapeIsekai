@@ -24,11 +24,11 @@ public class EnemyChaseState : EnemyBaseState
         StartAnimation(enemy.AnimationData.BattleParameterHash);
         isChoosed = stateMachine.ChooseAction();
         stateStartTime = Time.time;
-        if (!isChoosed)
+        if (!isChoosed && agent.isActiveAndEnabled)
         {
             agent.isStopped = true;
         }
-        else
+        else if (isChoosed && agent.isActiveAndEnabled)
         {
             action = stateMachine.CurrentAction;
             agent.autoBraking = false;
