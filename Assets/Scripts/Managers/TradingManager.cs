@@ -27,6 +27,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     private GameManager gameManager;
     private SoundManager soundManager;
     private Transform playerTransform;
+    private UI_Confirm uiConfirm;
     private List<UI_TradingSlot>[] tradingSlotList;
     private List<int>[] shopItemIDList;
     private List<ItemsSoldByUser> repurchaseItem;
@@ -40,10 +41,11 @@ public class TradingManager : CustomSingleton<TradingManager>
     private int previousClickIndex;
     private int playerMoney = 0;
     private readonly string coinSoundName = "CoinSound";
-
+    
     public List<UI_TradingSlot>[] TradingSlotList { get { return tradingSlotList; } }
     public List<ItemsSoldByUser> RepurchaseItem { get { return repurchaseItem; } }
     public List<int>[] ShopItemIDList { get { return shopItemIDList; } }
+    public UI_Confirm UIConfirm { get { return uiConfirm; } }
     public int PlayerMoney { get { return playerMoney; } }
     public int RepurchaseItemMaxCount { get { return repurchaseItemMaxCount; } }
     public int ShopCategoryCount { get { return shopCategoryCount; } }
@@ -55,6 +57,7 @@ public class TradingManager : CustomSingleton<TradingManager>
     public int DisplayShopItemCategory { get { return displayShopItemCategory; } }
     public bool IsPlayerSlotClick { get { return isPlayerSlotClick; } }
     public bool IsPreviousPlayerSlotClick { get { return isPreviousPlayerSlotClick; } }
+    public bool IsSelectItemCount { get; set; }
 
     private Func<int, int, int> sellItem;
     private Func<int, int, int> byitem;
@@ -84,10 +87,14 @@ public class TradingManager : CustomSingleton<TradingManager>
         shopItemIDList = new List<int>[shopCategoryCount];
         for (int i = 0; i < shopCategoryCount; i++)
             shopItemIDList[i] = new List<int>();
+        
     }
 
     private void Start()
     {
+        uiConfirm = ui_Manager.ConfirmationWindow.GetComponent<UI_Confirm>();
+        ui_Manager.UI_TradingTurnOffEvent += uiConfirm.Init;
+        ui_Manager.UI_TradingTurnOffEvent += ResetClickValue;
         playerTransform = gameManager.Player.transform;
         trySellItem = (itemID, itemCount) => SellItem(sellItem(itemID, itemCount));
         tryByitem = (itemID, itemCount) => Byitem(byitem(itemID, itemCount));
@@ -222,5 +229,13 @@ public class TradingManager : CustomSingleton<TradingManager>
     public void SetDisplayShopItemCategory(int newValue)
     {
         displayShopItemCategory = newValue;
+    }
+
+    private void ResetClickValue()
+    {
+        currentClickID = -1;
+        currentClickIndex = -1;
+        previousClickID = -1;
+        previousClickIndex = -1;
     }
 }

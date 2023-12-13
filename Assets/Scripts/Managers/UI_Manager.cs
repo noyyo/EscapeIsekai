@@ -19,6 +19,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private GameObject tradingUI;
     private GameObject optionUI;
     private GameObject bossHPBarUI;
+    private GameObject confirmationWindow;
     public UI_Gathering UI_gathering;
 
     private UI_Option option;
@@ -36,8 +37,10 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public GameObject Trading_UI { get { return tradingUI; } }
     public GameObject Option_UI { get { return optionUI; } }
     public GameObject BossHPBarUI { get { return bossHPBarUI; } }
-    public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
     public GameObject MonsterHPBarMain { get; private set; }
+    public GameObject ConfirmationWindow { get { return confirmationWindow; } }
+    public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
+    
 
     public event Action UI_AllTurnOffEvent;
     public event Action UI_InventoryTurnOnEvent;
@@ -132,7 +135,12 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         }
         if (MonsterHPBarMain == null)
         {
-            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"));
+            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"), cavas.transform);
+        }
+        if(confirmationWindow == null)
+        {
+            confirmationWindow = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmationWindow"), cavas.transform);
+            confirmationWindow.SetActive(false);
         }
     }
 
