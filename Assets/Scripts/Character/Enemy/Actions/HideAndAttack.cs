@@ -95,7 +95,7 @@ public class HideAndAttack : AttackAction
         if (isDestinationSetted && Time.time - hideStartTime >= hideTime && !isAttackStarted)
         {
             isAttackStarted = true;
-            AOEIndicatorPool.Instance.GetIndicatorPool(aoeType).Release(indicator);
+            ReleaseIndicator();
             StartAnimation(Config.AnimTriggerHash2);
         }
         if (animState[Config.AnimTriggerHash2] == AnimState.Completed)
