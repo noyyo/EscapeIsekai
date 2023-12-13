@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EnemyReturnToBaseState : EnemyBaseState
 {
     private static readonly float returnSpeed = 2f;
@@ -8,6 +10,7 @@ public class EnemyReturnToBaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("리턴 투 베이스 : " + Time.time);
         StopAnimation(enemy.AnimationData.BattleParameterHash);
         agent.SetDestination(stateMachine.OriginPosition);
         agent.speed = enemyData.RunSpeed * returnSpeed;

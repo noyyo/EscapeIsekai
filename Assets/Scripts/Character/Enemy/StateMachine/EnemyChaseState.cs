@@ -18,6 +18,7 @@ public class EnemyChaseState : EnemyBaseState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("체이스 엔터 시간 : " + Time.time);
         isChangingState = false;
         stateMachine.IsInBattle = true;
         isLookTarget = false;
