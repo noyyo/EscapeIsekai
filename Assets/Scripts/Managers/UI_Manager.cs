@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_Manager : CustomSingleton<UI_Manager>
@@ -36,6 +37,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public GameObject Option_UI { get { return optionUI; } }
     public GameObject BossHPBarUI { get { return bossHPBarUI; } }
     public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
+    public GameObject MonsterHPBarMain { get; private set; }
 
     public event Action UI_AllTurnOffEvent;
     public event Action UI_InventoryTurnOnEvent;
@@ -127,6 +129,10 @@ public class UI_Manager : CustomSingleton<UI_Manager>
         {
             bossHPBarUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_BossHPBar"), cavas.transform);
             bossHPBarUI.SetActive(false);
+        }
+        if (MonsterHPBarMain == null)
+        {
+            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"));
         }
     }
 

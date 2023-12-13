@@ -856,12 +856,12 @@ AnimatorStateMachine:
   - {fileID: 8477785715627602755}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 572183075976887096}
-    second:
-    - {fileID: -731386893130778533}
   - first: {fileID: -7025554340513139363}
     second:
     - {fileID: -6014089949259128778}
+  - first: {fileID: 572183075976887096}
+    second:
+    - {fileID: -731386893130778533}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1082,9 +1082,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: '@Battle'
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: StunStart
     m_EventTreshold: 0

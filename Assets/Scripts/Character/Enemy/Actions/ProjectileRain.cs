@@ -103,7 +103,7 @@ public class ProjectileRain : AttackAction
 
     private void ProjectileTriggerEnter(Collider other, Projectile projectile)
     {
-        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex)
+        if (other.gameObject.layer == TagsAndLayers.GroundLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.gameObject.layer == TagsAndLayers.PlayerLayerIndex)
         {
             Collider[] colliders = Physics.OverlapSphere(projectile.transform.position, effectRadius);
 

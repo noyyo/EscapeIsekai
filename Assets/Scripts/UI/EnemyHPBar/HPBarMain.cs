@@ -17,18 +17,18 @@ public class HPBarMain : MonoBehaviour
     {
         uiManager = UI_Manager.Instance;
         objectPool_EnemyHPBar = new ObjectPool<EnemyHPBar>(CreateEnemyHPBar, OnGetEnemyHPBar, OnReleaseEnemyHPBar, OnDestroyEnemyHPBar, maxSize: poolMaxCount);
-        hpBarUIPrefab = Resources.Load<GameObject>("");
+        hpBarUIPrefab = Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_EnemyHPBar");
     }
 
     private void Start()
     {
-        uiManager.enemyHPBarUITurnOnEvent += PlaySFXReturnSource;
+        uiManager.enemyHPBarUITurnOnEvent += SetEnemyHpBarByType;
         bossHPBar = uiManager.BossHPBarUI.GetComponent<BossHPBar>();
     }
 
-    private void PlaySFXReturnSource(Enemy enemy)
+    private void SetEnemyHpBarByType(Enemy enemy)
     {
-        if (enemy.CompareTag(TagsAndLayers.EnemyTag))
+        if (enemy.Data.ID > 100)
         {
             EnemyHPBar hpBar = objectPool_EnemyHPBar.Get();
             hpBar.SetEnemyHPBar(enemy, extraHeight);

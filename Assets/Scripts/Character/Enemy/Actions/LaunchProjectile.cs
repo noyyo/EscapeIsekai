@@ -104,7 +104,7 @@ public class LaunchProjectile : AttackAction
         {
             projectilePool.Release(projectile);
         }
-        else if (other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag))
+        else if (other.gameObject.layer == TagsAndLayers.PlayerLayerIndex || other.gameObject.layer == TagsAndLayers.CharacterLayerIndex || other.CompareTag(TagsAndLayers.EnvironmentTag))
         {
             GameObject target = other.gameObject;
             ApplyAttack(target, true);

@@ -35,9 +35,11 @@ public class SoundManager : CustomSingleton<SoundManager>
     private AudioClip previousAudioClip;
     private IObjectPool<SFX> objectPool_AudioSources;
     private List<SFX> playLoopSFXList;
+    private AudioClip previousAudioClip;
 
     public event Action OnSoundAllStopEvent;
     public event Action OnSFXAllStopEvent;
+
 
     private void Awake()
     {
@@ -292,6 +294,10 @@ public class SoundManager : CustomSingleton<SoundManager>
         bgm.loop = true;
         bgm.volume = 0.03f;
         bgm.Play();
+    }
+    public void PlayPreviousBGM()
+    {
+        BGMPlay(previousAudioClip);
     }
 
     public void BGMStop()

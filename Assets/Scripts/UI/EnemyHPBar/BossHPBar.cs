@@ -5,26 +5,21 @@ using UnityEngine;
 public class BossHPBar : MonoBehaviour
 {
     private Enemy enemy;
-    private UIBarScript uiBarScript;
-
-    private void Awake()
-    {
-        uiBarScript = GetComponent<UIBarScript>();
-    }
+    [SerializeField] private UIBarScript uiBarScript;
 
     public void SetEnemyHPBar(Enemy newEnemy)
     {
         enemy = newEnemy;
         uiBarScript.UpdateValue(newEnemy.StateMachine.HP, newEnemy.Data.MaxHP);
         Activate();
-        //newEnemy.changeHPEvent += uiBarScript.UpdateValue;
-        //newEnemy.onReleaseHPBar += OnRelease;
+        enemy.StateMachine.HpUpdated += uiBarScript.UpdateValue;
+        enemy.StateMachine.ReleaseMonsterUI += OnRelease;
     }
 
     private void OnRelease()
     {
-        //newEnemy.changeHPEvent -= uiBarScript.UpdateValue;
-        //newEnemy.onReleaseHPBar -= OnRelease;
+        enemy.StateMachine.HpUpdated -= uiBarScript.UpdateValue;
+        enemy.StateMachine.ReleaseMonsterUI -= OnRelease;
         enemy = null;
         Deactivate();
     }
