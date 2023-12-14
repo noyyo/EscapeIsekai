@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
             {
                 if (i < 3)
                 {
-                    GameManager.Instance.Player.GetComponent<Player>().playerUI.Locks[i].gameObject.SetActive(false);
+                    GameManager.Instance.Ui_Manager.Player_UI.GetComponent<PlayerUI>().Locks[i].gameObject.SetActive(false);
                 }
                 questCheck[i] = true;
                 break;
