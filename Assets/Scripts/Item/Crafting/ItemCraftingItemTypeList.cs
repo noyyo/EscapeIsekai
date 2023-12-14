@@ -9,6 +9,7 @@ public class ItemCraftingItemTypeList : MonoBehaviour
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject craftingItemSlotSpawn;
     [SerializeField] private Button button;
+    public TMP_Text listName;
     private UI_Manager uiManager;
     private ItemCraftingManager craftingManager;
     private GameObject prefabs;

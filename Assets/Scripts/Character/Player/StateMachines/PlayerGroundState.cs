@@ -148,7 +148,7 @@ public class PlayerGroundState : PlayerBaseState
     }
     private void SetSlidingVelocity()
     {
-        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex)))
+        if (Physics.Raycast(player.transform.position + Vector3.up, Vector3.down, out RaycastHit hit, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex) - (1 << TagsAndLayers.CharacterLayerIndex)))
         {
             float angle = Vector3.Angle(hit.normal, Vector3.up);
             if (angle > controller.slopeLimit)
@@ -182,7 +182,7 @@ public class PlayerGroundState : PlayerBaseState
     private bool IsForwardOrBackwardSteepSlope()
     {
         Vector3 forwardRaycastOrigin = player.transform.position + player.transform.forward * controller.radius + Vector3.up;
-        if (Physics.Raycast(forwardRaycastOrigin, Vector3.down, out RaycastHit hitForward, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex)))
+        if (Physics.Raycast(forwardRaycastOrigin, Vector3.down, out RaycastHit hitForward, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex) - (1 << TagsAndLayers.CharacterLayerIndex)))
         {
             float angle = Vector3.Angle(hitForward.normal, Vector3.up);
             if (angle > controller.slopeLimit)
@@ -192,7 +192,7 @@ public class PlayerGroundState : PlayerBaseState
         }
 
         Vector3 backwardRaycastOrigin = player.transform.position - player.transform.forward * controller.radius + Vector3.up;
-        if (Physics.Raycast(backwardRaycastOrigin, Vector3.down, out RaycastHit hitBackward, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex)))
+        if (Physics.Raycast(backwardRaycastOrigin, Vector3.down, out RaycastHit hitBackward, controller.radius * 30, -1 - (1 << TagsAndLayers.PlayerLayerIndex) - (1 << TagsAndLayers.CharacterLayerIndex)))
         {
             float angle = Vector3.Angle(hitBackward.normal, Vector3.up);
             if (angle > controller.slopeLimit)

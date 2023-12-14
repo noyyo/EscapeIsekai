@@ -1,6 +1,15 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
+using TMPro;
 using UnityEngine;
+
+public enum TradingType
+{
+    Buy,
+    Sell,
+    Repurchase
+}
 
 public class TradingController : MonoBehaviour
 {
@@ -19,6 +28,12 @@ public class TradingController : MonoBehaviour
     private List<int>[] shopItemDatas;
     // 재구매를 위한 데이터정보 (Manager에 보관중)
     private List<ItemsSoldByUser> repurchaseItem;
+    private int itemCount;
+
+    private readonly string sellText = "판매";
+    private readonly string sellContentText = "판매할 아이템 개수를 입력해 주세요";
+    private readonly string buyText = "구매";
+    private readonly string buyContentText = "구매할 아이템 개수를 입력해 주세요";
 
     private void Awake()
     {
@@ -42,8 +57,13 @@ public class TradingController : MonoBehaviour
         tradingManager.addShopItem += AddShopItem;
         tradingManager.clickSlotButtonEvent += () => ClickSlot(tradingManager.CurrentClickID);
         tradingManager.clickSlotButtonEvent += CheckSameSlot;
-        tradingManager.clickBuyButtonEvent += ClickActionButton;
+        tradingManager.clickBuyButtonEvent += SelectItemCount;
         CreatePlayerSlot();
+    }
+
+    private void Start()
+    {
+        ui_Manager.UI_TradingTurnOnEvent += SettingComfirmUI;
     }
 
     private void CreatePlayerSlot()
@@ -116,9 +136,10 @@ public class TradingController : MonoBehaviour
     {
         if (tradingManager.CurrentClickID == tradingManager.PreviousClickID
             && tradingManager.CurrentClickIndex == tradingManager.PreviousClickIndex
-            && tradingManager.IsPlayerSlotClick == tradingManager.IsPreviousPlayerSlotClick)
+            && tradingManager.IsPlayerSlotClick == tradingManager.IsPreviousPlayerSlotClick
+            && !tradingManager.IsSelectItemCount)
         {
-            ClickActionButton();
+            SelectItemCount();
         }
     }
 
@@ -141,7 +162,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickBuyButton()
     {
-        if (!tradingManager.tryByitem(tradingManager.CurrentClickID, 1))
+        if (!tradingManager.tryByitem(tradingManager.CurrentClickID, itemCount))
         {
             ui_Manager.PlayWrongSound();
         }
@@ -154,7 +175,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickSellButton()
     {
-        if (!tradingManager.trySellItem(tradingManager.CurrentClickID, 1))
+        if (!tradingManager.trySellItem(tradingManager.CurrentClickID, itemCount))
             ui_Manager.PlayWrongSound();
         else
         {
@@ -165,7 +186,7 @@ public class TradingController : MonoBehaviour
 
     private void ClickRepurchase()
     {
-        if (!tradingManager.tryRepurchase(tradingManager.CurrentClickIndex, 1))
+        if (!tradingManager.tryRepurchase(tradingManager.CurrentClickIndex, itemCount))
             ui_Manager.PlayWrongSound();
         else
         {
@@ -233,5 +254,42 @@ public class TradingController : MonoBehaviour
             }
         }
         return sum;
+    }
+
+    private void SelectItemCount()
+    {
+        tradingManager.IsSelectItemCount = true;
+        if (tradingManager.IsPlayerSlotClick)
+        {
+            tradingManager.UIConfirm.headTextUpdate(sellText);
+            tradingManager.UIConfirm.contentTextUpdate(sellContentText);
+            tradingManager.UIConfirm.confirmTextUpdate(sellText);
+        }
+        else
+        {
+            tradingManager.UIConfirm.headTextUpdate(buyText);
+            tradingManager.UIConfirm.contentTextUpdate(buyContentText);
+            tradingManager.UIConfirm.confirmTextUpdate(buyText);
+        }
+        tradingManager.UIConfirm.Activate();
+
+    }
+
+    private void GetItemCount(string str)
+    {
+        int.TryParse(str, out itemCount);
+        if (itemCount == 0)
+            return;
+        ClickActionButton();
+    }
+
+    private void SettingComfirmUI()
+    {
+        tradingManager.UIConfirm.cancelTextUpdate("취소");
+        tradingManager.UIConfirm.InputFieldGOTurnOn();
+        tradingManager.UIConfirm.SetUseInputField(GetItemCount);
+        tradingManager.UIConfirm.cancelBtnAction += () => tradingManager.IsSelectItemCount = false;
+        tradingManager.UIConfirm.confirmBtnAction += () => tradingManager.IsSelectItemCount = false;
+        tradingManager.UIConfirm.headCancelBtnAction += () => tradingManager.IsSelectItemCount = false;
     }
 }

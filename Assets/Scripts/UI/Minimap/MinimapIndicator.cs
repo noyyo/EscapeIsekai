@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MinimapIndicator : MonoBehaviour
 {
-    private Transform _player;  //플레이어
-    [SerializeField] private Transform _target; //가리킬 타겟
+    private Transform _player;
+    [SerializeField] private Transform _target;
     [SerializeField] private GameObject _indicator; //타겟을 바라볼 오브젝트
     [SerializeField] private GameObject _arrow; //눈에 보일 스프라이트
     [SerializeField] private float indicatorDistance;  //플레이어와 인디케이터 거리

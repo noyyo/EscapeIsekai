@@ -511,7 +511,9 @@ public class Inventory : MonoBehaviour
         {
             player.Playerconditions.Eat((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHunger);
             player.Playerconditions.Heal((float)itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].DefaultHP);
-            TryAddItem(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
+            if (itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].Count == 1)
+                inventoryManager.CallOnUseButtonTurnOff();
+            Add(itemDics[(int)DisplayType][inventoryManager.ClickSlotIndex].ID, -1);
         }
     }
 
@@ -715,7 +717,10 @@ public class Inventory : MonoBehaviour
             if (i.Value.ID == id)
                 sum += i.Value.Count;
         }
-        return sum >= count ? true : false;
+        if(count > 0)
+            return sum >= count ? true : false;
+        else
+            return sum >= -count ? true : false;
     }
 
     /// <summary>

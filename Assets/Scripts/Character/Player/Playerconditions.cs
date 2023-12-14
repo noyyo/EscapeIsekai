@@ -1,24 +1,38 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
 public class Condition
 {
-    public float curValue;
+    public event Action<Condition> ConditionUpdated;
+
+    [field: SerializeField] public float curValue { get; private set; }
     public float maxValue;
     public float startValue;
     public float regenRate;
     public float decayRate;
     [ReadOnly] public Image uiBar;
 
+    public Condition()
+    {
+        Init();
+        ConditionUpdated?.Invoke(this);
+    }
+    public void Init()
+    {
+        curValue = startValue;
+    }
     public void Add(float amount)
     {
         curValue = Mathf.Min(curValue + amount, maxValue);
+        ConditionUpdated?.Invoke(this);
     }
 
     public void Subtract(float amount)
     {
         curValue = Mathf.Max(curValue - amount, 0.0f);
+        ConditionUpdated?.Invoke(this);
     }
 
 
@@ -54,7 +68,10 @@ public class Playerconditions : MonoBehaviour
         Power = 5;
         Guard = 0;
     }
-
+    private void Start()
+    {
+        Initialize();
+    }
     private void Equip(Item item)
     {
         if (item.IsEquip)
@@ -72,41 +89,22 @@ public class Playerconditions : MonoBehaviour
             Guard -= (int)item.DefaultDEF;
         }
     }
-    public void Initialize(PlayerUI playerUI)
+    public void Initialize()
     {
-        health.curValue = health.startValue;
-        health.uiBar = playerUI.hpBar_Image;
-
-        hunger.curValue = hunger.startValue;
-        hunger.uiBar = playerUI.hunger_Image;
-
-        stamina.curValue = stamina.startValue;
-        stamina.uiBar = playerUI.stamina_Image;
-
-        skill.curValue = skill.startValue;
-        skill.uiBar = playerUI.Skill_Image;
-
-        powerUp.curValue = powerUp.startValue;
-        powerUp.uiBar = playerUI.powerUp_Image;
-
-        superJump.curValue = superJump.startValue;
-        superJump.uiBar = playerUI.SuperJump_Image;
-
-        throwskill.curValue = throwskill.startValue;
-        throwskill.uiBar = playerUI.Throw_Image;
-
-        noStamina.curValue = noStamina.startValue;
-        noStamina.uiBar = playerUI.NoStamina_Image;
-
-        shield.curValue = shield.startValue;
-        shield.uiBar = playerUI.Shield_Image;
-
-        rollCoolTime.curValue = rollCoolTime.startValue;
-        rollCoolTime.uiBar = playerUI.Roll_Image;
-
         inventoryManager = InventoryManager.Instance;
         inventoryManager.OnEquipItemEvent += Equip;
         inventoryManager.UnEquipItemEvent += UnEquip;
+
+        health.Init();
+        hunger.Init();
+        rollCoolTime.Init();
+        stamina.Init();
+        skill.Init();
+        powerUp.Init();
+        superJump.Init();
+        throwskill.Init();
+        noStamina.Init();
+        shield.Init();
     }
 
     void Update()
@@ -123,17 +121,6 @@ public class Playerconditions : MonoBehaviour
 
         if (hunger.curValue == 0.0f)
             health.Subtract(noHungerHealthDecay * Time.deltaTime);
-        
-        health.uiBar.fillAmount = health.GetPercentage();
-        hunger.uiBar.fillAmount = hunger.GetPercentage();
-        stamina.uiBar.fillAmount = stamina.GetPercentage();
-        skill.uiBar.fillAmount = skill.GetPercentage();
-        powerUp.uiBar.fillAmount = powerUp.GetPercentage();
-        superJump.uiBar.fillAmount = superJump.GetPercentage();
-        throwskill.uiBar.fillAmount = throwskill.GetPercentage();
-        noStamina.uiBar.fillAmount = noStamina.GetPercentage();
-        shield.uiBar.fillAmount = shield.GetPercentage();
-        rollCoolTime.uiBar.fillAmount = rollCoolTime.GetPercentage();
     }
 
     public void Heal(float amount)
@@ -148,11 +135,11 @@ public class Playerconditions : MonoBehaviour
 
     public bool UseStamina(float amount)
     {
-        if (!nostaminaActive && stamina.curValue - amount < 0)
+        if (!nostaminaActive && stamina.curValue < amount)
             return false;
 
         if (!nostaminaActive)
-            stamina.curValue -= amount;
+            stamina.Subtract(amount);
 
         return true;
     }
@@ -169,7 +156,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool RollCoolTime(float amount)
     {
-        if (rollCoolTime.curValue - amount < 0)
+        if (rollCoolTime.curValue < amount)
             return false;
 
         rollCoolTime.Subtract(rollCoolTime.maxValue);
@@ -178,7 +165,7 @@ public class Playerconditions : MonoBehaviour
 
     public bool UseSkill(float amount)
     {
-        if (skill.curValue - amount < 0)
+        if (skill.curValue < amount)
             return false;
 
         skill.Subtract(skill.maxValue);

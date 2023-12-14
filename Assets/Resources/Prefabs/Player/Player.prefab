@@ -146,14 +146,14 @@ MonoBehaviour:
     shieldParameterName: Shield
     deadParameterName: Dead
   <Weapon>k__BackingField: {fileID: 5338040155650280331}
+  <AnimationEventReceiver>k__BackingField: {fileID: 5882289599330039590}
+  playerUI: {fileID: 0}
+  hasGrenades: 2
   StateMachine:
     currentStateName: 
     IsInStateTransition: 0
     buffs: []
-  <AnimationEventReceiver>k__BackingField: {fileID: 5882289599330039590}
-  playerUI: {fileID: 0}
   grenades: []
-  hasGrenades: 2
   grenadeObj: {fileID: 5760104860362666798, guid: 74f50f951812e51489e17f8a46e4df33,
     type: 3}
   throwPoint: {fileID: 8923627735587210179}
@@ -339,6 +339,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4e5cb4347e6504595a11fb6ae1f6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Power>k__BackingField: 10
+  <Guard>k__BackingField: 300
   health:
     curValue: 0
     maxValue: 400
@@ -348,10 +350,10 @@ MonoBehaviour:
     uiBar: {fileID: 0}
   hunger:
     curValue: 0
-    maxValue: 500
-    startValue: 500
+    maxValue: 200
+    startValue: 200
     regenRate: 0
-    decayRate: 1
+    decayRate: 0.2
     uiBar: {fileID: 0}
   rollCoolTime:
     curValue: 0
@@ -410,8 +412,6 @@ MonoBehaviour:
     decayRate: 0
     uiBar: {fileID: 0}
   noHungerHealthDecay: 1
-  <Power>k__BackingField: 10
-  <Guard>k__BackingField: 300
 --- !u!114 &5103163347228671359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5042,7 +5042,7 @@ PrefabInstance:
     - target: {fileID: 2783341142638505473, guid: 319b937e0868c8c47884a5c02c6ee201,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5997826925878780603, guid: 319b937e0868c8c47884a5c02c6ee201,
         type: 3}
@@ -5057,7 +5057,7 @@ PrefabInstance:
     - target: {fileID: 6742307573213477537, guid: 319b937e0868c8c47884a5c02c6ee201,
         type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

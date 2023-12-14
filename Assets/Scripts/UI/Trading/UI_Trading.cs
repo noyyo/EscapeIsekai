@@ -52,7 +52,13 @@ public class UI_Trading : MonoBehaviour
         shopCategoryButtons[3].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ShopItemCategoryButton(3); });
 
         tailButton[0].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_TradingTurnOff(); });
-        tailButton[1].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); tradingManager.CallOnClickBuyButton(); });
+        tailButton[1].onClick.AddListener(() => {
+            if (!tradingManager.IsSelectItemCount)
+            {
+                ui_Manager.PlayClickBtnSound(); 
+                tradingManager.CallOnClickBuyButton();
+            } 
+        });
         tailButton[2].onClick.AddListener(() => { ui_Manager.PlayClickBtnSound(); ui_Manager.CallUI_TradingTurnOff(); ui_Manager.CallUI_InventoryTurnOn(); });
 
         ui_Manager.UI_TradingTurnOnEvent += Activate;

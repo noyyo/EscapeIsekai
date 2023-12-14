@@ -88,6 +88,7 @@ public class UI_Inventory : MonoBehaviour
         inventoryManager.OnTextChangeEquipEvent += ButtonTextChange_Equip;
         inventoryManager.OnTextChangeUnEquipEvent += ButtonTextChange_Unequip;
         inventoryManager.OnItemExplanationPopUpEvent += ActiveItemExplanationPopUp;
+        inventoryManager.UseButtonTurnOffEvent += UseButtonTurnOff;
 
         tradingManager.moneyTextUpdateEvent += MoneyTextUpdate;
     }
@@ -134,10 +135,10 @@ public class UI_Inventory : MonoBehaviour
                 tailUseButtonText.text = "¼Òºñ";
                 break;
             case ItemType.Material:
-                tailUseButton.SetActive(false);
+                UseButtonTurnOff();
                 break;
             default:
-                tailUseButton.SetActive(false);
+                UseButtonTurnOff();
                 break;
         }
     }
@@ -191,5 +192,10 @@ public class UI_Inventory : MonoBehaviour
     private void MoneyTextUpdate()
     {
         money.text = tradingManager.PlayerMoney.ToString();
+    }
+    
+    private void UseButtonTurnOff()
+    {
+        tailUseButton.SetActive(false);
     }
 }

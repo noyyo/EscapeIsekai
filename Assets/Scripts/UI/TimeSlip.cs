@@ -37,7 +37,7 @@ public class TimeSlip : MonoBehaviour
         GameManager.Instance.Player.GetComponent<PlayerInputSystem>().InputActions.Disable();
         panel.SetActive(true);
         text.gameObject.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
         for (int i = 0; i <= originalText.Length; i++)
         {
             SoundManager.Instance.CallPlaySFX(ClipType.UISFX, "ButtonSound", this.transform, false);

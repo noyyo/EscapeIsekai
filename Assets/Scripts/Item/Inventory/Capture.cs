@@ -1,9 +1,7 @@
 using System.Collections;
-//using UnityEngine.Windows;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 public enum Grade
 {
@@ -28,9 +26,7 @@ public class Capture : MonoBehaviour
 
     private void Start()
     {
-        //cam = Camera.main;
         SettingColor();
-
     }
     public void Create()
     {
@@ -52,7 +48,6 @@ public class Capture : MonoBehaviour
         if (grade == Grade.NPC)
         {
             path = Application.dataPath + "/Resources/Sprite/NPC/";
-
         }
         else
         {
@@ -86,7 +81,6 @@ public class Capture : MonoBehaviour
             yield return null;
 
             var data = tex.EncodeToPNG();
-            //string name = $"Thumbnail_{obj[nowCnt].gameObject.name}";
             string name = $"{grade}_{num}";
             string extention = ".png";
             string path = Application.dataPath + "/Resources/Sprite/Icon/";

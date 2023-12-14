@@ -24,9 +24,9 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private TMP_InputField inputField;
     private Vector2 defaultPos;
 
-    public Action confirmBtnAction;
-    public Action cancelBtnAction;
-    public Action headCancelBtnAction;
+    public event Action confirmBtnAction;
+    public event Action cancelBtnAction;
+    public event Action headCancelBtnAction;
 
     private void Awake()
     {
@@ -68,6 +68,30 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         confirmBtn.onClick.AddListener(() => confirmBtnAction?.Invoke());
         cancelBtn.onClick.AddListener(() => cancelBtnAction?.Invoke());
         headCancelBtn.onClick.AddListener(() => headCancelBtnAction?.Invoke());
+        confirmBtnAction += Deactivate;
+        confirmBtnAction += InputFieldTextInit;
+        cancelBtnAction += Deactivate;
+        cancelBtnAction += InputFieldTextInit;
+        headCancelBtnAction += Deactivate;
+        headCancelBtnAction += InputFieldTextInit;
+    }
+
+    public void Init()
+    {
+        confirmBtnAction = null;
+        cancelBtnAction = null;
+        headCancelBtnAction = null;
+        InputFieldTextInit();
+        HeadTextGOTurnOn();
+        ContentGOTurnOn();
+        ConfirmGOTurnOn();
+        CancelGOTurnOn();
+        HeadCancelGoTurnOn();
+        InputFieldGOTurnOff();
+        InputFieldContentType(TMP_InputField.ContentType.DecimalNumber);
+        confirmBtnAction += Deactivate;
+        cancelBtnAction += Deactivate;
+        headCancelBtnAction += Deactivate;
     }
 
     public void headTextUpdate(string str)
@@ -170,14 +194,14 @@ public class UI_Confirm : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         inputFieldGO.SetActive(false);
     }
 
-    public void InputFieldSetOnEndEdit(Action<string> action)
+    public void SetUseInputField(Action<string> action)
     {
-        inputField.onEndEdit.AddListener((str) => action.Invoke(str));
+        confirmBtnAction += () => action(inputField.text);
     }
 
-    public void InputFieldRemoveAllListeners()
+    public void InputFieldTextInit()
     {
-        inputField.onEndEdit.RemoveAllListeners();
+        inputField.text = string.Empty;
     }
 
     /// <summary>

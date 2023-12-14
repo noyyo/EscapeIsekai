@@ -43,7 +43,7 @@ public class InventoryManager : CustomSingleton<InventoryManager>
 
     public event Action<Item> OnEquipItemEvent;
     public event Action<Item> UnEquipItemEvent;
-
+    public event Action UseButtonTurnOffEvent;
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -216,5 +216,10 @@ public class InventoryManager : CustomSingleton<InventoryManager>
     public void PlayInventoryOpenSound()
     {
         soundManager.CallPlaySFX(ClipType.UISFX, inventoryOpenName, playerTransform, false, soundValue: 0.1f);
+    }
+
+    public void CallOnUseButtonTurnOff()
+    {
+        UseButtonTurnOffEvent?.Invoke();
     }
 }
