@@ -5,7 +5,7 @@ using UnityEngine;
 public class UI_Manager : CustomSingleton<UI_Manager>
 {
     protected UI_Manager() { }
-    [SerializeField] private GameObject cavas;
+    [SerializeField] private GameObject canvas;
     private GameManager gameManager;
     private SoundManager soundManager;
 
@@ -20,6 +20,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private GameObject optionUI;
     private GameObject bossHPBarUI;
     private GameObject confirmationWindow;
+    private GameObject playerUI;
     public UI_Gathering UI_gathering;
 
     private UI_Option option;
@@ -31,7 +32,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     private readonly string clickSoundName = "Click";
     private readonly string wrongName = "Wrong";
 
-    public GameObject Canvas { get { return cavas; } }
+    public GameObject Canvas { get { return canvas; } }
     public GameObject Inventory_UI { get { return inventoryUI; } }
     public GameObject ItemCrafting_UI { get { return itemCraftingUI; } }
     public GameObject Trading_UI { get { return tradingUI; } }
@@ -39,6 +40,7 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     public GameObject BossHPBarUI { get { return bossHPBarUI; } }
     public GameObject MonsterHPBarMain { get; private set; }
     public GameObject ConfirmationWindow { get { return confirmationWindow; } }
+    public GameObject Player_UI { get { return playerUI; } }
     public bool IsTurnOnInventory { get { return isTurnOnInventory; } }
     
 
@@ -76,35 +78,35 @@ public class UI_Manager : CustomSingleton<UI_Manager>
     {
         gameManager = GameManager.Instance;
         soundManager = SoundManager.Instance;
-        cavas = GameObject.FindGameObjectWithTag("Canvas");
-        if (cavas == null)
-            cavas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        if (canvas == null)
+            canvas = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas"));
 
         if (gathering == null)
         {
-            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"), cavas.transform);
+            gathering = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Gathering/GatheringUI"), canvas.transform);
             UI_gathering = gathering.GetComponent<UI_Gathering>();
             gathering.SetActive(false);
         }
         if (bossHPBarUI == null)
         {
-            bossHPBarUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_BossHPBar"), cavas.transform);
+            bossHPBarUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/UI_BossHPBar"), canvas.transform);
             bossHPBarUI.SetActive(false);
         }
         if (MonsterHPBarMain == null)
         {
-            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"), cavas.transform);
+            MonsterHPBarMain = Instantiate(Resources.Load<GameObject>("Prefabs/UI/EnemyHPBar/HPBarMain"), canvas.transform);
         }
         
         if (inventoryUI == null)
         {
-            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), cavas.transform);
+            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Inventory/Inventory"), canvas.transform);
             inventoryUI.SetActive(false);
         }
 
         if (itemCraftingUI == null)
         {
-            itemCraftingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), cavas.transform);
+            itemCraftingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ItemCrafting/ItemCraftingUI"), canvas.transform);
             itemCraftingUI.SetActive(false);
         }
             
@@ -122,24 +124,29 @@ public class UI_Manager : CustomSingleton<UI_Manager>
 
         if (tradingUI == null)
         {
-            tradingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Trading/UI_Trading"), cavas.transform);
+            tradingUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Trading/UI_Trading"), canvas.transform);
             tradingUI.SetActive(false);
         }
 
         if (optionUI == null)
         {
-            optionUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Option"), cavas.transform);
+            optionUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Option"), canvas.transform);
             option = optionUI.GetComponent<UI_Option>();
         }
         if (tutorialUI == null)
         {
-            tutorialUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TutorialUI"), cavas.transform);
+            tutorialUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/TutorialUI"), canvas.transform);
             tutorialUI.SetActive(false);
         }
         if (confirmationWindow == null)
         {
-            confirmationWindow = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmationWindow"), cavas.transform);
+            confirmationWindow = Instantiate(Resources.Load<GameObject>("Prefabs/UI/ConfirmationWindow"), canvas.transform);
             confirmationWindow.SetActive(false);
+        }
+        if (playerUI == null)
+        {
+            playerUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Player UI"));
+            playerUI.SetActive(true);
         }
 
     }

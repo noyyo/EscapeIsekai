@@ -136,6 +136,7 @@ MonoBehaviour:
   Collider: {fileID: 0}
   <StateMachine>k__BackingField:
     currentStateName: 
+    IsInStateTransition: 0
     isPause: 0
     isActive: 0
     activationCheckDelay: 0
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bca4b563c3ce946ad27f2688d7b796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drag: 0.2
+  Drag: 0.3
 --- !u!1001 &5412645877429147586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,6 +183,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6312412650742851612}
     m_Modifications:
+    - target: {fileID: 1440219268996925924, guid: 493600d9fa1a9460fa9e49294d0dedeb,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3384652762574530721, guid: 493600d9fa1a9460fa9e49294d0dedeb,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4538944135353493850, guid: 493600d9fa1a9460fa9e49294d0dedeb,
         type: 3}
       propertyPath: character

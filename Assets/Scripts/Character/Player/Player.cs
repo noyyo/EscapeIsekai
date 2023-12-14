@@ -41,21 +41,6 @@ public class Player : MonoBehaviour, IPositionable
         Playerconditions = GetComponent<Playerconditions>();
         
         StateMachine = new PlayerStateMachine(this);
-
-        playerUI = GameObject.FindObjectOfType<PlayerUI>();
-        if (playerUI == null)
-        {
-            GameObject playerUIPrefab = Resources.Load<GameObject>("Prefabs/UI/Player UI");
-
-            if (playerUIPrefab == null)
-            {
-                Debug.LogError("플레이어 UI 프리팹을 찾을 수 없습니다");
-                return;
-            }
-            GameObject go = Instantiate(playerUIPrefab);
-            playerUI = go.GetComponent<PlayerUI>();
-        }
-        Playerconditions.Initialize(playerUI);
     }
 
     private void Start()
